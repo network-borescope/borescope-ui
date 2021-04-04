@@ -1,0 +1,349 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Abas</p>
+</div>
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <label>Tipos de Aba</label>
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>
+            Navegação em abas As abas trazem dinamismo a aplicação através do uso de javascript
+          </h4>
+          <p>
+            O conceito de abas poderá ser usado para dinamizar e facilitar a navegação entre as informações do mesmo gênero. As abas auxiliam a trazer as informações para o usuário de forma separada, facilitando o entendimento da mesma. Dessa forma o usuário poderá também localizar rapidamente a área que deseja visualizar, sem que para isso preciso utilizar muito o scroll para navegar em uma página complexa.
+          </p>
+
+          <p>
+            <strong>Usando navegação em abas é necessário o Plugin Javascript de Abas do Bootstrap.</strong>
+            <br/>
+            A guideline RNP já provê o conjunto de bibliotecas JavaScript do Bootstrap, sendo assim, todos os componentes já estão integrados.
+            <br/><br/>
+            Você pode ativar a navegação sem escrever qualquer JavaScript simplesmente especificando <code>data-toggle="tab"</code> ou <code>data-toggle="pill"</code> em um elemento. Adicionando as classes nav e nav-tabs para a tab <code>ul</code> serão aplicadas a guia de estilos de tabs do Bootstrap, acrescentando as classes <code>nav</code> e <code>nav-pills</code> serão aplicadas guia de estilos de pills do Bootstrap.
+            <br><br>
+            Navs disponíveis no Bootstrap tem marcação compartilhada, começando com a classe base <code>.nav</code>, bem como estados compartilhados.
+            Troque as classes modificadoras para alternar entre cada estilo.
+            <br/><br/>
+            Mais informações em:
+            <br/>
+            <a target="_blank" href="http://getbootstrap.com/components/#nav">http://getbootstrap.com/components/#nav</a>
+          </p>
+
+        </div>
+        <div class="panel-body">
+
+          <h4>Abas</h4>
+          <code>
+
+            &#60;ul class="nav nav-tabs" role="tablist"&#62;
+            <br>
+              &#60;li role="presentation" class="active"&#62;&#60;a href="#home" aria-controls="home" role="tab" data-toggle="tab"&#62;Home&#60;/a
+              &#62;&#60;/li&#62;
+              <br>
+              &#60;li role="presentation"&#62;&#60;a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"&#62;Profile&#60;/a&#62;&#60;/li&#62;<br>
+              &#60;li role="presentation"&#62;&#60;a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"&#62;Mensagens&#60;/a&#62;&#60;/li&#62;<br>
+              &#60;li role="presentation"&#62;&#60;a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"&#62;Configurações&#60;/a&#62;&#60;/li&#62;<br>
+            &#60;/ul&#62;
+            <br>
+
+            <br>
+            &#60;div class="tab-content"&#62;
+            <br>
+              &#60;div role="tabpanel" class="tab-pane fade active" id="home"&#62;
+              <br>
+                &#60;p&#62;Estou na Home&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="profile"&#62;
+              <br>
+                &#60;p&#62;Estou em Profile&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="messages"&#62;
+              <br>
+                &#60;p&#62;Estou em Mensagens&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="settings"&#62;
+              <br>
+                &#60;p&#62;Estou em Configurações&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+            &#60;/div&#62;
+            <br>
+          </code>
+          <br/><br/>
+
+          <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+              <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+              <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Mensagens</a></li>
+              <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Configurações</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane fade active" id="home">
+                <p>Estou na Home</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="profile">
+                <p>Estou em Profile</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="messages">
+                <p>Estou em Mensagens</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="settings">
+                <p>Estou em Configurações</p>
+              </div>
+            </div>
+
+          </div>
+
+          <hr/>
+
+          <h4>Pills</h4>
+          <code>
+
+            &#60;ul class="nav nav-pillss" role="tablist"&#62;
+            <br>
+              &#60;li role="presentation" class="active"&#62;&#60;a href="#home2" aria-controls="home2" role="tab" data-toggle="tab"&#62;Home&#60;/a
+              &#62;<br>&#60;/li&#62;
+              &#60;li role="presentation"&#62;&#60;a href="#profile2" aria-controls="profile2" role="tab" data-toggle="tab"&#62;Profile&#60;/a&#62;&#60;/li&#62;<br>
+              &#60;li role="presentation"&#62;&#60;a href="#messages2" aria-controls="messages2" role="tab" data-toggle="tab"&#62;Mensagens&#60;/a&#62;&#60;/li&#62;<br>
+              &#60;li role="presentation"&#62;&#60;a href="#settings2" aria-controls="settings2" role="tab" data-toggle="tab"&#62;Configurações&#60;
+              /a&#62;&#60;/li&#62;<br>
+            &#60;/ul&#62;
+            <br>
+
+            <br>
+            &#60;div class="tab-content"&#62;
+            <br>
+              &#60;div role="tabpanel" class="tab-pane fade active" id="home2"&#62;
+              <br>
+                &#60;p&#62;Estou na Home&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="profile2"&#62;
+              <br>
+                &#60;p&#62;Estou em Profile&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="messages2"&#62;
+              <br>
+                &#60;p&#62;Estou em Mensagens&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="settings2"&#62;
+              <br>
+                &#60;p&#62;Estou em Configurações&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+            &#60;/div&#62;
+            <br>
+          </code>
+          <br/><br/>
+
+          <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-pills" role="tablist">
+              <li role="presentation" class="active"><a href="#home2" aria-controls="home2" role="tab" data-toggle="tab">Home</a></li>
+              <li role="presentation"><a href="#profile2" aria-controls="profile2" role="tab" data-toggle="tab">Profile</a></li>
+              <li role="presentation"><a href="#messages2" aria-controls="messages2" role="tab" data-toggle="tab">Mensagens</a></li>
+              <li role="presentation"><a href="#settings2" aria-controls="settings2" role="tab" data-toggle="tab">Configurações</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane fade active" id="home2">
+                <p>Estou na Home</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="profile2">
+                <p>Estou em Profile</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="messages2">
+                <p>Estou em Mensagens</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="settings2">
+                <p>Estou em Configurações</p>
+              </div>
+            </div>
+
+          </div>
+
+          <hr/>
+
+          <h4>Pills empilhadas</h4>
+          <code>
+
+            &#60;ul class="nav nav-pill nav-stacked" role="tablist"&#62;
+            <br>
+              &#60;li role="presentation" class="active"&#62;&#60;a href="#home3" aria-controls="home3" role="tab" data-toggle="tab"&#62;Home&#60;/a
+              &#62;<br>&#60;/li&#62;
+              &#60;li role="presentation"&#62;&#60;a href="#profile3" aria-controls="profile3" role="tab" data-toggle="tab"&#62;Profile&#60;/a&#62;&#60;/li&#62;<br>
+              &#60;li role="presentation"&#62;&#60;a href="#messages3" aria-controls="messages3" role="tab" data-toggle="tab"&#62;Mensagens&#60;/a&#62;&#60;/li&#62;<br>
+              &#60;li role="presentation"&#62;&#60;a href="#settings3" aria-controls="settings3" role="tab" data-toggle="tab"&#62;Configurações&#60;
+              /a&#62;&#60;/li&#62;<br>
+            &#60;/ul&#62;
+            <br>
+
+            <br>
+            &#60;div class="tab-content"&#62;
+            <br>
+              &#60;div role="tabpanel" class="tab-pane fade active" id="home3"&#62;
+              <br>
+                &#60;p&#62;Estou na Home&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="profile3"&#62;
+              <br>
+                &#60;p&#62;Estou em Profile&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="messages3"&#62;
+              <br>
+                &#60;p&#62;Estou em Mensagens&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="settings3"&#62;
+              <br>
+                &#60;p&#62;Estou em Configurações&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+            &#60;/div&#62;
+            <br>
+          </code>
+          <br/><br/>
+
+          <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-pills nav-stacked" role="tablist">
+              <li role="presentation" class="active"><a href="#home3" aria-controls="home3" role="tab" data-toggle="tab">Home</a></li>
+              <li role="presentation"><a href="#profile3" aria-controls="profile3" role="tab" data-toggle="tab">Profile</a></li>
+              <li role="presentation"><a href="#messages3" aria-controls="messages3" role="tab" data-toggle="tab">Mensagens</a></li>
+              <li role="presentation"><a href="#settings3" aria-controls="settings3" role="tab" data-toggle="tab">Configurações</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane fade active" id="home3">
+                <p>Estou na Home</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="profile3">
+                <p>Estou em Profile</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="messages3">
+                <p>Estou em Mensagens</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="settings3">
+                <p>Estou em Configurações</p>
+              </div>
+            </div>
+
+          </div>
+
+          <hr/>
+
+          <h4>Abas justificadas</h4>
+          <code>
+
+            &#60;ul class="nav nav-tabs nav-justified" role="tablist"&#62;
+            <br>
+              &#60;li role="presentation" class="active"&#62;&#60;a href="#home4" aria-controls="home4" role="tab" data-toggle="tab"&#62;Home&#60;/a
+              &#62;<br>&#60;/li&#62;
+              &#60;li role="presentation"&#62;&#60;a href="#profile4" aria-controls="profile4" role="tab" data-toggle="tab"&#62;Profile&#60;/a&#62;&#60;/li&#62;<br>
+              &#60;li role="presentation"&#62;&#60;a href="#messages4" aria-controls="messages4" role="tab" data-toggle="tab"&#62;Mensagens&#60;/a&#62;&#60;/li&#62;<br>
+              &#60;li role="presentation"&#62;&#60;a href="#settings4" aria-controls="settings4" role="tab" data-toggle="tab"&#62;Configurações&#60;
+              /a&#62;&#60;/li&#62;<br>
+            &#60;/ul&#62;
+            <br>
+
+            <br>
+            &#60;div class="tab-content"&#62;
+            <br>
+              &#60;div role="tabpanel" class="tab-pane fade active" id="home4"&#62;
+              <br>
+                &#60;p&#62;Estou na Home&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="profile4"&#62;
+              <br>
+                &#60;p&#62;Estou em Profile&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="messages4"&#62;
+              <br>
+                &#60;p&#62;Estou em Mensagens&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div role="tabpanel" class="tab-pane fade" id="settings4"&#62;
+              <br>
+                &#60;p&#62;Estou em Configurações&#60;/p&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+            &#60;/div&#62;
+            <br>
+          </code>
+          <br/><br/>
+
+          <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active"><a href="#home4" aria-controls="home4" role="tab" data-toggle="tab">Home</a></li>
+              <li role="presentation"><a href="#profile4" aria-controls="profile4" role="tab" data-toggle="tab">Profile</a></li>
+              <li role="presentation"><a href="#messages4" aria-controls="messages4" role="tab" data-toggle="tab">Mensagens</a></li>
+              <li role="presentation"><a href="#settings4" aria-controls="settings4" role="tab" data-toggle="tab">Configurações</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane fade active" id="home4">
+                <p>Estou na Home</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="profile4">
+                <p>Estou em Profile</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="messages4">
+                <p>Estou em Mensagens</p>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="settings4">
+                <p>Estou em Configurações</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

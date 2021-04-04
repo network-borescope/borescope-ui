@@ -1,0 +1,304 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>DataTables</p>
+</div>
+
+<div class="page-content">
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>jQuery Datatables</h4>
+          O componente de datagrid deve ser utilizado quando a exibição de dados necessitar de filtragem, ordenação e paginação dos dados. <br/>
+          A paginação só deve ser aplicada quando o número total de registros for acima de 10. <br/>
+          Com uma simples chamada é possível um datagrid como o exibido ao lado. Estamos utilizando uma biblioteca muito conhecida chamada DataTables (1.10.7) que é desenvolvida utilizando o jQuery e um add-on chamado DataTables-RowGrouping. <br/>
+          Os inputs que possuírem datepicker deverão ser indicados com o ícone de calendário. <br/>
+          <br/>
+          Mais informações em:
+          <br/>
+          <a target="_blank" href="https://datatables.net">https://datatables.net</a>
+          <br/>
+          <a target="_blank" href="http://jquery-datatables-row-grouping.googlecode.com/svn/trunk/index.html">http://jquery-datatables-row-grouping.googlecode.com/svn/trunk/index.html</a>
+        </div>
+        <div class="panel-body">
+
+	        <code>
+
+            &#60;table id="datatables" class="table table-striped"&#62;
+            <br/>
+              &#60;thead&#62;
+            <br/>
+              &#60;tr&#62;
+            <br/>
+                &#60;td&#62;Coluna 1&#60;/td&#62;
+            <br/>
+                &#60;td&#62;Coluna 2&#60;/td&#62;
+            <br/>
+                &#60;td&#62;Coluna 3&#60;/td&#62;
+            <br/>
+              &#60;/tr&#62;
+            <br/>
+              &#60;/thead&#62;
+            <br/>
+              &#60;tbody&#62;
+            <br/>
+              &#60;tr&#62;
+            <br/>
+                &#60;td&#62;Item 1&#60;/td&#62;
+            <br/>
+                &#60;td&#62;Item 1&#60;/td&#62;
+            <br/>
+                &#60;td&#62;Item 1&#60;/td&#62;
+            <br/>
+              &#60;/tr&#62;
+            <br/>
+              &#60;tr&#62;
+            <br/>
+                &#60;td&#62;Item 2&#60;/td&#62;
+            <br/>
+                &#60;td&#62;Item 2&#60;/td&#62;
+            <br/>
+                &#60;td&#62;Item 2&#60;/td&#62;
+            <br/>
+              &#60;/tr&#62;
+            <br/>
+              &#60;tr&#62;
+            <br/>
+                &#60;td&#62;Item 3&#60;/td&#62;
+            <br/>
+                &#60;td&#62;Item 3&#60;/td&#62;
+            <br/>
+                &#60;td&#62;Item 3&#60;/td&#62;
+            <br/>
+              &#60;/tr&#62;
+            <br/>
+              &#60;/tbody&#62;
+            <br/>
+            &#60;/table&#62;
+            <br/>
+	        </code>
+	        <br/><br/>
+
+          <h4>DataTables com paginação</h4>
+
+          <p>
+            A partir de 10 registros, o datagrid deve ter paginação.
+          </p>
+
+          <code>
+            $( "#datatables" ).dataTable()
+          </code>
+          <br/><br/>
+
+          <hr/>
+
+          <table id="datatables" class="table table-striped">
+            <thead>
+              <tr>
+                <td>Nome</td>
+                <td>Endereço</td>
+                <td>Cidade</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Bruno</td>
+                <td>Av. Paulista</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Rodrigo</td>
+                <td>5th Street</td>
+                <td>New York</td>
+              </tr>
+              <tr>
+                <td>Fernando</td>
+                <td>Rua Augusta</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Wesley</td>
+                <td>Av. Brasil</td>
+                <td>Rio de Janeiro</td>
+              </tr>
+              <tr>
+                <td>André</td>
+                <td>Av. Brigadeiro Faria Lima</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Bruno</td>
+                <td>Av. Paulista</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Rodrigo</td>
+                <td>5th Street</td>
+                <td>New York</td>
+              </tr>
+              <tr>
+                <td>Fernando</td>
+                <td>Rua Augusta</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Wesley</td>
+                <td>Av. Brasil</td>
+                <td>Rio de Janeiro</td>
+              </tr>
+              <tr>
+                <td>André</td>
+                <td>Av. Brigadeiro Faria Lima</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Bruno</td>
+                <td>Av. Paulista</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Rodrigo</td>
+                <td>5th Street</td>
+                <td>New York</td>
+              </tr>
+              <tr>
+                <td>Fernando</td>
+                <td>Rua Augusta</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Wesley</td>
+                <td>Av. Brasil</td>
+                <td>Rio de Janeiro</td>
+              </tr>
+              <tr>
+                <td>André</td>
+                <td>Av. Brigadeiro Faria Lima</td>
+                <td>São Paulo</td>
+              </tr>
+            </tbody>
+          </table>
+
+	        <br/><br/>
+
+
+          <h4>DataTables com agrupamento</h4>
+
+          <p>
+            Quando for aplicado, não deve haver paginação.
+          </p>
+
+	        <code>
+		        $( "#datatables" ).dataTable({
+              bPaginate: false
+            }).rowGrouping({
+              bExpandableGrouping: true
+            })
+	        </code>
+	        <br/><br/>
+
+
+          <table id="datatables2" class="table table-striped">
+            <thead>
+              <tr>
+                <td>Nome</td>
+                <td>Endereço</td>
+                <td>Cidade</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Bruno</td>
+                <td>Av. Paulista</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Rodrigo</td>
+                <td>5th Street</td>
+                <td>New York</td>
+              </tr>
+              <tr>
+                <td>Fernando</td>
+                <td>Rua Augusta</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Wesley</td>
+                <td>Av. Brasil</td>
+                <td>Rio de Janeiro</td>
+              </tr>
+              <tr>
+                <td>André</td>
+                <td>Av. Brigadeiro Faria Lima</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Bruno</td>
+                <td>Av. Paulista</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Rodrigo</td>
+                <td>5th Street</td>
+                <td>New York</td>
+              </tr>
+              <tr>
+                <td>Fernando</td>
+                <td>Rua Augusta</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Wesley</td>
+                <td>Av. Brasil</td>
+                <td>Rio de Janeiro</td>
+              </tr>
+              <tr>
+                <td>André</td>
+                <td>Av. Brigadeiro Faria Lima</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Bruno</td>
+                <td>Av. Paulista</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Rodrigo</td>
+                <td>5th Street</td>
+                <td>New York</td>
+              </tr>
+              <tr>
+                <td>Fernando</td>
+                <td>Rua Augusta</td>
+                <td>São Paulo</td>
+              </tr>
+              <tr>
+                <td>Wesley</td>
+                <td>Av. Brasil</td>
+                <td>Rio de Janeiro</td>
+              </tr>
+              <tr>
+                <td>André</td>
+                <td>Av. Brigadeiro Faria Lima</td>
+                <td>São Paulo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(function(){
+      $( "#datatables" ).dataTable()
+
+      $( "#datatables2" ).dataTable({
+        bPaginate: false
+      }).rowGrouping({
+        bExpandableGrouping: true
+      })
+    });
+  </script>
+</div>

@@ -1,0 +1,139 @@
+$main-bar-bg-color                   : $primaryColor;
+$main-bar-font-size                  : 13px;
+$main-bar-height                     : 70px;
+$main-bar-logo-margin                : ($main-bar-height - $rnp-logo-height)/2 15px ($main-bar-height - $rnp-logo-height)/2 30px;
+$main-bar-item-margin                : 0 10px;
+$main-bar-item-padding               : 0 4px;
+$main-bar-item-color                 : #666666;
+$main-bar-item-selected-color        : $primaryColor;
+$main-bar-item-selected-border-color : $primaryColor;
+$main-bar-item-selected-border-size  : 6px;
+$main-bar-select-height              : 30px;
+$main-bar-select-margin              : ($main-bar-height - $main-bar-select-height)/ 2 0;
+
+
+
+// ============
+// Main Bar
+// ============
+.main-bar {
+  background-color : $main-bar-bg-color;
+  height           : $main-bar-height;
+
+  .rnp-logo {
+    float  : left;
+    margin : $main-bar-logo-margin;
+
+    &.center {
+      margin : 10px auto;
+      width  : 100%;
+    }
+  }
+
+  .main-bar-select {
+    background-color : $primaryColor;
+    background-image : url(../../assets/images/select-arrow-white.png) !important;
+    border-color     : #fff;
+    color            : #fff;
+    float            : right;
+    font-weight      : 600;
+    margin           : $main-bar-select-margin;
+    outline          : none;
+    width            : auto;
+  }
+
+  .main-bar-menu {
+    font-size        : $main-bar-font-size;
+    float            : right;
+    height           : $main-bar-height;
+    list-style-type  : none;
+    margin           : 0;
+    padding          : 0;
+
+    .main-bar-item {
+      color       : $main-bar-item-color;
+      cursor      : pointer;
+      float       : left;
+      height      : $main-bar-height;
+      line-height : $main-bar-height;
+      margin      : $main-bar-item-margin;
+      padding     : $main-bar-item-padding;
+
+      &.selected {
+        border-bottom : $main-bar-item-selected-border-size solid $main-bar-item-selected-border-color;
+        color         : $main-bar-item-selected-color;
+      }
+
+      &.main-bar-config {
+        position : relative;
+
+        &:hover {
+          i {
+            &:before {
+              color : #f4f4f4;
+            }
+          }
+
+          div {
+            display : block;
+          }
+        }
+
+        i {
+          color       : #fff;
+          font-size   : 1.6em;
+          line-height : $main-bar-height;
+          height      : $main-bar-height;
+          top         : 0;
+
+          &:before {
+            position : relative;
+            top      : 0;
+          }
+        }
+
+        div {
+          background : #fff;
+          border     : 1px solid #ccc;
+          display    : none;
+          position   : absolute;
+          right      : -10px;
+          top        : 60px;
+          width      : 200px;
+          z-index    : 1;
+
+          @include borderRadius(3px);
+
+          &:before {
+            content             : "";
+            border              : 10px solid transparent;
+            border-bottom-color : #ccc;
+            position            : absolute;
+            top                 : -20px;
+            right               : 13px;
+          }
+
+          &:after {
+            content             : "";
+            border              : 9px solid transparent;
+            border-bottom-color : #fff;
+            position            : absolute;
+            top                 : -18px;
+            right               : 14px;
+          }
+
+          ul {
+            list-style-type : none;
+            margin          : 0;
+            padding         : 4px 0;
+
+            li {
+              line-height : normal;
+              padding     : 6px 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

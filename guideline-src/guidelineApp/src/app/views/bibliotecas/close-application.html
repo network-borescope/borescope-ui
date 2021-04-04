@@ -1,0 +1,35 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Fechar Aplicação</p>
+</div>
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>
+            Conceito
+          </h4>
+          <p>
+            As aplicações devem possuir um link com a ação de 'Sair' incluído na Navbar. Esta acão deve fechar o browser na qual a aplicação esta sendo executada.
+          </p>
+        </div>
+        <div class="panel-body">
+
+          <code>
+            &#60;a data-action="close-application" href="#"&#62;Sair&#60;/a&#62; 
+          </code>
+          <br/><br/>
+          <div class="navbar">
+            <a data-action="close-application" href>Sair</a> 
+          </div>
+
+          <p class="alert alert-warning"><span class="badge badge-warning">Atenção</span> Esta funcionalidade é implementada quando se abre uma aplicação em uma nova janela, este componente não fecha uma janela/aba de origem.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

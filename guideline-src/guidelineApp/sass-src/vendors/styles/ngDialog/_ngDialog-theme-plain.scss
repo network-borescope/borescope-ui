@@ -1,0 +1,180 @@
+//colors
+$color_0: #fff;
+$color_1: #444;
+$color_2: #bbb;
+$color_3: #777;
+$color_4: #f0f0f0;
+$color_5: rgba(0,0,0,0.2);
+$color_6: #3288e6;
+$color_7: #e0e0e0;
+
+//fonts
+$font_0: Helvetica Neue;
+$font_1: sans-serif;
+$font_2: inherit;
+
+//@extend-elements
+//original selectors
+//.ngdialog.ngdialog-theme-plain .ngdialog-input textarea,  .ngdialog.ngdialog-theme-plain .ngdialog-input input[type="text"],  .ngdialog.ngdialog-theme-plain .ngdialog-input input[type="password"],  .ngdialog.ngdialog-theme-plain .ngdialog-input input[type="email"],  .ngdialog.ngdialog-theme-plain .ngdialog-input input[type="url"]
+%extend_1 {
+  background: $color_4;
+  border: 0;
+  font-family: $font_2;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0 .25em;
+  min-height: 2.5em;
+  padding: .25em .67em;
+  width: 100%;
+}
+
+
+@media(max-width: 568px) {
+  .ngdialog.ngdialog-theme-plain .ngdialog-button:focus {
+    animation: none;
+  }
+}
+.ngdialog.ngdialog-theme-plain {
+  padding-bottom: 160px;
+  padding-top: 160px;
+  .ngdialog-content {
+    background: $color_0;
+    color: $color_1;
+    font-family: $font_0, $font_1;
+    font-size: 1.1em;
+    line-height: 1.5em;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 1em;
+    position: relative;
+    width: 450px;
+    h1 {
+      color: inherit;
+    }
+    h2 {
+      color: inherit;
+    }
+    h3 {
+      color: inherit;
+    }
+    h4 {
+      color: inherit;
+    }
+    h5 {
+      color: inherit;
+    }
+    h6 {
+      color: inherit;
+    }
+    p {
+      color: inherit;
+    }
+    ul {
+      color: inherit;
+    }
+    li {
+      color: inherit;
+    }
+  }
+  .ngdialog-close {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    &:before {
+      background: transparent;
+      color: $color_2;
+      content: "\00D7";
+      font-size: 26px;
+      font-weight: 400;
+      height: 30px;
+      line-height: 26px;
+      position: absolute;
+      right: 3px;
+      text-align: center;
+      top: 3px;
+      width: 30px;
+    }
+    &:hover:before {
+      color: $color_3;
+    }
+    &:active:before {
+      color: $color_3;
+    }
+  }
+  .ngdialog-message {
+    margin-bottom: .5em;
+  }
+  .ngdialog-input {
+    margin-bottom: 1em;
+    textarea {
+      @extend %extend_1;
+      &:focus {
+        //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+        box-shadow: inset 0 0 0 2px $color_5;
+        outline: none;
+      }
+    }
+    input[type="text"] {
+      @extend %extend_1;
+      &:focus {
+        //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+        box-shadow: inset 0 0 0 2px $color_5;
+        outline: none;
+      }
+    }
+    input[type="password"] {
+      @extend %extend_1;
+      &:focus {
+        //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+        box-shadow: inset 0 0 0 2px $color_5;
+        outline: none;
+      }
+    }
+    input[type="email"] {
+      @extend %extend_1;
+      &:focus {
+        //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+        box-shadow: inset 0 0 0 2px $color_5;
+        outline: none;
+      }
+    }
+    input[type="url"] {
+      @extend %extend_1;
+      &:focus {
+        //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+        box-shadow: inset 0 0 0 2px $color_5;
+        outline: none;
+      }
+    }
+  }
+  .ngdialog-button {
+    border: 0;
+    cursor: pointer;
+    float: right;
+    font-family: $font_2;
+    font-size: .8em;
+    letter-spacing: .1em;
+    line-height: 1em;
+    margin: 0 .5em;
+    padding: .75em 2em;
+    text-transform: uppercase;
+    &:focus {
+      animation: ngdialog-pulse 1.1s infinite;
+      outline: none;
+    }
+    &.ngdialog-button-primary {
+      background: $color_6;
+      color: $color_0;
+    }
+    &.ngdialog-button-secondary {
+      background: $color_7;
+      color: $color_3;
+    }
+  }
+  .ngdialog-buttons:after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}

@@ -1,0 +1,18 @@
+.modal-add {
+  .modal-add-table-line {
+    .modal-add-remove-item {
+      color     : #999;
+      cursor    : pointer;
+      float     : right;
+      font-size : 18px;
+
+      &:hover {
+        color : #666;
+      }
+
+      &:active {
+        color : #333;
+      }
+    }
+  }
+}

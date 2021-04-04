@@ -1,0 +1,21 @@
+$rnp-logo-height  : 48px;
+$rnp-logo-width   : 100px;
+$cafe-logo-height : 73px;
+$cafe-logo-width  : 100%;
+
+$imgPath          : "resources/assets/images/";
+
+.rnp-logo {
+  background : url($imgPath + 'rnp-logo.png') center center no-repeat;
+  display    : inline-block;
+  height     : $rnp-logo-height;
+  width      : $rnp-logo-width;
+}
+
+.cafe-logo {
+  background      : url($imgPath + 'cafe-logo.png') top center no-repeat;
+  background-size : 100% auto;
+  display         : inline-block;
+  height          : $cafe-logo-height;
+  width           : $cafe-logo-width;
+}

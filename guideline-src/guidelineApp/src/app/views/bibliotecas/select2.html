@@ -1,0 +1,127 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Select2</p>
+</div>
+
+<div class="page-content">
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          O estilo deste componente é aplicado automaticamente.
+          <br><br>
+          Mais informações em: <br/>
+          <a target="_blank" href="https://select2.github.io">https://select2.github.io</a>
+        </div>
+        <div class="panel-body">
+          <form class="form-horizontal">
+
+
+            <code>
+              var data = [
+	            <br/>
+                {id: 1,text: 'Opção 1'},
+	            <br/>
+                {id: 2,text: 'Opção 2'},
+	            <br/>
+                {id: 3,text: 'Opção 3'},
+	            <br/>
+                {id: 4,text: 'Opção 4'},
+	            <br/>
+                {id: 5,text: 'Opção 5'}
+	            <br/>
+              ]
+	            <br/><br/>
+              $("#select1").select2({
+	            <br/>
+              data: data
+	            <br/>
+              });
+	            <br/>
+
+              <br/><br/>
+              &#60;select id="select1" class="select2-input"&#62;
+              &#60;/select&#62;
+            </code>
+            <br/><br/>
+
+	          <div class="form-group">
+		          <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">
+			          <span>Select</span>
+		          </label>
+		          <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+
+			          <select id="select1" class="select2-input">
+			          </select>
+		          </div>
+	          </div>
+
+            <code>
+              var data = [
+	            <br/>
+              {id: 1,text: 'Opção 1'},
+	            <br/>
+              {id: 2,text: 'Opção 2'},
+	            <br/>
+              {id: 3,text: 'Opção 3'},
+	            <br/>
+              {id: 4,text: 'Opção 4'},
+	            <br/>
+              {id: 5,text: 'Opção 5'}
+	            <br/>
+              ]
+	            <br/><br/>
+
+              $("#select2").select2({
+	            <br/>
+                data: data
+	            <br/>
+              });
+              <br/><br/>
+              &#60;select id="select2" multiple="multiple" class="select2-input"&#62;
+              &#60;/select&#62;
+            </code>
+            <br/><br/>
+
+	          <div class="form-group">
+		          <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">
+			          <span>Multiselect</span>
+		          </label>
+		          <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+
+			          <select id="select2" multiple="multiple" class="select2-input">
+			          </select>
+		          </div>
+	          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(function(){
+
+      var data = [
+        {id: 1,text: 'Opção 1'},
+        {id: 2,text: 'Opção 2'},
+        {id: 3,text: 'Opção 3'},
+        {id: 4,text: 'Opção 4'},
+        {id: 5,text: 'Opção 5'}
+      ]
+
+      $("#select1").select2({
+        data: data
+      });
+
+      $("#select2").select2({
+        data: data,
+        allowClear: true
+      });
+
+    });
+  </script>
+
+</div>

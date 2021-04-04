@@ -1,0 +1,38 @@
+$rnp-title-bar-color     : #333333;
+$rnp-title-bar-font-size : 24px;
+$rnp-title-bar-height    : 100px;
+
+.rnp-title-bar {
+  color       : $rnp-title-bar-color;
+  font-size   : $rnp-title-bar-font-size;
+  font-weight : 700;
+  height      : $rnp-title-bar-height;
+
+  button {
+    clear       : both;
+    float       : left;
+    font-size   : 16px;
+    height      : 30px;
+    line-height : 0;
+    margin      : 20px 0 8px 0;
+    padding     : 0 10px;
+    top         : 0;
+
+    & + p {
+      clear       : both;
+      line-height : 1;
+    }
+  }
+
+  p {
+    float       : left;
+    line-height : $rnp-title-bar-height;
+    margin      : 0;
+    padding     : 0;
+  }
+
+  // button {
+  //   float  : right;
+  //   margin : ($rnp-title-bar-height - $btn-height) / 2 0;
+  // }
+}

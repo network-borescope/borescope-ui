@@ -1,0 +1,134 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+	<!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+	<p>Construindo o projeto</p>
+</div>
+
+<div class="page-content">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<strong>Pré-requisitos</strong>
+					<ol>
+						<li><a href="http://nodejs.org/#download">Node</a></li>
+						<li><a href="http://gulpjs.com/">Gulp</a></li>
+						<li><a href="http://bower.io/">Bower</a></li>
+					</ol>
+					<p>Siga o processo de instalacão utilizando os links acima na ordem em que aparecem na lista.</p>
+
+					<!--<h3>Repositório GitHub</h3>
+					<p>Faça um clone ou fork do projeto <code>git@github.com:dclick/sesc-guideline.git</code></p>-->
+				</div>
+				<div class="panel-body">
+					<section>
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+								<h2>Estrutura de Pastas</h2>
+
+								<h3>Raíz do Projeto</h3>
+
+								<ul>
+									<li>
+										<code>/src</code>
+										<br/>
+										<h4>Projeto Guideline</h4>
+										<p>
+											Nesta pasta ficam as bibliotecas e arquivos para a criação de customização dos componentes (.js, .scss).
+											<br/>
+											A versão da Guideline trabalha com o sistema de versionamento do Bower, sendo assim, ao informar a <code>version</code> no arquivo <code>bower.json</code>, você automaticamente gera uma nova
+											versão da guideline.
+											<br/><br/>
+											Para a inicialização do comando <code>gulp build</code> é necessário a instalação dos módulos do Node. Para realizar esta ação, execute o comando <code>npm install</code>, e uma pasta
+											chamada <code>node_modules</code> será criada.
+											<br/><br/>
+											Para instalar as bibliotecas de componentes da Guideline RNP, execute o comando <code>bower install</code>, e uma pasta chamada <code>bower_components</code> será criada.
+											<br/><br/>
+											A partir deste ponto, a aplicação estará apta para realizar a geração de build do projeto <strong>Guideline RNP</strong>.
+											<br/>
+											O <code>Gulp</code> roda o comando no arquivo padrão <code>gulpfile.js</code>.
+										</p>
+										<p class="alert alert-info">
+											<span class="badge badge-info">Nota</span>
+											Ao gerar o comando <code>gulp build</code>, a pasta raíz chamada <code>/release</code> e a pasta <code>/guidelineApp/src/release</code> serão atualizadas com os arquivos gerados
+											pela build.
+										</p>
+									</li>
+									<li>
+										<code>/guidelineApp</code>
+										<br/>
+										<h4>Documentação Guideline</h4>
+										<p>
+											Nesta pasta ficam os arquivos da Aplicação Web da Documentação da <strong>Guideline RNP</strong>.
+											<br/>
+
+											A Documentação do projeto é uma aplicação Web desenvolvida em <code>AngularJS</code>.
+											<br/>
+											Os arquivos de configuração do projeto da aplicação estão na pasta <code>/gulp</code>
+											<br/>
+											Os arquivos da aplicação ficam na pasta <code>/src</code>.
+											<br/>
+											A pasta <code>src/release/</code> contém os arquivos gerados na build.
+
+											O <code>Gulp</code> roda o comando no arquivo padrão <code>gulpfile.js</code>.
+											<br/>
+											O comando <code>gulp build</code> na pasta <code>/guidelineApp</code> executa a versão final da aplicação web da Documentação da Guideline RNP.
+											<br/>
+											<br/>
+											Para utilizar a versão final deste projeto em algum webserver, copie a pasta <code>/dist</code> ou o seu conteúdo para um diretório raiz do seu projeto no WebServer.
+
+										</p>
+									</li>
+									<li>
+										<code>/release</code>
+										<br/>
+										<h4>Arquivos gerados pelo Gerador do Build</h4>
+										<p>
+											Contém os arquivos na qual o gerador de build cria.
+										</p>
+										<p class="alert alert-info">
+											<span class="badge badge-info">Nota</span>
+											Você deve importar o arquivo <code>vendors.css</code> e o <code>guideline.css</code> na tag <code>HEAD</code> respectivamente, e o arquivo <code>vendors.js</code> e o arquivo <code>guideline.js</code>
+											no final da tag <code>Body</code> e antes dos arquivos de projeto.
+											Ao gerar o comando <code>gulp build</code>, a pasta raíz chamada <code>/release</code> e a pasta <code>/guidelineApp/src/release</code> serão atualizadas com os arquivos gerados
+											pela build.
+										</p>
+									</li>
+								</ul>
+
+
+
+								<h2>Criando um build</h2>
+								<ul>
+									<li>Abra uma instância do terminal/cmd e vá para a pasta onde você clonou o projeto RNP <!--<code>git@github.com:dclick/sesc-guideline.git</code>.--></li>
+									<li>Acesse a pasta <code>/src</code>.</li>
+									<li>Instale as dependências do node utilizando o comando <code>sudo npm install</code>.</li>
+									<li>Instale as dependências do projeto utilizando o comando <code>sudo bower install</code>.</li>
+									<li>Execute o comando <code>gulp build</code> se você estiver utilizando uma plataforma <strong>Unix</strong> ou se estiver na pasta do projeto no Prompt de Comando se você estiver no <strong>Windows</strong> para iniciar o build.</li>
+								</ul>
+
+								<br/>
+
+								<p>
+									<span class="badge badge-success">Sucesso!</span> Verifique a pasta <code>/release</code> e <code>/guidelineApp/src/release</code> no diretório raiz do projeto.<br />
+									Os arquivos <code>release/guideline-VERSION.min.js</code> e <code>release/vendors-VERSION.min.js</code> serão criados.
+								</p>
+
+								<p>É gerado uma versão de download no formato <code>.zip</code> dentro da pasta <code>/release</code>, assim como está presente neste Site da Documentação.</p>
+
+								<p>A versão não minificada desses arquivos encontra-se na pasta <code>/release</code>. Eles são melhores para o desenvolvimento pois são apenas concatenados.</p>
+
+								<p class="alert alert-warning"><span class="badge badge-warning">Atenção</span> Certifique-se de sempre utilizar a versão <strong>minificada</strong> dos arquivos em produção. Esses arquivos já foram otimizados para obter a melhor performance de carregamento.</p>
+
+							</div>
+						</div>
+
+					</section>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,63 @@
+$rnp-login-form-height : 574px;
+$rnp-login-form-width  : 760px;
+
+#rnp-login-screen {
+  .screen-content {
+    // height      : $rnp-login-form-height;
+    left        : 50%;
+    margin-left : -($rnp-login-form-width / 2);
+    margin-top  : -($rnp-login-form-height / 2);
+    min-width   : $rnp-login-form-width;
+    padding     : 0;
+    position    : absolute;
+    top         : 50%;
+    // width       : $rnp-login-form-height;
+  }
+
+  #login-form {
+    background  : $primaryColor;
+    color       : #fff;
+    padding     : 30px 60px;
+    min-height  : $rnp-login-form-height;
+    text-align  : center;
+    width       : $rnp-login-form-width;
+
+    @include borderRadius(10px);
+
+    .select2-container {
+      width: 100%;
+    }
+
+    .titulo {
+      font-size      : 1em;
+      font-weight    : 600;
+      text-transform : uppercase;
+    }
+
+    .subtitulo {
+      font-size       : 1.2em;
+      font-weight     : 600;
+      text-decoration : underline;
+      text-transform  : uppercase;
+    }
+  }
+
+  .form-control {
+    width : 100%;
+  }
+
+  .rnp-login-half {
+    float        : left;
+    padding-right : 20px;
+    width        : 50%;
+
+    @include boxShadow(1px 0 0 #fff);
+
+    &+.rnp-login-half {
+      padding-right : 0;
+      padding-left : 20px;
+
+      @include boxShadow(none);
+    }
+  }
+}

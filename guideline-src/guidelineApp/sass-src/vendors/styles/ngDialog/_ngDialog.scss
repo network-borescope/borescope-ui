@@ -1,0 +1,94 @@
+//colors
+$color_0: rgba(0, 0, 0, 0.4);
+$color_1: white;
+
+//fonts
+$font_0: Helvetica;
+$font_1: Arial;
+$font_2: sans-serif;
+
+@-webkit-keyframes ngdialog-fadeout {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes ngdialog-fadeout {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes ngdialog-fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes ngdialog-fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.ngdialog {
+  //Instead of the line below you could use @include box-sizing($bs)
+  box-sizing: border-box;
+  position: fixed;
+  overflow: auto;
+  z-index: 10000;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  * {
+    //Instead of the line below you could use @include box-sizing($bs)
+    box-sizing: border-box;
+    &:before {
+      //Instead of the line below you could use @include box-sizing($bs)
+      box-sizing: border-box;
+    }
+    &:after {
+      //Instead of the line below you could use @include box-sizing($bs)
+      box-sizing: border-box;
+    }
+  }
+  &.ngdialog-closing {
+    .ngdialog-overlay {
+      animation: ngdialog-fadeout 0.5s;
+    }
+    .ngdialog-content {
+      animation: ngdialog-fadeout 0.5s;
+    }
+  }
+}
+.ngdialog-overlay {
+  position: fixed;
+  background: $color_0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 20000px;
+  animation: ngdialog-fadein 0.5s;
+}
+.ngdialog-content {
+  background: $color_1;
+  animation: ngdialog-fadein 0.5s;
+}
+.ngdialog-close:before {
+  font-family: $font_0, $font_1, $font_2;
+  content: '\00D7';
+  cursor: pointer;
+}
+body.ngdialog-open {
+  overflow: hidden;
+}

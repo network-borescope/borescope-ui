@@ -1,0 +1,23 @@
+<div class="combo-search-modal">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Adicionar {{subject}}
+    </h4>
+  </div>
+  <div class="modal-body">
+    <div class="modal-wrapper">
+
+      <select class="form-control" name="sala" ng-model="sala"
+        ng-options="item as item.nome for item in collection">
+        <option value="">{{placeholder}}</option>
+      </select>
+
+    </div>
+    <div class="form-group panel-footer">
+      <div class="pull-right">
+        <button type="button" class="btn btn-secondary-color" ng-click="cancelarPopup()" translate>geral.CANCELAR</button>
+        <button type="button" class="btn btn-primary-color " ng-disabled="sala === null || sala === undefined" ng-click="salvarPopup(sala)" translate>geral.SALVAR</button>
+      </div>
+    </div>
+  </div>
+</div>

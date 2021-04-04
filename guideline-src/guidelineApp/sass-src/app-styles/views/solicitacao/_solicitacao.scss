@@ -1,0 +1,36 @@
+.equipamentos-container {
+  border: 1px solid #ccc;
+
+  .equipamentos-container-title {
+    background-color: #ccc;
+    height: 35px;
+    line-height: 35px;
+    padding: 0 10px;
+  }
+  .checkbox {
+    div {
+      margin: 5px 10px;
+    }
+  }
+}
+
+.participantes-container{
+  background-color: #F0FFFF;
+}
+
+.conflitos-container{
+  background-color: #ffffb2;
+}
+
+.conflitos-item {
+  margin: 10px 10px 0px 10px;
+}
+
+.alerta-solicitacao{
+  color: red;
+}
+
+.solicitar-reserva-data-label{
+  margin-top: 10px;
+  font-size: 15px;
+}

@@ -1,0 +1,44 @@
+$select-bg-color     : #ffffff;
+$select-border-color : #bebebe;
+$select-text-color   : darken($select-border-color, 25%);
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  background  : $select-bg-color;
+  border      : 1px solid $select-border-color;
+  color       : $select-text-color;
+  display     : block;
+  font-size   : 12px;
+  height      : 34px;
+  line-height : 1.42857;
+  outline     : none;
+  padding     : 6px 24px 6px 12px;
+
+  @include borderRadius(3px);
+}
+
+select {
+  background-color    : $select-bg-color;
+  background-image    : url(../../assets/images/select-arrow-grey.png) !important;
+  background-position : right center;
+  background-repeat   : no-repeat;
+  border              : 1px solid $select-border-color;
+  color               : $select-text-color;
+  display             : block;
+  font-size           : 12px;
+  height              : 30px;
+  line-height         : 1.42857;
+  outline             : none;
+  padding             : 6px 24px 6px 12px;
+  width               : 100%;
+
+  -webkit-appearance : none;
+
+  @include borderRadius(100px);
+
+  &:before {
+    content     : "\f0ab";
+    font-family : "FontAwesome";
+  }
+}

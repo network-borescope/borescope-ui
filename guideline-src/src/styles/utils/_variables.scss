@@ -1,0 +1,31 @@
+
+// =============================================
+// Main Variables
+// =============================================
+$mainBarHeight: 60px;
+$applicationContentWidth: 1024px;
+
+
+// =============================================
+// Aux Variables
+// =============================================
+
+$paddingDefault  : 10px;
+$marginDefault   : 10px;
+$btnBorderRadius : 4px;
+
+
+// Typography
+// -------------------------
+$sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
+$serifFontFamily:       Georgia, "Times New Roman", Times, serif;
+$monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace;
+
+$baseFontSize:          14px;
+$baseFontFamily:        $sansFontFamily;
+$baseLineHeight:        18px;
+$altFontFamily:         $serifFontFamily;
+
+$headingsFontFamily:    inherit; // empty to use BS default, $baseFontFamily
+$headingsFontWeight:    bold;    // instead of browser default, bold
+$headingsColor:         inherit; // empty to use BS default, $textColor

@@ -1,0 +1,177 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Fullcalendar</p>
+</div>
+
+<div class="page-content">
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          O estilo deste componente é aplicado automaticamente.
+          <br><br>
+          Mais informações em: <br/>
+	        <a target="_blank" href="http://fullcalendar.io">http://fullcalendar.io</a>
+        </div>
+        <div class="panel-body">
+
+	        <code>
+		        $(function(){
+
+		        <br/><br/>
+
+		        var dateNames = {
+		        <br/>
+		        dayNamesShort   : ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+		        <br/>
+		        monthNames      : ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+		        <br/>
+		        monthNamesShort : ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+		        <br/>
+		        };
+		        <br/><br/>
+		        var eventSources = [
+		        <br/>
+		        {
+		        <br/>
+		        title: 'Long Event',
+		        <br/>
+		        start: '07/15/2015',
+		        <br/>
+		        end: '07/22/2015'
+		        <br/>
+		        },
+		        <br/>
+		        {
+		        <br/>
+		        id: 999,
+		        <br/>
+		        title: 'Repeating Event',
+		        <br/>
+		        start: '07/06/2015'
+		        <br/>
+		        }
+		        <br/>
+		        ];
+		        <br/><br/>
+		        var calendarConfig = {
+		        <br/>
+		        lang                : "pt-br",
+		        <br/>
+		        editable            : true,
+		        <br/>
+		        header: {
+		        <br/>
+		        left: 'prev,next today',
+		        <br/>
+		        center: 'title',
+		        <br/>
+		        right: 'month,basicWeek,basicDay'
+		        <br/>
+		        },
+		        <br/>
+		        height              : 550,
+		        <br/>
+		        timeFormat          : 'H:mm',
+		        <br/>
+		        axisFormat          : 'H:mm',
+		        <br/>
+		        dayNamesShort       : dateNames.dayNamesShort,
+		        <br/>
+		        monthNames          : dateNames.monthNames,
+		        <br/>
+		        monthNamesShort     : dateNames.monthNamesShort,
+		        <br/>
+		        firstHour           : 6,
+		        <br/>
+		        defaultEventMinutes : 60,
+		        <br/>
+		        slotMinutes         : 30,
+		        <br/>
+		        displayEventEnd     : true,
+		        <br/>
+		        events              : eventSources
+		        <br/>
+		        };
+		        <br/><br/>
+		        $('#calendar').fullCalendar(calendarConfig);
+
+		        <br/><br/>
+		        });
+
+		        <br/><br/>
+
+		        &#60;div id="calendar"&#62;&#60;/div&#62;
+	        </code>
+	        <br/><br/>
+
+
+          <div id="calendar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(function(){
+
+      var dateNames = {
+        dayNamesShort   : ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+        monthNames      : ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+        monthNamesShort : ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+      };
+
+      ////////////////////////
+      // Methods
+      ////////////////////////
+
+      ////////////////////////
+      // Init
+      ////////////////////////
+
+	    var eventSources = [
+		    {
+			    title: 'Long Event',
+			    start: '07/15/2015',
+			    end: '07/22/2015'
+		    },
+		    {
+			    id: 999,
+			    title: 'Repeating Event',
+			    start: '07/06/2015'
+		    }
+	    ];
+
+      var calendarConfig = {
+        lang                : "pt-br",
+        editable            : true,
+	      header: {
+		      left: 'prev,next today',
+		      center: 'title',
+		      right: 'month,basicWeek,basicDay'
+	      },
+        height              : 550,
+        loading: function( isLoading, view ){
+          console.log('isloading');
+        },
+        timeFormat          : 'H:mm',
+        axisFormat          : 'H:mm',
+        dayNamesShort       : dateNames.dayNamesShort,
+        monthNames          : dateNames.monthNames,
+        monthNamesShort     : dateNames.monthNamesShort,
+        firstHour           : 6,
+        defaultEventMinutes : 60,
+        slotMinutes         : 30,
+        displayEventEnd     : true,
+	      events              : eventSources
+      };
+
+	    $('#calendar').fullCalendar(calendarConfig);
+
+
+    });
+  </script>
+
+</div>

@@ -1,0 +1,92 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Autocomplete</p>
+</div>
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Aplicação básica do Autocomplete com uma fonte de dados em memória.
+
+          <br/><br/>
+          Mais informações:
+          <br/>
+          <a target="_blank" href="https://jqueryui.com/autocomplete">https://jqueryui.com/autocomplete</a>
+        </div>
+        <div class="panel-body">
+
+          <code>
+            var availableTags = [
+            <br/>
+            "ActionScript",
+            <br/>
+            "Asp",
+            <br/>
+            "C",
+            <br/>
+            "C++",
+            <br/>
+            "COBOL",
+            <br/>
+            "ColdFusion",
+            <br/>
+            "Java",
+            <br/>
+            "JavaScript",
+            <br/>
+            "PHP",
+            <br/>
+            "Python",
+            <br/>
+            "Ruby"
+            <br/>
+            ]
+            <br/>
+
+            $( "#tags_input" ).autocomplete({
+            source: availableTags
+            });
+          </code>
+          <br/><br/>
+          <code>
+            &#60;input type="text" id="tags_input" /&#62;
+          </code>
+
+          <br/><br/>
+
+          <input type="text" id="tags_input" />
+
+
+          <script type="text/javascript">
+            $(function(){
+
+              var availableTags = [
+                "ActionScript",
+                "Asp",
+                "C",
+                "C++",
+                "COBOL",
+                "ColdFusion",
+                "Java",
+                "JavaScript",
+                "PHP",
+                "Python",
+                "Ruby"
+              ]
+
+              $( "#tags_input" ).autocomplete({
+                source: availableTags
+              });
+
+              $("span#tooltip").tooltip()
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

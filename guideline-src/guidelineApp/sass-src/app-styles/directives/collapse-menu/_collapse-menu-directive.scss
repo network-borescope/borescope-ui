@@ -1,0 +1,77 @@
+.collapse-menu {
+  background : #fcfcfc;
+  float      : left;
+  overflow   : hidden;
+  padding    : 0 10px;
+  position   : relative;
+  text-align : left;
+  width      : 20%;
+  z-index    : 999999;
+
+  @include boxShadow(1px 0 0 #ccc);
+
+  & + .screen-content {
+    float     : left !important;
+    min-width : 0 !important;
+  }
+
+  .collapse-menu-icon {
+    cursor  : pointer;
+
+    &:before {
+      content     : "\f0c9";
+      display     : block;
+      font-family : "FontAwesome";
+      font-size   : 1.2em;
+      margin      : 10px auto 0;
+      text-align  : right;
+      width       : 100%;
+    }
+  }
+
+  &.collapsed {
+    cursor  : pointer;
+    padding : 0;
+
+    .collapse-menu-icon {
+      &:before {
+        text-align : center;
+      }
+    }
+
+    .collapse-menu-container {
+      display : none;
+    }
+  }
+
+  .collapse-menu-container {
+    ul {
+      list-style-type : none;
+      padding         : 0;
+
+      li {
+        padding : 2px 4px;
+
+        a, [ui-sref], &[ui-sref] {
+          cursor  : pointer;
+          display : block;
+          height  : 100%;
+          padding : 2px 4px;
+          width   : 100%;
+
+          &:hover {
+            background : rgba(0,0,0,0.2);
+            color      : #fff;
+          }
+
+          &:active, &.active {
+            background : $primaryColor;
+            color      : #fff;
+          }
+
+          @include borderRadius(3px);
+        }
+      }
+    }
+  }
+}

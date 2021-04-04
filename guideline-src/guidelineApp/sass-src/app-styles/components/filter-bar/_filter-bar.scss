@@ -1,0 +1,37 @@
+$filter-bar-border        : 1px solid #ccc;
+$filter-bar-border-radius : 4px;
+$filter-bar-font-size     : 13px;
+$filter-bar-height        : 34px;
+$filter-bar-width         : 100%;
+$filter-bar-icon-height   : 21px;
+$filter-bar-icon-width    : 20px;
+$filter-bar-input-padding : 6px 5px 5px 34px;
+
+
+.filter-bar {
+  position  : relative;
+
+  i {
+    color    : #ccc;
+    height   : $filter-bar-icon-height;
+    left     : 8px;
+    position : absolute;
+    top      : 6px;
+    width    : $filter-bar-icon-width;
+
+    &:before {
+      display : inline-block;
+    }
+  }
+
+  input[type="text"] {
+    border    : $filter-bar-border;
+    font-size : $filter-bar-font-size;
+    height    : $filter-bar-height;
+    outline   : none;
+    padding   : $filter-bar-input-padding;
+    width     : $filter-bar-width;
+
+    @include borderRadius($filter-bar-border-radius);
+  }
+}

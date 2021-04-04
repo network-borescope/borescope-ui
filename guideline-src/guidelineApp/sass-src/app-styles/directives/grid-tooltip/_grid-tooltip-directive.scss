@@ -1,0 +1,13 @@
+.grid-tooltip {
+  height   : 30px;
+  left     : 0;
+  position : absolute;
+  top      : 15px;
+  width    : 100%;
+
+  &+.popover {
+    position  : absolute;
+    max-width : 95%;
+    word-wrap : break-word;
+  }
+}

@@ -1,0 +1,22 @@
+
+// =============================================
+// Inputs validation
+// =============================================
+
+// Invalid input
+// =============================
+input.has-error {
+  border             : 1px solid $errorBorderColor !important;
+  outline            : 0;
+
+  &:focus {
+    border             : 1px solid lighten($errorBorderColor, 10%) !important;
+    outline            : 0;
+  }
+}
+
+// Help block
+// =============================
+.help-block.help-error {
+  color: $errorBorderColor;
+}

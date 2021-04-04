@@ -1,0 +1,58 @@
+<div class="collapse-menu">
+  <div class="collapse-menu-icon"></div>
+  <div class="collapse-menu-container">
+
+    <label>Conteúdo</label>
+    <ul>
+      <li ui-sref="inicio" ng-class="{ active: $root.currentState === 'inicio' }">Início</li>
+      <li>Identidade</li>
+      <li>
+        <ul>
+          <li>
+            <span ui-sref="identidade.cores" ng-class="{ active: $root.currentState === 'identidade.cores' }">Cores</span>
+          </li>
+          <li>
+            <span ui-sref="identidade.wireframe" ng-class="{ active: $root.currentState === 'identidade.wireframe' }">Wireframe</span>
+          </li>
+        </ul>
+      </li>
+      <li>Componentes</li>
+      <li>
+        <ul>
+          <li>
+            <span ui-sref="componentes.botoes" ng-class="{ active: $root.currentState === 'componentes.botoes' }">Botões</span>
+          </li>
+          <li>
+            <span ui-sref="componentes.inputs" ng-class="{ active: $root.currentState === 'componentes.inputs' }">Inputs e Selects</span>
+          </li>
+          <li>
+            <span ui-sref="componentes.tooltip" ng-class="{ active: $root.currentState === 'componentes.tooltip' }">Tooltip</span>
+          </li>
+          <li>
+            <span ui-sref="componentes.formulario" ng-class="{ active: $root.currentState === 'componentes.formulario' }">Formulário</span>
+          </li>
+          <li>
+            <span ui-sref="componentes.tabelas" ng-class="{ active: $root.currentState === 'componentes.tabelas' }">Tabelas</span>
+          </li>
+          <li>
+            <span ui-sref="componentes.mensageria" ng-class="{ active: $root.currentState === 'componentes.mensageria' }">Mensageria</span>
+          </li>
+          <li>
+            <span ui-sref="componentes.modal" ng-class="{ active: $root.currentState === 'componentes.modal' }">Modal</span>
+          </li>
+        </ul>
+      </li>
+      <li>Bibliotecas</li>
+      <li>
+        <span ui-sref="bibliotecas.datepicker" ng-class="{ active: $root.currentState === 'bibliotecas.datepicker' }">Datepicker</span>
+      </li>
+      <li>
+        <span ui-sref="bibliotecas.fullcalendar" ng-class="{ active: $root.currentState === 'bibliotecas.fullcalendar' }">Fullcalendar</span>
+      </li>
+      <li>
+        <span ui-sref="bibliotecas.select2" ng-class="{ active: $root.currentState === 'bibliotecas.select2' }">Select2</span>
+      </li>
+    </ul>
+
+  </div>
+</div>

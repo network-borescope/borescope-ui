@@ -1,0 +1,128 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Navegação</p>
+</div>
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <p>Os princípios de navegação ocorrem através da aplicação correta de cores, que indicam ações primárias, secundárias e de menor relevância. Através de links indicativos, referências visuais como iconografia, e ainda através do comportamento padronizado dos componentes, como o uso de Accordiom, Tabelas, e outros.<br>
+          Vamos abordar aqui algumas dessas situações como referência.</p>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <h2 id="breadcrumbs">Breadcrumbs</h2>
+              <p>O Breadcrumb tem o link da cor padrão da aplicação, todo o caminho é feito através de links, portanto, navegável. Somente a localização atual do usuário não possui link, sendo um texto puro.</p>
+              <code>
+              &#60;ul class="breadcrumb"&#62;
+              <br>
+              &#60;li&#62;&#60;a href="#"&#62;Link Principal&#60;/a&#62; &#60;span class="divider"&#62;&#60;/span&#62;&#60;/li&#62;
+              <br>
+              &#60;li class="active"&#62;Localização Atual&#60;/li&#62;
+              <br>
+              &#60;/ul&#62;
+              <br>
+              </code>
+              <br><br>
+              <ul class="breadcrumb">
+                <li><a href="#">Link Principal</a> <span class="divider"></span></li>
+                <li class="active">Localização Atual</li>
+              </ul>
+              <p>Sempre representar a navegação atual da barra de navegação principal do sistema no breadcrumb, existindo sobre esse fator a exceção do breadcrumb dinâmico, como por exemplo, a página de detalhes de um usuário onde o breadcrumb deve conter um item contendo o nome do usuário sendo detalhado.</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <h3>Tipos de Ações</h3>
+              <h4>Botão Primário</h4>
+              <p>
+                <button class="btn btn-primary-color">Label</button>
+              </p>
+              <h4>Botão Secundário</h4>
+              <p>
+                <button class="btn btn-delete-color">Label</button>
+              </p>
+              <p>A composição desses botões quando estiver alinhados lado a lado deverá ser sempre com o primário a direita e o secundário a esquerda, tal como no exemplo:</p>
+              <p>
+                <button class="btn btn-delete-color">Ação Secundária</button>
+                <button class="btn btn-primary-color">Ação Primária</button>
+              </p>
+              <p>Exemplo prático:</p>
+              <p>
+                <button class="btn btn-delete-color">Rejeitar</button> <button class="btn btn-primary-color">Aceitar</button>
+              </p>
+              <p>
+                No entanto quando existir uma ação de menor relevância como o botão Cancelar, então devemos utilizar o botão correspondente a sua relevância baixa, tal como no exemplo:
+              </p>
+              <p><button class="btn btn-secondary-color">Cancelar</button> <button class="btn btn-primary-color">Aceitar</button></p>
+              <p>A mesma coisa acontece no uso de botões de ações com iconografia. Tal como:</p>
+              <p>
+                <button class="btn btn-delete-color" data-tooltip="Reprovar">
+                  <i class="glyphicon glyphicon-remove glyphicon glyphicon-white"></i>
+                </button>
+                <button class="btn btn-primary-color" data-tooltip="Aprovar">
+                  <i class="glyphicon glyphicon-ok glyphicon glyphicon-white"></i>
+                </button>
+              </p>
+              <div class="alert alert-warning">Exceção: Acontecerá a ação inversa somente no uso de janelas modais onde o formulário forcará a ação primária a sua posição a esquerda.</div>
+              <p>Existem ainda ações de baixa relevância como pode conferir nos botões a direita superior de Imprimir e Ajuda.  Esse  estilo  de  botões  poderá  ser utilizado em outros locais sempre que a relevância for extremamente baixa, ou seja, não quiser chamar a atenção do usuário para a ação mas existe a necessidade da ação existir.</p>
+              <p>
+                <button class="btn btn-default">
+                  <i class="glyphicon glyphicon-print"></i>
+                  Imprimir
+                </button>
+              </p>
+
+              <br><br>
+              <h4>Botão com Agrupamento</h4>
+
+              <code>
+                &#60;div class="btn-group"&#62;
+                <br>
+                  &#60;button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-
+                  haspopup="true" aria-expanded="false"&#62;
+                  <br>
+                    Ação &#60;span class="caret"&#62;&#60;/span&#62;
+                    <br>
+                  &#60;/button&#62;
+                  <br>
+                  &#60;ul class="dropdown-menu"&#62;
+                  <br>
+                    &#60;li&#62;&#60;a href&#62;Ação&#60;/a&#62;&#60;/li&#62;
+                    <br>
+                    &#60;li&#62;&#60;a href&#62;Outra ação&#60;/a&#62;&#60;/li&#62;
+                    <br>
+                    &#60;li&#62;&#60;a href&#62;Configuração&#60;/a&#62;&#60;/li&#62;
+                    <br>
+                    &#60;li role="separator" class="divider"&#62;&#60;/li&#62;
+                    <br>
+                    &#60;li&#62;&#60;a href&#62;Sair&#60;/a&#62;&#60;/li&#62;
+                    <br>
+                  &#60;/ul&#62;
+                  <br>
+                &#60;/div&#62;  
+                <br>
+              </code>
+              <br><br>
+
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Ação <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href>Ação</a></li>
+                  <li><a href>Outra ação</a></li>
+                  <li><a href>Configuração</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href>Sair</a></li>
+                </ul>
+              </div>                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

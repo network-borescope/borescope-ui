@@ -1,0 +1,245 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Validação</p>
+</div>
+
+<div class="page-content">
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          O plugin <strong>jQuery Validation</strong> é o plugin utilizado em todos os formulários que necessitam dessa característica.
+          <br/>
+          Mais informações em:
+	        <br/>
+	        <a target="_blank" href="http://docs.jquery.com/Plugins/Validation">http://docs.jquery.com/Plugins/Validation</a>
+        </div>
+        <div class="panel-body">
+
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>Exemplo de formulário de validação</h3>
+            <p>O exemplo abaixo mostra um formulário simples com algumas regras de validação aplicadas.
+              Uma lista com todas as validações disponíveis pode ser encontrada na <a href="http://docs.jquery.com/Plugins/Validation">documentação do plugin</a>.</p>
+            <h4>Formulário de cadastro</h4>
+            <code>
+              $(function() {
+              <br/>
+
+              <br/>
+              $("#form").validate({
+              <br/>
+              rules: {
+              <br/>
+              nome: "required",
+              <br/>
+              facebook: "required",
+              <br/>
+              email: {
+              <br/>
+              required: true,
+              <br/>
+              minlength: 2
+              <br/>
+              },
+              <br/>
+              mensagem: {
+              <br/>
+              required: true,
+              <br/>
+              minlength: 5
+              <br/>
+              }
+              <br/>
+              },
+              <br/>
+              messages: {
+              <br/>
+              nome : "Digite o seu nome",
+              <br/>
+              facebook  : "Digite o o seu Facebook",
+              <br/>
+              email: {
+              <br/>
+              required: "Digite um email",
+              <br/>
+              minlength: "Seu email deve conter ao menos 2 caracteres"
+              <br/>
+              },
+              <br/>
+              mensagem: {
+              <br/>
+              required: "Digite sua mensagem",
+              <br/>
+              minlength: "Sua mensagem deve conter ao menos 5 caracteres"
+              <br/>
+              }
+              <br/>
+              }
+              <br/>
+              });
+              <br/>
+
+              <br/>
+              });
+              <br/>
+
+              <br/><br/>
+
+
+              &#60;form id="form" class="form-horizontal" validation="" novalidate="novalidate"&#62;
+              <br/>
+              &#60;div class="row"&#62;
+              <br/>
+              &#60;fieldset&#62;
+              <br/>
+              &#60;div class="form-group"&#62;
+              <br/>
+              &#60;label for="nome_input" class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2"&#62;Nome&#60;/label&#62;
+              <br/>
+              &#60;div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 "&#62;
+              <br/>
+              &#60;input type="text" mask="decimal" maxlength="255" id="nome_input" name="nome" class="form-control"&#62;
+              <br/>
+              &#60;/div&#62;
+              <br/>
+              &#60;/div&#62;
+              <br/>
+              &#60;div class="form-group"&#62;
+              <br/>
+              &#60;label for="facebook" class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2"&#62;Facebook&#60;/label&#62;
+              <br/>
+              &#60;div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"&#62;
+              <br/>
+              &#60;input type="text" maxlength="255" id="facebook" name="facebook" class="form-control"&#62;
+              <br/>
+              &#60;/div&#62;
+              <br/>
+              &#60;/div&#62;
+              <br/>
+              &#60;div class="form-group"&#62;
+              <br/>
+              &#60;label for="email_input" class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2"&#62;E-mail&#60;/label&#62;
+              <br/>
+              &#60;div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"&#62;
+              <br/>
+              &#60;input type="text" maxlength="255" id="email_input" name="email" class="form-control"&#62;
+              <br/>
+              &#60;/div&#62;
+              <br/>
+              &#60;/div&#62;
+              <br/>
+              &#60;div class="form-group"&#62;
+              <br/>
+              &#60;label for="mensagem_input" class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2"&#62;Mensagem&#60;/label&#62;
+              <br/>
+              &#60;div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"&#62;
+              <br/>
+              &#60;textarea id="mensagem_input" rows="5" name="mensagem" class="form-control"&#62;&#60;/textarea&#62;
+              <br/>
+              &#60;/div&#62;
+              <br/>
+              &#60;/div&#62;
+              <br/>
+              &#60;/fieldset&#62;
+              <br/>
+              &#60;/div&#62;
+              <br/>
+              &#60;div class="error-summary hide alert alert-danger"&#62;&#60;/div&#62;
+              <br/>
+              &#60;div class="col-xs-8 col-sm-8 col-md-8 col-lg-8"&#62;
+              <br/>
+              &#60;div class="form-actions pull-right"&#62;
+              <br/>
+              &#60;input type="button" class="btn btn-secondary-color" value="Cancelar"&#62;
+              <br/>
+              &#60;input type="submit" class="btn btn-primary-color" value="Enviar"&#62;
+              <br/>
+              &#60;/div&#62;
+              <br/>
+              &#60;/div&#62;
+              <br/>
+              &#60;/form&#62;
+              <br/>
+            </code>
+            <br/><br/>
+
+
+            <form id="form" class="form-horizontal" validation="" novalidate="novalidate">
+              <div class="row">
+                <fieldset>
+                  <div class="form-group">
+                    <label for="nome_input" class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2">Nome</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                      <input type="text" mask="decimal" maxlength="255" id="nome_input" name="nome" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="facebook" class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2">Facebook</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                      <input type="text" maxlength="255" id="facebook" name="facebook" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="email_input" class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2">E-mail</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                      <input type="text" maxlength="255" id="email_input" name="email" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="mensagem_input" class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2">Mensagem</label>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                      <textarea id="mensagem_input" rows="5" name="mensagem" class="form-control" maxlength="200"></textarea>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="error-summary hide alert alert-danger"></div>
+              <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <div class="form-actions pull-right">
+                  <input type="button" class="btn btn-secondary-color" value="Cancelar">
+                  <input type="submit" class="btn btn-primary-color" value="Enviar">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(function() {
+
+      $("#form").validate({
+        rules: {
+          nome: "required",
+          facebook: "required",
+          email: {
+            required: true,
+            minlength: 2
+          },
+          mensagem: {
+            required: true,
+            minlength: 5
+          }
+        },
+        messages: {
+          nome : "Digite o seu nome",
+          facebook  : "Digite o o seu Facebook",
+          email: {
+            required: "Digite um email",
+            minlength: "Seu email deve conter ao menos 2 caracteres"
+          },
+          mensagem: {
+            required: "Digite sua mensagem",
+            minlength: "Sua mensagem deve conter ao menos 5 caracteres"
+          }
+        }
+      });
+
+    });
+  </script>
+
+</div>

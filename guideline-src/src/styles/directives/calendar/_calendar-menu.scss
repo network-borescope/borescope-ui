@@ -1,0 +1,81 @@
+$rnp-calendar-menu-size    : 30px;
+$rnp-calendar-btn-color    : #f4f4f4;
+$rnp-calendar-border-color : #c0c0c0;
+
+.btn {
+  &.rnp-calendar-btn {
+    background : $rnp-calendar-btn-color;
+    border     : 1px solid $rnp-calendar-border-color;
+    color      : inherit;
+    height     : $rnp-calendar-menu-size;
+    padding    : 0 16px;
+
+    @include borderRadius(3px !important);
+
+    &:hover {
+      background : lighten($rnp-calendar-btn-color, 10%);
+    }
+
+    &:active, &.active {
+      background : darken($rnp-calendar-btn-color, 10%);
+    }
+  }
+}
+
+.rnp-calendar-menu {
+  display       : table;
+  float         : left;
+  margin        : 10px 0;
+  overflow      : auto;
+  width         : 100%;
+
+  & > div {
+    display : table-cell;
+  }
+
+  .rnp-calendar-btn-group {
+    display : inline-block;
+
+    .btn, .rnp-calendar-btn {
+      float   : left;
+      margin  : 0;
+      padding : 0 8px;
+
+      &.rnp-calendar-btn {
+        border-left : 0;
+        top         : 0;
+
+
+        @include borderRadius(0 !important);
+
+        &:first-child:only-child {
+          border-left : 1px solid $rnp-calendar-border-color;
+
+          @include borderRadius(3px !important);
+        }
+
+        &:first-child:not(:only-child) {
+          border-left : 1px solid $rnp-calendar-border-color;
+
+          @include borderRadius(3px 0 0 3px !important);
+        }
+
+        &:last-child:not(:only-child) {
+          @include borderRadius(0 3px 3px 0 !important);
+        }
+      }
+    }
+  }
+
+  .rnp-calendar-current-date {
+    font-weight : 700;
+    height      : $rnp-calendar-menu-size;
+    line-height : $rnp-calendar-menu-size;
+    margin      : 0 10px 0 8px;
+  }
+
+  .rnp-calendar-btn, .rnp-calendar-btn-group, .rnp-calendar-current-date {
+    float : left;
+    margin-right : 10px;
+  }
+}

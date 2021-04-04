@@ -1,0 +1,257 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Modal</p>
+</div>
+
+<div class="page-content">
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Modais devem ser utilizados para exibir opções secundárias em uma tela complexa.
+          O mesmo deve conter sempre um cabeçalho contendo um título que informa o conteúdo
+          do modal.
+          <br/>
+          Mais informações:
+          <br/>
+          <a target="_blank" href="http://getbootstrap.com/javascript/#modals">http://getbootstrap.com/javascript/#modals</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Modal padrão
+        </div>
+
+        <div class="panel-body">
+
+          <code>
+
+            &#60;div class="modal-dialog"&#62;
+            <br/>
+              &#60;div class="modal-content"&#62;
+            <br/>
+                &#60;div class="modal-header"&#62;
+            <br/>
+                  &#60;h4 class="modal-title ng-binding"&#62;Adicionar Nome&#60;/h4&#62;
+            <br/>
+                &#60;/div&#62;
+            <br/>
+                &#60;div class="modal-body"&#62;
+            <br/>
+                  &#60;div class="modal-wrapper"&#62;
+            <br/>
+                    &#60;span&#62;Conteúdo do modal&#60;/span&#62;
+            <br/>
+                  &#60;/div&#62;
+            <br/>
+                &#60;/div&#62;
+            <br/>
+                &#60;div class="modal-footer"&#62;
+            <br/>
+                  &#60;button type="button" class="btn btn-secondary-color" data-dismiss="modal"&#62;Cancelar&#60;/button&#62;
+            <br/>
+                  &#60;button type="button" class="btn btn-primary-color"&#62;Salvar&#60;/button&#62;
+            <br/>
+                &#60;/div&#62;
+            <br/>
+              &#60;/div&#62;
+            <br/>
+            &#60;/div&#62;
+            <br/>
+
+          </code>
+
+          <br/><br/>
+
+
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title ng-binding">Adicionar Nome</h4>
+              </div>
+              <div class="modal-body">
+                <div class="modal-wrapper">
+                  <span>Conteúdo do modal</span>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary-color" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary-color">Salvar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Modal pequeno
+        </div>
+
+        <div class="panel-body">
+
+          <code>
+
+            &#60;div class="modal-dialog modal-sm"&#62;
+            <br/>
+              &#60;div class="modal-content"&#62;
+            <br/>
+                &#60;div class="modal-header"&#62;
+            <br/>
+                  &#60;h4 class="modal-title ng-binding"&#62;Adicionar Nome&#60;/h4&#62;
+            <br/>
+                &#60;/div&#62;
+            <br/>
+                &#60;div class="modal-body"&#62;
+            <br/>
+                  &#60;div class="modal-wrapper"&#62;
+            <br/>
+                    &#60;span&#62;Conteúdo do modal&#60;/span&#62;
+            <br/>
+                  &#60;/div&#62;
+            <br/>
+                &#60;/div&#62;
+            <br/>
+                &#60;div class="modal-footer"&#62;
+            <br/>
+                  &#60;button type="button" class="btn btn-secondary-color" data-dismiss="modal"&#62;Cancelar&#60;/button&#62;
+            <br/>
+                  &#60;button type="button" class="btn btn-primary-color"&#62;Salvar&#60;/button&#62;
+            <br/>
+                &#60;/div&#62;
+            <br/>
+              &#60;/div&#62;
+            <br/>
+            &#60;/div&#62;
+            <br/>
+
+          </code>
+
+          <br/><br/>
+
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title ng-binding">Adicionar Nome</h4>
+              </div>
+              <div class="modal-body">
+                <div class="modal-wrapper">
+                  <span>Conteúdo do modal</span>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary-color" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary-color">Salvar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <p>
+            <strong>Exemplo de Modal</strong>
+            <br/>
+            Para executar a modal você precisa informar o atributo <code>[data-toggle="modal"]</code> no botão na qual a ação vai ser realizada e o elemento alvo <code>[data-target="#myModal"]</code>, ou utilizar o exemplo em javascript para a execução do mesmo.
+            <br/>
+
+          </p>
+        </div>
+        <div class="panel-body">
+
+          <code>
+
+            &#60;div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"&#62;
+            <br/>
+              &#60;div class="modal-dialog" role="document"&#62;
+            <br/>
+                &#60;div class="modal-content"&#62;
+            <br/>
+                  &#60;div class="modal-header"&#62;
+            <br/>
+                    &#60;button type="button" class="close" data-dismiss="modal" aria-label="Close"&#62;&#60;span aria-hidden="true"&#62;&times;&#60;/span&#62;&#60;/button&#62;
+            <br/>
+                    &#60;h4 class="modal-title" id="myModalLabel"&#62;Título da Modal&#60;/h4&#62;
+            <br/>
+                  &#60;/div&#62;
+            <br/>
+                  &#60;div class="modal-body"&#62;
+            <br/>
+                    Exemplo de Texto
+            <br/>
+                  &#60;/div&#62;
+            <br/>
+                  &#60;div class="modal-footer"&#62;
+            <br/>
+                    &#60;button type="button" class="btn btn-secondary-color" data-dismiss="modal"&#62;Cancelar&#60;/button&#62;
+            <br/>
+                    &#60;button type="button" class="btn btn-primary-color"&#62;Salvar&#60;/button&#62;
+            <br/>
+                  &#60;/div&#62;
+            <br/>
+                &#60;/div&#62;
+            <br/>
+              &#60;/div&#62;
+            <br/>
+            &#60;/div&#62;
+            <br/><br/>
+
+
+            &#60;button type="button" class="btn btn-primary-color btn-lg" data-toggle="modal" data-target="#myModal"&#62;
+            <br/>
+              Demonstração de Modal
+            <br/>
+            &#60;/button&#62;
+            <br/><br/>
+
+            $("#myModal").modal();
+            <br/><br/>
+          </code>
+
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary-color btn-lg" data-toggle="modal" data-target="#myModal">
+            Demonstração de Modal
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Título da Modal</h4>
+                </div>
+                <div class="modal-body">
+                  Exemplo de Texto
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary-color" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary-color">Salvar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

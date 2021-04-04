@@ -1,0 +1,50 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Popover</p>
+</div>
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Popovers devem ser utilizados quando alguma informação adicional pode ser fornecida ao usuário, mas não necessita estar presente em um primeiro momento, ou para exibir informações que foram ocultadas pelo
+          tamanho de tela do usuário, por exemplo.
+          Por razões de performance, os Popovers não são inicializados automaticamente, sendo assim você deve usar o seletor <code>[data-toggle="popover"]</code> para executar.
+          <br/>
+          Mais informações: <br/>
+          <a target="_blank" href="http://getbootstrap.com/javascript/#popovers">http://getbootstrap.com/javascript/#popovers</a>
+        </div>
+        <div class="panel-body">
+
+          <code>
+            $(function(){
+            <br/>
+              $('[data-toggle="popover"]').popover();
+            <br/>
+            });
+          </code>
+          <br/><br/>
+          <code>
+            &#60;button id="popover" class="btn btn-default" data-toggle="popover" title="Exemplo de visual de popover" data-content="Teste de Popover"&#62;
+            <br/>
+            Clique aqui
+            <br/>&#60;/button&#62;
+          </code>
+
+          <br/><br/>
+
+          <button id="popover" class="btn btn-default" data-toggle="popover" title="Exemplo de visual de popover" data-content="Teste de Popover">Clique aqui</button>
+
+          <script type="text/javascript">
+            $(function(){
+              $('[data-toggle="popover"]').popover();
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

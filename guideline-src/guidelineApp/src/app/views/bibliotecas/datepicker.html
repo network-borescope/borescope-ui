@@ -1,0 +1,220 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Datepicker</p>
+</div>
+
+<div class="page-content">
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Os inputs que possuírem datepicker deverão ser indicados com o ícone de calendário.
+          O datepicker utilizado nas aplicações da RNP é o <b>jQuery Datepicker</b>.
+          <br><br>
+          O estilo para este componente é aplicado automaticamente.
+          <br><br>
+          Mais informações em: <br/>
+          <a target="_blank" href="https://jqueryui.com/datepicker">https://jqueryui.com/datepicker</a>
+        </div>
+        <div class="panel-body">
+
+          <h4>Implementação Básica</h4>
+          <hr>
+
+          <code>
+	          $( "#datepicker" ).datepicker();
+          </code>
+          <br/><br/>
+
+	        <code>
+		       &#60;div class="form-group"&#62;
+		        <br/>
+			       &#60;label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label"&#62;
+		        <br/>
+				       &#60;span&#62;Data&#60;/span&#62;
+		        <br/>
+			       &#60;/label&#62;
+		        <br/>
+			       &#60;div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"&#62;
+		        <br/>
+				       &#60;div class="ui-date no-margin"&#62;
+		        <br/>
+					       &#60;input id="datepicker" class="ui-date-input" ng-model="datePicker" placeholder="Buscar data"&#62;
+		        <br/>
+					       &#60;span class="ui-date-calendar-icon"&#62;&#60;/span&#62;
+		        <br/>
+				       &#60;/div&#62;
+		        <br/>
+			       &#60;/div&#62;
+		        <br/>
+		       &#60;/div&#62;
+	        </code>
+	        <br/><br/>
+
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">
+                <span>Data</span>
+              </label>
+              <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                <div class="ui-date no-margin">
+                  <input id="datepicker" class="ui-date-input" ng-model="datePicker" mask="date" placeholder="Buscar data">
+                  <span class="ui-date-calendar-icon"></span>
+                </div>
+              </div>
+            </div>
+          </form>
+          <br><br>
+
+          <h4>Alcance de Data</h4>
+          <hr>
+          <code>
+            $(function(){
+            <br>
+              var datepickerOptions = {
+              <br>
+              defaultDate: "+1w",
+              <br>
+              changeMonth: true,
+              <br>
+              changeYear: true
+              <br>
+              };
+              <br>
+              <br>
+              $( "#from_input" ).datepicker( $.extend(datepickerOptions, {
+              <br>
+                onSelect: function( selectedDate ) {
+                <br>
+                  $( "#to_input" ).datepicker( "option", "minDate", selectedDate );
+                  <br>
+                }
+                <br>
+              }));
+              <br>
+              <br>
+              $( "#to_input" ).datepicker( $.extend(datepickerOptions, {
+              <br>
+                onSelect: function( selectedDate ) {
+                <br>
+                  $( "#from_input" ).datepicker( "option", "maxDate", selectedDate );
+                  <br>
+                }
+                <br>
+              }));
+              <br>
+            });
+            <br>
+          </code>
+          <br/><br/>
+
+          <code>
+            &#60;form class="form-horizontal"&#62;
+            <br>
+              &#60;div class="form-group"&#62;
+              <br>
+                &#60;label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label"&#62;
+                <br>
+                  &#60;span&#62;De&#60;/span&#62;
+                  <br>
+                &#60;/label&#62;
+                <br>
+                &#60;div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"&#62;
+                <br>
+                  &#60;div class="ui-date no-margin"&#62;
+                  <br>
+                    &#60;input id="from_input" class="ui-date-input" ng-model="datePicker" mask="date" placeholder="Buscar data"&#62;
+                    <br>
+                    &#60;span class="ui-date-calendar-icon"&#62;&#60;/span&#62;
+                    <br>
+                  &#60;/div&#62;
+                  <br>
+                &#60;/div&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+              &#60;div class="form-group"&#62;
+              <br>
+                &#60;label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label"&#62;
+                <br>
+                  &#60;span&#62;Até&#60;/span&#62;
+                  <br>
+                &#60;/label&#62;
+                <br>
+                &#60;div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"&#62;
+                <br>
+                  &#60;div class="ui-date no-margin"&#62;
+                  <br>
+                    &#60;input id="to_input" class="ui-date-input" ng-model="datePicker" mask="date" placeholder="Buscar data"&#62;
+                    <br>
+                    &#60;span class="ui-date-calendar-icon"&#62;&#60;/span&#62;
+                    <br>
+                  &#60;/div&#62;
+                  <br>
+                &#60;/div&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+            &#60;/form&#62;
+            <br>
+          </code>
+          <br><br>
+
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">
+                <span>De</span>
+              </label>
+              <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                <div class="ui-date no-margin">
+                  <input id="from_input" class="ui-date-input" ng-model="datePicker" mask="date" placeholder="Buscar data">
+                  <span class="ui-date-calendar-icon"></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">
+                <span>Até</span>
+              </label>
+              <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                <div class="ui-date no-margin">
+                  <input id="to_input" class="ui-date-input" ng-model="datePicker" mask="date" placeholder="Buscar data">
+                  <span class="ui-date-calendar-icon"></span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(function(){
+      $( "#datepicker" ).datepicker();
+    });
+  </script>
+
+  <script type="text/javascript">
+  $(function(){
+    var datepickerOptions = {
+      defaultDate: "+1w",
+      changeMonth: true,
+      changeYear: true
+    };
+
+    $( "#from_input" ).datepicker( $.extend(datepickerOptions, {
+      onSelect: function( selectedDate ) {
+        $( "#to_input" ).datepicker( "option", "minDate", selectedDate );
+      }
+    }));
+
+    $( "#to_input" ).datepicker( $.extend(datepickerOptions, {
+      onSelect: function( selectedDate ) {
+        $( "#from_input" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    }));
+  });
+  </script>
+</div>

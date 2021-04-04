@@ -1,0 +1,161 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+	<!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+	<p>Central de Notificações</p>
+</div>
+<div class="page-content">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>
+					Objetivo
+					</h4>
+					<p>
+						A central de notificações tem como objetivo a centralização de notificações entre os sistemas da RNP. Toda e qualquer notificação despachada pelo sistema de notificações ficará disponível no componente.
+					</p>
+				</div>
+				<div class="panel-body">
+					<div class="row-fluid">
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<h4>
+							Implementação
+							</h4>
+							<p>A central de notificações deve estar sempre na barra de navegação da aplicação. Existem algumas premissas que devem ser adotadas para que o visual do componente seja igual ao exibido no exemplo ao lado.</p>
+							<ul>
+								<li>O ícone da central de notificações deve ser sempre o <code>glyphicon glyphicon-inbox</code></li>
+								<li>O ícone deve ser alinhado a direita e ficar sempre ao lado do link de conta do usuário.</li>
+								<li>O contador de notificações deve ser sempre alinhado ao centro, utilizando a cor <code>$dangerColor</code></li>
+							</ul>
+							<h4>Marcação do menu e contador de notificações</h4>
+							<code>
+							&#60;a href="#" class="dropdown-toggle notification-toggle" data-toggle="dropdown"&#62;
+							<br>
+							&#60;i class="glyphicon glyphicon-inbox"&#62;&#60;/i&#62;
+							<br>
+							&#60;span class="notification-counter"&#62;4&#60;/span&#62;
+							<br>
+							&#60;b class="caret"&#62;&#60;/b&#62;
+							<br>
+							&#60;/a&#62;
+							<br>
+							</code>
+							<br/><br/>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<div class="navbar navbar-default">
+								<div class="">
+									<ul class="nav navbar-nav navbar-right">
+										<li class="dropdown" data-toggle="dropdown">
+											<a href="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+												<i class="glyphicon glyphicon-user"></i>
+												RNP User
+												<b class="caret"></b>
+											</a>
+											<ul class="dropdown-menu">
+												<li>
+													<a>Configurações</a>
+												</li>
+												<li>
+													<a data-action="close-application" href="">Sair</a>
+												</li>
+											</ul>
+										</li>
+									</ul>
+									<ul class="nav navbar-nav navbar-right">
+										<li class="dropdown notification-center" data-toggle="dropdown">
+											<a href="" class="dropdown-toggle notification-toggle" aria-haspopup="true" aria-expanded="false">
+												<i class="glyphicon glyphicon-inbox"></i>
+												<span class="notification-counter">4</span>
+												<b class="caret"></b>
+											</a>
+											<div class="notifications-menu dropdown-menu">
+												<div class="header">
+													<a ui-sref="webapp.bibliotecas.notification" class="all-notifications" href="#/bibliotecas/notification">Central de notificações</a>
+													<span class="header-title">Notificações</span>
+												</div>
+												<div class="notifications">
+													<a href="/sesc-guideline/guideline/componentes/notification_center" class="notification notification-unread">
+														<div class="notification-block">
+															<small class="notification-date">10 minutos atrás</small>
+															<h6 class="notification-title">Inclusão da central de notificações</h6>
+															<p class="notification-text">A Central de Notificações contém todas as notificações do sistema, facilitando assim quando houverem muitas notificações a serem vistas pelo usuário.
+															Esse primeiro link leva diretamente a Central de Notificações.</p>
+														</div>
+													</a>
+													<a href="/sesc-guideline/guideline/componentes/notification_center" class="notification notification-unread">
+														<div class="notification-block">
+															<small class="notification-date">20 minutos atrás</small>
+															<h6 class="notification-title">Inclusão da central de notificações</h6>
+															<p class="notification-text">Esse é um exemplo de uma notificação isolada, esse link leva direto a tela do sistema ao qual se refere a notificação..</p>
+														</div>
+													</a>
+													<a href="/sesc-guideline/guideline/componentes/notification_center" class="notification notification-unread">
+														<div class="notification-block">
+															<small class="notification-date">30 minutos atrás</small>
+															<h6 class="notification-title">Inclusão da central de notificações</h6>
+															<p class="notification-text">Esse é um exemplo de uma notificação isolada, esse link leva direto a tela do sistema ao qual se refere a notificação..</p>
+														</div>
+													</a>
+													<a href="/sesc-guideline/guideline/componentes/notification_center" class="notification notification-unread">
+														<div class="notification-block">
+															<small class="notification-date">40 minutos atrás</small>
+															<h6 class="notification-title">Inclusão da central de notificações</h6>
+															<p class="notification-text">Esse é um exemplo de uma notificação isolada, esse link leva direto a tela do sistema ao qual se refere a notificação..</p>
+														</div>
+													</a>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<h4>Marcação dos itens de notificação</h4>
+							<code>
+							&#60;div class="notifications-menu dropdown-menu"&#62;
+							<br>
+							&#60;div class="header"&#62;
+							<br>
+							&#60;a href="url-para-central-de-notificações" class="all-notifications"&#62;Central de notificações&#60;/
+							<br>a&#62;
+							&#60;span class="header-title"&#62;Notificações&#60;/span&#62;
+							<br>
+							&#60;/div&#62;
+							<br>
+							&#60;div class="notifications"&#62;
+							<br>
+							&#60;a href="url-para-central-de-notificações" class="notification notification-unread"&#62;
+							<br>
+							&#60;div class="notification-block"&#62;
+							<br>
+							&#60;small class="notification-date"&#62;10 minutos atrás&#60;/small&#62;
+							<br>
+							&#60;h6 class="notification-title"&#62;Inclusão da central de notificações&#60;/h6&#62;
+							<br>
+							&#60;p class="notification-text"&#62;A Central de Notificações contém todas as notificações do
+							<br>sistema, facilitando assim quando houverem muitas
+							notificações a serem vistas pelo usuário. Esse primeiro link leva diretamente a Central de
+							<br>Notificações.&#60;/p&#62;
+							&#60;/div&#62;
+							<br>
+							&#60;/a&#62;
+							<br>
+							.
+							<br>
+							.
+							<br>
+							.
+							<br>
+							&#60;/div&#62;
+							</code>
+							<br>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

@@ -1,0 +1,115 @@
+$rnp-calendar-popup-border-color : #ccc;
+$rnp-calendar-popup-arrow-size   : 10px;
+
+.rnp-calendar-popup {
+  background    : #fff;
+  border        : 1px solid $rnp-calendar-popup-border-color;
+  margin-bottom : 5px;
+  padding       : 8px;
+  position      : absolute;
+  z-index       : 999999;
+
+  @include borderRadius(3px);
+
+  &.center-popup {
+    @include boxShadow(0 8px 12px #999);
+
+    &:before, &:after {
+      display : none;
+    }
+
+  }
+
+  &:before {
+    border           : $rnp-calendar-popup-arrow-size+2 solid transparent;
+    border-top-color : $rnp-calendar-popup-border-color;
+    content          : '';
+    height           : $rnp-calendar-popup-arrow-size+2;
+    width            : $rnp-calendar-popup-arrow-size+2;
+    left             : 50%;
+    margin-left      : -($rnp-calendar-popup-arrow-size+2);
+    position         : absolute;
+    top              : 100%;
+  }
+
+  &:after {
+    border           : $rnp-calendar-popup-arrow-size solid transparent;
+    border-top-color : #fff;
+    content          : '';
+    height           : $rnp-calendar-popup-arrow-size;
+    width            : $rnp-calendar-popup-arrow-size;
+    left             : 50%;
+    margin-left      : -($rnp-calendar-popup-arrow-size);
+    position         : absolute;
+    top              : 100%;
+  }
+
+  .rnp-calendar-popup-title {
+    font-size : 16px;
+    margin    : 0 0 5px 0;
+    padding   : 0 20px 0 0;
+  }
+
+  .rnp-calendar-popup-close {
+    cursor   : pointer;
+    height   : 18px;
+    position : absolute;
+    right    : 5px;
+    top      : 5px;
+    width    : 18px;
+
+    &:before {
+      color       : #666;
+      content     : "\f00d";
+      display     : block;
+      font-family : 'FontAwesome';
+      font-style  : normal;
+      height      : 100%;
+      text-align  : center;
+      width       : 100%;
+    }
+
+    &:active:before {
+      color : #000;
+    }
+  }
+
+  .rnp-calendar-popup-date {
+    font-size     : 11px;
+    margin-bottom : 0;
+
+    &+.rnp-calendar-popup-date {
+      margin-bottom : 10px;
+    }
+  }
+
+  .rnp-calendar-popup-label {
+    display     : inline-block;
+    font-size   : 14px;
+    font-weight : 700;
+    width       : 70px;
+  }
+
+  .rnp-calendar-popup-fields {
+    margin   : 0 auto 20px;
+    overflow : auto;
+
+    .rnp-calendar-popup-field {
+      float  : left;
+      margin : 5px auto;
+      width  : 100%;
+
+      p, span {
+        margin-bottom : 5px;
+
+        &:last-child {
+          margin-bottom : 0;
+        }
+      }
+
+      input, select {
+        width : 200px;
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+<div class="modal-add-contact">
+
+   <div>
+      <div class="btn-group no-margin">
+        <button
+          class="btn btn-secondary-color margin-bottom"
+          type="button"
+          ng-click="openModal()">
+           Adicionar
+        </button>
+      </div>
+
+      <!-- If output length > 0 -->
+      <table ng-show="output.length > 0" class="table">
+        <tr>
+          <th ng-bind="subject"></th>
+        </tr>
+
+        <tr ng-repeat="item in output track by $index">
+          <td class="modal-add-contact-table-line">
+            <span ng-bind="item.nome"></span>,
+            <span ng-bind="item.email"></span>,
+            <span ng-bind="item.telefone"></span>
+            <span class="modal-add-contact-remove-item glyphicon glyphicon-remove" ng-click="remover(item)"></span>
+          </td>
+        </tr>
+      </table>
+   </div>
+</div>

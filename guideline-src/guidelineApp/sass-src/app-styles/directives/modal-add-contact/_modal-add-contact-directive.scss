@@ -1,0 +1,18 @@
+.modal-add-contact {
+  .modal-add-contact-table-line {
+    .modal-add-contact-remove-item {
+      color     : #999;
+      cursor    : pointer;
+      float     : right;
+      font-size : 18px;
+
+      &:hover {
+        color : #666;
+      }
+
+      &:active {
+        color : #333;
+      }
+    }
+  }
+}

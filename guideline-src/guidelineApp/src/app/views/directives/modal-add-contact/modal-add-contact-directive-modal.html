@@ -1,0 +1,77 @@
+<div class="modal-add-contact">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Adicionar {{subject}}
+    </h4>
+  </div>
+  <div class="modal-body">
+    <div class="modal-wrapper">
+
+      <form class="form-horizontal" name="form" novalidate>
+          <!-- Nome -->
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-4 control-label required" for="nome">
+                <span>Nome</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="nome" ng-model="contact.nome" required
+                ng-class="{
+                  'has-error' : form['nome'].$invalid && !form['nome'].$pristine
+                }">
+                <p class="col-md-12" ng-class="{'help-block': true, 'help-error': true}"
+                  ng-show="form['nome'].$error.required && !form['nome'].$pristine" translate>
+                  form.CAMPO_OBRIGATORIO
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-4 control-label required" for="email">
+                <span>Email</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="email" class="form-control" name="email" ng-model="contact.email" required
+                ng-class="{
+                  'has-error' : form['email'].$invalid && !form['email'].$pristine
+                }">
+                <p class="col-md-12" ng-class="{'help-block': true, 'help-error': true}"
+                  ng-show="form['email'].$error.required && !form['email'].$pristine" translate>
+                  form.CAMPO_OBRIGATORIO
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telefone -->
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-4 control-label required" for="telefone">
+                <span>Telefone</span>
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="telefone" ng-model="contact.telefone" required
+                ng-class="{
+                  'has-error' : form['telefone'].$invalid && !form['telefone'].$pristine
+                }">
+                <p class="col-md-12" ng-class="{'help-block': true, 'help-error': true}"
+                  ng-show="form['telefone'].$error.required && !form['telefone'].$pristine" translate>
+                  form.CAMPO_OBRIGATORIO
+                </p>
+              </div>
+            </div>
+          </div>
+      </form>
+
+    </div>
+    <div class="form-group panel-footer">
+      <div class="pull-right">
+        <button type="button" class="btn btn-secondary-color" ng-click="cancelarPopup()" translate>geral.CANCELAR</button>
+        <button type="button" class="btn btn-primary-color " ng-disabled="form.$invalid" ng-click="salvarPopup(contact)" translate>geral.SALVAR</button>
+      </div>
+    </div>
+  </div>
+</div>

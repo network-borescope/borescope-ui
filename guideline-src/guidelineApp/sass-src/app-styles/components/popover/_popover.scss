@@ -1,0 +1,55 @@
+.popover-icon {
+  background : #ddd;
+  display    : inline-block;
+  height     : 16px;
+  margin     : -4px 0 -4px 4px;
+  position   : relative;
+  width      : 16px;
+
+  @include borderRadius(100%);
+
+  &:after {
+    content    : "?";
+    color      : #999;
+    display    : inline-block;
+    font-style : normal;
+    height     : 100%;
+    text-align : center;
+    width      : 100%;
+  }
+}
+
+.popover {
+  background : #333;
+  color      : #fff;
+  max-width  : 200px;
+  text-align : center;
+
+  .popover-content {
+    padding : 5px 8px;
+  }
+
+  &.bottom {
+    & > .arrow, & > .arrow:after {
+      border-bottom-color : #333;
+    }
+  }
+
+  &.top {
+    & > .arrow, & > .arrow:after {
+      border-top-color : #333;
+    }
+  }
+
+  &.left {
+    & > .arrow, & > .arrow:after {
+      border-left-color : #333;
+    }
+  }
+
+  &.right {
+    & > .arrow, & > .arrow:after {
+      border-right-color : #333;
+    }
+  }
+}

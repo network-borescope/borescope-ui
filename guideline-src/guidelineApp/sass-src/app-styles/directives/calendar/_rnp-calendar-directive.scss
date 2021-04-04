@@ -1,0 +1,148 @@
+/*** Calendar ***/
+$calendar-border-color        : #ededed;
+$calendar-bg-event-bgcolor    : #feeeee;
+$calendar-bg-event-text-color : #700;
+
+.calendar-container {
+  float   : left;
+  padding : 0 10px;
+  width   : 80%;
+}
+
+#calendar {
+  float         : left;
+  position      : relative;
+  width         : 100%;
+}
+
+.indent {
+  margin-left : 10px;
+}
+
+.fc-view {
+  border: 1px solid $calendar-border-color;
+  overflow: hidden;
+
+  @include borderRadius(3px);
+
+  table {
+    // border-collapse : separate;
+  }
+}
+
+.fc-unthemed {
+  th {
+    height      : 32px;
+    line-height : 32px;
+
+    &.fc-sun {
+      &.fc-widget-header {
+        @include borderRadius(3px 0 0 0);
+      }
+    }
+  }
+
+  td {
+    border-color: $calendar-border-color
+  }
+
+  .fc-today {
+    &.fc-widget-content {
+      background : #f6f6f6 !important;
+      position   : relative;
+
+      &:after {
+        content    : '';
+        background : #ccc;
+        display    : block;
+        height     : 2px;
+        left       : 0;
+        position   : absolute;
+        top        : 0;
+        width      : 100%;
+        z-index    : 9999;
+      }
+    }
+  }
+}
+
+.fc-content-skeleton {
+  pointer-events : none;
+
+  table {
+    tbody {
+      pointer-events : auto;
+    }
+  }
+}
+
+.fc-event {
+  font-size : 10px;
+  padding   : 0 4px;
+
+  @include borderRadius(15px !important);
+}
+
+.fc-time-grid-event {
+  padding : 4px;
+}
+
+.fc-event-time {
+  font-weight : 400 !important;
+}
+
+.fc-event-waiting-aproval-icon {
+  &:before {
+    content: "\f071";
+    color: #000;
+    font-family: FontAwesome;
+    margin-right: 2px;
+  }
+}
+
+.fc-bgevent {
+  background : $calendar-bg-event-bgcolor !important;
+  opacity    : 1 !important;
+}
+
+.fc-bgevent-title {
+  box-sizing: border-box;
+  // color   : $calendar-bg-event-text-color !important;
+  display : inline-block;
+  overflow: hidden;
+  padding : 3px 20px 0px 4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+// Visão de Mês
+td.fc-widget-header {
+    border-width        : 0;
+    border-bottom-width : 1px;
+  }
+
+.fc-month-view {
+  td.fc-widget-content {
+    border-width : 0;
+
+    & > .fc-day-grid-container {
+      td.fc-day {
+        border-width : 1px;
+      }
+    }
+  }
+}
+
+// Visão de Semana
+.fc-agendaWeek-view {
+  td.fc-widget-content {
+    &:first-child {
+      border-width : 0;
+    }
+  }
+
+  td.fc-axis {
+    border-width : 1px !important;
+  }
+}

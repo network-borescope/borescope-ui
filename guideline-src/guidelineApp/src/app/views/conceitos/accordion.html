@@ -1,0 +1,405 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+	<!-- <button type="button" class="btn btn-secondary-color glyphglyphicon glyphicon glyphglyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+	<p>Accordion</p>
+</div>
+<div class="page-content">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>Links</h4>
+					<ul>
+						<li>
+							<a href="//jqueryui.com/">jQuery UI Website</a>
+						</li>
+						<li>
+							<a href="//jqueryui.com/demos/accordion/">Accordion Documentation</a>
+						</li>
+					</ul>
+				</div>
+				<div class="panel-body">
+					<h3>Accordion básico</h3>
+					<code>
+						&#60;div id="accordion"&#62;
+						<br>
+							&#60;h3&#62;Seção 1&#60;/h3&#62;
+							<br>
+							&#60;div&#62;
+							<br>
+								&#60;p&#62;
+								<br>
+									Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+									<br>
+									ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+									<br>
+									amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+									<br>
+									odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+									<br>
+								&#60;/p&#62;
+								<br>
+							&#60;/div&#62;
+							<br>
+							&#60;h3&#62;Seção 2&#60;/h3&#62;
+							<br>
+							&#60;div&#62;
+							<br>
+								&#60;p&#62;
+								<br>
+									Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+									<br>
+									purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+									<br>
+									velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+									<br>
+									suscipit faucibus urna.
+									<br>
+								&#60;/p&#62;
+								<br>
+							&#60;/div&#62;
+							<br>
+							&#60;h3&#62;Seção 3&#60;/h3&#62;
+							<br>
+							&#60;div&#62;
+							<br>
+								&#60;p&#62;
+								<br>
+									Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+									<br>
+									Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+									<br>
+									ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+									<br>
+									lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+									<br>
+								&#60;/p&#62;
+								<br>
+								&#60;ul&#62;
+								<br>
+									&#60;li&#62;List item one&#60;/li&#62;
+									<br>
+									&#60;li&#62;List item two&#60;/li&#62;
+									<br>
+									&#60;li&#62;List item three&#60;/li&#62;
+									<br>
+								&#60;/ul&#62;
+								<br>
+							&#60;/div&#62;
+							<br>
+							&#60;h3&#62;Seção 4&#60;/h3&#62;
+							<br>
+							&#60;div&#62;
+							<br>
+								&#60;p&#62;
+								<br>
+									Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+									<br>
+									et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+									<br>
+									faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+									<br>
+									mauris vel est.
+									<br>
+								&#60;/p&#62;
+								<br>
+								&#60;p&#62;
+								<br>
+									Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+									<br>
+									Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+									<br>
+									inceptos himenaeos.
+									<br>
+								&#60;/p&#62;
+								<br>
+							&#60;/div&#62;
+							<br>
+						&#60;/div&#62;
+						<br>
+					</code>
+					<br><br>
+					<code>
+						$(function() {
+							<br>
+							$( "#accordion" ).accordion();
+							<br>
+						});
+					</code>
+					<br><br>
+					<div id="accordion">
+						<h3>Seção 1</h3>
+						<div>
+							<p>
+								Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+								ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+								amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+								odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+							</p>
+						</div>
+						<h3>Seção 2</h3>
+						<div>
+							<p>
+								Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+								purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+								velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+								suscipit faucibus urna.
+							</p>
+						</div>
+						<h3>Seção 3</h3>
+						<div>
+							<p>
+								Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+								Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+								ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+								lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+							</p>
+							<ul>
+								<li>List item one</li>
+								<li>List item two</li>
+								<li>List item three</li>
+							</ul>
+						</div>
+						<h3>Seção 4</h3>
+						<div>
+							<p>
+								Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+								et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+								faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+								mauris vel est.
+							</p>
+							<p>
+								Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+								Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+								inceptos himenaeos.
+							</p>
+						</div>
+					</div>
+					<hr>
+					<h3>Accordion com Reordenação</h3>
+					<code>
+						&#60;div id="accordion2"&#62;
+						<br>
+						&#60;div class="group"&#62;
+						<br>
+							&#60;h3&#62;Seção 1&#60;/h3&#62;
+							<br>
+							&#60;div&#62;
+							<br>
+								&#60;p&#62;
+								<br>
+									Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+									<br>
+									ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+									<br>
+									amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+									<br>
+									odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+									<br>
+								&#60;/p&#62;
+								<br>
+							&#60;/div&#62;
+							<br>
+						&#60;/div&#62;
+						<br>
+						&#60;div class="group"&#62;
+						<br>
+							&#60;h3&#62;Seção 2&#60;/h3&#62;
+							<br>
+							&#60;div&#62;
+							<br>
+								&#60;p&#62;
+								<br>
+									Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+									<br>
+									purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+									<br>
+									velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+									<br>
+									suscipit faucibus urna.
+									<br>
+								&#60;/p&#62;
+								<br>
+							&#60;/div&#62;
+							<br>
+						&#60;/div&#62;
+						<br>
+						&#60;div class="group"&#62;
+						<br>
+							&#60;h3&#62;Seção 3&#60;/h3&#62;
+							<br>
+							&#60;div&#62;
+							<br>
+								&#60;p&#62;
+								<br>
+									Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+									<br>
+									Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+									<br>
+									ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+									<br>
+									lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+									<br>
+								&#60;/p&#62;
+								<br>
+								&#60;ul&#62;
+								<br>
+									&#60;li&#62;List item one&#60;/li&#62;
+									<br>
+									&#60;li&#62;List item two&#60;/li&#62;
+									<br>
+									&#60;li&#62;List item three&#60;/li&#62;
+									<br>
+								&#60;/ul&#62;
+								<br>
+							&#60;/div&#62;
+							<br>
+						&#60;/div&#62;
+						<br>
+						&#60;div class="group"&#62;
+						<br>
+							&#60;h3&#62;Seção 4&#60;/h3&#62;
+							<br>
+							&#60;div&#62;
+							<br>
+								&#60;p&#62;
+								<br>
+									Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+									<br>
+									et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+									<br>
+									faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+									<br>
+									mauris vel est.
+									<br>
+								&#60;/p&#62;
+								<br>
+								&#60;p&#62;
+								<br>
+									Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+									<br>
+									Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+									<br>
+									inceptos himenaeos.
+									<br>
+								&#60;/p&#62;
+								<br>
+							&#60;/div&#62;
+							<br>
+						&#60;/div&#62;
+						<br>
+					&#60;/div&#62;
+					<br>
+					</code>
+					<br><br>
+					<code>
+						$( "#accordion2" )
+						<br>
+				      .accordion({
+				      <br>
+				        header: "> div > h3"
+				        <br>
+				      })
+				      <br>
+				      .sortable({
+				      <br>
+				        axis: "y",
+				        <br>
+				        handle: "h3",
+				        <br>
+				        stop: function( event, ui ) {
+				        <br>
+				          <br>
+				          ui.item.children( "h3" ).triggerHandler( "focusout" );
+				          <br>
+				          $( this ).accordion( "refresh" );
+				          <br>
+				        }
+				        <br>
+				      });
+				      <br>
+					</code>
+					<br><br>
+					<div id="accordion2">
+						<div class="group">
+							<h3>Seção1</h3>
+							<div>
+								<p>
+									Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+									ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+									amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+									odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+								</p>
+							</div>
+						</div>
+						<div class="group">
+							<h3>Seção 2</h3>
+							<div>
+								<p>
+									Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+									purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+									velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+									suscipit faucibus urna.
+								</p>
+							</div>
+						</div>
+						<div class="group">
+							<h3>Seção 3</h3>
+							<div>
+								<p>
+									Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+									Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+									ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+									lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+								</p>
+								<ul>
+									<li>List item one</li>
+									<li>List item two</li>
+									<li>List item three</li>
+								</ul>
+							</div>
+						</div>
+						<div class="group">
+							<h3>Seção 4</h3>
+							<div>
+								<p>
+									Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+									et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+									faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+									mauris vel est.
+								</p>
+								<p>
+									Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+									Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+									inceptos himenaeos.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		$( "#accordion" ).accordion();
+
+		$( "#accordion2" )
+      .accordion({
+        header: "> div > h3"
+      })
+      .sortable({
+        axis: "y",
+        handle: "h3",
+        stop: function( event, ui ) {
+          // IE doesn't register the blur when sorting
+          // so trigger focusout handlers to remove .ui-state-focus
+          ui.item.children( "h3" ).triggerHandler( "focusout" );
+ 
+          // Refresh accordion to handle new order
+          $( this ).accordion( "refresh" );
+        }
+      });
+	});
+</script>

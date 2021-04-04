@@ -1,0 +1,66 @@
+@import "../utils/variables";
+
+/**
+ * A font size switcher that cant increment and decrement the font's size of a specfic container
+ * children
+ *
+ * .font-large     - Increase children font size by 1.2
+ * .font-xlarge    - Increase children font size by 1.4
+ */
+@mixin update-children-font-size($newLineHeight, $newFontSize){
+    font-size: $newFontSize;
+    line-height: $newLineHeight;
+    p, td {
+        line-height: $newLineHeight * 1.2;
+    }
+
+    h1,
+    h2,
+    h3 { line-height: $newLineHeight * 2; }
+
+    h1 { font-size: $newFontSize * 2.1428571429; }
+    h2 { font-size: $newFontSize * 1.2857142857; }
+    h3 { font-size: $newFontSize * 1; }
+    h4 { font-size: $newFontSize * 1.25; }
+    h5 { font-size: $newFontSize; }
+    h6 { font-size: $newFontSize * 0.85; }
+
+    h1 small { font-size: $newFontSize * 1.75; }
+    h2 small { font-size: $newFontSize * 1.25; }
+    h3 small { font-size: $newFontSize; }
+    h4 small { font-size: $newFontSize; }
+
+    code, pre {
+        font-size: 14px;
+    }
+
+    blockquote p {
+        font-size: $newFontSize * 0.899;
+        margin-bottom: 5px;
+        line-height: $newLineHeight * 1.2;
+    }
+
+    .footer {
+        p {
+            font-size: 12px;
+        }
+    }
+
+    .page-header {
+        @extend .clearfix;
+        padding-top: $newLineHeight;
+        padding-bottom: $newLineHeight;
+        margin: 0 0 $newLineHeight 0;
+
+        h1 {
+            line-height: 1.3;
+        }
+    }
+}
+
+.font-large  {
+    @include update-children-font-size($baseLineHeight * 1.2, $baseFontSize * 1.2);
+}
+.font-xlarge  {
+    @include update-children-font-size($baseLineHeight * 1.4, $baseFontSize * 1.4);
+}

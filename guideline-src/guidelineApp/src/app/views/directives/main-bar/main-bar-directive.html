@@ -1,0 +1,234 @@
+<div class="main-bar" id="main-bar">
+
+	<div class="row">
+		<i class="rnp-logo"></i>
+
+		<div id="main-bar-menu-content" class="main-bar-menu-content">
+			<ul class="main-bar-menu">
+				<li class="main-bar-item main-bar-config">
+					<i class="glyphicon glyphicon-cog"></i>
+					<div>
+						<ul>
+							<li>Exemplo de opção</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+
+			<select class="main-bar-select" name="menuItem" ng-model="menuItem"
+				ng-options="item.state as item.nome for item in menuList">
+				<option value="">Navegar</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="row guideline-nav-content">
+		<div class="navbar navbar-default">
+			<div class="container">
+				<ul class="nav navbar-nav">
+					<li ng-class="{ active: $root.currentState === 'inicio' }">
+						<a ui-sref="webapp.inicio" >Início</a>
+					</li>
+					<li class="dropdown" data-toggle="dropdown">
+						<a href class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+							Identidade <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li ng-class="{ active: $root.currentState === 'identidade.logo' }">
+								<a ui-sref="webapp.identidade.logo" >Logos na impressão</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'identidade.cores' }">
+								<a ui-sref="webapp.identidade.cores" >Cores</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'identidade.wireframe' }">
+								<a ui-sref="webapp.identidade.wireframe">Wireframe</a>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown" data-toggle="dropdown">
+						<a href class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+							Conceitos <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.botoes' }">
+								<a ui-sref="webapp.conceitos.botoes">Botões</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.texto' }">
+								<a ui-sref="webapp.conceitos.texto">Textos</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.iconografia' }">
+								<a ui-sref="webapp.conceitos.iconografia">Iconografia</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.navegacao' }">
+								<a ui-sref="webapp.conceitos.navegacao">Navegação</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.tabelas' }">
+								<a ui-sref="webapp.conceitos.tabelas">Tabelas</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.tabs' }">
+								<a ui-sref="webapp.conceitos.tabs">Abas</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.accordion' }">
+								<a ui-sref="webapp.conceitos.accordion">Accordion</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.inputs' }">
+								<a ui-sref="webapp.conceitos.inputs">Inputs e Selects</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.modal' }">
+								<a ui-sref="webapp.conceitos.modal">Modais</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.mensageria' }">
+								<a ui-sref="webapp.conceitos.mensageria">Mensageria</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.formulario' }">
+								<a ui-sref="webapp.conceitos.formulario">Formulário</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.tooltip' }">
+								<a ui-sref="webapp.conceitos.tooltip">Tooltip</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.conceitos.popover' }">
+								<a ui-sref="webapp.conceitos.popover">Popover</a>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown" data-toggle="dropdown">
+						<a href class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+							Componentes <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li ng-class="{ active: $root.currentState === 'webapp.bibliotecas.datepicker' }">
+								<a ui-sref="webapp.bibliotecas.datepicker">Datepicker</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.bibliotecas.mascara' }">
+								<a ui-sref="webapp.bibliotecas.mascara">Máscara</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.bibliotecas.validation' }">
+								<a ui-sref="webapp.bibliotecas.validation">Validação</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.bibliotecas.textarea' }">
+								<a ui-sref="webapp.bibliotecas.textarea">Textarea Limiter</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.bibliotecas.fullcalendar' }">
+								<a ui-sref="webapp.bibliotecas.fullcalendar">Fullcalendar</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.bibliotecas.select2' }">
+								<a ui-sref="webapp.bibliotecas.select2">Select2</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.bibliotecas.datatables' }">
+								<a ui-sref="webapp.bibliotecas.datatables">DataTables</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.bibliotecas.autocomplete' }">
+								<a ui-sref="webapp.bibliotecas.autocomplete">Autocomplete</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.bibliotecas.notification' }">
+								<a ui-sref="webapp.bibliotecas.notification">Central de Notificação</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.bibliotecas.closeapp' }">
+								<a ui-sref="webapp.bibliotecas.closeapp">Fechar Aplicação</a>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown" data-toggle="dropdown">
+						<a href class="dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">
+							Releases e Build <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li ng-class="{ active: $root.currentState === 'webapp.builds.projeto' }">
+								<a ui-sref="webapp.builds.projeto">Construindo o projeto</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.builds.release' }">
+								<a ui-sref="webapp.builds.release">Releases</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.builds.download' }">
+								<a ui-sref="webapp.builds.download">Download</a>
+							</li>
+							<li ng-class="{ active: $root.currentState === 'webapp.builds.versionamento' }">
+								<a ui-sref="webapp.builds.versionamento">Versionamento</a>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown" data-toggle="dropdown">
+						<a href class="dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">
+							Sistemas <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li ng-class="{ active: $root.currentState === 'webapp.sistemas.datepicker' }">
+								<a ui-sref="webapp.sistemas.compatibilidade">Compatibilidade</a>
+							</li>
+						</ul>
+					</li>
+					<li ng-class="{ active: $root.currentState === 'webapp.standards.definicao' }">
+						<a ui-sref="webapp.standards.definicao">
+							Inclusão de Padrões e Definições
+						</a>
+					</li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right hidden-xs">
+					<li class="dropdown" data-toggle="dropdown">
+						<a href class="dropdown-toggle">
+						 <i class="glyphicon glyphicon-user"></i>
+						 RNP User
+						 <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a>Configurações</a>
+							</li>
+							<li>
+								<a data-action="close-application" href>Sair</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right hidden-xs">
+					<li class="dropdown notification-center" data-toggle="dropdown">
+						 <a href class="dropdown-toggle notification-toggle">
+							 <i class="glyphicon glyphicon-inbox"></i>
+							 <span class="notification-counter">4</span>
+							 <b class="caret"></b>
+						</a>
+					<div class="notifications-menu dropdown-menu">
+						 <div class="header">
+							  <a ui-sref="webapp.bibliotecas.notification" class="all-notifications">Central de notificações</a>
+							  <span class="header-title">Notificações</span>
+						 </div>
+						 <div class="notifications">
+							  <a class="notification notification-unread">
+									<div class="notification-block">
+										 <small class="notification-date">10 minutos atrás</small>
+										 <h6 class="notification-title">Inclusão da central de notificações</h6>
+										 <p class="notification-text">A Central de Notificações contém todas as notificações do sistema, facilitando assim quando houverem muitas notificações a serem vistas pelo usuário.
+					Esse primeiro link leva diretamente a Central de Notificações.</p>
+									</div>
+							  </a>
+							  <a class="notification notification-unread">
+									<div class="notification-block">
+										 <small class="notification-date">20 minutos atrás</small>
+										 <h6 class="notification-title">Inclusão da central de notificações</h6>
+										 <p class="notification-text">Esse é um exemplo de uma notificação isolada, esse link leva direto a tela do sistema ao qual se refere a notificação..</p>
+									</div>
+							  </a>
+							  <a class="notification notification-unread">
+									<div class="notification-block">
+										 <small class="notification-date">30 minutos atrás</small>
+										 <h6 class="notification-title">Inclusão da central de notificações</h6>
+										 <p class="notification-text">Esse é um exemplo de uma notificação isolada, esse link leva direto a tela do sistema ao qual se refere a notificação..</p>
+									</div>
+							  </a>
+							  <a class="notification notification-unread">
+									<div class="notification-block">
+										 <small class="notification-date">40 minutos atrás</small>
+										 <h6 class="notification-title">Inclusão da central de notificações</h6>
+										 <p class="notification-text">Esse é um exemplo de uma notificação isolada, esse link leva direto a tela do sistema ao qual se refere a notificação..</p>
+									</div>
+							  </a>
+						 </div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

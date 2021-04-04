@@ -1,0 +1,157 @@
+$btn-font-size              : 12px;
+$btn-font-weight            : 600;
+$btn-height                 : 34px;
+$btn-line-height            : 12px;
+$btn-padding                : 6px 24px;
+$btn-primary-color          : $primaryColor;
+$btn-primary-text-color     : #ffffff;
+$btn-secondary-color        : #f4f4f4;
+$btn-secondary-text-color   : #666666;
+$btn-secondary-border-color : #666666;
+$btn-delete-color-1         : #cb0035;
+$btn-delete-color-2         : #af112b;
+$btn-delete-text-color      : #ffffff;
+$btn-save-color-1           : #0030cb;
+$btn-save-color-2           : #113eaf;
+$btn-save-text-color        : #ffffff;
+$btn-cancel-color-1         : #eeeeee;
+$btn-cancel-color-2         : #cccccc;
+$btn-cancel-text-color      : #666666;
+$btn-cancel-border-color    : #cccccc;
+
+.btn {
+  font-size   : $btn-font-size;
+  font-weight : $btn-font-weight;
+  height      : $btn-height;
+  line-height : $btn-line-height;
+  outline     : none;
+  padding     : $btn-padding;
+
+  @include borderRadius($btnBorderRadius);
+
+  &:hover {
+    outline     : none;
+  }
+
+  &:active {
+    outline     : none;
+
+    @include boxShadow(none);
+  }
+
+  &.full {
+    width : 100%;
+  }
+
+  &.icon {
+    font-size : 1.8em;
+    height    : 34px;
+    margin    : 0;
+    padding   : 0;
+    width     : 34px;
+  }
+
+  &.btn-primary-color {
+    background : $btn-primary-color;
+    color      : $btn-primary-text-color;
+
+    &:hover {
+      background : lighten($btn-primary-color, 5%);
+      color : $btn-primary-text-color;
+    }
+
+    &:active {
+      background : darken($btn-primary-color, 5%);
+    }
+  }
+
+  &.btn-primary-round {
+    background : $btn-primary-color;
+    border     : 1px solid $btn-primary-text-color;
+    color      : $btn-primary-text-color;
+    padding    : 0 40px;
+
+    @include borderRadius($btn-height);
+
+    &:hover {
+      background : lighten($btn-primary-color, 5%);
+      color : $btn-primary-text-color;
+    }
+
+    &:active {
+      background : darken($btn-primary-color, 5%);
+    }
+  }
+
+  &.btn-secondary-color {
+    background : $btn-secondary-color;
+    border     : 1px solid #ccc;
+    color      : $btn-secondary-text-color;
+
+    &:hover {
+      background : lighten($btn-secondary-color, 5%);
+      color : $btn-secondary-text-color;
+    }
+
+    &:active {
+      background : darken($btn-secondary-color, 5%);
+    }
+  }
+
+  &.btn-delete-color {
+    $color-1 : darken($btn-delete-color-1, 5%);
+    $color-2 : lighten($btn-delete-color-2, 5%);
+
+    border : 0;
+    color  : $btn-delete-text-color;
+
+    @include borderRadius(4px);
+    @include linearGradient(to bottom, top, $btn-delete-color-1, $btn-delete-color-2);
+
+    &:hover {
+      @include linearGradient(to bottom, top, $btn-delete-color-1, $color-2);
+    }
+
+    &:active {
+      @include linearGradient(to bottom, top, $color-1, $color-2);
+    }
+  }
+
+  &.btn-save-color {
+    $color-1 : darken($btn-save-color-1, 5%);
+    $color-2 : lighten($btn-save-color-2, 5%);
+
+    border : 0;
+    color  : $btn-save-text-color;
+
+    @include borderRadius(4px);
+    @include linearGradient(to bottom, top, $btn-save-color-1, $btn-save-color-2);
+
+    &:hover {
+      @include linearGradient(to bottom, top, $btn-save-color-1, $color-2);
+    }
+
+    &:active {
+      @include linearGradient(to bottom, top, $color-1, $color-2);
+    }
+  }
+
+  &.btn-cancel-color {
+    $color-1 : darken($btn-cancel-color-1, 5%);
+    $color-2 : lighten($btn-cancel-color-2, 5%);
+
+    border : 1px solid $btn-cancel-border-color;
+    color  : $btn-cancel-text-color;
+
+    @include borderRadius(4px);
+    @include linearGradient(to bottom, top, $btn-cancel-color-1, $btn-cancel-color-2);
+
+    &:hover {
+      @include linearGradient(to bottom, top, $btn-cancel-color-1, $color-2);
+    }
+
+    &:active {
+      @include linearGradient(to bottom, top, $color-1, $color-2);
+    }
+  }
+}

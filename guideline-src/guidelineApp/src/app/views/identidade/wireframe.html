@@ -1,0 +1,127 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Wireframe</p>
+</div>
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+         <h4>Introdução</h4>
+          <p>
+            Os wireframes são desenvolvidos utilizando um grid dividido em 12 colunas. Todo o layout é adicionado a um container que possui um tamanho fixo de 1170px para desktops, 724px para tablets e para dispositivos menores esse tamanho se torna dinâmico. Essa medida é ajustada de acordo com o dispositivo acessado.
+            <br />
+            As Grids são muito úteis e funcionais e aceleram o processo de produção. As páginas web essencialmente giram em torno de formas de caixas. Inevitavelmente, estes retângulos têm de se unir de alguma forma ou de outra para formar um desenho. Um sistema de grid é uma técnica adotada para organizar conteúdo a muito tempo em páginas impressas e nos últimos anos vêem sendo utilizada em peso também para aplicações web.
+          </p>
+          <a target="_blank" href="http://getbootstrap.com/css/#grid">http://getbootstrap.com/css/#grid</a>
+        </div>
+        <div class="panel-body">
+          <p class="alert alert-warning">Para o desenvolvimento dos wireframes, considerar a fonte Helvetica Neue ou Helvetica, tamanho 143x.</p>
+          <p class="alert alert-info">O <a target="_blank" href="http://getbootstrap.com">Twitter Bootstrap</a> já possui um sistema de grids incorporado na sua biblioteca.</p>
+
+          <hr>
+
+          <h4>Classes de Uso</h4>
+
+          <ul>
+            <li>col-xs-*</li>
+            <li>col-sm-*</li>
+            <li>col-md-*</li>
+            <li>col-lg-*</li>
+            <li>col-xs-offset-*</li>
+            <li>col-sm-offset-*</li>
+            <li>col-md-offset-*</li>
+            <li>col-lg-offset-*</li>
+          </ul>
+          <br>
+          <p>Onde <b>*</b> pode ser substituído pelos números de <b>1</b> a <b>12</b>.</p>
+
+          <hr>
+
+          <p>Abaixo está uma demonstração do funcionamento da implementação de design responsivo na guideline. Conforme o tamanho da tela do browser, o tamanho do container da aplicação é alterado para exibir da melhor maneira possível os conteúdos. Seu tamanho máximo é 1170px por limitação de expanção.</p>
+
+          <p>
+            <strong>Exemplo Básico:</strong>
+          </p>
+
+          <div class="row">
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 grid text-center">1</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 grid text-center">4</div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 grid text-center">4</div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 grid text-center">4</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 grid text-center">4</div>
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 grid text-center">8</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 grid text-center">6</div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 grid text-center">6</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 grid text-center">12</div>
+          </div>
+
+          <hr>
+
+          <p>
+            <strong>Nesting:</strong>
+          </p>
+          <p>
+            O sistema de grid possibilita que as colunas .col-*-[1-12] possam ser alinhadas uma dentro das outras. Isso torna flexível e simples a criação de layouts complexos.
+          </p>
+
+
+
+
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 grid text-center">
+              Aplicação
+              <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 grid text-center">
+                  Barra Lateral
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 grid text-center">
+                  Conteúdo
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+      
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <h4>O que não fazer</h4>
+              <ul>
+                <li>Caso o conteúdo não preencha completamente a tela, alinhá-lo sempre à esquerda. Nunca à direita.</li>
+                <li>Não permitir que o conteúdo encoste nas margens do Browser.</li>
+                <li>Não utilizar cores que não estejam definidas pela Guideline.</li>
+                <li>Não utilizar ícones que não estejam na Guideline.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

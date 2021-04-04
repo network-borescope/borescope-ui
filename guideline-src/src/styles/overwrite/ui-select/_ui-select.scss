@@ -1,0 +1,40 @@
+// =============================================
+// ui-select
+// =============================================
+.ui-select-bootstrap {
+  width : 250px;
+  float : left;
+
+  .ui-select-match, .ui-select-search {
+    font-size : 11px;
+    height    : 24px;
+    width     : 100% !important;
+  }
+
+  .ui-select-match {
+    outline : none;
+    padding : 0 12px;
+  }
+
+  .ui-select-toggle {
+    display : none;
+  }
+
+  .ui-select-choices {
+    border : 1px solid #999;
+    top    : 27px;
+
+    @include boxShadow(none);
+
+    .ui-select-choices-row {
+      color : #069;
+
+      a, &.active a {
+        background : transparent;
+        color     : inherit;
+        font-size : 13px;
+        padding   : 4px 6px;
+      }
+    }
+  }
+}

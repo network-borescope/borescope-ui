@@ -1,0 +1,351 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+	<!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+	<p>Formulário</p>
+</div>
+<div class="page-content">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<label>Formulário horizontal</label>
+			<hr>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<p>
+						Mais informações em:
+						<br><a href="http://getbootstrap.com/css/#forms">http://getbootstrap.com/css/#forms</a>
+					</p>
+				</div>
+				<div class="panel-body">
+					<section>
+						<h3>Tipos de formulários</h3>
+						<p>Nossa biblioteca possui 4 tipos diferentes de organização de formulários.</p>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th width="120px">Nome</th>
+									<th width="140px">Classe</th>
+									<th>Descrição</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th>Vertical (default)</th>
+									<td><code>.form-vertical</code> <br><span class="muted">(não obrigatório)</span></td>
+									<td>O rótulo do campo fica acima do controle, sempre alinhado à esquerda. É o formato padrão de formulários que vão dentro de janelas modais e espaços reduzidos.</td>
+								</tr>
+								<tr>
+									<th>Inline</th>
+									<td><code>.form-inline</code></td>
+									<td>Rótulo e controle ficam na mesma linha, alinhados à esquerda.</td>
+								</tr>
+								<tr>
+									<th>Busca</th>
+									<td><code>.form-search</code></td>
+									<td>Formulário que já vem com um padrão estético de um campo de busca</td>
+								</tr>
+								<tr>
+									<th>Horizontal</th>
+									<td><code>.form-horizontal</code></td>
+									<td>labels com <em>float left</em> alinhados à direita, na mesma linha dos controles.</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3>Exemplos de formulários</h3>
+						<h4>Formulário vertical</h4>
+						<div class="well">
+							<form class="form-vertical">
+								<fieldset>
+									<div class="control-group">
+										<label for="field1_input" class="control-label">Nome</label>
+										<div class="controls">
+											<input type="text" id="field1_input" name="field1" placeholder="Informe seu nome">
+										</div>
+									</div>
+									<div class="control-group">
+										<label for="field1_input" class="control-label">E-mail</label>
+										<div class="controls">
+											<div class="input-prepend input-append">
+												<span class="add-on"><i class="icon-envelope"></i></span>
+												<input type="text" id="field1_input" name="field1" placeholder="Informe seu email">
+											</div>
+										</div>
+									</div>
+									<div class="control-group">
+										<label for="field1_input" class="control-label">Percentual</label>
+										<div class="controls">
+											<div class="input-prepend input-append">
+												<span class="add-on">%</span>
+												<input type="text" mask="999,99" id="field1_input" name="field1" placeholder="Informe o percentual">
+											</div>
+										</div>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+						<h4>Formulário horizontal</h4>
+						<div class="well">
+							<form class="form-horizontal">
+								<fieldset>
+									<div class="control-group">
+										<label for="field1_input" class="control-label">Nome</label>
+										<div class="controls">
+											<input type="text" id="field1_input" name="field1" placeholder="Informe seu nome">
+										</div>
+									</div>
+									<div class="control-group">
+										<label for="field1_input" class="control-label">E-mail</label>
+										<div class="controls">
+											<div class="input-prepend input-append">
+												<span class="add-on"><i class="icon-envelope"></i></span>
+												<input type="text" id="field1_input" name="field1" placeholder="Informe seu email">
+											</div>
+										</div>
+									</div>
+									<div class="control-group">
+										<label for="field1_input" class="control-label">Percentual</label>
+										<div class="controls">
+											<div class="input-prepend input-append">
+												<span class="add-on">%</span>
+												<input type="text" mask="999,99" id="field1_input" name="field1" placeholder="Informe o percentual">
+											</div>
+										</div>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+						<h4>Formulário horizontal</h4>
+						<div class="well">
+							<form class="form-inline">
+								<label for="field1_input" class="control-label">Nome</label>
+								<input type="text" id="field1_input" name="field1" placeholder="Informe seu nome">
+								<label for="field1_input" class="control-label">E-mail</label>
+								<div class="input-prepend input-append">
+									<span class="add-on"><i class="icon-envelope"></i></span>
+									<input type="text" id="field1_input" name="field1" placeholder="Informe seu email">
+								</div>
+								<label class="checkbox">
+									<input type="checkbox"> Ativos
+								</label>
+							</form>
+						</div>
+						<h4>Formulário de busca</h4>
+						<div class="well">
+							<form class="form-inline">
+								<input type="text" id="field1_input" name="field1" placeholder="Informe seu email">
+								<button type="submit" class="btn btn-small btn-secondary">Buscar</button>
+							</form>
+						</div>
+						<h4>Onde utilizar cada tipo de formulário?</h4>
+						<h3>Formulários na página</h3>
+						<p>Para formulários utilizados diretamente na página, sem utilização de componentes como janelas modais, utilize a classe <code>.form-horizontal</code>. Utilizando essa classe os campos do formulário foram dispostos com o seu <code>label</code> posicionado do lado esquerdo, enquanto o campo fica posicionado ao lado direito. Veja um exemplo abaixo:</p>
+						<form class="form-horizontal">
+							<fieldset>
+								<div class="control-group">
+									<label for="field1_input" class="control-label">Nome</label>
+									<div class="controls">
+										<input type="text" id="field1_input" name="field1" placeholder="Informe seu nome">
+									</div>
+								</div>
+							</fieldset>
+						</form>
+						<h3>Formulários em janelas modais</h3>
+						<p>Para formulários inseridos em janelas modais, devemos utilizar a classe <code>.form-vertical</code>. Utilizando essa classe os campos do formulários ficam dispostos verticalmente. Veja um exemplo clicando no botão abaixo:</p>
+						<form class="form-vertical">
+							<fieldset>
+								<div class="control-group">
+									<label for="field1_input" class="control-label">Nome</label>
+									<div class="controls">
+										<input type="text" id="field1_input" name="field1" placeholder="Informe seu nome">
+									</div>
+								</div>
+							</fieldset>
+						</form>
+						<h3>Formulários de filtro</h3>
+						<p>Esse tipo de formulário é inserido utilizando a classe <code>form-inline</code>. Utilizando essa classe os campos do formulário são dispostos horizontalmente. Utilize esse tipo de organização em formulários de filtros, conforme o exemplo abaixo:</p>
+						<form class="form-inline">
+							<select>
+								<option value="" selected="selected" disabled="disabled">Sessão</option>
+								<option value="hurr">Sessão 1</option>
+								<option value="hurr">Sessão 2</option>
+								<option value="hurr">Sessão 3</option>
+								<option value="hurr">Sessão 4</option>
+							</select>
+							<select>
+								<option value="" selected="selected" disabled="disabled">Visilidade</option>
+								<option value="hurr">Visível</option>
+								<option value="hurr">Oculto</option>
+								<option value="hurr">Ambos</option>
+							</select>
+							<button type="submit" class="btn btn-secondary btn-small">Filtrar</button>
+						</form>
+						<h3>Tipos de campos</h3>
+						<h4>Tipos básicos</h4>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th width="120px">Nome</th>
+									<th width="220px" class="hidden-phone">Tipo</th>
+									<th>Aparência</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th>Texto</th>
+									<td class="hidden-phone"><code>type="text"</code></td>
+									<td><input type="text"></td>
+								</tr>
+								<tr>
+									<th>Checkbox</th>
+									<td class="hidden-phone"><code>type="checkbox"</code></td>
+									<td><input type="checkbox"></td>
+								</tr>
+								<tr>
+									<th>Radio</th>
+									<td class="hidden-phone"><code>type="radio"</code></td>
+									<td><input type="radio"></td>
+								</tr>
+								<tr>
+									<th>Select</th>
+									<td class="hidden-phone"><code>select</code></td>
+									<td><select></select></td>
+								</tr>
+								<tr>
+									<th>Select List</th>
+									<td class="hidden-phone"><code>select multiple="multiple"</code></td>
+									<td><select multiple=""></select></td>
+								</tr>
+								<tr>
+									<th>File</th>
+									<td class="hidden-phone"><code>type="file"</code></td>
+									<td><input type="file"></td>
+								</tr>
+							</tbody>
+						</table>
+						<h4>Campos especiais</h4>
+						<p>Os campos especiais possuem funcionalidades adicionais aos tipos básicos.</p>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th width="150px">Nome</th>
+									<th width="320px" class="hidden-phone">Tipo</th>
+									<th>Aparência</th>
+									<th>Descrição</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th>Date <a href="/sesc-guideline/guideline/componentes/datepicker">Docs</a></th>
+									<td class="hidden-phone"><code>type="text" datepicker mask="date"</code></td>
+									<td><input type="text" mask="date" value="19/07/2012" id="dp1439499409847" class="hasDatepicker"></td>
+									<td>Ao focar o campo, exibe um calendário para a seleção de uma data para preenchimento do texto.</td>
+								</tr>
+								<tr>
+									<th>Máscara <a href="/sesc-guideline/guideline/componentes/mascaras">Docs</a></th>
+									<td class="hidden-phone"><code>type="text" mask="decimal"</code></td>
+									<td>
+										<div class="input-prepend input-append">
+											<span class="add-on">R$</span>
+											<input type="text" mask="decimal" value="123.123,12" style="text-align: right;">
+										</div>
+									</td>
+									<td>Garante que o campo será preenchido com uma formatação específica.</td>
+								</tr>
+								<tr>
+									<th>Chosen <a href="/sesc-guideline/guideline/componentes/chosen">Docs</a></th>
+									<td class="hidden-phone"><code>select chosen</code></td>
+									<td><select chosen="" data-placeholder="Selecione" data-chosen-no-results-text="Nenhum resultado encontrado para: " id="selY7S" class="chzn-done" style="display: none;">
+										<option></option>
+										<option>Opção 1</option>
+										<option>Opção 2</option>
+										<option>Opção 3</option>
+										<option>Opção 4</option>
+										</select><div id="selY7S_chzn" class="chzn-container chzn-container-single" style="width: 220px;"><a href="javascript:void(0)" class="chzn-single chzn-default" tabindex="0"><span>Selecione</span><div><b></b></div></a><div class="chzn-drop" style="left: -9000px; width: 218px; top: 26px;"><div class="chzn-search"><input type="text" autocomplete="off" style="width: 183px;" tabindex="-1"></div><ul class="chzn-results"><li id="selY7S_chzn_o_1" class="active-result" style="">Opção 1</li><li id="selY7S_chzn_o_2" class="active-result" style="">Opção 2</li><li id="selY7S_chzn_o_3" class="active-result" style="">Opção 3</li><li id="selY7S_chzn_o_4" class="active-result" style="">Opção 4</li></ul></div></div>
+									</td>
+									<td>Incrementa ao funcionamento padrão do select um campo de texto para facilitar a busca de uma opção específica.</td>
+								</tr>
+								<tr>
+									<th>Chosen Multiplo <a href="/sesc-guideline/guideline/componentes/chosen">Docs</a></th>
+									<td class="hidden-phone"><code>select multiple="true" chosen</code></td>
+									<td><select multiple="true" chosen="" data-placeholder="Selecione" data-chosen-no-results-text="Nenhum resultado encontrado para: " id="selFRJ" class="chzn-done" style="display: none;">
+										<option>Opção 1</option>
+										<option>Opção 2</option>
+										<option>Opção 3</option>
+										<option>Opção 4</option>
+										</select><div id="selFRJ_chzn" class="chzn-container chzn-container-multi" style="width: 220px;"><ul class="chzn-choices"><li class="search-field"><input type="text" value="Selecione" class="default" autocomplete="off" style="width: 82px;"></li></ul><div class="chzn-drop" style="left: -9000px; width: 218px; top: 29px;"><ul class="chzn-results"><li id="selFRJ_chzn_o_0" class="active-result" style="">Opção 1</li><li id="selFRJ_chzn_o_1" class="active-result" style="">Opção 2</li><li id="selFRJ_chzn_o_2" class="active-result" style="">Opção 3</li><li id="selFRJ_chzn_o_3" class="active-result" style="">Opção 4</li></ul></div></div>
+									</td>
+									<td>Exibe listas de seleção multiplas em formato de chosen.</td>
+								</tr>
+							</tbody>
+						</table>
+						<h4>Estados</h4>
+						<form class="form-horizontal">
+							<fieldset>
+								<div class="control-group">
+									<label class="control-label" for="focusedInput">Focused input</label>
+									<div class="controls">
+										<input class="input-xlarge focused" id="focusedInput" type="text" value="This is focused…"></div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">Uneditable input</label>
+										<div class="controls">
+											<span class="input-xlarge uneditable-input">Some value here</span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label" for="disabledInput">Disabled input</label>
+										<div class="controls">
+											<input class="input-xlarge disabled" id="disabledInput" type="text" placeholder="Disabled input here…" disabled=""></div>
+										</div>
+										<div class="control-group">
+											<label class="control-label" for="optionsCheckbox2">Disabled checkbox</label>
+											<div class="controls">
+												<label class="checkbox">
+													<input type="checkbox" id="optionsCheckbox2" value="option1" disabled="">This is a disabled checkbox</label>
+												</div>
+											</div>
+											<div class="control-group warning">
+												<label class="control-label" for="inputWarning">Input with warning</label>
+												<div class="controls">
+													<input type="text" id="inputWarning">
+													<span class="help-inline">Something may have gone wrong</span>
+												</div>
+											</div>
+											<div class="control-group error">
+												<label class="control-label" for="inputError">Input with error</label>
+												<div class="controls">
+													<input type="text" id="inputError">
+													<span class="help-inline">Please correct the error</span>
+												</div>
+											</div>
+											<div class="control-group success">
+												<label class="control-label" for="inputSuccess">Input with success</label>
+												<div class="controls">
+													<input type="text" id="inputSuccess">
+													<span class="help-inline">Woohoo!</span>
+												</div>
+											</div>
+											<div class="control-group success">
+												<label class="control-label" for="selectError">Select with success</label>
+												<div class="controls">
+													<select id="selectError">
+														<option>1</option>
+														<option>2</option>
+														<option>3</option>
+														<option>4</option>
+														<option>5</option>
+													</select>
+													<span class="help-inline">Woohoo!</span>
+												</div>
+											</div>
+										</fieldset>
+									</form>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>

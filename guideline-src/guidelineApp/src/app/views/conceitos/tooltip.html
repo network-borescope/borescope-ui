@@ -1,0 +1,47 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Tooltip</p>
+</div>
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Tooltips devem ser utilizados quando alguma informação adicional pode ser fornecida ao usuário, mas não necessita estar presente em um primeiro momento, ou para exibir informações que foram ocultadas pelo
+          tamanho de tela do usuário, por exemplo.
+          Por razões de performance, os Tooltips não são inicializados automaticamente, sendo assim você deve usar o seletor <code>[data-toggle="tooltip"]</code> para executar.
+          <br/>
+          Mais informações: <br/>
+          <a target="_blank" href="http://getbootstrap.com/javascript/#tooltips">http://getbootstrap.com/javascript/#tooltips</a>
+        </div>
+        <div class="panel-body">
+
+          <code>
+            $(function(){
+            <br/>
+              $('[data-toggle="tooltip"]').tooltip();
+            <br/>
+            });
+          </code>
+          <br/><br/>
+          <code>
+            &#60;span id="tooltip" data-toggle="tooltip" title="Exemplo de visual de tooltip"&#62;Passe o mouse&#60;/span&#62;
+          </code>
+
+          <br/><br/>
+
+          <span id="tooltip" data-toggle="tooltip" title="Exemplo de visual de tooltip">Passe o mouse</span>
+
+          <script type="text/javascript">
+            $(function(){
+              $('[data-toggle="tooltip"]').tooltip()
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,172 @@
+
+// =============================================
+// Global
+// =============================================
+html, body, #app-container, .sg-app-view, .screen-content {
+  color     : #8c8c8c;
+  // min-width : $applicationContentWidth;
+}
+
+.rnp-app-view{
+  min-height: 445px;
+}
+
+body {
+  background : $bgColor;
+  font-size  : 13px;
+}
+
+.separador {
+  border-top: 1px solid #99ccff;
+  margin: $marginDefault auto !important;
+}
+
+.color-red {
+  color : #cc0000;
+}
+
+.screen-content {
+  // max-width    : $applicationContentWidth;
+  margin-left  : auto;
+  margin-right : auto;
+  position     : relative;
+  // padding      : 0 60px;
+}
+
+.sg-app-view {
+  width: 100%;
+}
+
+.row {
+  margin: 0;
+}
+
+.overview {
+  height: 100%;
+  width : 100%;
+}
+
+.loading-content {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+}
+
+// =============================================
+// Text
+// =============================================
+.text-align-center {
+  text-align : center;
+}
+
+.text-white {
+  color : #FFFFFF;
+}
+
+// =============================================
+// Align
+// =============================================
+
+.float-left {
+  float : left !important;
+}
+
+.float-right {
+  float : right !important;
+}
+
+.inline-block {
+  display : inline-block !important;
+}
+
+// Padding
+// =================================
+.no-padding {
+  padding : 0 !important;
+}
+
+.no-padding-left {
+  padding-left : 0 !important;
+}
+
+// margin
+// =================================
+.margin-top {
+  margin-top: $marginDefault !important;
+}
+
+.margin-top-big {
+  margin-top: $marginDefault * 2 !important;
+}
+
+.margin-top-max {
+  margin-top: $marginDefault * 3 !important;
+}
+
+.margin-bottom {
+  margin-bottom: $marginDefault !important;
+}
+
+.margin-bottom-big {
+  margin-bottom: $marginDefault * 2 !important;
+}
+
+.margin-bottom-max {
+  margin-bottom: $marginDefault * 3 !important;
+}
+
+.margin-left {
+  margin-left: $marginDefault !important;
+}
+
+.margin-left-big {
+  margin-left: $marginDefault * 2 !important;
+}
+
+.margin-left-max {
+  margin-left: $marginDefault * 3 !important;
+}
+
+.margin-right {
+  margin-right: $marginDefault !important;
+}
+
+.margin-right-big {
+  margin-right: $marginDefault * 2 !important;
+}
+
+.margin-right-max {
+  margin-right: $marginDefault * 3 !important;
+}
+
+.no-margin {
+  margin : 0 !important;
+}
+
+.no-margin-top {
+  margin-top : 0 !important;
+}
+
+.no-margin-bottom {
+  margin-bottom : 0 !important;
+}
+
+// Input / Select / Textarea
+// =================================
+input, select, textarea {
+  &:focus {
+    border-color : $primaryColor;
+  }
+
+  &.input-hidden {
+    display : none !important;
+  }
+}
+
+.required {
+  span {
+    &:after {
+      content : "*";
+    }
+  }
+}

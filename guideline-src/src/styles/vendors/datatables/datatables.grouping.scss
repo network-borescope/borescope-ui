@@ -1,0 +1,8 @@
+@import "../../utils/colors";
+
+$yellow : #FAEBD7;
+
+td.group{
+  background: $yellow !important;
+  color: $greyColor !important;
+}

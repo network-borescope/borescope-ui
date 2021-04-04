@@ -1,0 +1,29 @@
+.combodate {
+  float : left;
+
+  select {
+    &.day, &.month, &.year, &.hour, &.minute {
+      display : inline-block;
+    }
+
+    &.day {
+      margin-right : 2px;
+    }
+
+    &.month {
+      margin : 0 2px;
+    }
+
+    &.year {
+      margin-left : 2px;
+    }
+
+    &.hour {
+      margin-right : 2px;
+    }
+
+    &.minute {
+      margin-left : 2px;
+    }
+  }
+}

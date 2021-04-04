@@ -1,0 +1,140 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Máscara</p>
+</div>
+
+<div class="page-content">
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          O componente <strong>jQuery MeioMask</strong> determina o tipo de input de dados que o campo do formulário irá receber.
+	        O componente fornece vários tipos de máscara, você pode visualizar os tipos na <a target="_blank" href="https://github.com/fabiomcosta/jquery-meiomask/wiki">Wiki do projeto</a>.
+          <br><br>
+          Mais informações em:
+	        <br/>
+	        <a target="_blank" href="https://github.com/fabiomcosta/jquery-meiomask">https://github.com/fabiomcosta/jquery-meiomask</a>
+        </div>
+        <div class="panel-body">
+
+        <div class="row-fluid">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <h4>Máscara para dados</h4>
+
+            <form class="form-vertical">
+              <div class="row-fluid">
+                  <code>
+                    &#60;input mask="decimal" /&#62;
+                  </code>
+                <div class="form-group">
+                  <label for="">Valor</label>
+                  <div class="controls">
+                    <input id="decimal" type="text" value="" name="decimal" mask="decimal" placeholder="Decimal" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-fluid">
+                <code>
+                  &#60;input mask="cpnj" /&#62;
+                </code>
+                <div class="form-group">
+                  <label for="">CNPJ</label>
+                  <div class="controls">
+                    <input id="cnpj" type="text" value="" name="cnpj" mask="cnpj" placeholder="CNPJ" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-fluid">
+                <code>
+                  &#60;input mask="cpf" /&#62;
+                </code>
+                <div class="form-group">
+                  <label for="">CPF</label>
+                  <div class="controls">
+                    <input id="cnpj" type="text" value="" name="cnpj" mask="cpf" placeholder="CPF" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-fluid">
+                <code>
+                  &#60;input mask="phone" /&#62;
+                </code>
+                <div class="form-group">
+                  <label for="">Telefone</label>
+                  <div class="controls">
+                    <input id="cnpj" type="text" value="" name="cnpj" mask="phone" placeholder="Telefone" />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <h4>Máscaras básicas</h4>
+
+            <form class="form-vertical">
+              <div class="row-fluid">
+                  <code>
+                    &#60;input mask="numeric" /&#62;
+                  </code>
+                <div class="form-group">
+                  <label for="">Números</label>
+                  <div class="controls">
+                    <input id="numeric" type="text" value="" name="numeric" mask="numeric" placeholder="Numérico" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-fluid">
+                <code>
+                  &#60;input mask="alpha" /&#62;
+                </code>
+                <div class="form-group">
+                  <label for="">Somente letras</label>
+                  <div class="controls">
+                    <input id="alpha" type="text" value="" name="alpha" mask="alpha" placeholder="Somente Letras" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-fluid">
+                <code>
+                  &#60;input mask="alphanumeric" /&#62;
+                </code>
+                <div class="form-group">
+                  <label for="">Letras e números</label>
+                  <div class="controls">
+                    <input id="alphanumeric" type="text" value="" name="alphanumeric" mask="alphanumeric" placeholder="Letras e números" />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="row-fluid">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h4>Notas para o desenvolvedor</h4>
+            <p>
+              O plugin de máscaras esta disponível globalmente na aplicação.
+              Você não precisa se preocupar em chamar o método <code>.setMask()</code> em todos os locais onde necessitar do comportamento de máscara. Você só tem que se preocupar em colocar a máscara correta no atributo mask do campo e pronto! Dê uma olhada no trecho de código ao lado.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+	  /*$(function($) {
+      $('#decimal').setMask("decimal");
+
+		  $('#cnpj').setMask("cnpj");
+    });*/
+  </script>
+
+</div>

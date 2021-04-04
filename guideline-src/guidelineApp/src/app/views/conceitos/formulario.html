@@ -1,0 +1,702 @@
+<!-- Barra de título -->
+<div class="rnp-title-bar">
+  <!-- <button type="button" class="btn btn-secondary-color glyphicon glyphicon-arrow-left" ui-sref="agenda"></button> -->
+  <p>Formulário</p>
+</div>
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Quando possível, os formulários da aplicação devem possuir a classe <b>form-horizontal</b>.
+        </div>
+        <div class="panel-body">
+          <h3>Tipos de formulários</h3>
+          <p>Nossa biblioteca possui 4 tipos diferentes de organização de formulários.</p>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th width="120px">Nome</th>
+                <th width="140px">Classe</th>
+                <th>Descrição</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Vertical (default)</th>
+                <td><code>.form-vertical</code> <br><span class="muted">(não obrigatório)</span></td>
+                <td>O rótulo do campo fica acima do controle, sempre alinhado à esquerda. É o formato padrão de formulários que vão dentro de janelas modais e espaços reduzidos.</td>
+              </tr>
+              <tr>
+                <th>Inline</th>
+                <td><code>.form-inline</code></td>
+                <td>Rótulo e controle ficam na mesma linha, alinhados à esquerda.</td>
+              </tr>
+              <tr>
+                <th>Busca</th>
+                <td><code>.form-search</code></td>
+                <td>Formulário que já vem com um padrão estético de um campo de busca</td>
+              </tr>
+              <tr>
+                <th>Horizontal</th>
+                <td><code>.form-horizontal</code></td>
+                <td>labels com <em>float left</em> alinhados à direita, na mesma linha dos controles.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+      <h4>Exemplo básico</h4>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Exemplo básico de utilização de formulário, sendo por padrão, o <code>.form-vertical</code>.
+        </div>
+        <div class="panel-body">
+          <code>
+          &#60;form&#62;
+          <br>
+          &#60;div class="form-group"&#62;
+          <br>
+          &#60;label for="exampleInputEmail1"&#62;Email&#60;/label&#62;
+          <br>
+          &#60;input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"&#62;
+          <br>
+          &#60;/div&#62;
+          <br>
+          &#60;div class="form-group"&#62;
+          <br>
+          &#60;label for="exampleInputPassword1"&#62;Senha&#60;/label&#62;
+          <br>
+          &#60;input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha"&#62;
+          <br>
+          &#60;/div&#62;
+          <br>
+          &#60;div class="form-group"&#62;
+          <br>
+          &#60;label for="exampleInputFile"&#62;Anexo&#60;/label&#62;
+          <br>
+          &#60;input type="file" id="exampleInputFile"&#62;
+          <br>
+          &#60;p class="help-block"&#62;Exemplo de texto auxiliar.&#60;/p&#62;
+          <br>
+          &#60;/div&#62;
+          <br>
+          &#60;div class="checkbox"&#62;
+          <br>
+          &#60;label&#62;
+          <br>
+          &#60;input type="checkbox"&#62; Desfazer Check
+          <br>
+          &#60;/label&#62;
+          <br>
+          &#60;/div&#62;
+          <br>
+          &#60;button type="submit" class="btn  btn-primary-color"&#62;Enviar&#60;/button&#62;
+          <br>
+          &#60;/form&#62;
+          <br>
+          </code>
+          <br><br>
+          <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Senha</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputFile">Anexo</label>
+              <input type="file" id="exampleInputFile">
+              <p class="help-block">Exemplo de texto auxiliar.</p>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> Desfazer Check
+              </label>
+            </div>
+            <button type="submit" class="btn  btn-primary-color">Enviar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+    <h4>Exemplo de Formulário Horizontal</h4>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Exemplo de utilização de formulário horizontal, sendo por padrão, o <code>.form-horizontal</code>.
+      </div>
+      <div class="panel-body">
+        <code>
+        &#60;form class="form-horizontal"&#62;
+        <br>
+        &#60;div class="form-group"&#62;
+        <br>
+        &#60;label class="control-label col-sm-2" for="exampleInputEmail1"&#62;Email&#60;/label&#62;
+        <br>
+        &#60;div class="col-sm-10"&#62;
+        <br>
+        &#60;input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;div class="form-group"&#62;
+        <br>
+        &#60;label class="control-label col-sm-2" for="exampleInputPassword1"&#62;Senha&#60;/label&#62;
+        <br>
+        &#60;div class="col-sm-10"&#62;
+        <br>
+        &#60;input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha"&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;div class="form-group"&#62;
+        <br>
+        &#60;label class="control-label col-sm-2" for="exampleInputFile"&#62;Anexo&#60;/label&#62;
+        <br>
+        &#60;div class="col-sm-10"&#62;
+        <br>
+        &#60;input type="file" id="exampleInputFile"&#62;
+        <br>
+        &#60;p class="help-block"&#62;Exemplo de texto auxiliar.&#60;/p&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;div class="form-group"&#62;
+        <br>
+        &#60;div class="col-sm-offset-2 col-sm-10"&#62;
+        <br>
+        &#60;div class="checkbox"&#62;
+        <br>
+        &#60;label&#62;
+        <br>
+        &#60;input type="checkbox"&#62; Desfazer check
+        <br>
+        &#60;/label&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;div class="form-group"&#62;
+        <br>
+        &#60;div class="col-sm-offset-2 col-sm-10"&#62;
+        <br>
+        &#60;button type="submit" class="btn btn-primary-color"&#62;Enviar&#60;/button&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;/form&#62;
+        <br>
+        </code>
+        <br><br>
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="exampleInputEmail1">Email</label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="exampleInputPassword1">Senha</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="exampleInputFile">Anexo</label>
+            <div class="col-sm-10">
+              <input type="file" id="exampleInputFile">
+              <p class="help-block">Exemplo de texto auxiliar.</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"> Desfazer check
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-primary-color">Enviar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+    <h4>Exemplo de Formulário Inline</h4>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Exemplo de utilização de formulário inline, sendo por padrão, o <code>.form-inline</code>.
+      </div>
+      <div class="panel-body">
+        <code>
+        &#60;form class="form-inline"&#62;
+        <br>
+        &#60;div class="form-group"&#62;
+        <br>
+        &#60;label class="sr-only" for="exampleInputEmail1"&#62;Email&#60;/label&#62;
+        <br>
+        &#60;input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;div class="form-group"&#62;
+        <br>
+        &#60;label class="sr-only" for="exampleInputPassword1"&#62;Senha&#60;/label&#62;
+        <br>
+        &#60;input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha"&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;div class="checkbox"&#62;
+        <br>
+        &#60;label&#62;
+        <br>
+        &#60;input type="checkbox"&#62; Ativo
+        <br>
+        &#60;/label&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;div class="form-group"&#62;
+        <br>
+        &#60;button type="submit" class="btn btn-primary-color"&#62;Enviar&#60;/button&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;/form&#62;
+        <br>
+        </code>
+        <br><br>
+        <form class="form-inline">
+          <div class="form-group">
+            <label class="sr-only" for="exampleInputEmail1">Email</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          </div>
+          <div class="form-group">
+            <label class="sr-only" for="exampleInputPassword1">Senha</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox"> Ativo
+            </label>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary-color">Enviar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+    <h4>Exemplo de Formulário de Busca (Inline)</h4>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Exemplo de utilização de formulário inline para busca, sendo por padrão, o <code>.form-inline</code>.
+      </div>
+      <div class="panel-body">
+        <code>
+        &#60;form class="form-inline"&#62;
+        <br>
+        &#60;div class="form-group"&#62;
+        <br>
+        &#60;input type="email" class="form-control" id="exampleInputEmail1" placeholder="Informe seu email"&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;div class="form-group"&#62;
+        <br>
+        &#60;button type="submit" class="btn btn-primary-color"&#62;Enviar&#60;/button&#62;
+        <br>
+        &#60;/div&#62;
+        <br>
+        &#60;/form&#62;
+        <br>
+        </code>
+        <br><br>
+        <form class="form-inline">
+          <div class="form-group">
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Informe seu email">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary-color">Enviar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<h3>Onde utilizar cada tipo de formulário?</h3>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>Formulários na página</h4>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Para formulários utilizados diretamente na página, sem utilização de componentes como janelas modais, utilize a classe <code>.form-horizontal</code>. Utilizando essa classe os campos do formulário foram dispostos com o seu label posicionado do lado esquerdo, enquanto o campo fica posicionado ao lado direito. Veja um exemplo abaixo:
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="exampleInputEmail1">Email</label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>Formulários em janelas modais</h4>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Para formulários inseridos em janelas modais, devemos utilizar a classe <code>.form-vertical</code>. Utilizando essa classe os campos do formulários ficam dispostos verticalmente. Veja um exemplo clicando no botão abaixo:
+      </div>
+      <div class="panel-body">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>Formulários de Filtro</h4>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Esse tipo de formulário é inserido utilizando a classe <code>.form-inline</code>. Utilizando essa classe os campos do formulário são dispostos horizontalmente. Utilize esse tipo de organização em formulários de filtros, conforme o exemplo abaixo:
+      </div>
+      <div class="panel-body">
+        <form class="form-inline">
+          <div class="form-group col-sm-3">
+            <select>
+              <option value="">Escolha um valor</option>
+              <option value="1">Valor 1</option>
+              <option value="2">Valor 2</option>
+              <option value="3">Valor 3</option>
+            </select>
+          </div>
+          <div class="form-group col-sm-3">
+            <select>
+              <option value="">Escolha um tipo</option>
+              <option value="1">Tipo 1</option>
+              <option value="2">Tipo 2</option>
+              <option value="3">Tipo 3</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary-color">Buscar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<h3>Tipos de Campo</h3>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>Tipos básicos</h4>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th width="120px">Nome</th>
+              <th width="220px" class="hidden-phone">Tipo</th>
+              <th>Aparência</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Texto</th>
+              <td class="hidden-phone"><code>type="text"</code></td>
+              <td><input type="text"></td>
+            </tr>
+            <tr>
+              <th>Checkbox</th>
+              <td class="hidden-phone"><code>type="checkbox"</code></td>
+              <td><input type="checkbox"></td>
+            </tr>
+            <tr>
+              <th>Radio</th>
+              <td class="hidden-phone"><code>type="radio"</code></td>
+              <td><input type="radio"></td>
+            </tr>
+            <tr>
+              <th>Select</th>
+              <td class="hidden-phone"><code>select</code></td>
+              <td><select></select></td>
+            </tr>
+            <tr>
+              <th>Select List</th>
+              <td class="hidden-phone"><code>select multiple="multiple"</code></td>
+              <td><select class="form-control" multiple=""></select></td>
+            </tr>
+            <tr>
+              <th>Arquivo</th>
+              <td class="hidden-phone"><code>type="file"</code></td>
+              <td><input type="file"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h4>Campos especiais</h4>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th width="150px">Nome</th>
+              <th width="320px" class="hidden-phone">Tipo</th>
+              <th>Aparência</th>
+              <th>Descrição</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Date <a ui-sref="webapp.bibliotecas.datepicker">Docs</a></th>
+              <td class="hidden-phone"><code>type="text" datepicker mask="date"</code></td>
+              <td><input id="table-datepicker" type="text" mask="date" value="19/07/2012"></td>
+              <script type="text/javascript">
+              $(function(){
+              $('#table-datepicker').datepicker()
+              });
+              </script>
+              <td>Ao focar o campo, exibe um calendário para a seleção de uma data para preenchimento do texto.</td>
+            </tr>
+            <tr>
+              <th>Máscara <a ui-sref="webapp.bibliotecas.mascara">Docs</a></th>
+              <td class="hidden-phone"><code>type="text" mask="decimal"</code></td>
+              <td>
+                <div class="input-prepend input-append">
+                  <input type="text" mask="decimal" value="123.123,12" style="text-align: right;">
+                </div>
+              </td>
+              <td>Garante que o campo será preenchido com uma formatação específica.</td>
+            </tr>
+            <tr>
+              <th>Select2 <a ui-sref="webapp.bibliotecas.select2">Docs</a></th>
+              <td class="hidden-phone"><code>select class="select2-input"</code></td>
+              <td>
+                <select id="select1" class="select2-input">
+                  <option>Selecione</option>
+                  <option>Opção 1</option>
+                  <option>Opção 2</option>
+                  <option>Opção 3</option>
+                  <option>Opção 4</option>
+                </select>
+                <script type="text/javascript">
+                $(function(){
+                $("#select1").select2();
+                });
+                </script>
+              </td>
+              <td>Incrementa ao funcionamento padrão do select um campo de texto para facilitar a busca de uma opção específica.</td>
+            </tr>
+            <tr>
+              <th>Select2 Multiplo <a ui-sref="webapp.bibliotecas.select2">Docs</a></th>
+              <td class="hidden-phone"><code>select class="select2-input" multiple="multiple"</code></td>
+              <td>
+                <select id="select2" class="select2-input" multiple="multiple">
+                  <option>Selecione</option>
+                  <option>Opção 1</option>
+                  <option>Opção 2</option>
+                  <option>Opção 3</option>
+                  <option>Opção 4</option>
+                </select>
+                <script type="text/javascript">
+                $(function(){
+                $("#select2").select2();
+                });
+                </script>
+              </td>
+              <td>Exibe listas de seleção multiplas em formato de select2.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 padding-vertical padding-horizontal">
+    <h4>Estados</h4>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <code>
+          &#60;form class="form-horizontal"&#62;
+          <br>
+            &#60;div class="form-group has-success"&#62;
+            <br>
+              &#60;label class="control-label col-sm-4" for="inputSuccess1"&#62;Input com sucesso&#60;/label&#62;
+              <br>
+              &#60;div class="col-sm-8"&#62;
+              <br>
+                &#60;input type="text" class="form-control" id="inputSuccess1"&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+            &#60;/div&#62;
+            <br>
+            &#60;div class="form-group has-warning"&#62;
+            <br>
+              &#60;label class="control-label col-sm-4" for="inputWarning1"&#62;Input com alerta&#60;/label&#62;
+              <br>
+              &#60;div class="col-sm-8"&#62;
+              <br>
+                &#60;input type="text" class="form-control" id="inputWarning1"&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+            &#60;/div&#62;
+            <br>
+            &#60;div class="form-group has-error"&#62;
+            <br>
+              &#60;label class="control-label col-sm-4" for="inputError1"&#62;Input com erro&#60;/label&#62;
+              <br>
+              &#60;div class="col-sm-8"&#62;
+              <br>
+                &#60;input type="text" class="form-control" id="inputError1"&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+            &#60;/div&#62;
+            <br>
+            &#60;div class="has-success"&#62;
+            <br>
+              &#60;div class="checkbox"&#62;
+              <br>
+                &#60;label&#62;
+                <br>
+                  &#60;input type="checkbox" id="checkboxSuccess" value="option1"&#62;
+                  <br>
+                  Checkbox com sucesso
+                &#60;/label&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+            &#60;/div&#62;
+            <br>
+            &#60;div class="has-warning"&#62;
+            <br>
+              &#60;div class="checkbox"&#62;
+              <br>
+                &#60;label&#62;
+                <br>
+                  &#60;input type="checkbox" id="checkboxWarning" value="option1"&#62;
+                  <br>
+                  Checkbox com alerta
+                &#60;/label&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+            &#60;/div&#62;
+            <br>
+            &#60;div class="has-error"&#62;
+            <br>
+              &#60;div class="checkbox"&#62;
+              <br>
+                &#60;label&#62;
+                <br>
+                  &#60;input type="checkbox" id="checkboxError" value="option1"&#62;
+                  <br>
+                  Checkbox com erro
+                &#60;/label&#62;
+                <br>
+              &#60;/div&#62;
+              <br>
+            &#60;/div&#62;
+            <br>
+          &#60;/form&#62;
+          <br>
+        <br/><br/>
+        </code>
+        <form class="form-horizontal">
+          <div class="form-group has-success">
+            <label class="control-label col-sm-4" for="inputSuccess1">Input com sucesso</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="inputSuccess1">
+            </div>
+          </div>
+          <div class="form-group has-warning">
+            <label class="control-label col-sm-4" for="inputWarning1">Input com alerta</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="inputWarning1">
+            </div>
+          </div>
+          <div class="form-group has-error">
+            <label class="control-label col-sm-4" for="inputError1">Input com erro</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="inputError1">
+            </div>
+          </div>
+          <div class="has-success">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="checkboxSuccess" value="option1">
+                Checkbox com sucesso
+              </label>
+            </div>
+          </div>
+          <div class="has-warning">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="checkboxWarning" value="option1">
+                Checkbox com alerta
+              </label>
+            </div>
+          </div>
+          <div class="has-error">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="checkboxError" value="option1">
+                Checkbox com erro
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

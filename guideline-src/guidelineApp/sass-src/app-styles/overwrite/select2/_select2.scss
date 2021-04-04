@@ -1,0 +1,29 @@
+$select2-height      : 34px;
+$select2-arrow-width : $select2-height;
+
+.select2-container {
+  width : 100% !important;
+}
+
+.select2-container-multi {
+  width: 100% !important;
+
+  .select2-choices {
+    @include borderRadius(3px);
+  }
+
+  &.select2-container-active {
+    .select2-choices {
+      @include borderRadius(3px 3px 0 0);
+    }
+  }
+
+  .select2-search-choice {
+    background: #ccc !important;
+    padding: 7px 5px 7px 18px !important;
+  }
+
+  .select2-search-choice-close {
+    top: 7px !important;
+  }
+}

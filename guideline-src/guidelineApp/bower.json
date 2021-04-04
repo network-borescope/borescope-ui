@@ -1,0 +1,42 @@
+{
+  "name": "RnpGuideline",
+  "version": "1.1.1",
+  "devDependencies": {
+    "angular-mocks": "~1.2.22",
+    "angular-scenario": "~1.2.22"
+  },
+  "dependencies": {
+    "underscore": "~1.7.0",
+    "ngDialog": "~0.2.11",
+    "angular-ui-router": "~0.2.10",
+    "angular": "1.2.22",
+    "jquery": "1.9.1",
+    "angular-animate": "~1.2.22",
+    "angular-bootstrap": "~0.11.0",
+    "angular-sanitize": "~1.2.22",
+    "spin.js": "~2.0.1",
+    "angular-ui-select": "~0.8.3",
+    "ng-grid": "~2.0.13",
+    "angular-translate": "~2.4.2",
+    "angular-translate-loader-static-files": "~2.4.2",
+    "angular-message-center": "~1.0.3",
+    "checklist-model": "~0.1.3",
+    "angular-match": "~1.0.1",
+    "angular-ui-calendar": "0.9.0-beta.1",
+    "bootstrap-sass-official": "~3.3.1",
+    "combodate": "~1.0.7",
+    "angular-ui-utils": "~0.1.1",
+    "angular-ui-date": "~0.0.6",
+    "highcharts-release": "~4.0.4",
+    "highcharts-ng": "~0.0.7",
+    "moment-duration-format": "~1.3.0",
+    "moment": "~2.9.0",
+    "angular-date-dropdowns": "~0.1.1",
+    "angular-breadcrumb": "~0.4.1"
+  },
+  "resolutions": {
+    "angular": "1.2.22",
+    "jquery": "1.9.1",
+    "angular-animate": "~1.2.22"
+  }
+}

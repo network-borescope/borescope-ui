@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <meta charset="utf-8"> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>RNP - Guideline 1.1.1</title>
+    <link rel="shortcut icon" href="http://www.rnp.br/sites/all/themes/sitepublico/favicon.ico" />
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+     <link rel="stylesheet" href="release/vendors-1.1.1.css">
+     <link rel="stylesheet" href="release/guideline-1.1.1.css">
+
+    <!-- build:css(src) src/styles/app.css -->
+    <!-- endbuild -->
+
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <messageCenter></messageCenter>
+    <rnp:loading></rnp:loading>
+
+    <!--======================-->
+    <!-- Application Content  -->
+    <!--======================-->
+
+    <!-- Barra Principal -->
+    <div rnp-main-bar></div>
+    <div id="breadcrumbs" ui-view="breadcrumbs@webapp"></div>
+    <div id="helpers" ui-view="helpers@webapp"></div>
+    <main id="container" class="font-control" ui-view=""></main>
+    <div id="loading-content" class="loading-content"></div>
+    <div id="footer" ui-view="footer@webapp"></div>
+    <!--==========  Vendors  ============-->
+
+
+    <script src="release/vendors-1.1.1.min.js"></script>
+    <script src="release/guideline-1.1.1.min.js"></script>
+
+
+    <!-- build:js(src) src/scripts/vendor.js -->
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-ui-calendar/src/calendar.js"></script>
+    <script src="../bower_components/angular-match/angular-match.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="../bower_components/underscore/underscore.js"></script>
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="../bower_components/angular-ui-utils/ui-utils.js"></script>
+    <script src="../bower_components/angular-ui-select/dist/select.js"></script>
+    <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="../bower_components/ngDialog/js/ngDialog.min.js"></script>
+    <script src="../bower_components/ng-grid/build/ng-grid.js"></script>
+    <script src="../bower_components/ng-grid/plugins/ng-grid-flexible-height.js"></script>
+    <script src="../bower_components/angular-translate/angular-translate.min.js"></script>
+    <script src="../bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+    <script src="../bower_components/angular-message-center/message-center-templates.js"></script>
+    <script src="../bower_components/angular-message-center/message-center.js"></script>
+    <script src="../bower_components/checklist-model/checklist-model.js"></script>
+    <script src="../bower_components/angular-ui-date/src/date.js"></script>
+    <script src="../bower_components/highcharts-ng/dist/highcharts-ng.js"></script>
+    <script src="../bower_components/angular-breadcrumb/release/angular-breadcrumb.js"></script>
+    <!-- endbuild -->
+
+    <!--==========    App    ============-->
+    <!-- build:js src/scripts/app.min.js -->
+    <!-- Configs -->
+    <script src="app/app.js"></script>
+    <script src="app/config/routes/config-routes.js"></script>
+    <script src="app/config/init.js"></script>
+    <!-- Constants -->
+    <!-- Services -->
+    <!-- Factories -->
+
+    <!-- Controllers -->
+    <script src="app/controllers/fullcalendar/fullcalendar-controller.js"></script>
+    <script src="app/controllers/select2/select2-controller.js"></script>
+    <script src="app/controllers/datatables/datatables-controller.js"></script>
+    <script src="app/controllers/autocomplete/autocomplete-controller.js"></script>
+    <!-- Directives -->
+    <script src="app/directives/alert-loading/alert-loading.js"></script>
+    <script src="app/directives/disable-on-loading/disable-on-loading.js"></script>
+    <script src="app/directives/main-bar/main-bar-directive.js"></script>
+    <script src="app/directives/rnp-calendar/rnp-calendar-directive.js"></script>
+    <script src="app/directives/date-dropdowns/date-dropdowns-directive.js"></script>
+    <script src="app/directives/date-dropdowns/combo-date-time-directive.js"></script>
+    <script src="app/directives/modal-add/modal-add-directive.js"></script>
+    <script src="app/directives/modal-add-contact/modal-add-contact-directive.js"></script>
+    <script src="app/directives/possui-permissao/possui-permissao-directive.js"></script>
+    <script src="app/directives/menu-collapse/menu-collapse-directive.js"></script>
+    <!-- Filters -->
+    <script src="app/filters/props-filter.js"></script>
+
+    <!-- inject:partials -->
+    <!-- angular templates will be automaticaly converted in js and inserted here -->
+    <!-- endinject -->
+
+    <!-- endbuild -->
+  </body>
+</html>
