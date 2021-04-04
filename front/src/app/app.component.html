@@ -1,0 +1,18 @@
+<div class="main-bar ng-isolate-scope" id="main-bar" rnp-main-bar="">
+  <div class="row"><i class="rnp-logo"></i>
+    <div id="main-bar-menu-content" class="main-bar-menu-content">
+      <ul class="main-bar-menu">
+        <li class="main-bar-item main-bar-config"><i class="glyphicon glyphicon-cog"></i>
+          <div>
+            <ul>
+              <li>Exemplo de opção</li>
+            </ul>
+          </div>
+        </li>
+      </ul><select class="main-bar-select ng-pristine ng-valid" name="menuItem" ng-model="menuItem"
+        ng-options="item.state as item.nome for item in menuList">
+        <option value="" class="">Navegar</option>
+      </select>
+    </div>
+  </div>
+</div>
