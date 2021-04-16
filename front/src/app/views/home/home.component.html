@@ -1,134 +1,15 @@
-<div >
-  <!--NavBar Principal-->
-    <div class="main-bar ng-isolate-scope" id="main-bar" rnp-main-bar="">
-        <div class="row"><i class="rnp-logo"></i>
-          <div id="main-bar-menu-content" class="main-bar-menu-content">
-            <ul class="main-bar-menu">
-              <li class="main-bar-item main-bar-config"><i class="glyphicon glyphicon-cog"></i>
-                <div>
-                  <ul>
-                    <li>Exemplo de opção</li>
-                  </ul>
-                </div>
-              </li>
-            </ul><select class="main-bar-select ng-pristine ng-valid" name="menuItem" ng-model="menuItem"
-              ng-options="item.state as item.nome for item in menuList">
-              <option value="" class="">Navegar</option>
-            </select>
-          </div>
-        </div>
-      </div>
+<div id="rnp-inicio-screen" class="body-fill">
 
-      <!--sub head-->
-        <div class="row">
-          <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="page-header-options pull-center" style="margin: 3%;">
-              <h1 class="text-center"> Network Borescope</h1>
-            </div>
-          </div>
-        </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0px !important;">
+      <app-map></app-map>
+    </div>
+  </div>
 
-        <div id="helpers" ui-view="helpers@webapp" class="ng-scope">
-          <div class="helpers ng-scope">
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div class="page-header-options pull-left">
-                    <div class="">
-                      <button class="btn btn-default home" href="./" style="font-size: 20px;" ><i class="glyphicon glyphicon-home"></i> </button>
-                      <button class="btn btn-default share" style="font-size: 20px;"> <i class="glyphicon glyphicon-share"></i> </button>
-                      <button class="btn btn-default filter" style="font-size: 20px;"> <i class="glyphicon glyphicon-filter" ></i> </button>  
-                    </div> 
-                  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0px !important; background-color: brown;">
+      <div style="height: 100%;"></div>
+    </div>
+  </div>
 
-                  <div class="page-header-options pull-right">
-                    <div class="btn-group" >
-                      <button type="button" class="btn btn-primary-color dropdown-toggle" data-toggle="dropdown" aria- haspopup="true" aria-expanded="false" style="font-size: 20px;">
-                        No Check Time Bounds <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu">
-                      <li><a href>Check Time Bounds Expand</a></li>
-                      <li><a href>Check Time Bounds Fixed 1 hour</a></li>
-                      <li><a href>Check Time Bounds Fixed 6 hour</a></li>
-                      <li><a href>Check Time Bounds Fixed 12 hour</a></li>
-                      <li><a href>Check Time Bounds Fixed 1 day</a></li>
-                      <li role="separator" class="divider"></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <!--Container principal (Mapa e Grafico)-->
-        <main id="container" class="font-control ng-scope font-large font-xlarge">
-          <div class="ng-scope">
-            <div class="rnp-app-view ng-scope">
-              <!--div class="container ng-scope"-->
-              <div style="margin-left:5%; margin-right: 5% ">
-                <div class="page-content">
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <div class="panel panel-default"> 
-                        <app-map></app-map>
-                      </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <div>
-                        <app-bar-chart></app-bar-chart>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div id="helpers" ui-view="helpers@webapp" class="ng-scope">
-                    <div class="helpers ng-scope">
-                        <div class="row" style="margin-top: 1%; margin-bottom: 5%;">
-                          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                            <div class="page-header-options pull-left">
-                              <button class="btn btn-default share"> <i class="glyphicon glyphicon-fast-backward"></i> </button>
-                              <button class="btn btn-default share"> <i class="glyphicon glyphicon-backward"></i> </button>
-                              <button class="btn btn-default share"> <i class="glyphicon glyphicon-step-backward"></i> </button>
-                              <button class="btn btn-default share"> <i class="glyphicon glyphicon-step-forward"></i> </button>
-                              <button class="btn btn-default share"> <i class="glyphicon glyphicon-forward"></i> </button>
-                              <button class="btn btn-default share"> <i class="glyphicon glyphicon-fast-forward"></i> </button>
-                              <button class="btn btn-default share"> <i class="glyphicon glyphicon-zoom-in"></i> </button>
-                              <button class="btn btn-default share"> <i class="glyphicon glyphicon-zoom-out"></i> </button>
-                            </div>
-                          </div>
-                        </div>   
-                    </div>
-                  </div>
-
-                  <!--Graifco inferior-->
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                      <div class="panel panel-default">
-                        <div class="panel-body">
-                          <app-line-chart></app-line-chart>
-                        </div>  
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-
-        <div id="footer" ui-view="footer@webapp" class="ng-score">
-          <div id="footer" class="footer ng-scope">
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div id="guideline-version-info" class="pull-right">
-                    "© Guideline RNP " <strong>1.1.1</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 </div>

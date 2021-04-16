@@ -6,6 +6,7 @@ import { HomeComponent } from './views/home/home.component';
 import { MapComponent } from './views/map/map.component';
 import { BarChartComponent } from './views/graphics/barChart/bar-chart/bar-chart.component';
 import { LineChartComponent } from './views/graphics/lineChart/line-chart/line-chart.component';
+import { BarComponent } from './views/bar/bar.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { LineChartComponent } from './views/graphics/lineChart/line-chart/line-c
     MapComponent,
     BarChartComponent,
     LineChartComponent,
+    BarComponent,
 
 
   ],
