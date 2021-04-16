@@ -1,4 +1,4 @@
-<div>
+<div >
   <!--NavBar Principal-->
     <div class="main-bar ng-isolate-scope" id="main-bar" rnp-main-bar="">
         <div class="row"><i class="rnp-logo"></i>
@@ -20,24 +20,30 @@
       </div>
 
       <!--sub head-->
-        <div class="row guideline-nav-content">
-          <div class="navbar navbar-default">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="page-header-options pull-center" style="margin: 3%;">
+              <h1 class="text-center"> Network Borescope</h1>
+            </div>
+          </div>
+        </div>
+
+        <div id="helpers" ui-view="helpers@webapp" class="ng-scope">
+          <div class="helpers ng-scope">
             <div class="container">
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div class="page-header-options pull-left">
+                    <div class="">
+                      <button class="btn btn-default home" href="./" style="font-size: 20px;" ><i class="glyphicon glyphicon-home"></i> </button>
+                      <button class="btn btn-default share" style="font-size: 20px;"> <i class="glyphicon glyphicon-share"></i> </button>
+                      <button class="btn btn-default filter" style="font-size: 20px;"> <i class="glyphicon glyphicon-filter" ></i> </button>  
+                    </div> 
+                  </div>
 
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                <div class="page-header-options pull-left">
-                  <h2 class="rnp-title-bar" >Network Borescope</h2>
-                </div>
-              </div>
-
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"> 
-                <div class="page-header-options pull-right">
-                      <button class="btn btn-default home"  href="./"> <i class="glyphicon glyphicon-home" ></i> </button>
-                      <button class="btn btn-default share"> <i class="glyphicon glyphicon-share"></i> </button>
-                      <button class="btn btn-default filter"> <i class="glyphicon glyphicon-filter" ></i> </button>
-                 
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria- haspopup="true" aria-expanded="false">
+                  <div class="page-header-options pull-right">
+                    <div class="btn-group" >
+                      <button type="button" class="btn btn-primary-color dropdown-toggle" data-toggle="dropdown" aria- haspopup="true" aria-expanded="false" style="font-size: 20px;">
                         No Check Time Bounds <span class="caret"></span>
                       </button>
                       <ul class="dropdown-menu">
@@ -49,22 +55,24 @@
                       <li role="separator" class="divider"></li>
                       </ul>
                     </div>
+                  </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
+
 
         <!--Container principal (Mapa e Grafico)-->
         <main id="container" class="font-control ng-scope font-large font-xlarge">
           <div class="ng-scope">
             <div class="rnp-app-view ng-scope">
-              <div class="container ng-scope">
+              <!--div class="container ng-scope"-->
+              <div style="margin-left:5%; margin-right: 5% ">
                 <div class="page-content">
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                      <div>
+                      <div class="panel panel-default"> 
                         <app-map></app-map>
                       </div>
                     </div>
@@ -77,8 +85,7 @@
 
                   <div id="helpers" ui-view="helpers@webapp" class="ng-scope">
                     <div class="helpers ng-scope">
-                      <div class="container">
-                        <div class="row">
+                        <div class="row" style="margin-top: 1%; margin-bottom: 5%;">
                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="page-header-options pull-left">
                               <button class="btn btn-default share"> <i class="glyphicon glyphicon-fast-backward"></i> </button>
@@ -91,10 +98,8 @@
                               <button class="btn btn-default share"> <i class="glyphicon glyphicon-zoom-out"></i> </button>
                             </div>
                           </div>
-                        </div>
-                      </div>
+                        </div>   
                     </div>
-
                   </div>
 
                   <!--Graifco inferior-->

@@ -1,0 +1,78 @@
+{
+    "metadata": {
+        "version": "1.0",
+        "caption": "POP-DF",
+        "geo.anchors": [
+            { "lat":0, "lon":0, "id":"POP-AC" }
+        ]
+    },
+
+    "registry": {
+        "seconds/format": "yyyy-mm-dd hh:nn:ss",
+        "seconds/origin": "1970-01-01 00:00:01",
+        "seconds/what": "e",
+        "geo/length": "25"
+    },
+
+    "estados": {
+        "caption": "States of Brasil",
+        "items": [{ "id": "rj", "cod": 19, "caption": "Rio de Janeiro", "sub": "cidades_rj" }]
+    },
+
+    "cidades_rj": {
+        "caption": "Cities of Rio de Janeiro",
+        "items": [
+            { "id": "rio.rj", "cod": 1, "caption": "Rio de Janeiro", "sub": "bairros_rio_rj",
+            "lat0": -22.748794359402705, "lon0": -43.79543191836241, "lat1": -23.07633400606008, "lon1": -43.10176005437209,
+            "x": "-22.960468, -43.199746  -22.987946, -43.170372"}
+        ]
+    },
+
+    "record": {
+        "fields": [
+            { "id":"seconds", "type": "int" },
+            { "id":"lat", "type": "double" },
+            { "id":"lon", "type": "double" },
+            { "id":"cliente", "type": "int"},
+            { "id":"ttl", "type": "int" }
+        ]
+    },
+
+    "dimensions": [
+        { "id": "location", "height": 25, "class": [ "geo", "lat", "lon" ],
+            "desc": "Geolocalization of Event" },
+
+        { "id": "ttl", "height": 1, "class": [ "cat", "ttl" ],
+            "desc": "Geolocalization of Event" }
+    ],
+
+    "terminal": {
+        "default": {
+            "caption": "N", "unity":"N"
+        },
+        "contents": [
+            { "id": "quantidades", "formula":["sum", "npackets" ] },
+            { "id": "time", "container": {
+	            "bin": 60,
+                "class": ["binlist", "seconds"],
+                "contents": [
+                    { "id": "hc",   "caption": "Distintos", "unity":"Distintos", "formula":["counter"] }
+                ] 
+            }}
+        ]
+    },
+
+    "input": {
+        "type": "csv",
+        "sep": ";",
+        "data": [
+            { "id": "seconds", 
+                "conv": [ "datetime_to_epoch", "seconds", "@format", "@origin" ] 
+            },    
+            { "id": "lat" },
+            { "id": "lon" },
+            { "id": "cliente" },
+            { "id": "ttl"}
+        ]
+	}
+}
