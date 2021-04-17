@@ -28,12 +28,16 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/rnp/assets"
             ],
             "styles": [
               "src/styles.css",
               "src/rnp/vendors-1.1.1.css",
-              "src/rnp/guideline-1.1.1.css"
+              "src/rnp/guideline-1.1.1.css",
+              "leaflet/dist/leaflet.css",
+              "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css",
+              "leaflet-extra-markers/dist/js/leaflet.extra-markers.js"
             ],
             "scripts": [
               "src/rnp/vendors-1.1.1.js",

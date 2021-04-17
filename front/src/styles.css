@@ -5,7 +5,3 @@
   height: 100%;
 }
 
-.body-fill {
-  width: 100%;
-  height: calc(100% - 120px);
-}

@@ -1,0 +1,13 @@
+
+.home {
+  --split: 0.7;
+  height: calc(100% - 120px);
+}
+
+.home-map-row {
+  height: calc(var(--split) * 100%);
+}
+
+.home-chart-row {
+  height: calc((1.0 - var(--split)) * 100%);
+}

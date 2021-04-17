@@ -1,4 +1,4 @@
-let clientsData = {"features": [
+{"features": [
   {"geometry": {"coordinates": [ -47.825561, -15.814495 ], "type": "Point"}, "id": "1", "properties": { "CODBAIRRO": "1", "NOME": "OTHERS" }, "type": "Feature" },
   {"geometry": {"coordinates": [ -47.943111, -15.815952 ], "type": "Point"}, "id": "2", "properties": { "CODBAIRRO": "2", "NOME": "AEB" }, "type": "Feature" },
   {"geometry": {"coordinates": [ -47.880261, -15.796741 ], "type": "Point"}, "id": "3", "properties": { "CODBAIRRO": "3", "NOME": "BNB" }, "type": "Feature" },
@@ -66,5 +66,5 @@ let clientsData = {"features": [
   {"geometry": {"coordinates": [ -47.881720, -15.804671 ], "type": "Point"}, "id": "65", "properties": { "CODBAIRRO": "65", "NOME": "UNESCO" }, "type": "Feature" },
   {"geometry": {"coordinates": [ -48.053233, -15.993008 ], "type": "Point"}, "id": "66", "properties": { "CODBAIRRO": "66", "NOME": "IFB GAMA" }, "type": "Feature" },
   {"geometry": {"coordinates": [ -47.885995, -15.797419 ], "type": "Point"}, "id": "67", "properties": { "CODBAIRRO": "67", "NOME": "ANDIFES" }, "type": "Feature" },
-  {"geometry": {"coordinates": [ -47.927017, -15.859067 ], "type": "Point"}, "id": "68", "properties": { "CODBAIRRO": "68", "NOME": "CNPq" }, "type": "Feature" }  
+  {"geometry": {"coordinates": [ -47.927017, -15.859067 ], "type": "Point"}, "id": "68", "properties": { "CODBAIRRO": "68", "NOME": "CNPq" }, "type": "Feature" }
 ], "type": "FeatureCollection"}
