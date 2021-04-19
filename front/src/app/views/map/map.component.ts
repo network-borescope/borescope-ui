@@ -22,7 +22,7 @@ export class MapComponent implements OnInit {
   // objeto com o mapa do leaflet
   private map?: L.Map;
   // objeto com os clientes
-  private geojson: any = null;
+  private geojson?: L.GeoJSON<any>;
 
   drawControl: any = null;
   listLayer: any = [];
