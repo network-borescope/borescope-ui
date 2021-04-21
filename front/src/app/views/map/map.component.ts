@@ -41,7 +41,6 @@ export class MapComponent implements OnInit {
     if (this.mapDiv === undefined) {
       return;
     }
-
     this.map = L.map(this.mapDiv.nativeElement).setView([-15.7217175, -48.0774466], 9);
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
