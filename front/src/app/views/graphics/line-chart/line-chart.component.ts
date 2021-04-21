@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
-import { Chart, LineController, LineElement, PointElement, LinearScale, Title} from 'chart.js'
+import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement } from 'chart.js';
 
 @Component({
   selector: 'app-line-chart',
@@ -15,14 +15,12 @@ export class LineChartComponent implements OnInit {
     this.lineChartMethod();
   }
 
-
   lineChartMethod(){
     if (this.lineDiv === undefined) {
       return;
     }
 
-    //console.log()
-    Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
+    Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale);
 
     new Chart(this.lineDiv.nativeElement, {
       type: 'line',
