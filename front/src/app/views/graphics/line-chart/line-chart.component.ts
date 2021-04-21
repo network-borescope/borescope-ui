@@ -8,23 +8,23 @@ import { Chart, LineController, LineElement, PointElement, LinearScale, Title} f
   styleUrls: ['./line-chart.component.css']
 })
 export class LineChartComponent implements OnInit {
-    
-  // Quando eu tiro a "!" da
-  @ViewChild('lineChart', { static: false } ) lineElement!: ElementRef;
-  //@ViewChild("lineChart", { static: true }) private lineElement?: ElementRef;
-    
+
+  @ViewChild("lineChart", { static: true }) private lineDiv?: ElementRef;
 
   ngOnInit(): void {
     this.lineChartMethod();
   }
-  
+
 
   lineChartMethod(){
+    if (this.lineDiv === undefined) {
+      return;
+    }
 
     //console.log()
     Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
 
-    new Chart(this.lineElement.nativeElement, {
+    new Chart(this.lineDiv.nativeElement, {
       type: 'line',
       data: {
         labels: ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],
@@ -43,7 +43,7 @@ export class LineChartComponent implements OnInit {
       },
       // options: {
       //   legend:{
-      //     display: false; 
+      //     display: false;
       //   }
       // }
     });
