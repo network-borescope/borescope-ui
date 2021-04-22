@@ -3,10 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
-import { MapComponent } from './views/map/map.component';
-import { BarChartComponent } from './views/graphics/bar-chart/bar-chart.component';
-import { LineChartComponent } from './views/graphics/line-chart/line-chart.component';
-import { BarComponent } from './views/bar/bar.component';
+import { MapComponent } from './vis/map/map.component';
+import { BarChartComponent } from './vis/bar-chart/bar-chart.component';
+import { LineChartComponent } from './vis/line-chart/line-chart.component';
+import { TopBarComponent } from './views/top-bar/top-bar.component';
 
 @NgModule({
   declarations: [
@@ -15,13 +15,10 @@ import { BarComponent } from './views/bar/bar.component';
     MapComponent,
     BarChartComponent,
     LineChartComponent,
-    BarComponent,
-
-
+    TopBarComponent,
   ],
   imports: [
-  
-  BrowserModule
+    BrowserModule
   ],
   providers: [],
   bootstrap: [AppComponent]

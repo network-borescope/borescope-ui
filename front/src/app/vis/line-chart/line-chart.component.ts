@@ -39,11 +39,12 @@ export class LineChartComponent implements OnInit {
           }
         ]
       },
-      // options: {
-      //   legend:{
-      //     display: false;
-      //   }
-      // }
+      options: {
+        responsive: true
+        // legend:{
+        //   display: false;
+        // }
+      }
     });
   }
 }

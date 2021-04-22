@@ -9,6 +9,7 @@ import 'leaflet-draw';
 
 // inclusões da aplicação
 import { ApiService } from 'src/app/shared/api.service';
+import { GlobalService } from 'src/app/shared/global.service';
 
 @Component({
     selector: 'app-map',
@@ -28,7 +29,7 @@ export class MapComponent implements OnInit {
     listLayer: any = [];
     listBairro: any = [];
 
-    constructor(public api: ApiService) { }
+    constructor(public global: GlobalService, public api: ApiService) { }
 
     ngOnInit(): void {
         this.setupMap();
