@@ -90,7 +90,6 @@ export class MapComponent implements OnInit {
 
         // Map events
         this.map.on(L.Draw.Event.CREATED, (e: any) => {
-          console.log('chamou')
           this.listLayer.push(e.layer);
           // this.nextDrawColor(e.layer);
           this.updateDrawColors();
