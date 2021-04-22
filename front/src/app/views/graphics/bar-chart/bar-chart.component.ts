@@ -9,6 +9,7 @@ import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElem
 })
 export class BarChartComponent implements OnInit{
   
+  // referência para o div do grafico
   @ViewChild("barChart", { static: true }) private barDiv?: ElementRef;
   chart: any;
 
@@ -16,25 +17,22 @@ export class BarChartComponent implements OnInit{
     this.barChartMethod();
   }
 
+  //Configuração do grafico 
   barChartMethod(){
     if (this.barDiv === undefined) {
       return;
     }
-
+    //Registra os elementos utilizados pelo grafico
     Chart.register(PointElement, BarController, BarElement, CategoryScale, LinearScale, Title);
 
+    //
     this.chart = new Chart(this.barDiv.nativeElement, {
       type: 'bar',    
       data: {
-        labels: [],
-        datasets: [
-          {
-            label: "My First dataset",
-            data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-            label: "My Second dataset",
-            data: [28, 48, 40, 19, 86, 27, 90]
+        labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+        datasets: [{ 
+          data: [10, 9, 12, 19, 21, 7],
+          borderColor: 'rgb(245,222,179)',
         }
         ]
       },
@@ -70,7 +68,7 @@ export class BarChartComponent implements OnInit{
   /**
  * Atribui funcionalidades a classe do gráfico de barras.
  */
-  prototype = {
+  prototype = { /////##########
     setTitle: (title:any) => {
       this.chart.options.plugins.title.text = title;
       this.chart.options.plugins.title.display = true;

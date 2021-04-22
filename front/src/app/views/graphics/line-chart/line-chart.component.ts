@@ -84,7 +84,7 @@ export class LineChartComponent implements OnInit {
       });
   }
 
-  prototype = {
+  prototype = { /////##########
     setTitle: (title:any) => {
       this.chart.options.plugins.title.text = title;
       this.chart.options.plugins.title.display = true;
