@@ -52,7 +52,7 @@ export class LineChartComponent implements OnInit {
           point: {
             radius: 0
           }
-<<<<<<< HEAD:front/src/app/views/graphics/line-chart/line-chart.component.ts
+
         },
         responsive: false,
         
@@ -82,18 +82,7 @@ export class LineChartComponent implements OnInit {
           }
         }
       }
-      });
-=======
-        ]
-      },
-      options: {
-        responsive: true
-        // legend:{
-        //   display: false;
-        // }
-      }
     });
->>>>>>> refs/remotes/origin/main:front/src/app/vis/line-chart/line-chart.component.ts
   }
 
   prototype = { /////##########
