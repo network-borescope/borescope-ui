@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
-import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement } from 'chart.js';
+import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement, Title } from 'chart.js';
 
 @Component({
   selector: 'app-line-chart',
@@ -10,6 +10,7 @@ import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointEl
 export class LineChartComponent implements OnInit {
 
   @ViewChild("lineChart", { static: true }) private lineDiv?: ElementRef;
+  chart: any;
 
   ngOnInit(): void {
     this.lineChartMethod();
@@ -20,30 +21,154 @@ export class LineChartComponent implements OnInit {
       return;
     }
 
-    Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale);
+    Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale, Title);
 
-    new Chart(this.lineDiv.nativeElement, {
+    this.chart = new Chart(this.lineDiv.nativeElement, {
       type: 'line',
       data: {
-        labels: ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],
-        datasets: [
-          {
-            data: [85,72,86,81,84,86,94,60,62,65,41,58],
-            borderColor: '#00AEFF',
-            fill: false
-          },
-          {
-            data: [33,38,10,93,68,50,35,29,34,2,62,4],
-            borderColor: "#FFCC00",
-            fill: false
-          }
-        ]
+        labels: [],
+        datasets: []
       },
-      // options: {
-      //   legend:{
-      //     display: false;
-      //   }
-      // }
-    });
+      options: {
+        plugins:{
+          legend: {
+              display: true
+          },
+          title: {
+        
+            display: false,
+            text: 'Title'
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+          },
+        },
+        elements: {
+          point: {
+            radius: 0
+          }
+        },
+        responsive: false,
+        
+        hover: {
+          mode: 'nearest',
+          intersect: true
+        },
+        scales: {
+          x: {
+            display: true,
+            type: 'time', ///#########
+            time: {
+              parser: 'MM/DD/YYYY HH:mm:ss',
+              tooltipFormat: 'll HH:mm:ss'
+            },
+            title: {
+              display: false,
+              text: 'x'
+            }
+          },
+          y:{
+            display: true,
+            title: {
+              display: false,
+              text: 'y'
+            }
+          }
+        }
+      }
+      });
   }
+
+  prototype = {
+    setTitle: (title:any) => {
+      this.chart.options.plugins.title.text = title;
+      this.chart.options.plugins.title.display = true;
+    },
+    setTicksX: (ticks:any) => {
+      this.chart.options.scales.x[0].ticks = ticks;
+    },  
+    setTicksY: (ticks:any) => {
+      this.chart.options.scales.y[0].ticks = ticks;
+    },  
+    setTypeX: (type:any) => {
+      this.chart.options.scales.x[0].type = type;
+    },  
+    setTypeY: (type:any) => {
+      this.chart.options.scales.y[0].type = type;
+    },  
+    setLabelX: (label:any) => {
+      this.chart.options.scales.x[0].title.text = label;
+      this.chart.options.scales.x[0].title.display = true;
+    },  
+    setLabelY: (label:any) => {
+      this.chart.options.scales.y[0].title.text = label;
+      this.chart.options.scales.y[0].title.display = true;
+    },
+    setLabels: (labels:any) => {
+      this.chart.config.data.labels = labels;
+    },  
+    addLabel: (label:any) => {
+      let labels = this.chart.config.data.labels;
+      let found = false;
+      for (let i=0; i<labels.length; i++) {
+        if (labels[i] == label) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        labels.push(label);
+      }
+    },
+    addData: (data:any) => {
+      let datasets = this.chart.config.data.datasets;
+      for (let i=0; i<datasets.length; i++) {
+        datasets[i].data.push(data[i]);
+      }
+      this.chart.update();
+    },
+    addDataset: (label:any, data:any, color:any) => {
+      let dataset = {
+        label: label,
+        backgroundColor: color,
+        borderColor: color,
+        data: data,
+        fill: false
+      };
+      let datasets = this.chart.config.data.datasets;
+      datasets.push(dataset);
+      this.chart.update();
+    },
+    removePolyDataset: (label:any, color:any) => {
+      let datasets = this.chart.config.data.datasets;
+      for (let i=0; i<datasets.length; i++) {
+        let dataset = datasets[i];
+        if ((dataset.label == label) && 
+            (dataset.backgroundColor == color) &&
+            (dataset.borderColor == color)) {
+          datasets.splice(i, 1);
+          break;
+        }
+      }
+      this.chart.update();
+    },
+    removeDataset: (label:any) => {
+      let datasets = this.chart.config.data.datasets;
+      for (let i=0; i<datasets.length; i++) {
+        let dataset = datasets[i];
+        if (dataset.label == label) {
+          datasets.splice(i, 1);
+          break;
+        }
+      }
+      this.chart.update();
+    },
+    clear: () => {
+      this.chart.data.labels = [];
+      this.chart.data.datasets = [];
+      this.chart.update();
+    }
+  };
+
 }
