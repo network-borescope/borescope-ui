@@ -26,8 +26,12 @@ export class LineChartComponent implements OnInit {
     this.chart = new Chart(this.lineDiv.nativeElement, {
       type: 'line',
       data: {
-        labels: [],
-        datasets: []
+        labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+        datasets: [{
+          label: '$ em Vendas',
+          data: [10, 9, 12, 19, 21, 7],
+          borderColor: "#002200"
+        }]
       },
       options: {
         plugins:{
@@ -58,7 +62,7 @@ export class LineChartComponent implements OnInit {
         scales: {
           x: {
             display: true,
-            type: 'time', ///#########
+            //type: 'time', ///#########
             time: {
               parser: 'MM/DD/YYYY HH:mm:ss',
               tooltipFormat: 'll HH:mm:ss'

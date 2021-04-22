@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
-import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement, Title } from 'chart.js';
+import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElement, Title } from 'chart.js';
 
 @Component({
   selector: 'app-bar-chart',
@@ -21,13 +21,22 @@ export class BarChartComponent implements OnInit{
       return;
     }
 
-    Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale, Title);
+    Chart.register(PointElement, BarController, BarElement, CategoryScale, LinearScale, Title);
 
     this.chart = new Chart(this.barDiv.nativeElement, {
       type: 'bar',    
       data: {
         labels: [],
-        datasets: []
+        datasets: [
+          {
+            label: "My First dataset",
+            data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+            label: "My Second dataset",
+            data: [28, 48, 40, 19, 86, 27, 90]
+        }
+        ]
       },
       options: {
         plugins:{
