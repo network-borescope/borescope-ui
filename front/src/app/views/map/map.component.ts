@@ -63,42 +63,43 @@ export class MapComponent implements OnInit {
         let editableLayers = new L.FeatureGroup();
         this.map.addLayer(editableLayers);
 
-        // this.drawControl = new L.Control.Draw({
-        //   position: 'topleft',
-        //   draw: {
-        //     polygon: {
-        //       allowIntersection: false, // Restricts shapes to simple polygons
-        //       drawError: {
-        //         color: '#e1e100', // Color the shape will turn when intersects
-        //         message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-        //       },
-        //     },
-        //     // disable toolbar item by setting it to false
-        //     rectangle: true,
-        //     polyline: false,
-        //     circle: false, // Turns off this drawing tool
-        //     circlemarker: false,
-        //     marker: false
-        //   },
-        //   edit: {
-        //     featureGroup: editableLayers, //REQUIRED!!
-        //     // remove: true
-        //   }
-        // });
+        // Draw polygons
+        this.drawControl = new L.Control.Draw({
+          position: 'topleft',
+          draw: {
+            polygon: {
+              allowIntersection: false, // Restricts shapes to simple polygons
+              drawError: {
+                color: '#e1e100', // Color the shape will turn when intersects
+                message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+              },
+            },
+            // disable toolbar item by setting it to false
+            rectangle: {},
+            polyline: false,
+            circle: false, // Turns off this drawing tool
+            circlemarker: false,
+            marker: false
+          },
+          edit: {
+            featureGroup: editableLayers, //REQUIRED!!
+          }
+        });
 
-        // this.map.addControl(this.drawControl);
+        this.map.addControl(this.drawControl);
 
         // Map events
-        // this.map.on(L.Draw.Event.CREATED, (e: any) => {
-        //   this.listLayer.push(e.layer);
-        //   this.nextDrawColor(e.layer);
-        //   updateDrawColors();
+        this.map.on(L.Draw.Event.CREATED, (e: any) => {
+          console.log('chamou')
+          this.listLayer.push(e.layer);
+          // this.nextDrawColor(e.layer);
+          this.updateDrawColors();
         //   // add dataset
         //   requestPoly2ChartBottom(e.layer);
         //   requestPoly2ChartLeft(e.layer);
         //   requestPoly2ChartRight(e.layer);
-        //   editableLayers.addLayer(e.layer);
-        // });
+          editableLayers.addLayer(e.layer);
+        });
 
         // this.map.on(L.Draw.Event.DELETED, (e: any) => {
         //   // remover dataset
@@ -338,44 +339,24 @@ export class MapComponent implements OnInit {
      * Define a cor do retangulo e do poligono que serão
      * desenhados no mapa.
      */
-    /* updateDrawColors() {
+    updateDrawColors() {
       console.log("### L ", L)
-      let drawColors = getGlobal("draw_colors");
-      let drawColorIndex = getGlobal("draw_color_index");
+      // let drawColors = getGlobal("draw_colors");
+      // let drawColorIndex = getGlobal("draw_color_index");
       this.drawControl.setDrawingOptions({
         rectangle: {
           shapeOptions: {
-            color: drawColors.value[drawColorIndex.value]
+            color: 'blue' // drawColors.value[drawColorIndex.value]
           }
         },
         polygon: {
           shapeOptions: {
-            color: drawColors.value[drawColorIndex.value]
+            color: 'blue' // drawColors.value[drawColorIndex.value]
           }
         }
       });
     }
-  */
 
 
 
 }
-
-
-////////////////////////////////////////////////////
-/**
- *
- *   map: any;
-
-  ngOnInit(): void {
-
-    this.renderMap();
-
-  }
-  renderMap(){
-      this.map = L.map('map').setView([-15.8228858,-47.9367244], 6);
-      L.tileLayer(env.MAPA_TILE_LAYER, {maxZoom: 15
-      }).addTo(this.map);
-  }
-
- */
