@@ -3,8 +3,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 // inclusão do leaflet
 import * as L from 'leaflet';
-// inclusão do awsome-markers
+// inclusão do awesome-markers
 import 'leaflet.awesome-markers';
+// inclusão do leaflet draw
 import 'leaflet-draw';
 
 // inclusões da aplicação
@@ -26,14 +27,16 @@ export class MapComponent implements OnInit {
   private geojson!: L.GeoJSON<any>;
   // pbjeto de desenho de polígonos
   private drawControl!: L.Control.Draw;
+  // lista de layers ativos
+  private listLayer: any[] = [];
 
-  private listLayer: L.Layer[] = [];
   listBairro: any = [];
 
   constructor(public global: GlobalService, public api: ApiService) { }
 
   ngOnInit(): void {
     this.setupMap();
+    this.updateDrawColors();
   }
 
   /**
@@ -164,6 +167,37 @@ export class MapComponent implements OnInit {
   getMap(): L.Map {
     return this.map;
   }
+
+  /**
+ * Monta o trecho da query que define uma região geográfica
+ * conforme a visualização no Mapa.
+ */
+  getLocation(): any[] {
+    let zoom = this.getZoom();
+    let bounds = this.map.getBounds();
+    let c0 = bounds.getNorthEast();
+    let c1 = bounds.getSouthWest();
+
+    let list = [];
+    list.push("location");
+    list.push("zrect");
+    list.push(zoom);
+    list.push(c0.lat);
+    list.push(c1.lng);
+    list.push(c1.lat);
+    list.push(c0.lng);
+
+    return list;
+  }
+
+  /**
+   * Retorna um zoom mais adequado ao uso nas querys.
+   */
+  getZoom(): number {
+    let geoExtraZoom = this.global.getGlobal("geo_extra_zoom");
+    return this.map.getZoom() - 1 + geoExtraZoom.value;
+  }
+
 
   /**
    * Escolhe uma cor a partir das que já
@@ -419,7 +453,4 @@ export class MapComponent implements OnInit {
       }
     });
   }
-
-
-
 }
