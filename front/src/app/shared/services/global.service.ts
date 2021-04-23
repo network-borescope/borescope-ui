@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
+import { GraphicsService } from './graphics.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalService {
 
-  constructor() {
+  constructor( private _tes: GraphicsService) {
     this.init();
   }
 
   init() {
+    this._tes.compute_best_unity(54, 98); //""""Teste""""
+    
+    
     /** Essa estrutura também conta com campos para bairros. */
     const schema_info = {
       key: "schema_info",
