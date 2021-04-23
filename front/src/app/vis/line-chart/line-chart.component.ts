@@ -16,11 +16,13 @@ export class LineChartComponent implements OnInit {
     this.lineChartMethod();
   }
 
+  //Configuração do grafico 
   lineChartMethod(){
     if (this.lineDiv === undefined) {
       return;
     }
 
+    //Registra os elementos utilizados pelo grafico
     Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale, Title);
 
     this.chart = new Chart(this.lineDiv.nativeElement, {
@@ -52,7 +54,6 @@ export class LineChartComponent implements OnInit {
           point: {
             radius: 0
           }
-
         },
         responsive: false,
         
@@ -85,28 +86,35 @@ export class LineChartComponent implements OnInit {
     });
   }
 
-  prototype = { /////##########
-    setTitle: (title:any) => {
+  prototype = { 
+    //Modifica as configurações globais para os títulos
+    setTitle: (title:string) => {
       this.chart.options.plugins.title.text = title;
       this.chart.options.plugins.title.display = true;
     },
+
+    //Modifica as configurações globais dos ticks comuns para eixos
     setTicksX: (ticks:any) => {
       this.chart.options.scales.x[0].ticks = ticks;
     },  
     setTicksY: (ticks:any) => {
       this.chart.options.scales.y[0].ticks = ticks;
-    },  
-    setTypeX: (type:any) => {
+    },
+    
+     //Modifica as configurações globais dos dos tipos
+    setTypeX: (type:string) => {
       this.chart.options.scales.x[0].type = type;
     },  
-    setTypeY: (type:any) => {
+    setTypeY: (type:string) => {
       this.chart.options.scales.y[0].type = type;
-    },  
-    setLabelX: (label:any) => {
+    },
+    
+    //Modifica as configurações globais dos labels
+    setLabelX: (label:string) => {
       this.chart.options.scales.x[0].title.text = label;
       this.chart.options.scales.x[0].title.display = true;
     },  
-    setLabelY: (label:any) => {
+    setLabelY: (label:string) => {
       this.chart.options.scales.y[0].title.text = label;
       this.chart.options.scales.y[0].title.display = true;
     },

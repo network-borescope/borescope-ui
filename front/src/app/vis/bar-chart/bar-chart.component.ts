@@ -68,34 +68,42 @@ export class BarChartComponent implements OnInit{
   /**
  * Atribui funcionalidades a classe do gráfico de barras.
  */
-  prototype = { /////##########
-    setTitle: (title:any) => {
+  prototype = { 
+    //Modifica as configurações globais para os títulos
+    setTitle: (title:string) => {
       this.chart.options.plugins.title.text = title;
       this.chart.options.plugins.title.display = true;
     },
+
+    //Modifica as configurações globais dos ticks comuns para eixos
     setTicksX: (ticks:any) => {
       this.chart.options.scales.x[0].ticks = ticks; /////##########
     },  
     setTicksY: (ticks:any) => {
       this.chart.options.scales.y[0].ticks = ticks;/////##########
-    },  
-    setTypeX: (type:any) => {
+    },
+    
+    //Modifica as configurações globais dos dos tipos
+    setTypeX: (type:string) => {
       this.chart.options.scales.x[0].type = type;
     },  
-    setTypeY: (type:any) => {
+    setTypeY: (type:string) => {
       this.chart.options.scales.y[0].type = type;
-    },  
-    setLabelX: (label:any) => {
+    }, 
+
+    //Modifica as configurações globais dos labels
+    setLabelX: (label:string) => {
       this.chart.options.scales.x[0].title.text = label;
       this.chart.options.scales.x[0].title.display = true;
     },  
-    setLabelY: (label:any) => {
+    setLabelY: (label:string) => {
       this.chart.options.scales.y[0].title.text = label;
       this.chart.options.scales.y[0].title.display = true;
     },
     setLabels: (labels:any) => {
       this.chart.config.data.labels = labels;
-    },  
+    },
+
     addLabel: (label:any) => {
       let labels = this.chart.config.data.labels;
       let found = false;
@@ -116,7 +124,7 @@ export class BarChartComponent implements OnInit{
       }
       this.chart.update();
     },
-    addDataset: (label:any, data:any, color:any) => {
+    addDataset: (label:any, data:any, color:string) => {
       let dataset = {
         label: label,
         backgroundColor: color,
@@ -128,7 +136,7 @@ export class BarChartComponent implements OnInit{
       datasets.push(dataset);
       this.chart.update();
     },
-    removePolyDataset: (label:any, color:any) => {
+    removePolyDataset: (label:any, color:string) => {
       let datasets = this.chart.config.data.datasets;
       for (let i=0; i<datasets.length; i++) {
         let dataset = datasets[i];
