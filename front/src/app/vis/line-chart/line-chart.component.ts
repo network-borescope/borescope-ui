@@ -141,7 +141,7 @@ export class LineChartComponent implements OnInit {
       }
       this.chart.update();
     },
-    addDataset: (label:any, data:any, color:any) => {
+    addDataset: (label:any, data:any, color:string) => {
       let dataset = {
         label: label,
         backgroundColor: color,
@@ -153,7 +153,7 @@ export class LineChartComponent implements OnInit {
       datasets.push(dataset);
       this.chart.update();
     },
-    removePolyDataset: (label:any, color:any) => {
+    removePolyDataset: (label:any, color:string) => {
       let datasets = this.chart.config.data.datasets;
       for (let i=0; i<datasets.length; i++) {
         let dataset = datasets[i];

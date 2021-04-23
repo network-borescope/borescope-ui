@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { GlobalService } from './shared/global.service';
+import { GlobalService } from './shared/services/global.service';
 
 @Component({
   selector: 'app-root',
