@@ -8,8 +8,8 @@ import 'leaflet.awesome-markers';
 import 'leaflet-draw';
 
 // inclusões da aplicação
-import { ApiService } from 'src/app/shared/services/api.service';
-import { GlobalService } from 'src/app/shared/services/global.service';
+import { ApiService } from 'src/app/shared/api.service';
+import { GlobalService } from 'src/app/shared/global.service';
 
 @Component({
   selector: 'app-map',
