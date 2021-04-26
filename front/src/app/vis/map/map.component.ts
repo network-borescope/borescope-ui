@@ -1,16 +1,22 @@
 // inclusão de bibliotecas do angular
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 
 // inclusão do leaflet
 import * as L from 'leaflet';
+
 // inclusão do awesome-markers
 import 'leaflet.awesome-markers';
 // inclusão do leaflet draw
 import 'leaflet-draw';
 
+// inclusão do heatmap
+import 'leaflet-heatmap';
+declare var HeatmapOverlay: any;
+
 // inclusões da aplicação
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
+import { UtilService } from 'src/app/shared/util.service';
 
 @Component({
   selector: 'app-map',
@@ -21,6 +27,10 @@ export class MapComponent implements OnInit {
   // referência para o div do mapa
   @ViewChild("map", { static: true }) private mapDiv?: ElementRef;
 
+  // events
+  @Output() requestHeatMapEvent = new EventEmitter();
+
+
   // objeto com o mapa do leaflet
   private map!: L.Map;
   // objeto com os clientes
@@ -30,9 +40,37 @@ export class MapComponent implements OnInit {
   // lista de layers ativos
   private listLayer: any[] = [];
 
+  // heatmap layer
+  private current_heatmapLayer: any;
+  // heatmap configuration
+  private heatCfg = {
+    // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+    // if scaleRadius is false it will be the constant radius used in pixels
+    "radius": 10., // 15.0,
+    "maxOpacity": 1.0,
+    // scales the radius based on map zoom
+    "scaleRadius": false,
+    // if set to false the heatmap uses the global maximum for colorization
+    // if activated: uses the data maximum within the current map boundaries
+    //   (there will always be a red spot with useLocalExtremas true)
+    "useLocalExtrema": true,
+    // which field name in your data represents the latitude - default "lat"
+    latField: 'lat',
+    // which field name in your data represents the longitude - default "lng"
+    lngField: 'lng',
+    // which field name in your data represents the data value - default "value"
+    valueField: 'count',
+    gradient: {
+      // enter n keys between 0 and 1 here
+      // for gradient color customization
+      '.2': '	#00008B', '.4': 'blue', '.6': 'red', '.75': 'yellow', '.90': 'white'
+    }
+  };
+
+
   listBairro: any = [];
 
-  constructor(public global: GlobalService, public api: ApiService) { }
+  constructor(public global: GlobalService, public api: ApiService, public util: UtilService) { }
 
   ngOnInit(): void {
     this.setupMap();
@@ -143,7 +181,7 @@ export class MapComponent implements OnInit {
     });
 
     this.map.on('moveend', () => {
-      // request2HeatMap(); // map/control.js
+      this.requestHeatMapEvent.emit();
       // requestMap2ChartBottom("Map", "#AAAAAA"); // api/support.js
       // requestMap2ChartLeft();
       //requestMap2ChartRight();
@@ -169,9 +207,9 @@ export class MapComponent implements OnInit {
   }
 
   /**
- * Monta o trecho da query que define uma região geográfica
- * conforme a visualização no Mapa.
- */
+   * Monta o trecho da query que define uma região geográfica
+   * conforme a visualização no Mapa.
+   */
   getLocation(): any[] {
     let zoom = this.getZoom();
     let bounds = this.map.getBounds();
@@ -452,5 +490,51 @@ export class MapComponent implements OnInit {
         }
       }
     });
+  }
+
+  /**
+   * Função que desenha um heatmap a partir dos dados
+   * passados como parâmetro.
+   */
+  drawHeatMap(json: any) {
+    if (json.tp == "0") {
+      console.log(json);
+      return;
+    }
+
+    let a = [];
+    let max_v = 0;
+    let min_v = Number.MAX_VALUE;
+    let zoom = this.map.getZoom() - 1;
+    let b = this.map.getBounds();
+    let geoExtraZoom = this.global.getGlobal("geo_extra_zoom");
+    for (let i = 0; i < json.result.length; i++) {
+      let o = json.result[i];
+      let vlat = this.util.tile2latX(o.k[0], zoom + geoExtraZoom.value);
+      let vlon = this.util.tile2longX(o.k[1], zoom + geoExtraZoom.value);
+      let coords = [vlat, vlon];
+      vlat = coords[0];
+      vlon = coords[1];
+      if (!b.contains(L.latLng(vlat, vlon))) continue;
+      let v = Math.log(o.v[0] + 1);
+      o.v[0] = o.v[0] / 1000000000;
+      if (v > max_v) max_v = v;
+      if (v < min_v) min_v = v;
+      let o2 = { lat: vlat, lng: vlon, count: v };
+      a.push(o2);
+    }
+
+    let heatData: any = {};
+    heatData.min = min_v;
+    heatData.max = max_v;
+    heatData.data = a;
+
+    if (this.current_heatmapLayer != undefined) {
+      this.current_heatmapLayer.setData(heatData);
+    } else {
+      this.current_heatmapLayer = new HeatmapOverlay(this.heatCfg);
+      this.current_heatmapLayer.setData(heatData);
+      this.map.addLayer(this.current_heatmapLayer);
+    }
   }
 }
