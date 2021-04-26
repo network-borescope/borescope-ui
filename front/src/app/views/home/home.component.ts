@@ -23,7 +23,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  // TODO
+  /**
+   * Função que faz o request dos heatmaps.
+   */
   async requestHeatmap() {
     const location = this.map.getLocation();
     const time: any = [];
@@ -38,31 +40,32 @@ export class HomeComponent implements OnInit {
   /**
    * Atualiza a tela.
    */
-  // refreshInterface() {
-  //   let traceMode = {
-  //     key: "trace_mode",
-  //     value: document.getElementById("trace").checked
-  //   };
-  //   setGlobal(traceMode);
+  refreshInterface() {
+    let traceMode = {
+      key: "trace_mode",
+      // value: document.getElementById("trace").checked
+    };
+    this.global.setGlobal(traceMode);
 
-  //   request2HeatMap();
-  //   if (isShowFilter()) {
-  //     requestFilter2ChartBottom("Filter", "#606060");
-  //     requestFilter2ChartLeft();
-  //     //requestFilter2ChartRight();
-  //   }
-  //   requestMap2ChartBottom("Map", "#AAAAAA");
-  //   let listLayer = getListLayer();
-  //   for (let i = 0; i < listLayer.length; i++) {
-  //     requestPoly2ChartBottom(listLayer[i]);
-  //   }
-  //   let listBairro = getListBairro();
-  //   for (let i = 0; i < listBairro.length; i++) {
-  //     requestBairro2ChartBottom(listBairro[i].nome, listBairro[i].color, listBairro[i].codigo);
-  //   }
-  //   requestMap2ChartLeft();
-  //   //requestMap2ChartRight();
-  //   updatePoly();
-  //   updateBairro();
-  // }
+    this.requestHeatmap();
+
+    // if (isShowFilter()) {
+    //   requestFilter2ChartBottom("Filter", "#606060");
+    //   requestFilter2ChartLeft();
+    //   //requestFilter2ChartRight();
+    // }
+    // requestMap2ChartBottom("Map", "#AAAAAA");
+    // let listLayer = getListLayer();
+    // for (let i = 0; i < listLayer.length; i++) {
+    //   requestPoly2ChartBottom(listLayer[i]);
+    // }
+    // let listBairro = getListBairro();
+    // for (let i = 0; i < listBairro.length; i++) {
+    //   requestBairro2ChartBottom(listBairro[i].nome, listBairro[i].color, listBairro[i].codigo);
+    // }
+    // requestMap2ChartLeft();
+    // //requestMap2ChartRight();
+    // updatePoly();
+    // updateBairro();
+  }
 }
