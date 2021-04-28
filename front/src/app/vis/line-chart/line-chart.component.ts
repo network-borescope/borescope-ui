@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { Line } from './line';
 
 
@@ -11,14 +10,18 @@ import { Line } from './line';
 export class LineChartComponent implements OnInit {
 
   chartline: any;
+  Line: Line;
+  
 
-  constructor(line: Line){
-
+  constructor(_line: Line){
+    this.Line = _line;
   }
 
 
   ngOnInit(): void {
-     //this.lineChartMethod();
+    
+    this.Line.getTest();
+    this.Line.lineChartMethod();
 
   }
 }
