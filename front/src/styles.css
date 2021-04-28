@@ -5,3 +5,14 @@
   height: 100%;
 }
 
+.leaflet-touch .leaflet-bar a:last-child {
+  border-bottom-left-radius: 7px !important;
+  border-bottom-right-radius: 7px !important;
+  box-shadow: 2px 3px 5px #ccc;
+}
+
+.leaflet-touch .leaflet-bar a:first-child {
+  border-top-left-radius: 7px !important;
+  border-top-right-radius: 7px !important;
+  box-shadow: 2px 3px 5px #ccc;
+}

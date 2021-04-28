@@ -32,23 +32,21 @@
               "src/rnp/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "src/rnp/vendors-1.1.1.css",
-              "src/rnp/guideline-1.1.1.css",
               "./node_modules/leaflet/dist/leaflet.css",
               "./node_modules/leaflet-draw/dist/leaflet.draw.css",
               "./node_modules/leaflet.awesome-markers/dist/leaflet.awesome-markers.css",
-              "./node_modules/leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css",
-              "./node_modules/angular2-draggable/css/resizable.min.css"
+              "./node_modules/angular2-draggable/css/resizable.min.css",
+              "src/rnp/vendors-1.1.1.css",
+              "src/rnp/guideline-1.1.1.css",
+              "src/styles.css"
             ],
             "scripts": [
-              "src/rnp/vendors-1.1.1.js",
-              "src/rnp/guideline-1.1.1.js",
               "./node_modules/leaflet-draw/dist/leaflet.draw.js",
               "./node_modules/leaflet.awesome-markers/dist/leaflet.awesome-markers.min.js",
-              "./node_modules/leaflet-extra-markers/dist/js/leaflet.extra-markers.min.js",
               "./node_modules/heatmap.js/build/heatmap.min.js",
-              "./node_modules/leaflet-heatmap/leaflet-heatmap.js"
+              "./node_modules/leaflet-heatmap/leaflet-heatmap.js",
+              "src/rnp/vendors-1.1.1.js",
+              "src/rnp/guideline-1.1.1.js"
             ]
           },
           "configurations": {
