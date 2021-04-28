@@ -526,4 +526,49 @@ export class MapComponent implements OnInit {
       this.map.addLayer(this.current_heatmapLayer);
     }
   }
+  // /**
+  //  * Remove layer da lista.
+  //  * @param {*} layer 
+  //  */
+  //  removePoly(layer:any) {
+  //   for (let i=0; i<this.listPoly.length; i++) {
+  //     if ((((layer instanceof L.Rectangle) && ////I########mportacao
+  //         (this.listPoly[i].layer instanceof L.Rectangle)) ||
+  //         ((layer instanceof L.Polygon) &&
+  //         (this.listPoly[i].layer instanceof L.Polygon))) &&
+  //         (layer.options.color == this.listPoly[i].layer.options.color)) {
+  //           this.listPoly.splice(i, 1);
+  //       break;
+  //     }
+  //   }
+  // }
+
+  // /**
+  //  * Adiciona layer a lista.
+  //  * @param {*} layer 
+  //  * @param {*} data 
+  //  */
+  // addPoly(layer:any, dataCovid:any) {
+  //   let achou = false;
+  //   for (let i=0; i<this.listPoly.length; i++) {
+  //     if ((((layer instanceof L.Rectangle) &&
+  //         (this.listPoly[i].layer instanceof L.Rectangle)) ||
+  //         ((layer instanceof L.Polygon) &&
+  //         (this.listPoly[i].layer instanceof L.Polygon))) &&
+  //         (layer.options.color == this.listPoly[i].layer.options.color)) {
+  //           this.listPoly[i].covid = dataCovid;
+  //       achou = true;
+  //       break;
+  //     }
+  //   }  
+  //   if (!achou) {
+  //     let poly = { 
+  //       layer: layer,
+  //       covid: dataCovid
+  //     };
+  //     this.listPoly.push(poly);
+  //   }
+  //   return this.listPoly;
+  // }
+
 }

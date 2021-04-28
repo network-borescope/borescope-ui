@@ -33,12 +33,12 @@ export class ApiService {
   /**
    * Solicita os dados que compõe o mapa de calor.
    */
-  async request2HeatMap(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined) {
+  async request2HeatMap(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined,) {
     let query = new QueryRequest();
     let selectedChannel = this.global.getGlobal("selected_channel");
 
     query.select = [selectedChannel.value];
-    query.groupBy = "location";
+    query.groupBy  = "location";
     query.from = "antenas";
 
     query.where = [];
@@ -57,27 +57,14 @@ export class ApiService {
 
     this.utils.showTrace("request2HeatMap", query);
 
-    const url = `${this.xhttp_url}`;
-    console.log(url);
-
-    // post parameters
-    const params = { query };
-    console.log(`post data: ${JSON.stringify(params)}`);
-
-    // post header
-    const headers = {
-      'Content-Type': 'application/json',
-      'dataType': 'json'
-    };
-
-    // Return a new promise.
-    const response = await fetch(url, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(params),
-    });
-
-    return await response.json();
+    // $.ajax({
+    //   type: 'POST',
+    //   url: xhttp_url,
+    //   data: JSON.stringify(query),
+    //   success: drawHeatMap,
+    //   contentType: "application/json",
+    //   dataType: 'json'
+    // });
   }
 
   /**

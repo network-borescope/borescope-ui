@@ -8,8 +8,8 @@ let global_query_geo_fieldname = "location";
 let global_filter_by_space = 1;
 
 let global_server = "http://127.0.0.1:8001/tc/query";
-let xhttp_url = "http://localhost:8080/tc/query";
-let xhttp_url_app = "http://localhost:8080/tc/app";
+let xhttp_url = "http://localhost:8006/tc/query";
+let xhttp_url_app = "http://localhost:8006/tc/app";
 //let xhttp_url = "http://gwrec.cloudnext.rnp.br:57077/tc/query";
 //let xhttp_url_app = "http://gwrec.cloudnext.rnp.br:57077/tc/app";
 //let xhttp_url = global_config.url;
