@@ -38,17 +38,34 @@ export class HomeComponent implements OnInit {
     this.map.drawHeatMap(res);
   }
 
+  async requestMapChartLeft() {
+    const location = this.map.getLocation();
+    // TODO: pegar os outros parâmetros
+    const time: any = [];
+    const uf: any = [];
+    const cidade: any = [];
+    const bairro: any = [];
+
+    const res = await this.api.requestMap2ChartLeft(location, time, uf, cidade, bairro);
+    // this.bar.drawMapChartLeft()
+  }
+
+  async requestMapChartRight() {
+    const location = this.map.getLocation();
+    // TODO: pegar os outros parâmetros
+    const time: any = [];
+    const uf: any = [];
+    const cidade: any = [];
+    const bairro: any = [];
+
+    const res = await this.api.requestMap2ChartRight(location, time, uf, cidade, bairro);
+    // this.line.drawMapChartRight()
+  }
+
   async requestMap2ChartBottom(id: string, color: string) {
 
   }
 
-  async requestMap2ChartLeft() {
-
-  }
-
-  async requestMap2ChartRight() {
-
-  }
 
   async requestPoly2ChartBottom(layer: any) {
 
@@ -80,9 +97,10 @@ export class HomeComponent implements OnInit {
 
   async onMoveEnded() {
       this.requestHeatmap();
+      this.requestMapChartLeft();
+      this.requestMapChartRight();
+
       this.requestMap2ChartBottom("Map", "#AAAAAA");
-      this.requestMap2ChartLeft();
-      this.requestMap2ChartRight();
   }
 
   async onPolyCreated(layer: any) {
