@@ -3,7 +3,10 @@
   <div class="row home-map-row">
     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 fill" style="padding: 0px !important;">
       <app-map #appMap
-      (requestHeatMapEvent) = "this.requestHeatmap()"
+      (moveEndedEvent) = "this.onMoveEnded"
+      (polyCreatedEvent) = "this.onPolyCreated"
+      (polyEditedEvent) = "this.onPolyEdited"
+      (polyRemovedEvent) = "this.onPolyRemoved"
       ></app-map>
     </div>
 

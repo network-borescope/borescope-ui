@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
    */
   async requestHeatmap() {
     const location = this.map.getLocation();
+    // TODO: pegar os outros parâmetros
     const time: any = [];
     const uf: any = [];
     const cidade: any = [];
@@ -35,6 +36,73 @@ export class HomeComponent implements OnInit {
 
     const res = await this.api.request2HeatMap(location, time, uf, cidade, bairro);
     this.map.drawHeatMap(res);
+  }
+
+  async requestMap2ChartBottom(id: string, color: string) {
+
+  }
+
+  async requestMap2ChartLeft() {
+
+  }
+
+  async requestMap2ChartRight() {
+
+  }
+
+  async requestPoly2ChartBottom(layer: any) {
+
+  }
+
+  async requestPoly2ChartLeft(layer: any) {
+
+  }
+
+  async requestPoly2ChartRight(layer: any) {
+
+  }
+
+  async removePolyInChartBottom(layer: any) {
+
+  }
+
+  async removePoly(layer: any) {
+
+  }
+
+  async refreshPolyChartLeft() {
+
+  }
+
+  async refreshPolyChartRight() {
+
+  }
+
+  async onMoveEnded() {
+      this.requestHeatmap();
+      this.requestMap2ChartBottom("Map", "#AAAAAA");
+      this.requestMap2ChartLeft();
+      this.requestMap2ChartRight();
+  }
+
+  async onPolyCreated(layer: any) {
+    this.requestPoly2ChartBottom(layer);
+    this.requestPoly2ChartLeft(layer);
+    this.requestPoly2ChartRight(layer);
+  }
+
+  async onPolyRemoved(layer: any) {
+    this.removePolyInChartBottom(layer);
+    this.removePoly(layer);
+    this.refreshPolyChartLeft();
+    this.refreshPolyChartRight();
+  }
+
+  async onPolyEdited(layer: any) {
+    this.requestPoly2ChartBottom(layer);
+    this.removePoly(layer);
+    this.requestPoly2ChartLeft(layer);
+    this.requestPoly2ChartRight(layer);
   }
 
   /**

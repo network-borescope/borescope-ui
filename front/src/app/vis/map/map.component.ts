@@ -28,7 +28,10 @@ export class MapComponent implements OnInit {
   @ViewChild("map", { static: true }) private mapDiv?: ElementRef;
 
   // events
-  @Output() requestHeatMapEvent = new EventEmitter();
+  @Output() polyCreatedEvent = new EventEmitter<any>();
+  @Output() polyRemovedEvent = new EventEmitter<any>();
+  @Output() polyEditedEvent = new EventEmitter<any>();
+  @Output() moveEndedEvent = new EventEmitter();
 
 
   // objeto com o mapa do leaflet
@@ -140,10 +143,7 @@ export class MapComponent implements OnInit {
       this.nextDrawColor(e.layer);
       this.updateDrawColors();
 
-      // TODO: query data.
-      // requestPoly2ChartBottom(e.layer);
-      // requestPoly2ChartLeft(e.layer);
-      // requestPoly2ChartRight(e.layer);
+      this.polyCreatedEvent.emit(e.layer);
 
       editableLayers.addLayer(e.layer);
     });
@@ -152,39 +152,23 @@ export class MapComponent implements OnInit {
       console.log(e);
       // remover dataset
       e.layers.eachLayer((layer: any) => {
-
-        // TODO: events.
-        // removePolyInChartBottom(layer);
-        // removePoly(layer);
-        // refreshPolyChartLeft();
-        // refreshPolyChartRight();
-
+        this.polyRemovedEvent.emit(layer)
         this.removeLayer(layer);
       });
     });
 
     this.map.on(L.Draw.Event.EDITED, (e: any) => {
-      console.log(e);
-
       // update dataset
       e.layers.eachLayer((layer: any) => {
-
-        // TODO: events.
-        // requestPoly2ChartBottom(layer);
-        // removePoly(layer);
-        // requestPoly2ChartLeft(layer);
-        // requestPoly2ChartRight(layer);
-
+        this.polyEditedEvent.emit(layer);
         this.removeLayer(layer);
+
         this.listLayer.push(e.layer);
       });
     });
 
     this.map.on('moveend', () => {
-      this.requestHeatMapEvent.emit();
-      // requestMap2ChartBottom("Map", "#AAAAAA"); // api/support.js
-      // requestMap2ChartLeft();
-      //requestMap2ChartRight();
+      this.moveEndedEvent.emit();
     });
   }
 
@@ -195,7 +179,10 @@ export class MapComponent implements OnInit {
     return this.listLayer;
   }
 
-  getListBairro() {
+  /**
+   * Retorna lista de bairros.
+   */
+   getListBairro() {
     return this.listBairro;
   }
 
@@ -235,7 +222,6 @@ export class MapComponent implements OnInit {
     let geoExtraZoom = this.global.getGlobal("geo_extra_zoom");
     return this.map.getZoom() - 1 + geoExtraZoom.value;
   }
-
 
   /**
    * Escolhe uma cor a partir das que já
@@ -380,6 +366,7 @@ export class MapComponent implements OnInit {
       "</div>" +
 
       "</div>";
+
     layer.bindPopup(contentPopup);
 
     layer.on('click', () => {
@@ -392,13 +379,15 @@ export class MapComponent implements OnInit {
         }
       }
 
-      /* if (color != '') {
+      /*
+      if (color != '') {
         layer.setIcon(this.formatStatesStyle('blue'));
         chartBottom.removeDataset(feature.properties.NOME);
         removeBairroClick(feature.properties.CODBAIRRO);
         refreshBairroChartLeft();
         //refreshBairroChartRight();
-      } else {
+      }
+      else {
         let drawColors = getGlobal("draw_colors");
         let drawColorIndex = getGlobal("draw_color_index");
         layer.setIcon(formatStatesStyle(drawColors.value[drawColorIndex.value]));
