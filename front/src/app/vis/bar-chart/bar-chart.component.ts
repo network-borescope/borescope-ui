@@ -8,16 +8,19 @@ import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElem
   styleUrls: ['./bar-chart.component.css']
 })
 export class BarChartComponent implements OnInit{
-  
+
   // referência para o div do grafico
   @ViewChild("barChart", { static: true }) private barDiv?: ElementRef;
+
+  public zIndex: string = '1000';
+
   chart: any;
 
   ngOnInit(): void {
     this.barChartMethod();
   }
 
-  //Configuração do grafico 
+  //Configuração do grafico
   barChartMethod(){
     if (this.barDiv === undefined) {
       return;
@@ -27,10 +30,10 @@ export class BarChartComponent implements OnInit{
 
     //
     this.chart = new Chart(this.barDiv.nativeElement, {
-      type: 'bar',    
+      type: 'bar',
       data: {
         labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
-        datasets: [{ 
+        datasets: [{
           data: [10, 9, 12, 19, 21, 7],
           borderColor: 'rgb(245,222,179)',
         }
@@ -64,11 +67,11 @@ export class BarChartComponent implements OnInit{
       }
     });
   }
- 
+
   /**
  * Atribui funcionalidades a classe do gráfico de barras.
  */
-  prototype = { 
+  prototype = {
     //Modifica as configurações globais para os títulos
     setTitle: (title:string) => {
       this.chart.options.plugins.title.text = title;
@@ -78,24 +81,24 @@ export class BarChartComponent implements OnInit{
     //Modifica as configurações globais dos ticks comuns para eixos
     setTicksX: (ticks:any) => {
       this.chart.options.scales.x[0].ticks = ticks; /////##########
-    },  
+    },
     setTicksY: (ticks:any) => {
       this.chart.options.scales.y[0].ticks = ticks;/////##########
     },
-    
+
     //Modifica as configurações globais dos dos tipos
     setTypeX: (type:string) => {
       this.chart.options.scales.x[0].type = type;
-    },  
+    },
     setTypeY: (type:string) => {
       this.chart.options.scales.y[0].type = type;
-    }, 
+    },
 
     //Modifica as configurações globais dos labels
     setLabelX: (label:string) => {
       this.chart.options.scales.x[0].title.text = label;
       this.chart.options.scales.x[0].title.display = true;
-    },  
+    },
     setLabelY: (label:string) => {
       this.chart.options.scales.y[0].title.text = label;
       this.chart.options.scales.y[0].title.display = true;
@@ -140,7 +143,7 @@ export class BarChartComponent implements OnInit{
       let datasets = this.chart.config.data.datasets;
       for (let i=0; i<datasets.length; i++) {
         let dataset = datasets[i];
-        if ((dataset.label == label) && 
+        if ((dataset.label == label) &&
             (dataset.backgroundColor == color) &&
             (dataset.borderColor == color)) {
           datasets.splice(i, 1);

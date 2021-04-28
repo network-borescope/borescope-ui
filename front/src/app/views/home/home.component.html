@@ -1,7 +1,7 @@
 <div id="rnp-inicio-screen" class="home">
 
   <div class="row home-map-row">
-    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 fill" style="padding: 0px !important;">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fill" style="padding: 0px !important;">
       <app-map #appMap
       (moveEndedEvent) = "this.onMoveEnded"
       (polyCreatedEvent) = "this.onPolyCreated"
@@ -9,16 +9,16 @@
       (polyRemovedEvent) = "this.onPolyRemoved"
       ></app-map>
     </div>
-
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 fill" style="padding: 0px !important; background-color: rgb(183, 192, 209);">
-      <app-bar-chart #appBarChart></app-bar-chart>
-    </div>
   </div>
 
-  <div class="row home-chart-row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fill" style="padding: 0px !important; background-color: rgb(209, 186, 183);">
-      <app-line-chart #appLineChart></app-line-chart>
-    </div>
+  <div ngDraggable class="col-xs-4 col-sm-4 col-md-4 col-lg-4 widget" style="position: absolute; top: 150px; right: 10px;">
+    <app-bar-chart #appBarChart></app-bar-chart>
   </div>
+
+  <div ngDraggable class="col-xs-8 col-sm-8 col-md-8 col-lg-8 widget" style="position: absolute; bottom: 20px; right: 15%;">
+    <app-line-chart #appLineChart></app-line-chart>
+  </div>
+
+
 
 </div>

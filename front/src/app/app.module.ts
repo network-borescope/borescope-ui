@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { AngularDraggableModule } from 'angular2-draggable';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
 import { MapComponent } from './vis/map/map.component';
@@ -18,7 +20,8 @@ import { TopBarComponent } from './views/top-bar/top-bar.component';
     TopBarComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AngularDraggableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
