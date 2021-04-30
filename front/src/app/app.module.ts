@@ -9,7 +9,6 @@ import { MapComponent } from './vis/map/map.component';
 import { BarChartComponent } from './vis/bar-chart/bar-chart.component';
 import { LineChartComponent } from './vis/line-chart/line-chart.component';
 import { TopBarComponent } from './views/top-bar/top-bar.component';
-import { Line } from './vis/line-chart/line';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,7 @@ import { Line } from './vis/line-chart/line';
     BrowserModule,
     AngularDraggableModule
   ],
-  providers: [Line],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

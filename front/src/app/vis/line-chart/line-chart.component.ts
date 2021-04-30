@@ -9,20 +9,12 @@ import { Line } from './line';
 })
 export class LineChartComponent implements OnInit {
 
-  chartline: any;
-  Line: Line;
-  
-
-  constructor(_line: Line){
-    this.Line = _line;
-  }
-
+  line = new Line();
 
   ngOnInit(): void {
     
-    this.Line.getTest();
-    this.Line.lineChartMethod();
-
+    this.line.getTest();
+    this.line.lineChartMethod();
   }
 }
   

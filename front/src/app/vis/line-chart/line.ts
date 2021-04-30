@@ -1,9 +1,9 @@
-import { ElementRef, Injectable, ViewChild } from "@angular/core";
+import { Directive, ElementRef, ViewChild } from "@angular/core";
 
 import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement, Title } from 'chart.js';
 
-@Injectable()
-export class Line {
+@Directive()
+export class Line{
 
     @ViewChild("lineChart", { static: true }) private lineDiv?: ElementRef;
     chart: any;
