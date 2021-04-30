@@ -46,7 +46,7 @@ function compute_best_unity(mn, mx) {
 }
 
 /**
- * Formata o gráfico da esquerda.
+ * Formata o gráfico da esquerda. ---- Gráfico de Barra
  */
 function initChartLeft() {
   $('#chartLeftContainer').height(window.innerHeight - 350); // previus value 300
@@ -116,7 +116,7 @@ function initChartRight() {
 }
 
 /**
- * Apresenta o gráfico inferior.
+ * Apresenta o gráfico inferior. ---- Gráfico de Linha
  */
 function initChartBottom() {
   chartBottom = new Line('chartBottom');
@@ -236,7 +236,7 @@ function resetData() {
 }
 
 /**
- * Plota os dados do Mapa no gráfico da esquerda.
+ * Plota os dados do Mapa no gráfico da esquerda. ---- Gráfico de Barra
  * @param {*} responseData 
  */
 function drawMapChartLeft(responseData) { 
@@ -393,7 +393,7 @@ function addBairroClick(codBairro, dataCovid) {
 }
 
 /**
- * Plota os dados dos Bairros no gráfico da esquerda.
+ * Plota os dados dos Bairros no gráfico da esquerda. 
  * @param {*} responseData 
  */
 function drawBairroChartLeft(codBairro, responseData) { 
@@ -529,7 +529,7 @@ function drawPolyChartLeft(layer, responseData) {
 }
 
 /**
- * Plota os dados das Geometrias no gráfico da direita.
+ * Plota os dados das Geometrias no gráfico da direita. ---- Gráfico de Barra
  * @param {*} responseData 
  */
 function drawPolyChartRight(layer, responseData) { 
@@ -558,6 +558,7 @@ function clearXYPoly() {
   }
 }
 
+//*************************---- Gráfico de Barra */
 function clearXYUnit() {
   for (let i=0; i<256; i++) {
     let active = dataChartLeft[i][0];
