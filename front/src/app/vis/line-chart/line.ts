@@ -8,9 +8,6 @@ export class Line{
     @ViewChild("lineChart", { static: true }) private lineDiv?: ElementRef;
     chart: any;
 
-    getTest(){
-        return console.log('sdsd', 'dsfdf', 54)
-    }
     //Configuração do grafico 
     lineChartMethod(){
         if (this.lineDiv === undefined) {
@@ -23,12 +20,12 @@ export class Line{
         this.chart = new Chart(this.lineDiv.nativeElement, {
         type: 'line',
         data: {
-            labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-            datasets: [{
-            label: '$ em Vendas',
-            data: [10, 9, 12, 19, 21, 7],
-            borderColor: "#002200"
-            }]
+        labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+        datasets: [{
+          data: [10, 9, 12, 19, 21, 7],
+          borderColor: 'rgb(245,222,179)',
+        }
+        ]
         },
         options: {
             plugins:{

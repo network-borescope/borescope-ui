@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Line } from './line';
+import { Chart } from 'chart.js';
 
 
 @Component({
@@ -9,13 +10,60 @@ import { Line } from './line';
 })
 export class LineChartComponent implements OnInit {
 
+  chartBottom: any
   line = new Line();
 
   ngOnInit(): void {
-    
-    this.line.getTest();
-    this.line.lineChartMethod();
+    this.chartBottom = this.line.lineChartMethod();
+    //this.line.lineChartMethod();
   }
+
+    /**
+   * Difine o intervalo de Y no gráfico inferior.
+   * @param {*} mn 
+   * @param {*} mx 
+   */
+  compute_best_unity(mn:number, mx:number) {
+    let div = 1;
+    let potencia = 0;
+    for (let i = 0; i < 20; i++) {
+      if (mx/div < 100) {
+        break;
+      }
+      potencia ++;
+      div *= 10;
+    }
+    potencia -= potencia % 3;
+    div = 1; for (let i=0;i<potencia;i++) div *= 10;
+    
+    let prefixos = [ "", "K x ", "M x ", "G x ", "T x ", "E x ", "P x " ];
+    let prefixo = prefixos[potencia/3];
+
+    let res = { prefix: prefixo, div: div };
+    
+    // logaritmica ou nao
+    if (mn && mx/(mn+1) > 1000) {
+      //res.log = 1; //####################
+    } else {
+      //res.log = 0; //###############
+    }
+
+    return res;
+  }
+
+  ///**************************ATENÇÃO****************************************** */
+//   /**
+//  * Remove um poligono do gráfico inferior.
+//  * @param {*} layer 
+//  */
+//   removePolyInChartBottom(layer:any) {
+//     let datasetLabel = getLayerType(layer);
+//     let datasetColor = layer.options.color;
+//     this.chartBottom = getChart('bottom');
+//     this.chartBottom.removePolyDataset(datasetLabel, datasetColor);
+//   }
+    
+
 }
   
 

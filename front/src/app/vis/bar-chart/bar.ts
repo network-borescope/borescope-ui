@@ -22,12 +22,8 @@ export class Bar {
     this.chart = new Chart(this.barDiv.nativeElement, {
       type: 'bar',
       data: {
-        labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
-        datasets: [{
-          data: [10, 9, 12, 19, 21, 7],
-          borderColor: 'rgb(245,222,179)',
-        }
-        ]
+        labels: [],
+        datasets: []
       },
       options: {
         plugins:{
