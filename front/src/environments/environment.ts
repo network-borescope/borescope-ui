@@ -7,7 +7,6 @@ export const environment = {
   backend: 'http://localhost:4200'
 
   // MAPA_TILE_LAYER: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-
 };
 
 /*

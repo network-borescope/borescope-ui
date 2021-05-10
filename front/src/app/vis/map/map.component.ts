@@ -1,5 +1,5 @@
 // inclusão de bibliotecas do angular
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 
 // inclusão do leaflet
 import * as L from 'leaflet';
@@ -23,7 +23,7 @@ import { UtilService } from 'src/app/shared/util.service';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements AfterViewInit {
   // referência para o div do mapa
   @ViewChild("map", { static: true }) private mapDiv?: ElementRef;
 
@@ -75,7 +75,7 @@ export class MapComponent implements OnInit {
 
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.setupMap();
     this.updateDrawColors();
   }
@@ -106,7 +106,8 @@ export class MapComponent implements OnInit {
     L.Marker.prototype.options.icon = L.AwesomeMarkers.icon({ icon: 'home', prefix: 'fa', markerColor: 'blue', spin: false });
 
     // carregamento do dado dos clientes
-    const clients = await this.api.getClients();
+    const clients =  this.global.getGlobal('list_clientes').value;
+    console.log(clients)
     this.geojson = L.geoJSON(clients, { pointToLayer: this.statesStyle, onEachFeature: this.onEachFeature }).addTo(this.map);
 
     // Initialise the FeatureGroup to store editable layers
@@ -528,7 +529,7 @@ export class MapComponent implements OnInit {
   }
   // /**
   //  * Remove layer da lista.
-  //  * @param {*} layer 
+  //  * @param {*} layer
   //  */
   //  removePoly(layer:any) {
   //   for (let i=0; i<this.listPoly.length; i++) {
@@ -545,8 +546,8 @@ export class MapComponent implements OnInit {
 
   // /**
   //  * Adiciona layer a lista.
-  //  * @param {*} layer 
-  //  * @param {*} data 
+  //  * @param {*} layer
+  //  * @param {*} data
   //  */
   // addPoly(layer:any, dataCovid:any) {
   //   let achou = false;
@@ -560,9 +561,9 @@ export class MapComponent implements OnInit {
   //       achou = true;
   //       break;
   //     }
-  //   }  
+  //   }
   //   if (!achou) {
-  //     let poly = { 
+  //     let poly = {
   //       layer: layer,
   //       covid: dataCovid
   //     };

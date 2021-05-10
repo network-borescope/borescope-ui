@@ -11,8 +11,7 @@ export class GlobalService {
 
   init() {
     //this._tes.compute_best_unity(54, 98); //""""Teste""""
-    
-    
+
     /** Essa estrutura também conta com campos para bairros. */
     const schema_info = {
       key: "schema_info",
@@ -123,6 +122,15 @@ export class GlobalService {
     this.setGlobal(draw_color_index);
 
     /**
+     * Guarta a lista de clientes
+     */
+    const list_clientes = {
+      key: "list_clientes",
+      value: []
+    }
+    this.setGlobal(list_clientes);
+
+    /**
      * Guarda lista de bairros.
      */
     const list_bairro = {
@@ -131,7 +139,6 @@ export class GlobalService {
     };
     this.setGlobal(list_bairro);
 
-    /// TODO: documentar as variáveis globais abaixo
     const schema = {
       key: "schema",
       value: false
@@ -190,3 +197,4 @@ export class GlobalService {
     sessionStorage.setItem(object.key, JSON.stringify(object));
   }
 }
+

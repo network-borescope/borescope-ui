@@ -37,34 +37,41 @@ export class ApiService {
     let query = new QueryRequest();
     let selectedChannel = this.global.getGlobal("selected_channel");
 
-    query.select = [selectedChannel.value];
-    query.groupBy  = "location";
-    query.from = "antenas";
+    query['select'] = [selectedChannel.value];
+    query['group-by']  = "location";
+    query['from'] = "antenas";
 
-    query.where = [];
-    query.where.push(location);
-    query.where.push(time);
-
+    query['where'] = query['where'].splice(0,1);
+    if (location !== undefined) {
+      query['where'].push(location);
+    }
+    if (time !== undefined) {
+      query['where'].push(time);
+    }
     if (uf !== undefined) {
-      query.where.push(uf);
+      query['where'].push(uf);
     }
     if (cidade !== undefined) {
-      query.where.push(cidade);
+      query['where'].push(cidade);
     }
     if (bairro !== undefined) {
-      query.where.push(bairro);
+      query['where'].push(bairro);
     }
 
     this.utils.showTrace("request2HeatMap", query);
 
-    // $.ajax({
-    //   type: 'POST',
-    //   url: xhttp_url,
-    //   data: JSON.stringify(query),
-    //   success: drawHeatMap,
-    //   contentType: "application/json",
-    //   dataType: 'json'
-    // });
+    // post header
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    // Return a new promise.
+    const response = await fetch(this.xhttp_url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(query),
+    });
+    return await response.json();
   }
 
   /**
@@ -73,22 +80,22 @@ export class ApiService {
   async requestMap2ChartLeft(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined) {
     let query = new QueryRequest();
 
-    query.select = ["quantidades"];
-    query.groupBy = "ttl";
-    query.from = "antenas";
+    query['select'] = ["quantidades"];
+    query['group-by'] = "ttl";
+    query['from'] = "antenas";
 
-    query.where = [];
-    query.where.push(location);
-    query.where.push(time);
+    query['where'] = [];
+    query['where'].push(location);
+    query['where'].push(time);
 
     if (uf !== undefined) {
-      query.where.push(uf);
+      query['where'].push(uf);
     }
     if (cidade !== undefined) {
-      query.where.push(cidade);
+      query['where'].push(cidade);
     }
     if (bairro !== undefined) {
-      query.where.push(bairro);
+      query['where'].push(bairro);
     }
 
     this.utils.showTrace("requestMap2ChartLeft", query); // utils.js
@@ -122,20 +129,20 @@ export class ApiService {
   async requestMap2ChartRight(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined) {
     let q1 = new QueryRequest();
 
-    q1.groupBy = "time";
-    q1.from = "antena";
+    q1['group-by'] = "time";
+    q1['from'] = "antena";
 
-    q1.where = [];
-    q1.where.push(location);
-    q1.where.push(time);
+    q1['where'] = [];
+    q1['where'].push(location);
+    q1['where'].push(time);
 
     let q2 = new QueryRequest();
 
-    q2.groupBy = "time";
+    q2['group-by'] = "time";
 
-    q2.where = [];
-    q2.where.push(location);
-    q2.where.push(time);
+    q2['where'] = [];
+    q2['where'].push(location);
+    q2['where'].push(time);
 
     let query = {
       q1: q1,
@@ -168,7 +175,7 @@ export class ApiService {
 //   /**
 //  * Solicita os dados do bairro para compor o gráfico da esquerda.
 //  */
-// requestBairro2ChartLeft(codBairro) { 
+// requestBairro2ChartLeft(codBairro) {
 //   let query = new QueryRequest();
 //   query.select = ["quantidades"];
 //   query["group-by"] = "ttl";

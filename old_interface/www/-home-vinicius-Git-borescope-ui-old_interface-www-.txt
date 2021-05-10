@@ -1,1 +1,0 @@
-/home/vinicius/Git/borescope-ui/old_interface/www/config.js

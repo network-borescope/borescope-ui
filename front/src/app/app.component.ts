@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from './shared/api.service';
 
 import { GlobalService } from './shared/global.service';
 
@@ -8,7 +9,5 @@ import { GlobalService } from './shared/global.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = "Borescope User Interface";
-
-  constructor(public globals: GlobalService) {}
+  constructor() {}
 }

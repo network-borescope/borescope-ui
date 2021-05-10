@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
 import { BarChartComponent } from 'src/app/vis/bar-chart/bar-chart.component';
@@ -10,7 +10,7 @@ import { MapComponent } from 'src/app/vis/map/map.component';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements AfterViewInit {
 
   // referência para componente do mapa
   @ViewChild("appMap", { static: true }) private map!: MapComponent;
@@ -19,9 +19,11 @@ export class HomeComponent implements OnInit {
   // referência para o componente do gráfico de linhas
   @ViewChild("appLineChart", { static: true }) private line!: LineChartComponent;
 
-  constructor(public global: GlobalService, public api: ApiService) { }
+  constructor(public global: GlobalService, public api: ApiService) {}
 
-  ngOnInit(): void { }
+  ngAfterViewInit(): void {
+    this.requestHeatmap();
+  }
 
   /**
    * Função que faz o request dos heatmaps.
@@ -29,14 +31,18 @@ export class HomeComponent implements OnInit {
   async requestHeatmap() {
     const location = this.map.getLocation();
     // TODO: pegar os outros parâmetros
-    const time: any = [];
-    const uf: any = [];
-    const cidade: any = [];
-    const bairro: any = [];
+    const time: any = undefined;
+    const uf: any = undefined;
+    const cidade: any = undefined;
+    const bairro: any = undefined;
 
     const res = await this.api.request2HeatMap(location, time, uf, cidade, bairro);
+
+    console.log(res);
+
     this.map.drawHeatMap(res);
   }
+
 
   async requestMapChartLeft() {
     const location = this.map.getLocation();

@@ -1,25 +1,26 @@
-import { ViewChild, ElementRef, Directive } from '@angular/core';
-
 import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElement, Title } from 'chart.js';
+export class BarChart {
 
-@Directive()
-export class Bar {
-
-    // referência para o div do grafico
-  @ViewChild("barChart", { static: true }) private barDiv?: ElementRef;
+  canvas: HTMLCanvasElement;
   chart: any;
-  
-    
+
+  constructor(canvas: HTMLCanvasElement) {
+    this.canvas = canvas;
+    this.barChartMethod();
+  }
+
   //Configuração do grafico
   barChartMethod(){
-    if (this.barDiv === undefined) {
+    console.log('ashsahus');
+    if (this.canvas === undefined) {
       return;
     }
+
     //Registra os elementos utilizados pelo grafico
     Chart.register(PointElement, BarController, BarElement, CategoryScale, LinearScale, Title);
 
     //
-    this.chart = new Chart(this.barDiv.nativeElement, {
+    this.chart = new Chart(this.canvas, {
       type: 'bar',
       data: {
         labels: [],
@@ -52,6 +53,8 @@ export class Bar {
         }
       }
     });
+
+    return this.chart;
   }
 
   /**
