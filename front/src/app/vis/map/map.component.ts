@@ -107,7 +107,6 @@ export class MapComponent implements AfterViewInit {
 
     // carregamento do dado dos clientes
     const clients =  this.global.getGlobal('list_clientes').value;
-    console.log(clients)
     this.geojson = L.geoJSON(clients, { pointToLayer: this.statesStyle, onEachFeature: this.onEachFeature }).addTo(this.map);
 
     // Initialise the FeatureGroup to store editable layers

@@ -1,9 +1,13 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
+
+import { MapComponent } from 'src/app/vis/map/map.component';
 import { BarChartComponent } from 'src/app/vis/bar-chart/bar-chart.component';
 import { LineChartComponent } from 'src/app/vis/line-chart/line-chart.component';
-import { MapComponent } from 'src/app/vis/map/map.component';
+
+import { ConfigComponent } from '../config/config.component';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +22,8 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild("appBarChart", { static: true }) private bar!: BarChartComponent;
   // referência para o componente do gráfico de linhas
   @ViewChild("appLineChart", { static: true }) private line!: LineChartComponent;
+  // referência para componente do mapa
+  @ViewChild("appConfig", { static: true }) private config!: ConfigComponent;
 
   constructor(public global: GlobalService, public api: ApiService) {}
 
@@ -30,14 +36,14 @@ export class HomeComponent implements AfterViewInit {
    */
   async requestHeatmap() {
     const location = this.map.getLocation();
+    const time: any = this.config.getTime();
+
     // TODO: pegar os outros parâmetros
-    const time: any = undefined;
     const uf: any = undefined;
     const cidade: any = undefined;
     const bairro: any = undefined;
 
     const res = await this.api.request2HeatMap(location, time, uf, cidade, bairro);
-
     console.log(res);
 
     this.map.drawHeatMap(res);

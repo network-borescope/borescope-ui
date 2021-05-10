@@ -4,7 +4,8 @@ import { environment } from '../../environments/environment';
 import { GlobalService } from './global.service';
 import { UtilService } from './util.service';
 
-import { QueryRequest } from 'src/app/shared/api.models';
+import { BoundsRequest, QueryRequest, SchemaRequest } from 'src/app/shared/api.models';
+import { query } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,73 @@ export class ApiService {
     return await response.json();
   }
 
+  async getSchema(): Promise<any> {
+    let schema = new SchemaRequest();
+    schema.from = "antenas";
+
+    console.log(this.xhttp_url);
+    this.utils.showTrace("initSchema", schema);
+
+    // post header
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    // Return a new promise.
+    const response = await fetch(this.xhttp_url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(schema),
+    });
+
+    return await response.json();
+  }
+
+  async getTimeBounds(): Promise<any> {
+    let data = new BoundsRequest(24);
+    data.bounds = "time";
+    data.from = "antenas";
+
+    console.log(this.xhttp_url);
+    this.utils.showTrace("initTimeBounds", data);
+
+    // post header
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    // Return a new promise.
+    const response = await fetch(this.xhttp_url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data),
+    });
+
+    return await response.json();
+  }
+
+  async getGeoBounds(): Promise<any> {
+    let data = new BoundsRequest(24);
+    data.from = "antenas";
+
+    console.log(this.xhttp_url);
+    this.utils.showTrace("initGeoBounds", data);
+
+    // post header
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    // Return a new promise.
+    const response = await fetch(this.xhttp_url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data),
+    });
+
+    return await response.json();
+  }
+
   /**
    * Solicita os dados que compõe o mapa de calor.
    */
@@ -41,7 +109,7 @@ export class ApiService {
     query['group-by']  = "location";
     query['from'] = "antenas";
 
-    query['where'] = query['where'].splice(0,1);
+    query['where'] = [];
     if (location !== undefined) {
       query['where'].push(location);
     }
@@ -58,6 +126,7 @@ export class ApiService {
       query['where'].push(bairro);
     }
 
+    console.log(this.xhttp_url);
     this.utils.showTrace("request2HeatMap", query);
 
     // post header
