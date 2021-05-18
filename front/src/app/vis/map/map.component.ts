@@ -106,8 +106,18 @@ export class MapComponent implements AfterViewInit {
     L.Marker.prototype.options.icon = L.AwesomeMarkers.icon({ icon: 'home', prefix: 'fa', markerColor: 'blue', spin: false });
 
     // carregamento do dado dos clientes
-    const clients =  this.global.getGlobal('list_clientes').value;
-    this.geojson = L.geoJSON(clients, { pointToLayer: this.statesStyle, onEachFeature: this.onEachFeature }).addTo(this.map);
+    const clients =  this.global.getGlobal('list_clientes').value.items;
+    const features = clients.map( (d: any) => {
+      return {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [d.lon, d.lat]
+        },
+        "properties": d
+      }
+    })
+    this.geojson = L.geoJSON(features, { pointToLayer: this.statesStyle, onEachFeature: this.onEachFeature }).addTo(this.map);
 
     // Initialise the FeatureGroup to store editable layers
     let editableLayers = new L.FeatureGroup();
@@ -346,9 +356,9 @@ export class MapComponent implements AfterViewInit {
    * @param {*} layer
    */
   onEachFeature(feature: any, layer: any) {
-    const codBairro = feature.properties.CODBAIRRO;
+    const codBairro = feature.properties.id;
     const contentPopup = "<div>" +
-      "<div style='display: block;' id='idBairro" + codBairro + "Nome'><b>" + feature.properties.NOME + "</b></div>" +
+      "<div style='display: block;' id='idBairro" + codBairro + "Nome'><b>" + codBairro + "</b></div>" +
 
       "<div style='display: block;'>" +
       "<div style='display: inline-block; width: 100px;'>Linux</div>" +

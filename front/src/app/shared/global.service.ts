@@ -10,9 +10,9 @@ export class GlobalService {
   }
 
   init() {
-    //this._tes.compute_best_unity(54, 98); //""""Teste""""
-
-    /** Essa estrutura também conta com campos para bairros. */
+    /**
+     * Esquema usado para o armazenamento dos dados
+     */
     const schema_info = {
       key: "schema_info",
       value: {
@@ -139,6 +139,9 @@ export class GlobalService {
     };
     this.setGlobal(list_bairro);
 
+    /**
+     * Guarda o schema do tiny cubes
+     */
     const schema = {
       key: "schema",
       value: false

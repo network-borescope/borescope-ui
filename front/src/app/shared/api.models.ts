@@ -1,5 +1,5 @@
 /**
- * Classe Schema
+ * Schema Request Class
  */
  export class SchemaRequest {
   // TODO: fix the types
@@ -15,7 +15,7 @@
 }
 
 /**
- * Classe Bounds
+ * Bounds Request Class
  */
 export class BoundsRequest {
   // TODO: fix the types
@@ -36,7 +36,7 @@ export class BoundsRequest {
 }
 
 /**
- * Classe Query
+ * Query Request Class
  */
 export class QueryRequest {
   'select': any;

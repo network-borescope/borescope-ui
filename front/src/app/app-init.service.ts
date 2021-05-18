@@ -9,17 +9,6 @@ export class AppInitService {
 
   constructor(public global: GlobalService, public api: ApiService, public utils: UtilService) { }
 
-  async loadClients() {
-    const clients = await this.api.getClients();
-    console.log(clients);
-
-    const data = {
-      key: 'list_clientes',
-      value: clients
-    };
-    this.global.setGlobal(data);
-  }
-
   async loadSchema() {
     const schema = await this.api.getSchema();
     console.log(schema);
@@ -61,17 +50,29 @@ export class AppInitService {
     this.global.setGlobal(data);
   }
 
+  loadClients() {
+    const schema = this.global.getGlobal('schema_info').value;
+    const result = schema.result;
+    console.log(result);
+
+    const data = {
+      key: 'list_clientes',
+      value: result.clientes_df
+    };
+    this.global.setGlobal(data);
+  }
+
   loadBairros() {
     const clients = this.global.getGlobal('list_clientes').value;
 
     let bairros = [];
-    let items = clients.features;
+    let items = clients.items;
 
     for (let i = 0; i < items.length; i++) {
       let bairro = {
         value: i + 1,
-        text: items[i].properties.NOME,
-        item: items[i].properties
+        text: items[i].id,
+        item: items[i]
       };
       bairros.push(bairro);
     }
@@ -89,12 +90,12 @@ export class AppInitService {
 
   init() {
     return new Promise<void>(async (resolve) => {
-      await this.loadClients();
 
       await this.loadSchema();
       await this.loadTimeBounds();
       await this.loadGeoBounds();
 
+      this.loadClients();
       this.loadBairros();
 
       resolve();

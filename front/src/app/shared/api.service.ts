@@ -5,7 +5,6 @@ import { GlobalService } from './global.service';
 import { UtilService } from './util.service';
 
 import { BoundsRequest, QueryRequest, SchemaRequest } from 'src/app/shared/api.models';
-import { query } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +13,14 @@ export class ApiService {
 
   // base server url
   server_url: string = environment.backend;
-
   // xhttp urls
   xhttp_url: string = `${environment.backend}/tc/query`;
-  xhttp_url_app: string = `${environment.backend}/tc/app`;
 
   constructor(public global: GlobalService, public utils: UtilService) { }
 
-  //busca os dados dos clientes
+  /**
+   * Carrega as informações dos clientes
+   */
   async getClients(): Promise<any> {
     const url = `${environment.backend}/assets/clients.json`;
     console.log(url);
@@ -31,6 +30,9 @@ export class ApiService {
     return await response.json();
   }
 
+  /**
+   * Carrega o schema do tiny cubes
+   */
   async getSchema(): Promise<any> {
     let schema = new SchemaRequest();
     schema.from = "antenas";
@@ -53,6 +55,9 @@ export class ApiService {
     return await response.json();
   }
 
+  /**
+   * Acessa o range de tempo
+   */
   async getTimeBounds(): Promise<any> {
     let data = new BoundsRequest(24);
     data.bounds = "time";
@@ -218,7 +223,7 @@ export class ApiService {
       q2: q2
     }
 
-    const url = `${this.xhttp_url_app}`;
+    const url = `${this.xhttp_url}`;
     console.log(url);
 
     // post parameters
