@@ -18,10 +18,14 @@ export class LineChartComponent implements OnInit {
     //this.line.lineChartMethod();
   }
 
+  drawChart(responseData: any) {
+
+  }
+
     /**
    * Difine o intervalo de Y no gráfico inferior.
-   * @param {*} mn 
-   * @param {*} mx 
+   * @param {*} mn
+   * @param {*} mx
    */
   compute_best_unity(mn:number, mx:number) {
     let div = 1;
@@ -35,12 +39,12 @@ export class LineChartComponent implements OnInit {
     }
     potencia -= potencia % 3;
     div = 1; for (let i=0;i<potencia;i++) div *= 10;
-    
+
     let prefixos = [ "", "K x ", "M x ", "G x ", "T x ", "E x ", "P x " ];
     let prefixo = prefixos[potencia/3];
 
     let res = { prefix: prefixo, div: div };
-    
+
     // logaritmica ou nao
     if (mn && mx/(mn+1) > 1000) {
       //res.log = 1; //####################
@@ -54,7 +58,7 @@ export class LineChartComponent implements OnInit {
   ///**************************ATENÇÃO****************************************** */
 //   /**
 //  * Remove um poligono do gráfico inferior.
-//  * @param {*} layer 
+//  * @param {*} layer
 //  */
 //   removePolyInChartBottom(layer:any) {
 //     let datasetLabel = getLayerType(layer);
@@ -62,20 +66,20 @@ export class LineChartComponent implements OnInit {
 //     this.chartBottom = getChart('bottom');
 //     this.chartBottom.removePolyDataset(datasetLabel, datasetColor);
 //   }
-    
+
 
 }
-  
 
-/** 
-    
+
+/**
+
   //   addXYMap(k:number, v:number) {
   //     let filter = this.dataChartLeft[k][2];
   //     let geometries = this.dataChartLeft[k][3];
   //     let units = this.dataChartLeft[k][4];
   //     this.dataChartLeft[k] = [true, v, filter, geometries, units];
   //   }
-    
+
   //   addXYFilter(k:number, v:number) {
   //     let map = this.dataChartLeft[k][1];
   //     let geometries = this.dataChartLeft[k][3];
@@ -90,7 +94,7 @@ export class LineChartComponent implements OnInit {
   //     let units = this.dataChartLeft[k][4];
   //     this.dataChartLeft[k] = [true, map, filter, geometries + v, units];
   //   }
-    
+
   //   addXYUnit(k:number, v:number) {
   //     let map = this.dataChartLeft[k][1];
   //     let filter = this.dataChartLeft[k][2];
@@ -148,7 +152,7 @@ export class LineChartComponent implements OnInit {
   //     }
   //     return result;
   //   }
-    
+
   //   getDataUnits() {
   //     let result = [];
   //     for (let i=0; i<this.dataChartLeft.length; i++) {
@@ -162,10 +166,10 @@ export class LineChartComponent implements OnInit {
 
   //   /**
   //  * Plota os dados do Mapa no gráfico da esquerda.
-  //  * //@param {*} responseData 
+  //  * //@param {*} responseData
   //  */
-  //    drawMapChartLeft(responseData:any) { 
-  //     this.chartLeft = this.getChart('left'); 
+  //    drawMapChartLeft(responseData:any) {
+  //     this.chartLeft = this.getChart('left');
   //     let total = 0;
   //     for (let i=0; i<responseData.result.length; i++) {
   //       total = total + responseData.result[i].v[0];
@@ -184,10 +188,10 @@ export class LineChartComponent implements OnInit {
 
   //   /**
   //  * Plota os dados do Filtro no gráfico da esquerda.
-  //  * @param {*} responseData 
+  //  * @param {*} responseData
   //  */
-  //   drawFilterChartLeft(responseData:any) { 
-  //     this.chartLeft = this.getChart('left');  
+  //   drawFilterChartLeft(responseData:any) {
+  //     this.chartLeft = this.getChart('left');
   //     let total = 0;
   //     for (let i=0; i<responseData.result.length; i++) {
   //       total = total + responseData.result[i].v[0];
@@ -245,8 +249,8 @@ export class LineChartComponent implements OnInit {
 
   //       /**
   //    * Adiciona bairro a lista.
-  //    * @param {*} codBairro 
-  //    * @param {*} data 
+  //    * @param {*} codBairro
+  //    * @param {*} data
   //    */
   //   addBairroClick(codBairro:number, dataCovid:any) {
   //     let achou = false;
@@ -256,23 +260,23 @@ export class LineChartComponent implements OnInit {
   //         achou = true;
   //         break;
   //       }
-  //     }  
+  //     }
   //     if (!achou) {
-  //       let bairro = { 
+  //       let bairro = {
   //         codigo: codBairro,
   //         covid: dataCovid
   //       };
   //       this.listBairroClick.push(bairro);
   //     }
   //     return this.listBairroClick;
-    
+
   //   }
   //   /**
   //    * Plota os dados dos Bairros no gráfico da esquerda.
-  //    * @param {*} responseData 
+  //    * @param {*} responseData
   //    */
-  //    drawBairroChartLeft(codBairro:number, responseData:any) { 
-  //     this.chartLeft = this.getChart('left');    
+  //    drawBairroChartLeft(codBairro:number, responseData:any) {
+  //     this.chartLeft = this.getChart('left');
   //     let listData = this.addBairroClick(codBairro, responseData.result);
   //     this.clearXYUnit();
   //     let t64 = 0;
@@ -304,7 +308,7 @@ export class LineChartComponent implements OnInit {
   //     this.chartLeft.removeDataset('Client');
   //     this.chartLeft.setLabels(label);
   //     this.chartLeft.addDataset('Client', data, backgroundColor, borderColor);
-    
+
   //     let id = '#idBairro' + codBairro + '_64';
   //     $(id).text(t64);
   //     id = '#idBairro' + codBairro + '_128';
@@ -316,10 +320,10 @@ export class LineChartComponent implements OnInit {
 
   //  /**
   //    * Plota os dados das Geometrias no gráfico da esquerda.
-  //    * @param {*} responseData 
+  //    * @param {*} responseData
   //    */
-  //   drawPolyChartLeft(layer:any, responseData:any) { 
-  //     this.chartLeft = this.getChart('left');    
+  //   drawPolyChartLeft(layer:any, responseData:any) {
+  //     this.chartLeft = this.getChart('left');
   //     let listData = this.addPoly(layer, responseData.result);
   //     clearXYPoly();
   //     for (let i=0; i<listData.length; i++) {
@@ -346,7 +350,7 @@ export class LineChartComponent implements OnInit {
 
   //   /**
   //    * Remove um poligono do gráfico inferior.
-  //    * @param {*} layer 
+  //    * @param {*} layer
   //    */
   //    removePolyInChartBottom(layer:any) {
   //     let datasetLabel = this.getLayerType(layer);

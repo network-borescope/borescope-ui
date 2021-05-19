@@ -2,10 +2,9 @@
  * Schema Request Class
  */
  export class SchemaRequest {
-  // TODO: fix the types
-  schema: any;
-  id: any;
-  from: any;
+  schema: any[];
+  id: number;
+  from: string;
 
   constructor() {
     this.schema = [1];
@@ -18,12 +17,11 @@
  * Bounds Request Class
  */
 export class BoundsRequest {
-  // TODO: fix the types
-  bounds: any;
-  where: any;
-  dummy: any;
-  id: any;
-  from: any;
+  bounds: string;
+  where: any[];
+  dummy: number[];
+  id: number;
+  from: string;
 
   constructor(zoom: number) {
     let location = ["location", "zrect", zoom, 85, -179, -85, 179];
@@ -39,12 +37,12 @@ export class BoundsRequest {
  * Query Request Class
  */
 export class QueryRequest {
-  'select': any;
-  'where': any;
-  'id': any;
-  'from': any;
-  'group-by': any;
-  'group-by-output': any;
+  'select': any[];
+  'where': any[];
+  'id': number;
+  'from': string;
+  'group-by': string;
+  'group-by-output': string;
 
   constructor() {
     let location = ["location", "zrect", 14, -22.75212144238171, -43.90960693359376, -23.073414748499108, -42.944183349609375];

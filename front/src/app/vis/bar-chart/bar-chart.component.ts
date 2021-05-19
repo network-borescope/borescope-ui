@@ -45,7 +45,7 @@ export class BarChartComponent implements OnInit{
  * Plota os dados do Mapa no gráfico da esquerda. ---- Gráfico de Barra
  * @param {*} responseData
  */
-  drawMapChartLeft(responseData:any) {
+  drawChart(responseData:any) {
     //this.chartLeft = this.getChart('left');
     let total = 0;
     for (let i=0; i<responseData.result.length; i++) {

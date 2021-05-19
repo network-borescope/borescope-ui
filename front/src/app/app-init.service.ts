@@ -53,7 +53,6 @@ export class AppInitService {
   loadClients() {
     const schema = this.global.getGlobal('schema_info').value;
     const result = schema.result;
-    console.log(result);
 
     const data = {
       key: 'list_clientes',
@@ -82,11 +81,7 @@ export class AppInitService {
       value: bairros
     };
     this.global.setGlobal(listBairro);
-
-    console.log('bairros')
-    console.log(bairros);
   }
-
 
   init() {
     return new Promise<void>(async (resolve) => {

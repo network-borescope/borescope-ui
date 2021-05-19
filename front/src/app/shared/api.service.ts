@@ -19,25 +19,12 @@ export class ApiService {
   constructor(public global: GlobalService, public utils: UtilService) { }
 
   /**
-   * Carrega as informações dos clientes
-   */
-  async getClients(): Promise<any> {
-    const url = `${environment.backend}/assets/clients.json`;
-    console.log(url);
-
-    // Return a new promise.
-    const response = await fetch(url);
-    return await response.json();
-  }
-
-  /**
    * Carrega o schema do tiny cubes
    */
   async getSchema(): Promise<any> {
     let schema = new SchemaRequest();
     schema.from = "antenas";
 
-    console.log(this.xhttp_url);
     this.utils.showTrace("initSchema", schema);
 
     // post header
@@ -63,7 +50,6 @@ export class ApiService {
     data.bounds = "time";
     data.from = "antenas";
 
-    console.log(this.xhttp_url);
     this.utils.showTrace("initTimeBounds", data);
 
     // post header
@@ -85,7 +71,6 @@ export class ApiService {
     let data = new BoundsRequest(24);
     data.from = "antenas";
 
-    console.log(this.xhttp_url);
     this.utils.showTrace("initGeoBounds", data);
 
     // post header
@@ -106,7 +91,7 @@ export class ApiService {
   /**
    * Solicita os dados que compõe o mapa de calor.
    */
-  async request2HeatMap(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined,) {
+  async requestHeatMap(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined,) {
     let query = new QueryRequest();
     let selectedChannel = this.global.getGlobal("selected_channel");
 
@@ -131,7 +116,6 @@ export class ApiService {
       query['where'].push(bairro);
     }
 
-    console.log(this.xhttp_url);
     this.utils.showTrace("request2HeatMap", query);
 
     // post header
@@ -151,7 +135,7 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico da esquerda.
    */
-  async requestMap2ChartLeft(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined) {
+  async requestBarChart(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined) {
     let query = new QueryRequest();
 
     query['select'] = ["quantidades"];
@@ -174,9 +158,6 @@ export class ApiService {
 
     this.utils.showTrace("requestMap2ChartLeft", query); // utils.js
 
-    const url = `${this.xhttp_url}`;
-    console.log(url);
-
     // post parameters
     const params = { query };
     console.log(`post data: ${JSON.stringify(params)}`);
@@ -188,7 +169,7 @@ export class ApiService {
     };
 
     // Return a new promise.
-    const response = await fetch(url, {
+    const response = await fetch(this.xhttp_url, {
       method: 'POST',
       headers,
       body: JSON.stringify(params),
@@ -200,7 +181,7 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico da direita.
    */
-  async requestMap2ChartRight(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined) {
+  async requestLineChart(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined) {
     let q1 = new QueryRequest();
 
     q1['group-by'] = "time";
@@ -223,9 +204,6 @@ export class ApiService {
       q2: q2
     }
 
-    const url = `${this.xhttp_url}`;
-    console.log(url);
-
     // post parameters
     const params = { query };
     console.log(`post data: ${JSON.stringify(params)}`);
@@ -237,7 +215,7 @@ export class ApiService {
     };
 
     // Return a new promise.
-    const response = await fetch(url, {
+    const response = await fetch(this.xhttp_url, {
       method: 'POST',
       headers,
       body: JSON.stringify(params),

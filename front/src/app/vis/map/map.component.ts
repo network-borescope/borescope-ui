@@ -27,12 +27,14 @@ export class MapComponent implements AfterViewInit {
   // referência para o div do mapa
   @ViewChild("map", { static: true }) private mapDiv?: ElementRef;
 
-  // events
+  // eventos de desenho no mapa
   @Output() polyCreatedEvent = new EventEmitter<any>();
   @Output() polyRemovedEvent = new EventEmitter<any>();
   @Output() polyEditedEvent = new EventEmitter<any>();
   @Output() moveEndedEvent = new EventEmitter();
 
+  // eventos de seleção de markers
+  @Output() markerSelectionUpdatedEvent = new EventEmitter();
 
   // objeto com o mapa do leaflet
   private map!: L.Map;
@@ -42,36 +44,23 @@ export class MapComponent implements AfterViewInit {
   private drawControl!: L.Control.Draw;
   // lista de layers ativos
   private listLayer: any[] = [];
+  // lista dos bairros
+  private listBairro: any[] = [];
+
 
   // heatmap layer
   private current_heatmapLayer: any;
   // heatmap configuration
   private heatCfg = {
-    // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-    // if scaleRadius is false it will be the constant radius used in pixels
-    "radius": 10., // 15.0,
+    "radius": 15.0,
     "maxOpacity": 1.0,
-    // scales the radius based on map zoom
     "scaleRadius": false,
-    // if set to false the heatmap uses the global maximum for colorization
-    // if activated: uses the data maximum within the current map boundaries
-    //   (there will always be a red spot with useLocalExtremas true)
-    "useLocalExtrema": true,
-    // which field name in your data represents the latitude - default "lat"
-    latField: 'lat',
-    // which field name in your data represents the longitude - default "lng"
-    lngField: 'lng',
-    // which field name in your data represents the data value - default "value"
+    "useLocalExtrema": false,
     valueField: 'count',
     gradient: {
-      // enter n keys between 0 and 1 here
-      // for gradient color customization
-      '.2': '	#00008B', '.4': 'blue', '.6': 'red', '.75': 'yellow', '.90': 'white'
+      '0.0': '#feedde', '.2': '#fdd0a2', '.4': '#fdae6b', '.6': '#fd8d3c', '.8': '#e6550d', '1.0': '#a63603'
     }
   };
-
-
-  listBairro: any = [];
 
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService) { }
 
@@ -83,14 +72,15 @@ export class MapComponent implements AfterViewInit {
   /**
    * Configura o mapa.
    */
-  async setupMap() {
+  async setupMap(lat=-15.7217175, lng=-48.0774466, zoom=9) {
     if (this.mapDiv === undefined) {
       return;
     }
 
     // inicialização do mapa
-    this.map = L.map(this.mapDiv.nativeElement).setView([-15.7217175, -48.0774466], 9);
+    this.map = L.map(this.mapDiv.nativeElement).setView([lat, lng], zoom);
 
+    // configuração do layer do mapa
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
       maxZoom: 18,
       attribution:
@@ -106,8 +96,7 @@ export class MapComponent implements AfterViewInit {
     L.Marker.prototype.options.icon = L.AwesomeMarkers.icon({ icon: 'home', prefix: 'fa', markerColor: 'blue', spin: false });
 
     // carregamento do dado dos clientes
-    const clients =  this.global.getGlobal('list_clientes').value.items;
-    const features = clients.map( (d: any) => {
+    const clientes =  this.global.getGlobal('list_clientes').value.items.map( (d: any) => {
       return {
         "type": "Feature",
         "geometry": {
@@ -117,13 +106,13 @@ export class MapComponent implements AfterViewInit {
         "properties": d
       }
     })
-    this.geojson = L.geoJSON(features, { pointToLayer: this.statesStyle, onEachFeature: this.onEachFeature }).addTo(this.map);
+    this.geojson = L.geoJSON(clientes, { pointToLayer: this.statesStyle, onEachFeature: this.onEachFeature.bind(this) }).addTo(this.map);
 
-    // Initialise the FeatureGroup to store editable layers
+    // Inicialização dos layers editaveis
     let editableLayers = new L.FeatureGroup();
     this.map.addLayer(editableLayers);
 
-    // Draw polygons
+    // Controles de desnho dos polígonos
     this.drawControl = new L.Control.Draw({
       position: 'topleft',
       draw: {
@@ -134,20 +123,19 @@ export class MapComponent implements AfterViewInit {
             message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
           },
         },
-        // disable toolbar item by setting it to false
         rectangle: {},
         polyline: false,
-        circle: false, // Turns off this drawing tool
+        circle: false,
         circlemarker: false,
         marker: false
       },
       edit: {
-        featureGroup: editableLayers, //REQUIRED!!
+        featureGroup: editableLayers,
       }
     });
     this.map.addControl(this.drawControl);
 
-    // Map events
+    // Eventos do mapa: criação do polígono
     this.map.on(L.Draw.Event.CREATED, (e: any) => {
       this.listLayer.push(e.layer);
       this.nextDrawColor(e.layer);
@@ -158,6 +146,7 @@ export class MapComponent implements AfterViewInit {
       editableLayers.addLayer(e.layer);
     });
 
+    // Eventos do mapa: deleção do polígono
     this.map.on(L.Draw.Event.DELETED, (e: any) => {
       console.log(e);
       // remover dataset
@@ -167,6 +156,7 @@ export class MapComponent implements AfterViewInit {
       });
     });
 
+    // Eventos do mapa: edição do polígono
     this.map.on(L.Draw.Event.EDITED, (e: any) => {
       // update dataset
       e.layers.eachLayer((layer: any) => {
@@ -177,6 +167,7 @@ export class MapComponent implements AfterViewInit {
       });
     });
 
+    // Eventos do mapa: movimentação do mapa
     this.map.on('moveend', () => {
       this.moveEndedEvent.emit();
     });
@@ -325,8 +316,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   /**
-   * Guarda os dados do covid do bairro para exibição futura.
-   * TODO: Checar os tipos
+   * Guarda os dados do bairro para exibição futura.
    */
   setCovidBairro(codBairro: any, recuperado: any, obito: any, ativo: any) {
     for (let i = 0; i < this.listBairro.length; i++) {
@@ -340,7 +330,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   /**
-   * Limpa dados do Covid após mudança no intervalo temporal.
+   * Limpa dados dos bairros após mudança no intervalo temporal.
    */
   clearCovidBairro() {
     for (let i = 0; i < this.listBairro.length; i++) {
@@ -351,123 +341,91 @@ export class MapComponent implements AfterViewInit {
   }
 
   /**
-   * Atribui eventos aos poligonos dos bairros.
-   * @param {*} feature
-   * @param {*} layer
+   * Atribui eventos aos markers dos pops.
    */
   onEachFeature(feature: any, layer: any) {
-    const codBairro = feature.properties.id;
-    const contentPopup = "<div>" +
-      "<div style='display: block;' id='idBairro" + codBairro + "Nome'><b>" + codBairro + "</b></div>" +
+    const nomeBairro = feature.properties.id;
+    const contentPopup =
+    "<div>" +
+      "<div style='display: block;' id='idBairro" + nomeBairro + "Nome'><b>" + nomeBairro + "</b></div>" +
 
       "<div style='display: block;'>" +
       "<div style='display: inline-block; width: 100px;'>Linux</div>" +
-      "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + codBairro + "_64'>...</div>" +
+      "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_64'>...</div>" +
       "</div>" +
 
       "<div style='display: block;'>" +
       "<div style='display: inline-block; width: 100px;'>Windows</div>" +
-      "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + codBairro + "_128'>...</div>" +
+      "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_128'>...</div>" +
       "</div>" +
 
       "<div style='display: block;'>" +
       "<div style='display: inline-block; width: 100px;'>Unix</div>" +
-      "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + codBairro + "_256'>...</div>" +
+      "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_256'>...</div>" +
       "</div>" +
-
-      "</div>";
+    "</div>";
 
     layer.bindPopup(contentPopup);
 
+    // Evento de click no marker
     layer.on('click', () => {
-      let color = '';
-      for (let i = 0; i < this.listBairro.length; i++) {
-        if (this.listBairro[i].codigo == feature.properties.CODBAIRRO) {
-          color = this.listBairro[i].color;
-          this.listBairro.splice(i, 1);
-          break;
-        }
-      }
 
-      /*
-      if (color != '') {
+      const found = this.listBairro.findIndex( d => {
+        return d.codigo === feature.properties.cod;
+      });
+
+      if (found >= 0)  {
+        this.listBairro.splice(found, 1);
         layer.setIcon(this.formatStatesStyle('blue'));
-        chartBottom.removeDataset(feature.properties.NOME);
-        removeBairroClick(feature.properties.CODBAIRRO);
-        refreshBairroChartLeft();
-        //refreshBairroChartRight();
       }
       else {
-        let drawColors = getGlobal("draw_colors");
-        let drawColorIndex = getGlobal("draw_color_index");
-        layer.setIcon(formatStatesStyle(drawColors.value[drawColorIndex.value]));
+        let drawColors = this.global.getGlobal("draw_colors");
+        let drawColorIndex = this.global.getGlobal("draw_color_index");
+        layer.setIcon(this.formatStatesStyle(drawColors.value[drawColorIndex.value]));
+
         let bairro = {
-          codigo: feature.properties.CODBAIRRO,
-          nome: feature.properties.NOME,
+          codigo: feature.properties.cod,
+          nome: feature.properties.id,
           color: drawColors.value[drawColorIndex.value]
         };
-        listBairro.push(bairro);
-        requestBairro2ChartBottom(feature.properties.NOME, drawColors.value[drawColorIndex.value], feature.properties.CODBAIRRO);
-        requestBairro2ChartLeft(feature.properties.CODBAIRRO);
-        //requestBairro2ChartRight(feature.properties.CODBAIRRO);
-        nextDrawColor();
-        updateDrawColors();
-      } */
+        this.listBairro.push(bairro);
+        this.nextDrawColor(layer);
+        this.updateDrawColors();
+      }
+
+      this.markerSelectionUpdatedEvent.emit();
     });
 
-    /* layer.on('mouseout', (e:any)=> {
+    // Evento de mouseout no marker.
+    layer.on('mouseout', (e:any)=> {
       this.geojson.resetStyle(e.target);
-      let popup = this.getPopup();
-      let content = popup.getContent();
-      let html = $.parseXML(content);
-      $(html).find('b').each(function(i,j) {
-        content = $(j).text();
+
+      const found = this.listBairro.findIndex( d => {
+        return d.codigo === feature.properties.cod;
       });
-      let achou = false;
-      for (let i=0; i<this.listBairro.length; i++) {
-        if (this.listBairro[i].nome == content) {
-          this.setIcon(this.formatStatesStyle(this.listBairro[i].color));
-          achou = true;
-          break;
-        }
+
+      if (found >= 0) {
+        layer.setIcon(this.formatStatesStyle(this.listBairro[found].color));
       }
-      if (!achou) {
-        this.setIcon(this.formatStatesStyle('blue'));
+      else {
+        layer.setIcon(this.formatStatesStyle('blue'));
       }
-      this.closePopup();
+
+      layer.closePopup();
     });
 
+    // Evento de mouseover no marker.
     layer.on('mouseover', (e:any)=> {
-      this.openPopup();
+      layer.openPopup();
 
-      let popup = this.getPopup();
-      let content = popup.getContent();
-      let html = $.parseXML(content);
-      $(html).find('b').each(function(i:any,j:any) {
-        content = $(j).text();
-      });
-
-      for (let i=0; i<listBairro.length; i++) {
-        if (listBairro[i].nome == content) {
-          let id = '#idBairro' + listBairro[i].codigo + '_64';
-          $(id).text(listBairro[i].recuperado);
-          id = '#idBairro' + listBairro[i].codigo + '_128';
-          $(id).text(listBairro[i].obito);
-          id = '#idBairro' + listBairro[i].codigo + '_256';
-          $(id).text(listBairro[i].ativo);
-          break;
-        }
+      if (layer.options.icon.options.markerColor == 'blue') {
+        layer.setIcon(L.AwesomeMarkers.icon({icon: 'home', prefix: 'fa', markerColor: 'cadetblue', spin:false}));
       }
-
-      if (this.options.icon.options.markerColor != 'cadetblue') {
-        this.setIcon(L.AwesomeMarkers.icon({icon: 'home', prefix: 'fa', markerColor: 'cadetblue', spin:false}));
-      }
-    }); */
+    });
   }
 
   /**
-   * Define a cor do retangulo e do poligono que serão
-   * desenhados no mapa.
+   * Define a cor do retangulo e do poligono que serão desenhados no mapa.
    */
   updateDrawColors() {
     if (this.drawControl === undefined) {
@@ -492,8 +450,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   /**
-   * Função que desenha um heatmap a partir dos dados
-   * passados como parâmetro.
+   * Função que desenha um heatmap a partir dos dados passados como parâmetro.
    */
   drawHeatMap(json: any) {
     if (json.tp == "0") {
@@ -536,49 +493,4 @@ export class MapComponent implements AfterViewInit {
       this.map.addLayer(this.current_heatmapLayer);
     }
   }
-  // /**
-  //  * Remove layer da lista.
-  //  * @param {*} layer
-  //  */
-  //  removePoly(layer:any) {
-  //   for (let i=0; i<this.listPoly.length; i++) {
-  //     if ((((layer instanceof L.Rectangle) && ////I########mportacao
-  //         (this.listPoly[i].layer instanceof L.Rectangle)) ||
-  //         ((layer instanceof L.Polygon) &&
-  //         (this.listPoly[i].layer instanceof L.Polygon))) &&
-  //         (layer.options.color == this.listPoly[i].layer.options.color)) {
-  //           this.listPoly.splice(i, 1);
-  //       break;
-  //     }
-  //   }
-  // }
-
-  // /**
-  //  * Adiciona layer a lista.
-  //  * @param {*} layer
-  //  * @param {*} data
-  //  */
-  // addPoly(layer:any, dataCovid:any) {
-  //   let achou = false;
-  //   for (let i=0; i<this.listPoly.length; i++) {
-  //     if ((((layer instanceof L.Rectangle) &&
-  //         (this.listPoly[i].layer instanceof L.Rectangle)) ||
-  //         ((layer instanceof L.Polygon) &&
-  //         (this.listPoly[i].layer instanceof L.Polygon))) &&
-  //         (layer.options.color == this.listPoly[i].layer.options.color)) {
-  //           this.listPoly[i].covid = dataCovid;
-  //       achou = true;
-  //       break;
-  //     }
-  //   }
-  //   if (!achou) {
-  //     let poly = {
-  //       layer: layer,
-  //       covid: dataCovid
-  //     };
-  //     this.listPoly.push(poly);
-  //   }
-  //   return this.listPoly;
-  // }
-
 }

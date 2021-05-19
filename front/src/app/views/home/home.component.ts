@@ -25,16 +25,16 @@ export class HomeComponent implements AfterViewInit {
   // referência para componente do mapa
   @ViewChild("appConfig", { static: true }) private config!: ConfigComponent;
 
-  constructor(public global: GlobalService, public api: ApiService) {}
+  constructor(public global: GlobalService, public api: ApiService) { }
 
   ngAfterViewInit(): void {
-    this.requestHeatmap();
+    this.updateHeatmap();
   }
 
   /**
    * Função que faz o request dos heatmaps.
    */
-  async requestHeatmap() {
+  async updateHeatmap() {
     const location = this.map.getLocation();
     const time: any = this.config.getTime();
 
@@ -43,127 +43,47 @@ export class HomeComponent implements AfterViewInit {
     const cidade: any = undefined;
     const bairro: any = undefined;
 
-    const res = await this.api.request2HeatMap(location, time, uf, cidade, bairro);
+    const res = await this.api.requestHeatMap(location, time, uf, cidade, bairro);
     console.log(res);
 
     this.map.drawHeatMap(res);
   }
 
-
-  async requestMapChartLeft() {
+  async updateBarChart() {
     const location = this.map.getLocation();
+
     // TODO: pegar os outros parâmetros
     const time: any = [];
     const uf: any = [];
     const cidade: any = [];
     const bairro: any = [];
 
-    const res = await this.api.requestMap2ChartLeft(location, time, uf, cidade, bairro);
-    // this.bar.drawMapChartLeft()
+    const res = await this.api.requestBarChart(location, time, uf, cidade, bairro);
+    this.bar.drawChart(res);
   }
 
-  async requestMapChartRight() {
+  async updateLineChart() {
     const location = this.map.getLocation();
+
     // TODO: pegar os outros parâmetros
     const time: any = [];
     const uf: any = [];
     const cidade: any = [];
     const bairro: any = [];
 
-    const res = await this.api.requestMap2ChartRight(location, time, uf, cidade, bairro);
-    // this.line.drawMapChartRight()
+    const res = await this.api.requestLineChart(location, time, uf, cidade, bairro);
+    this.line.drawChart(res)
   }
 
-  async requestMap2ChartBottom(id: string, color: string) {
-
+  async refreshAll() {
+    this.updateHeatmap();
+    // this.updateBarChart();
+    // this.updateLineChart();
   }
 
-
-  async requestPoly2ChartBottom(layer: any) {
-
-  }
-
-  async requestPoly2ChartLeft(layer: any) {
-
-  }
-
-  async requestPoly2ChartRight(layer: any) {
-
-  }
-
-  async removePolyInChartBottom(layer: any) {
-
-  }
-
-  async removePoly(layer: any) {
-
-  }
-
-  async refreshPolyChartLeft() {
-
-  }
-
-  async refreshPolyChartRight() {
-
-  }
-
-  async onMoveEnded() {
-      this.requestHeatmap();
-      this.requestMapChartLeft();
-      this.requestMapChartRight();
-
-      this.requestMap2ChartBottom("Map", "#AAAAAA");
-  }
-
-  async onPolyCreated(layer: any) {
-    this.requestPoly2ChartBottom(layer);
-    this.requestPoly2ChartLeft(layer);
-    this.requestPoly2ChartRight(layer);
-  }
-
-  async onPolyRemoved(layer: any) {
-    this.removePolyInChartBottom(layer);
-    this.removePoly(layer);
-    this.refreshPolyChartLeft();
-    this.refreshPolyChartRight();
-  }
-
-  async onPolyEdited(layer: any) {
-    this.requestPoly2ChartBottom(layer);
-    this.removePoly(layer);
-    this.requestPoly2ChartLeft(layer);
-    this.requestPoly2ChartRight(layer);
-  }
-
-  /**
-   * Atualiza a tela.
-   */
-  refreshInterface() {
-    let traceMode = {
-      key: "trace_mode",
-      // value: document.getElementById("trace").checked
-    };
-    this.global.setGlobal(traceMode);
-
-    this.requestHeatmap();
-
-    // if (isShowFilter()) {
-    //   requestFilter2ChartBottom("Filter", "#606060");
-    //   requestFilter2ChartLeft();
-    //   //requestFilter2ChartRight();
-    // }
-    // requestMap2ChartBottom("Map", "#AAAAAA");
-    // let listLayer = getListLayer();
-    // for (let i = 0; i < listLayer.length; i++) {
-    //   requestPoly2ChartBottom(listLayer[i]);
-    // }
-    // let listBairro = getListBairro();
-    // for (let i = 0; i < listBairro.length; i++) {
-    //   requestBairro2ChartBottom(listBairro[i].nome, listBairro[i].color, listBairro[i].codigo);
-    // }
-    // requestMap2ChartLeft();
-    // //requestMap2ChartRight();
-    // updatePoly();
-    // updateBairro();
+  async refreshCharts() {
+    console.log('called');
+    // this.updateBarChart();
+    // this.updateLineChart();
   }
 }
