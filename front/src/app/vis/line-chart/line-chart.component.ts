@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Line } from './line';
-import { Chart } from 'chart.js';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { LineChart } from './line';
 
 
 @Component({
@@ -10,12 +9,19 @@ import { Chart } from 'chart.js';
 })
 export class LineChartComponent implements OnInit {
 
-  chartBottom: any
-  line = new Line();
+  // referência para o div do grafico
+  @ViewChild("lineChart", { static: true }) private lineDiv!: ElementRef;
+
+  private lineChart: any;
+  private chartData: any = [];
 
   ngOnInit(): void {
-    this.chartBottom = this.line.lineChartMethod();
-    //this.line.lineChartMethod();
+    this.lineChart = new LineChart(this.lineDiv.nativeElement);
+    this.initChart();
+  }
+
+  initChart() {
+
   }
 
   drawChart(responseData: any) {

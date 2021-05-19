@@ -146,6 +146,7 @@ export class ApiService {
     query['where'].push(location);
     query['where'].push(time);
 
+
     if (uf !== undefined) {
       query['where'].push(uf);
     }
@@ -156,12 +157,10 @@ export class ApiService {
       query['where'].push(bairro);
     }
 
-    this.utils.showTrace("requestMap2ChartLeft", query); // utils.js
+    this.utils.showTrace("requestBarChart", query); // utils.js
 
     // post parameters
     const params = { query };
-    console.log(`post data: ${JSON.stringify(params)}`);
-
     // post header
     const headers = {
       'Content-Type': 'application/json',

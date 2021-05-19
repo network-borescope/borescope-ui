@@ -29,6 +29,7 @@ export class HomeComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.updateHeatmap();
+    this.updateBarChart();
   }
 
   /**
@@ -36,7 +37,7 @@ export class HomeComponent implements AfterViewInit {
    */
   async updateHeatmap() {
     const location = this.map.getLocation();
-    const time: any = this.config.getTime();
+    const time = this.config.getTime();
 
     // TODO: pegar os outros parâmetros
     const uf: any = undefined;
@@ -44,29 +45,32 @@ export class HomeComponent implements AfterViewInit {
     const bairro: any = undefined;
 
     const res = await this.api.requestHeatMap(location, time, uf, cidade, bairro);
-    console.log(res);
+    // console.log(res);
 
     this.map.drawHeatMap(res);
   }
 
   async updateBarChart() {
     const location = this.map.getLocation();
+    const time = this.config.getTime();
 
     // TODO: pegar os outros parâmetros
-    const time: any = [];
     const uf: any = [];
     const cidade: any = [];
     const bairro: any = [];
 
     const res = await this.api.requestBarChart(location, time, uf, cidade, bairro);
-    this.bar.drawChart(res);
+    console.log(res);
+
+    // TODO: Check requests
+    // this.bar.drawChart(res);
   }
 
   async updateLineChart() {
     const location = this.map.getLocation();
+    const time = this.config.getTime();
 
     // TODO: pegar os outros parâmetros
-    const time: any = [];
     const uf: any = [];
     const cidade: any = [];
     const bairro: any = [];
