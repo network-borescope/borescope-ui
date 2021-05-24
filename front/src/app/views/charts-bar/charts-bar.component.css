@@ -1,0 +1,24 @@
+
+.btn-custom {
+  color: black;
+  background-color: #fff;
+  outline-color: #fff !important;
+  border-color: #fff !important;
+}
+
+
+.btn-custom:active,
+.btn-custom:hover {
+  background-color: #eee !important;
+  outline-color: #eee !important;
+  border-color: #eee !important;
+}
+
+.btn-custom:focus,
+.btn-custom:focus-within,
+.btn-custom:target,
+.btn-custom:visited {
+  background-color: #fff !important;
+  outline-color: #fff !important;
+  border-color: #fff !important;
+}

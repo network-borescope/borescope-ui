@@ -11,6 +11,7 @@ import { LineChartComponent } from './vis/line-chart/line-chart.component';
 import { TopBarComponent } from './views/top-bar/top-bar.component';
 import { ConfigComponent } from './views/config/config.component';
 import { AppInitService } from './app-init.service';
+import { ChartsBarComponent } from './views/charts-bar/charts-bar.component';
 
 @NgModule({
   declarations: [
@@ -21,10 +22,11 @@ import { AppInitService } from './app-init.service';
     LineChartComponent,
     TopBarComponent,
     ConfigComponent,
+    ChartsBarComponent,
   ],
   imports: [
     BrowserModule,
-    AngularDraggableModule
+    AngularDraggableModule,
   ],
   providers: [
     AppInitService,

@@ -18,12 +18,26 @@ export class ApiService {
 
   constructor(public global: GlobalService, public utils: UtilService) { }
 
+
+  getQueryId() {
+    const id = this.global.getGlobal('query_id').value;
+    const query_id = {
+      key: 'query_id',
+      value: id + 1
+    }
+    this.global.setGlobal(query_id);
+
+    return id;
+  }
+
   /**
    * Carrega o schema do tiny cubes
    */
   async getSchema(): Promise<any> {
+
     let schema = new SchemaRequest();
-    schema.from = "antenas";
+    schema['from'] = "antenas";
+    schema['id'] = this.getQueryId();
 
     this.utils.showTrace("initSchema", schema);
 
@@ -47,8 +61,9 @@ export class ApiService {
    */
   async getTimeBounds(): Promise<any> {
     let data = new BoundsRequest(24);
-    data.bounds = "time";
-    data.from = "antenas";
+    data['bounds'] = "time";
+    data['from'] = "antenas";
+    data['id'] = this.getQueryId();
 
     this.utils.showTrace("initTimeBounds", data);
 
@@ -67,9 +82,13 @@ export class ApiService {
     return await response.json();
   }
 
+  /**
+   * Acessa o range espacial
+   */
   async getGeoBounds(): Promise<any> {
     let data = new BoundsRequest(24);
-    data.from = "antenas";
+    data['from'] = "antenas";
+    data['id'] = this.getQueryId();
 
     this.utils.showTrace("initGeoBounds", data);
 
@@ -98,6 +117,7 @@ export class ApiService {
     query['select'] = [selectedChannel.value];
     query['group-by']  = "location";
     query['from'] = "antenas";
+    query['id'] = this.getQueryId();
 
     query['where'] = [];
     if (location !== undefined) {
@@ -116,7 +136,7 @@ export class ApiService {
       query['where'].push(bairro);
     }
 
-    this.utils.showTrace("request2HeatMap", query);
+    this.utils.showTrace("requestHeatMap", query);
 
     // post header
     const headers = {
@@ -133,34 +153,28 @@ export class ApiService {
   }
 
   /**
-   * Solicita os dados do mapa para compor o gráfico da esquerda.
+   * Solicita os dados do mapa para compor o gráfico de barras.
    */
   async requestBarChart(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined) {
     let query = new QueryRequest();
+    let selectedChannel = this.global.getGlobal("selected_channel");
 
-    query['select'] = ["quantidades"];
+    // query['select'] = [selectedChannel.value];
+    query['select'] = [selectedChannel.value];
     query['group-by'] = "ttl";
     query['from'] = "antenas";
+    query['id'] = this.getQueryId();
 
     query['where'] = [];
-    query['where'].push(location);
-    query['where'].push(time);
-
-
-    if (uf !== undefined) {
-      query['where'].push(uf);
+    if (location !== undefined) {
+      query['where'].push(location);
     }
-    if (cidade !== undefined) {
-      query['where'].push(cidade);
-    }
-    if (bairro !== undefined) {
-      query['where'].push(bairro);
+    if (time !== undefined) {
+      query['where'].push(time);
     }
 
     this.utils.showTrace("requestBarChart", query); // utils.js
 
-    // post parameters
-    const params = { query };
     // post header
     const headers = {
       'Content-Type': 'application/json',
@@ -171,41 +185,35 @@ export class ApiService {
     const response = await fetch(this.xhttp_url, {
       method: 'POST',
       headers,
-      body: JSON.stringify(params),
+      body: JSON.stringify(query),
     });
 
     return await response.json();
   }
 
   /**
-   * Solicita os dados do mapa para compor o gráfico da direita.
+   * Solicita os dados do mapa para compor o gráfico de linhas.
    */
   async requestLineChart(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined) {
-    let q1 = new QueryRequest();
+    let query = new QueryRequest();
+    let selectedChannel = this.global.getGlobal("selected_channel");
 
-    q1['group-by'] = "time";
-    q1['from'] = "antena";
+    query['select'] = [selectedChannel.value];
+    query["group-by"] = "time";
+    query["group-by-output"] = "vs_ks";
+    query['from'] = "antenas";
+    query['id'] = this.getQueryId();
 
-    q1['where'] = [];
-    q1['where'].push(location);
-    q1['where'].push(time);
-
-    let q2 = new QueryRequest();
-
-    q2['group-by'] = "time";
-
-    q2['where'] = [];
-    q2['where'].push(location);
-    q2['where'].push(time);
-
-    let query = {
-      q1: q1,
-      q2: q2
+    query.where = [];
+    query['where'] = [];
+    if (location !== undefined) {
+      query['where'].push(location);
+    }
+    if (time !== undefined) {
+      query['where'].push(time);
     }
 
-    // post parameters
-    const params = { query };
-    console.log(`post data: ${JSON.stringify(params)}`);
+    this.utils.showTrace("requestLineChart", query);
 
     // post header
     const headers = {
@@ -217,7 +225,7 @@ export class ApiService {
     const response = await fetch(this.xhttp_url, {
       method: 'POST',
       headers,
-      body: JSON.stringify(params),
+      body: JSON.stringify(query),
     });
 
     return await response.json();

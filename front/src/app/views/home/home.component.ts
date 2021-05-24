@@ -25,11 +25,37 @@ export class HomeComponent implements AfterViewInit {
   // referência para componente do mapa
   @ViewChild("appConfig", { static: true }) private config!: ConfigComponent;
 
+  last: string = 'none';
+  moving: string = 'none';
+
   constructor(public global: GlobalService, public api: ApiService) { }
 
   ngAfterViewInit(): void {
-    this.updateHeatmap();
-    this.updateBarChart();
+    this.initCharts();
+  }
+
+  chartZindex(chartId: string){
+    if (chartId == this.moving) {
+      return 950;
+    }
+
+    if (chartId == this.last) {
+      return 930;
+    }
+
+    return 900;
+  }
+
+  isChartVisible(chartId: string): boolean {
+    const obj = this.global.getGlobal('chart_widgets');
+    return obj.value[chartId];
+  }
+
+  async initCharts() {
+    await this.updateHeatmap();
+    await this.updateBarChart();
+    await this.updateLineChart();
+
   }
 
   /**
@@ -45,7 +71,7 @@ export class HomeComponent implements AfterViewInit {
     const bairro: any = undefined;
 
     const res = await this.api.requestHeatMap(location, time, uf, cidade, bairro);
-    // console.log(res);
+    console.log(res);
 
     this.map.drawHeatMap(res);
   }
@@ -62,8 +88,7 @@ export class HomeComponent implements AfterViewInit {
     const res = await this.api.requestBarChart(location, time, uf, cidade, bairro);
     console.log(res);
 
-    // TODO: Check requests
-    // this.bar.drawChart(res);
+    this.bar.drawChart(res);
   }
 
   async updateLineChart() {
@@ -76,7 +101,9 @@ export class HomeComponent implements AfterViewInit {
     const bairro: any = [];
 
     const res = await this.api.requestLineChart(location, time, uf, cidade, bairro);
-    this.line.drawChart(res)
+    console.log(res);
+
+    this.line.drawChart(res, 'teste', "#444");
   }
 
   async refreshAll() {

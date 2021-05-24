@@ -28,10 +28,19 @@ export class GlobalService {
     this.setGlobal(schema_info);
 
     /**
+     * Id da consulta usado pelo tiny cubes
+     */
+    const query_id = {
+      key: "query_id",
+      value: 1
+    };
+    this.setGlobal(query_id);
+
+    /**
      * Serve para recuperar o item selecionado na combobox resultOptions.
      * Podendo ser hc (Antenas Usadas) ou hsum (Chamadas Ativas).
      */
-     const selected_channel = {
+    const selected_channel = {
       key: "selected_channel",
       value: "hsum"
     };
@@ -41,7 +50,7 @@ export class GlobalService {
      * Serve para compor a legenda do eixo y do gráfico.
      * Podendo ser Antenas usadas ou Chamadas ativas.
      */
-     const result_title = {
+    const result_title = {
       key: "result_title",
       value: "Requisitions"
     };
@@ -51,7 +60,7 @@ export class GlobalService {
      * Serve para compor a legenda do eixo y do gráfico.
      * Podendo ser Antenas ou Chamada.
      */
-     const result_unity = {
+    const result_unity = {
       key: "result_unity",
       value: "package"
     };
@@ -140,13 +149,14 @@ export class GlobalService {
     this.setGlobal(list_bairro);
 
     /**
-     * Guarda o schema do tiny cubes
+     * Estado das janelas dos gráficos
      */
-    const schema = {
-      key: "schema",
-      value: false
-    };
-    this.setGlobal(schema);
+    const chart_widgets = {
+      key: "chart_widgets",
+      value: {'line': false, 'bar': false}
+    }
+    this.setGlobal(chart_widgets);
+
 
     const bounds_time = {
       key: "bounds_time",
@@ -158,13 +168,13 @@ export class GlobalService {
       key: "bounds_geo",
       value: false
     };
-    this. setGlobal(bounds_geo);
+    this.setGlobal(bounds_geo);
 
     const window_size = {
       key: "window_size",
       value: undefined
     };
-    this. setGlobal(window_size);
+    this.setGlobal(window_size);
 
     const bounds_timeout_id = {
       key: "bounds_timeout_id",

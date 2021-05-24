@@ -99,12 +99,12 @@ export class LineChart {
 
   //Modifica as configurações globais dos labels
   setLabelX(label: string) {
-    this.chart.options.scales.x[0].title.text = label;
-    this.chart.options.scales.x[0].title.display = true;
+    this.chart.options.scales.x.title.text = label;
+    this.chart.options.scales.x.title.display = true;
   }
   setLabelY(label: string) {
-    this.chart.options.scales.y[0].title.text = label;
-    this.chart.options.scales.y[0].title.display = true;
+    this.chart.options.scales.y.title.text = label;
+    this.chart.options.scales.y.title.display = true;
   }
   setLabels(labels: any) {
     this.chart.config.data.labels = labels;

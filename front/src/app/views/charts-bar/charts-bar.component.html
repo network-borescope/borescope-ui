@@ -1,0 +1,10 @@
+<div class="row">
+  <button class="btn btn-custom" type="button" (click)="this.toggleChartVisibility('bar')">
+    <span class="fas fa-chart-bar fa-lg"
+    [style.color]="this.isChartVisible('bar') ? '#243d8f' : '#000' "></span>
+  </button>
+  <button class="btn btn-custom" type="button" (click)="this.toggleChartVisibility('line')">
+    <span class="fas fa-line-chart fa-lg"
+    [style.color]="this.isChartVisible('line') ? '#243d8f' : '#000' "></span>
+  </button>
+</div>

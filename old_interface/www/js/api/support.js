@@ -817,6 +817,7 @@ function requestMap2ChartBottom(datasetLabel, datasetColor) {
   query.where.push(getLocation());
   query.where.push(getTime());
   showTrace("requestMap2ChartBottom", query); // utils.js
+  
   $.ajax({
     type: 'POST',
     url: xhttp_url,

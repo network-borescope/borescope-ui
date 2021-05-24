@@ -1,4 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { GlobalService } from 'src/app/shared/global.service';
+import { UtilService } from 'src/app/shared/util.service';
 import { LineChart } from './line';
 
 
@@ -15,51 +17,91 @@ export class LineChartComponent implements OnInit {
   private lineChart: any;
   private chartData: any = [];
 
+  constructor(public global: GlobalService, public util: UtilService) { }
+
   ngOnInit(): void {
     this.lineChart = new LineChart(this.lineDiv.nativeElement);
-    this.initChart();
+    console.log('called');
   }
 
-  initChart() {
+  drawChart(data: any, datasetLabel: any, datasetColor: any) {
+    let mx, mn;
+    let kvs = new Array();
 
-  }
+    // Pega os dados em si
+    let rx = data.result;
+    kvs.push((rx));
 
-  drawChart(responseData: any) {
+    // Pega o menor e maior valor da primeira coluna
+    // Ela representa os dados em si a segunda coluna
+    // deve ser a data
+    let m = Math.max.apply(Math, rx.map((d: any) => d[0]));
+    if (typeof mx === "undefined" || m > mx) mx = m;
+    mn = 0;
 
-  }
+    // computes the best unity
+    const best_unity = this.util.compute_best_unity(mn, mx);
+    const prefixo = best_unity.prefix;
+    const div = best_unity.div;
 
-    /**
-   * Difine o intervalo de Y no gráfico inferior.
-   * @param {*} mn
-   * @param {*} mx
-   */
-  compute_best_unity(mn:number, mx:number) {
-    let div = 1;
-    let potencia = 0;
-    for (let i = 0; i < 20; i++) {
-      if (mx/div < 100) {
-        break;
+    let resultUnity = this.global.getGlobal("result_unity");
+    let unity = prefixo + resultUnity.value;
+    let resultTitle = this.global.getGlobal("result_title");
+    let title = resultTitle.value;
+    this.lineChart.setLabelY(title + " [" + unity + "]");
+
+    let tsT0 = this.global.getGlobal("ts_t0");
+    let tsT1 = this.global.getGlobal("ts_t1");
+
+    // Arthur 08/03/2021
+    let window_size = this.global.getGlobal("window_size");
+    let interval = tsT1.value - tsT0.value;
+    let start = this.util.secondsToDate(tsT0.value);
+    let end = this.util.secondsToDate(tsT1.value);
+
+    if (window_size != undefined) {
+      interval = window_size.value;
+      start = this.util.secondsToDate(tsT1.value - window_size.value);
+    }
+
+    end.setSeconds(end.getSeconds() + 1);
+    this.lineChart.setLabels([]);
+    while (start < end) {
+      let date = new Date(start.getFullYear(), start.getMonth(), start.getDate(), start.getHours(), start.getMinutes(), start.getSeconds());
+      let label = '';
+      if (interval < 1200) { // 20 min
+        //@ts-ignore
+        label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'medium' });
+        start.setSeconds(start.getSeconds() + 1);
+      } else if (interval < 72000) { // 20 hs
+        //@ts-ignore
+        label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'medium' });
+        start.setMinutes(start.getMinutes() + 1);
+      } else if (interval < 4320000) { // 50 dias
+        //@ts-ignore
+        label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short' });
+        start.setHours(start.getHours() + 1);
+      } else {
+        //@ts-ignore
+        label = date.toLocaleString('en-US', { dateStyle: 'short' });
+        start.setDate(start.getDate() + 1);
       }
-      potencia ++;
-      div *= 10;
-    }
-    potencia -= potencia % 3;
-    div = 1; for (let i=0;i<potencia;i++) div *= 10;
-
-    let prefixos = [ "", "K x ", "M x ", "G x ", "T x ", "E x ", "P x " ];
-    let prefixo = prefixos[potencia/3];
-
-    let res = { prefix: prefixo, div: div };
-
-    // logaritmica ou nao
-    if (mn && mx/(mn+1) > 1000) {
-      //res.log = 1; //####################
-    } else {
-      //res.log = 0; //###############
+      this.lineChart.addLabel(label);
     }
 
-    return res;
+    for (let current_line = 0; current_line < kvs.length; current_line++) {
+      rx = kvs[current_line];
+      let xy = [];
+      for (let i = 0; i < rx.length; i++) {
+        xy.push({ x: this.util.secondsToDate(rx[i][1]), y: (rx[i][0] / div) });
+      }
+      this.lineChart.removeDataset(datasetLabel);
+      this.lineChart.addDataset(datasetLabel, xy, datasetColor);
+    }
   }
+}
+
+
 
   ///**************************ATENÇÃO****************************************** */
 //   /**
@@ -73,294 +115,3 @@ export class LineChartComponent implements OnInit {
 //     this.chartBottom.removePolyDataset(datasetLabel, datasetColor);
 //   }
 
-
-}
-
-
-/**
-
-  //   addXYMap(k:number, v:number) {
-  //     let filter = this.dataChartLeft[k][2];
-  //     let geometries = this.dataChartLeft[k][3];
-  //     let units = this.dataChartLeft[k][4];
-  //     this.dataChartLeft[k] = [true, v, filter, geometries, units];
-  //   }
-
-  //   addXYFilter(k:number, v:number) {
-  //     let map = this.dataChartLeft[k][1];
-  //     let geometries = this.dataChartLeft[k][3];
-  //     let units = this.dataChartLeft[k][4];
-  //     this.dataChartLeft[k] = [true, map, v, geometries, units];
-  //   }
-
-  //   addXYPoly(k:number, v:number) {
-  //     let map = this.dataChartLeft[k][1];
-  //     let filter = this.dataChartLeft[k][2];
-  //     let geometries = this.dataChartLeft[k][3];
-  //     let units = this.dataChartLeft[k][4];
-  //     this.dataChartLeft[k] = [true, map, filter, geometries + v, units];
-  //   }
-
-  //   addXYUnit(k:number, v:number) {
-  //     let map = this.dataChartLeft[k][1];
-  //     let filter = this.dataChartLeft[k][2];
-  //     let geometries = this.dataChartLeft[k][3];
-  //     let units = this.dataChartLeft[k][4];
-  //     this.dataChartLeft[k] = [true, map, filter, geometries, units + v];
-  //   }
-
-  //   getArrayColor(color:string) {
-  //     let result = [];
-  //     for (let i=0; i<this.dataChartLeft.length; i++) {
-  //       if (this.dataChartLeft[i][0] == true) {
-  //         result.push(color);
-  //       }
-  //     }
-  //     return result;
-  //   }
-
-  //   getLabel() {
-  //     let result = [];
-  //     for (let i=0; i<this.dataChartLeft.length; i++) {
-  //       if (this.dataChartLeft[i][0] == true) {
-  //         result.push(i);
-  //       }
-  //     }
-  //     return result;
-  //   }
-
-  //   getDataMap() {
-  //     let result = [];
-  //     for (let i=0; i<this.dataChartLeft.length; i++) {
-  //       if (this.dataChartLeft[i][0] == true) {
-  //         result.push(this.dataChartLeft[i][1]);
-  //       }
-  //     }
-  //     return result;
-  //   }
-
-  //   getDataFilter() {
-  //     let result = [];
-  //     for (let i=0; i<this.dataChartLeft.length; i++) {
-  //       if (this.dataChartLeft[i][0] == true) {
-  //         result.push(this.dataChartLeft[i][2]);
-  //       }
-  //     }
-  //     return result;
-  //   }
-
-  //   getDataGeometries() {
-  //     let result = [];
-  //     for (let i=0; i<this.dataChartLeft.length; i++) {
-  //       if (this.dataChartLeft[i][0] == true) {
-  //         result.push(this.dataChartLeft[i][3]);
-  //       }
-  //     }
-  //     return result;
-  //   }
-
-  //   getDataUnits() {
-  //     let result = [];
-  //     for (let i=0; i<this.dataChartLeft.length; i++) {
-  //       if (this.dataChartLeft[i][0] == true) {
-  //         result.push(this.dataChartLeft[i][4]);
-  //       }
-  //     }
-  //     return result;
-  //   }
-
-
-  //   /**
-  //  * Plota os dados do Mapa no gráfico da esquerda.
-  //  * //@param {*} responseData
-  //  */
-  //    drawMapChartLeft(responseData:any) {
-  //     this.chartLeft = this.getChart('left');
-  //     let total = 0;
-  //     for (let i=0; i<responseData.result.length; i++) {
-  //       total = total + responseData.result[i].v[0];
-  //     }
-  //     for (let i=0; i<responseData.result.length; i++) {
-  //       this.addXYMap(responseData.result[i].k[0], responseData.result[i].v[0]/total);
-  //     }
-  //     let backgroundColor = this.getArrayColor('#AAAAAA');
-  //     let borderColor = this.getArrayColor('#AAAAAA');
-  //     let label = this.getLabel();
-  //     let data = this.getDataMap();
-  //     this.chartLeft.removeDataset('Map');
-  //     this.chartLeft.setLabels(label);
-  //     this.chartLeft.addDataset('Map', data, backgroundColor, borderColor);
-  //   }
-
-  //   /**
-  //  * Plota os dados do Filtro no gráfico da esquerda.
-  //  * @param {*} responseData
-  //  */
-  //   drawFilterChartLeft(responseData:any) {
-  //     this.chartLeft = this.getChart('left');
-  //     let total = 0;
-  //     for (let i=0; i<responseData.result.length; i++) {
-  //       total = total + responseData.result[i].v[0];
-  //     }
-  //     for (let i=0; i<responseData.result.length; i++) {
-  //       this.addXYFilter(responseData.result[i].k[0], responseData.result[i].v[0]/total);
-  //     }
-  //     let backgroundColor = this.getArrayColor('#606060');
-  //     let borderColor = this.getArrayColor('#606060');
-  //     let label = this.getLabel();
-  //     let data = this.getDataFilter();
-  //     this.chartLeft.removeDataset('Filter');
-  //     this.chartLeft.setLabels(label);
-  //     this.chartLeft.addDataset('Filter', data, backgroundColor, borderColor);
-  //   }
-
-  //     /**
-  //  * Atualiza o grafico da esquerda após remoção de bairro.
-  //  */
-  //      refreshBairroChartLeft() {
-  //       let listData = this.listBairroClick;
-  //       this.clearXYUnit();
-  //       let t64 = 0;
-  //       let t128 = 0;
-  //       let t256 = 0;
-  //       for (let i=0; i<listData.length; i++) {
-  //         for (let j=0; j<listData[i].covid.length; j++) {
-  //           if (listData[i].covid[j].k[0] < 64) {
-  //             t64 = t64 + listData[i].covid[j].v[0];
-  //           } else if (listData[i].covid[j].k[0] < 128) {
-  //             t128 = t128 + listData[i].covid[j].v[0];
-  //           } else {
-  //             t256 = t256 + listData[i].covid[j].v[0];
-  //           }
-  //           this.addXYUnit(listData[i].covid[j].k[0], listData[i].covid[j].v[0]);
-  //         }
-  //       }
-  //       let backgroundColor = this.getArrayColor('#AA0000');
-  //       let borderColor = this.getArrayColor('#AA0000');
-  //       let label = this.getLabel();
-  //       let data = this.getDataUnits();
-  //       let total = 0;
-  //       for (let i=0; i<data.length; i++) {
-  //         total = total + data[i];
-  //       }
-  //       for (let i=0; i<data.length; i++) {
-  //         data[i] = data[i]/total;
-  //       }
-  //       this.chartLeft.removeDataset('Client');
-  //       if (listData.length > 0) {
-  //         this.chartLeft.setLabels(label);
-  //         this.chartLeft.addDataset('Client', data, backgroundColor, borderColor);
-  //       }
-  //     }
-
-  //       /**
-  //    * Adiciona bairro a lista.
-  //    * @param {*} codBairro
-  //    * @param {*} data
-  //    */
-  //   addBairroClick(codBairro:number, dataCovid:any) {
-  //     let achou = false;
-  //     for (let i=0; i<this.listBairroClick.length; i++) {
-  //       if (this.listBairroClick[i].codigo == codBairro) {
-  //         this.listBairroClick[i].covid = dataCovid;
-  //         achou = true;
-  //         break;
-  //       }
-  //     }
-  //     if (!achou) {
-  //       let bairro = {
-  //         codigo: codBairro,
-  //         covid: dataCovid
-  //       };
-  //       this.listBairroClick.push(bairro);
-  //     }
-  //     return this.listBairroClick;
-
-  //   }
-  //   /**
-  //    * Plota os dados dos Bairros no gráfico da esquerda.
-  //    * @param {*} responseData
-  //    */
-  //    drawBairroChartLeft(codBairro:number, responseData:any) {
-  //     this.chartLeft = this.getChart('left');
-  //     let listData = this.addBairroClick(codBairro, responseData.result);
-  //     this.clearXYUnit();
-  //     let t64 = 0;
-  //     let t128 = 0;
-  //     let t256 = 0;
-  //     for (let i=0; i<listData.length; i++) {
-  //       for (let j=0; j<listData[i].covid.length; j++) {
-  //         if (listData[i].covid[j].k[0] < 64) {
-  //           t64 = t64 + listData[i].covid[j].v[0];
-  //         } else if (listData[i].covid[j].k[0] < 128) {
-  //           t128 = t128 + listData[i].covid[j].v[0];
-  //         } else {
-  //           t256 = t256 + listData[i].covid[j].v[0];
-  //         }
-  //         this.addXYUnit(listData[i].covid[j].k[0], listData[i].covid[j].v[0]);
-  //       }
-  //     }
-  //     let backgroundColor = this.getArrayColor('#AA0000');
-  //     let borderColor = this.getArrayColor('#AA0000');
-  //     let label = this.getLabel();
-  //     let data = this.getDataUnits();
-  //     let total = 0;
-  //     for (let i=0; i<data.length; i++) {
-  //       total = total + data[i];
-  //     }
-  //     for (let i=0; i<data.length; i++) {
-  //       data[i] = data[i]/total;
-  //     }
-  //     this.chartLeft.removeDataset('Client');
-  //     this.chartLeft.setLabels(label);
-  //     this.chartLeft.addDataset('Client', data, backgroundColor, borderColor);
-
-  //     let id = '#idBairro' + codBairro + '_64';
-  //     $(id).text(t64);
-  //     id = '#idBairro' + codBairro + '_128';
-  //     $(id).text(t128);
-  //     id = '#idBairro' + codBairro + '_256';
-  //     $(id).text(t256);
-  //     this.setCovidBairro(codBairro, t64, t128, t256);
-  //   }
-
-  //  /**
-  //    * Plota os dados das Geometrias no gráfico da esquerda.
-  //    * @param {*} responseData
-  //    */
-  //   drawPolyChartLeft(layer:any, responseData:any) {
-  //     this.chartLeft = this.getChart('left');
-  //     let listData = this.addPoly(layer, responseData.result);
-  //     clearXYPoly();
-  //     for (let i=0; i<listData.length; i++) {
-  //       for (let j=0; j<listData[i].covid.length; j++) {
-  //         this.addXYPoly(listData[i].covid[j].k[0], listData[i].covid[j].v[0]);
-  //       }
-  //     }
-  //     let backgroundColor = this.getArrayColor('#00AA00');
-  //     let borderColor = this.getArrayColor('#00AA00');
-  //     let label = this.getLabel();
-  //     let data = this.getDataGeometries();
-  //     let total = 0;
-  //     for (let i=0; i<data.length; i++) {
-  //       total = total + data[i];
-  //     }
-  //     for (let i=0; i<data.length; i++) {
-  //       data[i] = data[i]/total;
-  //     }
-  //     this.chartLeft.removeDataset('Geometries');
-  //     this.chartLeft.setLabels(label);
-  //     this.chartLeft.addDataset('Geometries', data, backgroundColor, borderColor);
-  //   }
-
-
-  //   /**
-  //    * Remove um poligono do gráfico inferior.
-  //    * @param {*} layer
-  //    */
-  //    removePolyInChartBottom(layer:any) {
-  //     let datasetLabel = this.getLayerType(layer);
-  //     let datasetColor = layer.options.color;
-  //     this.chartBottom = this.getChart('bottom');
-  //     this.chartBottom.removePolyDataset(datasetLabel, datasetColor);
-  //   }
