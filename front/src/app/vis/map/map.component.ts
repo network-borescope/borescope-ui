@@ -143,13 +143,11 @@ export class MapComponent implements AfterViewInit {
       this.updateDrawColors();
 
       this.polyCreatedEvent.emit(e.layer);
-
       editableLayers.addLayer(e.layer);
     });
 
     // Eventos do mapa: deleção do polígono
     this.map.on(L.Draw.Event.DELETED, (e: any) => {
-      console.log(e);
       // remover dataset
       e.layers.eachLayer((layer: any) => {
         this.polyRemovedEvent.emit(layer)
@@ -161,10 +159,10 @@ export class MapComponent implements AfterViewInit {
     this.map.on(L.Draw.Event.EDITED, (e: any) => {
       // update dataset
       e.layers.eachLayer((layer: any) => {
-        this.polyEditedEvent.emit(layer);
         this.removeLayer(layer);
-
         this.listLayer.push(e.layer);
+
+        this.polyEditedEvent.emit(layer);
       });
     });
 
@@ -399,7 +397,6 @@ export class MapComponent implements AfterViewInit {
 
     // Evento de mouseout no marker.
     layer.on('mouseout', (e:any)=> {
-      this.geojson.resetStyle(e.target);
 
       const found = this.listBairro.findIndex( d => {
         return d.codigo === feature.properties.cod;
@@ -408,7 +405,7 @@ export class MapComponent implements AfterViewInit {
       if (found >= 0) {
         layer.setIcon(this.formatStatesStyle(this.listBairro[found].color));
       }
-      else {
+      if (layer.options.icon.options.markerColor === 'cadetblue') {
         layer.setIcon(this.formatStatesStyle('blue'));
       }
 
@@ -419,8 +416,8 @@ export class MapComponent implements AfterViewInit {
     layer.on('mouseover', (e:any)=> {
       layer.openPopup();
 
-      if (layer.options.icon.options.markerColor == 'blue') {
-        layer.setIcon(L.AwesomeMarkers.icon({icon: 'home', prefix: 'fa', markerColor: 'cadetblue', spin:false}));
+      if (layer.options.icon.options.markerColor === 'blue') {
+        layer.setIcon(this.formatStatesStyle('cadetblue'));
       }
     });
   }

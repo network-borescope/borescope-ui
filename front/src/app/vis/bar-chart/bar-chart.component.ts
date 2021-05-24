@@ -20,26 +20,13 @@ export class BarChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.barChart = new BarChart(this.barDiv.nativeElement);
-    this.initChart();
-  }
-
-  initChart() {
     this.resetData();
-    this.addXYMap(64, 0);
-    this.addXYMap(124, 0);
-    this.addXYMap(254, 0);
-    let backgroundColor = this.getArrayColor('#AAAAAA');
-    let borderColor = this.getArrayColor('#AAAAAA');
-    let label = this.getLabel();
-    let data = this.getDataMap();
-    this.barChart.setLabels(label);
-    this.barChart.addDataset('Map', data, backgroundColor, borderColor);
   }
 
   /**
  * Plota os dados do Mapa no grafico.
  */
-  drawChart(responseData: any) {
+  drawChart(responseData: any, chartId: string, chartColor: string) {
     let total = 0;
     for (let i = 0; i < responseData.result.length; i++) {
       total = total + responseData.result[i].v[0];
@@ -47,36 +34,14 @@ export class BarChartComponent implements OnInit {
     for (let i = 0; i < responseData.result.length; i++) {
       this.addXYMap(responseData.result[i].k[0], responseData.result[i].v[0] / total);
     }
-    let backgroundColor = this.getArrayColor('#AAAAAA');
-    let borderColor = this.getArrayColor('#AAAAAA');
+    let backgroundColor = this.getArrayColor(chartColor);
+    let borderColor = this.getArrayColor(chartColor);
     let label = this.getLabel();
     let data = this.getDataMap();
-    this.barChart.removeDataset('Map');
+    this.barChart.removeDataset(chartId);
     this.barChart.setLabels(label);
-    this.barChart.addDataset('Map', data, backgroundColor, borderColor);
+    this.barChart.addDataset(chartId, data, backgroundColor, borderColor);
   }
-
-  //   /**
-  //  * Plota os dados do Filtro no gráfico da esquerda.
-  //  */
-  //   drawFilterChartLeft(responseData:any) {
-  //     this.chartLeft = this.getChart('left');
-  //     let total = 0;
-  //     for (let i=0; i<responseData.result.length; i++) {
-  //       total = total + responseData.result[i].v[0];
-  //     }
-  //     for (let i=0; i<responseData.result.length; i++) {
-  //       this.addXYFilter(responseData.result[i].k[0], responseData.result[i].v[0]/total);
-  //     }
-  //     let backgroundColor = this.getArrayColor('#606060');
-  //     let borderColor = this.getArrayColor('#606060');
-  //     let label = this.getLabel();
-  //     let data = this.getDataFilter();
-  //     this.chartLeft.removeDataset('Filter');
-  //     this.chartLeft.setLabels(label);
-  //     this.chartLeft.addDataset('Filter', data, backgroundColor, borderColor);
-  //   }
-
   clearXYUnit() {
     for (let i = 0; i < 256; i++) {
       let active = this.chartData[i][0];
@@ -138,6 +103,26 @@ export class BarChartComponent implements OnInit {
 
 /**
 
+  //   /**
+  //  * Plota os dados do Filtro no gráfico da esquerda.
+  //  */
+  //   drawFilterChartLeft(responseData:any) {
+  //     this.chartLeft = this.getChart('left');
+  //     let total = 0;
+  //     for (let i=0; i<responseData.result.length; i++) {
+  //       total = total + responseData.result[i].v[0];
+  //     }
+  //     for (let i=0; i<responseData.result.length; i++) {
+  //       this.addXYFilter(responseData.result[i].k[0], responseData.result[i].v[0]/total);
+  //     }
+  //     let backgroundColor = this.getArrayColor('#606060');
+  //     let borderColor = this.getArrayColor('#606060');
+  //     let label = this.getLabel();
+  //     let data = this.getDataFilter();
+  //     this.chartLeft.removeDataset('Filter');
+  //     this.chartLeft.setLabels(label);
+  //     this.chartLeft.addDataset('Filter', data, backgroundColor, borderColor);
+  //   }
 
 
   //     /**

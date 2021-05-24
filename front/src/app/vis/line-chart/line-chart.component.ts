@@ -21,7 +21,6 @@ export class LineChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.lineChart = new LineChart(this.lineDiv.nativeElement);
-    console.log('called');
   }
 
   drawChart(data: any, datasetLabel: any, datasetColor: any) {
@@ -86,11 +85,8 @@ export class LineChartComponent implements OnInit {
         label = date.toLocaleString('en-US', { dateStyle: 'short' });
       }
       this.lineChart.addLabel(label);
-      console.log(label);
       current += delt
     }
-
-
 
     for (let current_line = 0; current_line < kvs.length; current_line++) {
       rx = kvs[current_line];

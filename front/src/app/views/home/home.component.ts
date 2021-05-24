@@ -88,7 +88,7 @@ export class HomeComponent implements AfterViewInit {
     const res = await this.api.requestBarChart(location, time, uf, cidade, bairro);
     console.log(res);
 
-    this.bar.drawChart(res);
+    this.bar.drawChart(res, 'Map', '#AAAAAA');
   }
 
   async updateLineChart() {
@@ -103,17 +103,17 @@ export class HomeComponent implements AfterViewInit {
     const res = await this.api.requestLineChart(location, time, uf, cidade, bairro);
     console.log(res);
 
-    this.line.drawChart(res, 'teste', "#444");
+    this.line.drawChart(res, 'Map', '#AAAAAA');
   }
 
   async refreshAll() {
-    this.updateHeatmap();
+    // this.updateHeatmap();
     // this.updateBarChart();
     // this.updateLineChart();
   }
 
-  async refreshCharts() {
-    console.log('called');
+  async refreshCharts(event: any) {
+    console.log('called', event);
     // this.updateBarChart();
     // this.updateLineChart();
   }
