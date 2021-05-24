@@ -32,15 +32,13 @@ export class LineChartComponent implements OnInit {
     let rx = data.result;
     kvs.push((rx));
 
-    // Pega o menor e maior valor da primeira coluna
-    // Ela representa os dados em si a segunda coluna
-    // deve ser a data
     let m = Math.max.apply(Math, rx.map((d: any) => d[0]));
     if (typeof mx === "undefined" || m > mx) mx = m;
     mn = 0;
 
     // computes the best unity
     const best_unity = this.util.compute_best_unity(mn, mx);
+
     const prefixo = best_unity.prefix;
     const div = best_unity.div;
 
@@ -59,35 +57,40 @@ export class LineChartComponent implements OnInit {
     let start = this.util.secondsToDate(tsT0.value);
     let end = this.util.secondsToDate(tsT1.value);
 
-    if (window_size != undefined) {
+    if (window_size.value != undefined) {
       interval = window_size.value;
       start = this.util.secondsToDate(tsT1.value - window_size.value);
     }
 
     end.setSeconds(end.getSeconds() + 1);
     this.lineChart.setLabels([]);
-    while (start < end) {
-      let date = new Date(start.getFullYear(), start.getMonth(), start.getDate(), start.getHours(), start.getMinutes(), start.getSeconds());
+
+    let delt = interval / (rx.length - 1);
+
+    let current = tsT0.value;
+    while (current <= tsT1.value) {
       let label = '';
+      let date = new Date(current * 1000);
+
       if (interval < 1200) { // 20 min
         //@ts-ignore
         label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'medium' });
-        start.setSeconds(start.getSeconds() + 1);
       } else if (interval < 72000) { // 20 hs
         //@ts-ignore
         label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'medium' });
-        start.setMinutes(start.getMinutes() + 1);
       } else if (interval < 4320000) { // 50 dias
         //@ts-ignore
         label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short' });
-        start.setHours(start.getHours() + 1);
       } else {
         //@ts-ignore
         label = date.toLocaleString('en-US', { dateStyle: 'short' });
-        start.setDate(start.getDate() + 1);
       }
       this.lineChart.addLabel(label);
+      console.log(label);
+      current += delt
     }
+
+
 
     for (let current_line = 0; current_line < kvs.length; current_line++) {
       rx = kvs[current_line];
@@ -95,6 +98,7 @@ export class LineChartComponent implements OnInit {
       for (let i = 0; i < rx.length; i++) {
         xy.push({ x: this.util.secondsToDate(rx[i][1]), y: (rx[i][0] / div) });
       }
+
       this.lineChart.removeDataset(datasetLabel);
       this.lineChart.addDataset(datasetLabel, xy, datasetColor);
     }

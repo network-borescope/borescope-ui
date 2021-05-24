@@ -56,7 +56,7 @@ export class BarChartComponent implements OnInit {
     this.barChart.addDataset('Map', data, backgroundColor, borderColor);
   }
 
- //   /**
+  //   /**
   //  * Plota os dados do Filtro no gráfico da esquerda.
   //  */
   //   drawFilterChartLeft(responseData:any) {

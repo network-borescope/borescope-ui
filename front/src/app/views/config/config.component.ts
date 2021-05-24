@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
+import { UtilService } from 'src/app/shared/util.service';
 
 @Component({
   selector: 'app-config',
@@ -9,7 +10,7 @@ import { GlobalService } from 'src/app/shared/global.service';
 })
 export class ConfigComponent implements OnInit {
 
-  constructor(public global: GlobalService, public api: ApiService) { }
+  constructor(public global: GlobalService, public api: ApiService, public util: UtilService) { }
 
   ngOnInit(): void {
   }
@@ -29,11 +30,11 @@ export class ConfigComponent implements OnInit {
 
     let start = new Date(tsT0.value * 1000);
 
-    // // Arthur 09/03/2021
-    // let window_size = this.global.getGlobal("window_size");
-    // if (window_size.value != undefined) {
-    //   start = secondsToDate(tsT1.value - window_size.value);
-    // }
+    // Arthur 09/03/2021
+    let window_size = this.global.getGlobal("window_size");
+    if (window_size.value != undefined) {
+      start = this.util.secondsToDate(tsT1.value - window_size.value);
+    }
 
 
     date = new Date(start.getFullYear(), start.getMonth(), start.getDate(), start.getHours(), start.getMinutes());
