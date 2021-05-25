@@ -15,6 +15,7 @@ export class BarChartComponent implements OnInit {
 
   private barChart: any;
   private chartData: any = [];
+  private nClass: number = 256;
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
@@ -26,51 +27,68 @@ export class BarChartComponent implements OnInit {
   /**
  * Plota os dados do Mapa no grafico.
  */
-  drawChart(responseData: any, chartId: string, chartColor: string) {
-    let total = 0;
+  drawChart(responseData: any, infoId: string, chartColor: string) {
+    // calcula a soma dos valores em results
+    const total = responseData.result.reduce((a: any, b: any) => {
+      return a + b.v[0];
+    }, 0);
+
+    // adiciona os valores normalizados ao dataset
     for (let i = 0; i < responseData.result.length; i++) {
-      total = total + responseData.result[i].v[0];
+      const pointId = responseData.result[i].k[0];
+      const pointVl = responseData.result[i].v[0];
+
+      this.addDataInfo(infoId, pointId, pointVl / total);
     }
-    for (let i = 0; i < responseData.result.length; i++) {
-      this.addXYMap(responseData.result[i].k[0], responseData.result[i].v[0] / total);
-    }
-    let backgroundColor = this.getArrayColor(chartColor);
-    let borderColor = this.getArrayColor(chartColor);
-    let label = this.getLabel();
-    let data = this.getDataMap();
-    this.barChart.removeDataset(chartId);
+
+    const fillColor = this.getColor(chartColor);
+    const strokeColor = fillColor;
+
+    const label = this.getLabel();
+    const data = this.getData(infoId);
+
+    this.barChart.removeDataset(infoId);
     this.barChart.setLabels(label);
-    this.barChart.addDataset(chartId, data, backgroundColor, borderColor);
-  }
-  clearXYUnit() {
-    for (let i = 0; i < 256; i++) {
-      let active = this.chartData[i][0];
-      let map = this.chartData[i][1];
-      let filter = this.chartData[i][2];
-      let geometries = this.chartData[i][3];
-      let units = 0;
-      if (map == 0 && filter == 0 && geometries == 0 && units == 0) {
-        active = false;
-      }
-      this.chartData[i] = [active, map, filter, geometries, units];
-    }
+    this.barChart.addDataset(infoId, data, fillColor, strokeColor);
   }
 
   resetData() {
     this.chartData = [];
-    for (let i = 0; i < 256; i++) {
+    for (let i = 0; i < this.nClass; i++) {
       this.chartData.push([false, 0, 0, 0, 0]);
     }
   }
 
-  addXYMap(k: number, v: number) {
-    let filter = this.chartData[k][2];
-    let geometries = this.chartData[k][3];
-    let units = this.chartData[k][4];
-    this.chartData[k] = [true, v, filter, geometries, units];
+  clearDataInfo(infoId: string) {
+    for (let i = 0; i < this.nClass; i++) {
+      // available info channels
+      const map = (infoId === 'map') ? 0 : this.chartData[i][1];
+      const filter = (infoId === 'filter') ? 0 : this.chartData[i][2];
+      const geometry = (infoId === 'geometry') ? 0 : this.chartData[i][3];
+      const unity = (infoId === 'unity') ? 0 : this.chartData[i][4];
+
+      // is data active?
+      const active = map || filter || geometry || unity;
+
+      // stores the data
+      this.chartData[i] = [active, map, filter, geometry, unity];
+    }
+
+    this.barChart.removeDataset(infoId);
   }
 
-  getArrayColor(color: any) {
+  addDataInfo(infoId: string, k: number, v: number) {
+    // available info channels
+    const map = (infoId === 'map') ? v : this.chartData[k][1];
+    const filter = (infoId === 'filter') ? v : this.chartData[k][2];
+    const geometry = this.chartData[k][3] + (infoId === 'geometry') ? v  : 0;
+    const unity = this.chartData[k][4] + (infoId === 'unity') ? v : 0;
+
+    // stores the data
+    this.chartData[k] = [true, map, filter, geometry, unity];
+  }
+
+  getColor(color: any) {
     let result = [];
     for (let i = 0; i < this.chartData.length; i++) {
       if (this.chartData[i][0] == true) {
@@ -90,11 +108,22 @@ export class BarChartComponent implements OnInit {
     return result;
   }
 
-  getDataMap() {
+  getData(infoId: string) {
     let result = [];
     for (let i = 0; i < this.chartData.length; i++) {
-      if (this.chartData[i][0] == true) {
-        result.push(this.chartData[i][1]);
+      if (this.chartData[i][0]) {
+        if (infoId === 'map') {
+          result.push(this.chartData[i][1]);
+        }
+        if (infoId === 'filter') {
+          result.push(this.chartData[i][2]);
+        }
+        if (infoId === 'geometry') {
+          result.push(this.chartData[i][3]);
+        }
+        if (infoId === 'unity') {
+          result.push(this.chartData[i][4]);
+        }
       }
     }
     return result;

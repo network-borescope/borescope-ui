@@ -215,6 +215,25 @@ export class MapComponent implements AfterViewInit {
     return list;
   }
 
+/**
+ * Monta o trecho da query que define o poligono.
+ */
+ getPoly(latlngs: any): any[] {
+  let poly = [];
+  for (let i = 0; i < latlngs.length; i++) {
+    poly.push([latlngs[i].lat, latlngs[i].lng]);
+  }
+  let list = [];
+  list.push("location");
+  list.push("zpoly");
+  list.push(this.getZoom());
+  for (let i = 0; i<poly.length; i++) {
+    list.push(poly[i][0]);
+    list.push(poly[i][1]);
+  }
+  return list;
+}
+
   /**
    * Retorna um zoom mais adequado ao uso nas querys.
    */
@@ -405,9 +424,6 @@ export class MapComponent implements AfterViewInit {
       if (found >= 0) {
         layer.setIcon(this.formatStatesStyle(this.listBairro[found].color));
       }
-      if (layer.options.icon.options.markerColor === 'cadetblue') {
-        layer.setIcon(this.formatStatesStyle('blue'));
-      }
 
       layer.closePopup();
     });
@@ -415,10 +431,6 @@ export class MapComponent implements AfterViewInit {
     // Evento de mouseover no marker.
     layer.on('mouseover', (e:any)=> {
       layer.openPopup();
-
-      if (layer.options.icon.options.markerColor === 'blue') {
-        layer.setIcon(this.formatStatesStyle('cadetblue'));
-      }
     });
   }
 

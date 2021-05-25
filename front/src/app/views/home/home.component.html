@@ -3,10 +3,10 @@
   <div class="row home-map-row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fill" style="padding: 0px !important;">
       <app-map #appMap
-      (moveEndedEvent) = "this.refreshCharts($event)"
-      (polyCreatedEvent) = "this.refreshCharts($event)"
-      (polyEditedEvent) = "this.refreshCharts($event)"
-      (polyRemovedEvent) = "this.refreshCharts($event)"
+      (moveEndedEvent) = "this.onMoveEnded()"
+      (polyCreatedEvent) = "this.onPolyCreated($event)"
+      (polyEditedEvent) = "this.onPolyCreated($event)"
+      (polyRemovedEvent) = "this.onPolyRemoved()"
       ></app-map>
     </div>
   </div>

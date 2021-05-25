@@ -34,28 +34,57 @@ export class HomeComponent implements AfterViewInit {
     this.initCharts();
   }
 
+  /**
+   * Calcula o z-index do widget do gráfico
+   */
   chartZindex(chartId: string){
     if (chartId == this.moving) {
       return 950;
     }
-
     if (chartId == this.last) {
       return 930;
     }
-
     return 900;
   }
 
-  isChartVisible(chartId: string): boolean {
+  /**
+   * Checa se o widget do gráfico é visivel
+   */
+   isChartVisible(chartId: string): boolean {
     const obj = this.global.getGlobal('chart_widgets');
     return obj.value[chartId];
   }
 
+  /**
+   * Inicializa os gráficos usando os dados do mapa
+   */
   async initCharts() {
     await this.updateHeatmap();
     await this.updateBarChart();
     await this.updateLineChart();
+  }
 
+  /**
+   * updates the map chart after map update
+   */
+  onMoveEnded() {
+    this.updateBarChart();
+    this.updateLineChart();
+  }
+
+  /**
+   * Atualiza os gráficos a pós as seleções do mapa
+   */
+  onPolyCreated(event: any) {
+    const color = event.options.color;
+    const poly  = event._latlngs[0];
+
+    this.updateBarChart('geometry', color, poly);
+    // this.updateLineChart();
+  }
+
+  onPolyRemoved() {
+    this.bar.clearDataInfo('geometry');
   }
 
   /**
@@ -76,45 +105,35 @@ export class HomeComponent implements AfterViewInit {
     this.map.drawHeatMap(res);
   }
 
-  async updateBarChart() {
-    const location = this.map.getLocation();
+  async updateBarChart(infoId: string = 'map', chartColor: string = '#AAAAAA', poly: any = undefined) {
     const time = this.config.getTime();
 
-    // TODO: pegar os outros parâmetros
-    const uf: any = [];
-    const cidade: any = [];
-    const bairro: any = [];
+    const location = (infoId === 'geometry') ?
+      this.map.getPoly(poly) : this.map.getLocation();
 
-    const res = await this.api.requestBarChart(location, time, uf, cidade, bairro);
+    const estado = (infoId === 'filter') ? [] : undefined;
+    const cidade = (infoId === 'filter') ? [] : undefined;
+    const bairro = (infoId === 'filter') ? [] : undefined;
+
+    const res = await this.api.requestBarChart(location, time, estado, cidade, bairro);
     console.log(res);
 
-    this.bar.drawChart(res, 'Map', '#AAAAAA');
+    this.bar.drawChart(res, infoId, chartColor);
   }
 
-  async updateLineChart() {
-    const location = this.map.getLocation();
+  async updateLineChart(infoId: string = 'map', chartColor: string = '#AAAAAA', event: any = undefined) {
     const time = this.config.getTime();
 
-    // TODO: pegar os outros parâmetros
-    const uf: any = [];
-    const cidade: any = [];
-    const bairro: any = [];
+    const location = (infoId === 'geometry') ?
+      this.map.getPoly(event) : this.map.getLocation();
 
-    const res = await this.api.requestLineChart(location, time, uf, cidade, bairro);
+    const estado = (infoId === 'filter') ? [] : undefined;
+    const cidade = (infoId === 'filter') ? [] : undefined;
+    const bairro = (infoId === 'filter') ? [] : undefined;
+
+    const res = await this.api.requestLineChart(location, time, bairro, cidade, bairro);
     console.log(res);
 
-    this.line.drawChart(res, 'Map', '#AAAAAA');
-  }
-
-  async refreshAll() {
-    // this.updateHeatmap();
-    // this.updateBarChart();
-    // this.updateLineChart();
-  }
-
-  async refreshCharts(event: any) {
-    console.log('called', event);
-    // this.updateBarChart();
-    // this.updateLineChart();
+    this.line.drawChart(res, infoId, chartColor);
   }
 }

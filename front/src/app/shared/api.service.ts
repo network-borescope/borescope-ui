@@ -172,6 +172,15 @@ export class ApiService {
     if (time !== undefined) {
       query['where'].push(time);
     }
+    if (uf !== undefined) {
+      query['where'].push(uf);
+    }
+    if (cidade !== undefined) {
+      query['where'].push(cidade);
+    }
+    if (bairro !== undefined) {
+      query['where'].push(bairro);
+    }
 
     this.utils.showTrace("requestBarChart", query); // utils.js
 
