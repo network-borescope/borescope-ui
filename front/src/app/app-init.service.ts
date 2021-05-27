@@ -44,7 +44,7 @@ export class AppInitService {
 
     const data = {
       key: "bounds_geo",
-      value: bounds
+      value: bounds.result.vs
     }
 
     this.global.setGlobal(data);

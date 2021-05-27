@@ -17,6 +17,7 @@ export class BarChart {
 
     // Registra os elementos utilizados pelo grafico
     Chart.register(PointElement, BarController, BarElement, CategoryScale, LinearScale, Title);
+    Chart.defaults.animation = false;
 
     // Configuração do gráfico
     this.chart = new Chart(this.canvas, {

@@ -80,11 +80,12 @@ export class HomeComponent implements AfterViewInit {
     const poly  = event._latlngs[0];
 
     this.updateBarChart('geometry', color, poly);
-    // this.updateLineChart();
+    this.updateLineChart('geometry', color, poly);
   }
 
   onPolyRemoved() {
     this.bar.clearDataInfo('geometry');
+    this.line.clearDataInfo('geometry');
   }
 
   /**
@@ -105,35 +106,35 @@ export class HomeComponent implements AfterViewInit {
     this.map.drawHeatMap(res);
   }
 
-  async updateBarChart(infoId: string = 'map', chartColor: string = '#AAAAAA', poly: any = undefined) {
+  async updateBarChart(dataId: string = 'map', chartColor: string = '#AAAAAA', poly: any = undefined) {
     const time = this.config.getTime();
 
-    const location = (infoId === 'geometry') ?
+    const location = (dataId === 'geometry') ?
       this.map.getPoly(poly) : this.map.getLocation();
 
-    const estado = (infoId === 'filter') ? [] : undefined;
-    const cidade = (infoId === 'filter') ? [] : undefined;
-    const bairro = (infoId === 'filter') ? [] : undefined;
+    const estado = (dataId === 'filter') ? [] : undefined;
+    const cidade = (dataId === 'filter') ? [] : undefined;
+    const bairro = (dataId === 'filter') ? [] : undefined;
 
     const res = await this.api.requestBarChart(location, time, estado, cidade, bairro);
     console.log(res);
 
-    this.bar.drawChart(res, infoId, chartColor);
+    this.bar.drawChart(res, dataId, chartColor);
   }
 
-  async updateLineChart(infoId: string = 'map', chartColor: string = '#AAAAAA', event: any = undefined) {
+  async updateLineChart(dataId: string = 'map', chartColor: string = '#AAAAAA', event: any = undefined) {
     const time = this.config.getTime();
 
-    const location = (infoId === 'geometry') ?
+    const location = (dataId === 'geometry') ?
       this.map.getPoly(event) : this.map.getLocation();
 
-    const estado = (infoId === 'filter') ? [] : undefined;
-    const cidade = (infoId === 'filter') ? [] : undefined;
-    const bairro = (infoId === 'filter') ? [] : undefined;
+    const estado = (dataId === 'filter') ? [] : undefined;
+    const cidade = (dataId === 'filter') ? [] : undefined;
+    const bairro = (dataId === 'filter') ? [] : undefined;
 
     const res = await this.api.requestLineChart(location, time, bairro, cidade, bairro);
     console.log(res);
 
-    this.line.drawChart(res, infoId, chartColor);
+    this.line.drawChart(res, dataId, chartColor);
   }
 }

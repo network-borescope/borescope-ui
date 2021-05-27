@@ -22,28 +22,22 @@ export class ConfigComponent implements OnInit {
     list.push("time");
     list.push("between");
 
-    // begin Nilson
-    let date
     // fazer o ajuste apropriado posteriormente
     // TODO: Fix timezone
     const tz = -10800
 
     let start = new Date(tsT0.value * 1000);
-
-    // Arthur 09/03/2021
-    let window_size = this.global.getGlobal("window_size");
-    if (window_size.value != undefined) {
-      start = this.util.secondsToDate(tsT1.value - window_size.value);
-    }
-
-
-    date = new Date(start.getFullYear(), start.getMonth(), start.getDate(), start.getHours(), start.getMinutes());
-    let t0 = date.getTime()/1000 + tz;
+    let t0 = start.getTime()/1000 + tz;
 
     let end = new Date(tsT1.value * 1000);
-    date = new Date(end.getFullYear(), end.getMonth(), end.getDate(), end.getHours(), end.getMinutes());
-    // let t1 = date.getTime()/1000 + tz;
+    // let t1 = end.getTime()/1000 + tz;
     let t1 = t0 + 24 * 60 * 60
+
+    console.log(start);
+    console.log(end);
+
+    // 1604424300,1604424540
+    // 1604424300,1604510700
 
     list.push(t0);
     list.push(t1);

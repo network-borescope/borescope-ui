@@ -15,7 +15,8 @@ export class LineChartComponent implements OnInit {
   @ViewChild("lineChart", { static: true }) private lineDiv!: ElementRef;
 
   private lineChart: any;
-  private chartData: any = [];
+  private chartData: any = {};
+  private nMarks: number = -1;
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
@@ -23,48 +24,63 @@ export class LineChartComponent implements OnInit {
     this.lineChart = new LineChart(this.lineDiv.nativeElement);
   }
 
-  drawChart(data: any, datasetLabel: any, datasetColor: any) {
-    let mx, mn;
-    let kvs = new Array();
+  drawChart(responseData: any, dataId: any, chartColor: any) {
+    // cleans the data
+    this.clearDataInfo(dataId);
 
-    // Pega os dados em si
-    let rx = data.result;
-    kvs.push((rx));
+    // calcula o maior valor nos resultados
+    const mx = responseData.result.reduce((a: any, b: any) => {
+      return a + b[0];
+    }, 0);
 
-    let m = Math.max.apply(Math, rx.map((d: any) => d[0]));
-    if (typeof mx === "undefined" || m > mx) mx = m;
-    mn = 0;
+    this.nMarks = responseData.result.length;
 
     // computes the best unity
-    const best_unity = this.util.compute_best_unity(mn, mx);
+    const best_unity = this.util.compute_best_unity(0, mx);
 
-    const prefixo = best_unity.prefix;
-    const div = best_unity.div;
+    for (let i = 0; i < responseData.result.length; i++) {
+      const pointTime  = this.util.secondsToDate(responseData.result[i][1]);
+      const pointValue = responseData.result[i][0] / best_unity.div;
 
-    let resultUnity = this.global.getGlobal("result_unity");
-    let unity = prefixo + resultUnity.value;
-    let resultTitle = this.global.getGlobal("result_title");
-    let title = resultTitle.value;
-    this.lineChart.setLabelY(title + " [" + unity + "]");
-
-    let tsT0 = this.global.getGlobal("ts_t0");
-    let tsT1 = this.global.getGlobal("ts_t1");
-
-    // Arthur 08/03/2021
-    let window_size = this.global.getGlobal("window_size");
-    let interval = tsT1.value - tsT0.value;
-    let start = this.util.secondsToDate(tsT0.value);
-    let end = this.util.secondsToDate(tsT1.value);
-
-    if (window_size.value != undefined) {
-      interval = window_size.value;
-      start = this.util.secondsToDate(tsT1.value - window_size.value);
+      this.addDataInfo(dataId, pointTime, pointValue);
     }
 
-    end.setSeconds(end.getSeconds() + 1);
-    this.lineChart.setLabels([]);
+    // y axis title
+    const title = this.global.getGlobal("result_title").value;
+    const unity = this.global.getGlobal("result_unity").value;
 
-    let delt = interval / (rx.length - 1);
+    this.lineChart.setLabelY(title + " [" + best_unity.prefix + unity + "]");
+
+    // point labels
+    const labels = this.getLabels();
+    const data = this.getData(dataId);
+
+    this.lineChart.setLabels(labels);
+    this.lineChart.addDataset(dataId, data, chartColor);
+  }
+
+  clearDataInfo(dataId: string) {
+    this.chartData[dataId] = [];
+    this.lineChart.removeDataset(dataId);
+  }
+
+  addDataInfo(dataId: string, markerId: any, value: number) {
+    if(!this.chartData[dataId]) {
+      this.chartData[dataId] = [];
+    }
+
+    this.chartData[dataId].push({x: markerId, y: value});
+  }
+
+  getLabels() {
+    const tsT0 = this.global.getGlobal("ts_t0");
+    const tsT1 = this.global.getGlobal("ts_t1");
+
+    const interval = tsT1.value - tsT0.value;
+    const tDelta = interval / (this.nMarks - 1);
+
+    // result array
+    const labels = [];
 
     let current = tsT0.value;
     while (current <= tsT1.value) {
@@ -84,34 +100,14 @@ export class LineChartComponent implements OnInit {
         //@ts-ignore
         label = date.toLocaleString('en-US', { dateStyle: 'short' });
       }
-      this.lineChart.addLabel(label);
-      current += delt
+      labels.push(label);
+      current += tDelta
     }
 
-    for (let current_line = 0; current_line < kvs.length; current_line++) {
-      rx = kvs[current_line];
-      let xy = [];
-      for (let i = 0; i < rx.length; i++) {
-        xy.push({ x: this.util.secondsToDate(rx[i][1]), y: (rx[i][0] / div) });
-      }
+    return labels;
+  }
 
-      this.lineChart.removeDataset(datasetLabel);
-      this.lineChart.addDataset(datasetLabel, xy, datasetColor);
-    }
+  getData(dataId: string) {
+    return this.chartData[dataId];
   }
 }
-
-
-
-  ///**************************ATENÇÃO****************************************** */
-//   /**
-//  * Remove um poligono do gráfico inferior.
-//  * @param {*} layer
-//  */
-//   removePolyInChartBottom(layer:any) {
-//     let datasetLabel = getLayerType(layer);
-//     let datasetColor = layer.options.color;
-//     this.chartBottom = getChart('bottom');
-//     this.chartBottom.removePolyDataset(datasetLabel, datasetColor);
-//   }
-

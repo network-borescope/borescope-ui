@@ -89,7 +89,7 @@ export class GlobalService {
      */
     const ts_t0 = {
       key: "ts_t0",
-      value: 1589673600 //1565101800
+      value: undefined
     };
     this.setGlobal(ts_t0);
 
@@ -98,7 +98,7 @@ export class GlobalService {
      */
     const ts_t1 = {
       key: "ts_t1",
-      value: 1589756400 //1565102130
+      value: undefined
     };
     this.setGlobal(ts_t1);
 
