@@ -16,7 +16,9 @@ export class LineChartComponent implements OnInit {
 
   private lineChart: any;
   private chartData: any = {};
-  private nMarks: number = -1;
+
+  private labels: any = [];
+  private nMarks: any = undefined;
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
@@ -33,7 +35,9 @@ export class LineChartComponent implements OnInit {
       return a + b[0];
     }, 0);
 
-    this.nMarks = responseData.result.length;
+    if (!this.nMarks) {
+      this.nMarks = responseData.result.length;
+    }
 
     // computes the best unity
     const best_unity = this.util.compute_best_unity(0, mx);
@@ -52,10 +56,10 @@ export class LineChartComponent implements OnInit {
     this.lineChart.setLabelY(title + " [" + best_unity.prefix + unity + "]");
 
     // point labels
-    const labels = this.getLabels();
+    this.updateLabels();
     const data = this.getData(dataId);
 
-    this.lineChart.setLabels(labels);
+    this.lineChart.setLabels(this.labels);
     this.lineChart.addDataset(dataId, data, chartColor);
   }
 
@@ -72,7 +76,11 @@ export class LineChartComponent implements OnInit {
     this.chartData[dataId].push({x: markerId, y: value});
   }
 
-  getLabels() {
+  updateLabels() {
+    if (this.labels.length > 0) {
+      return;
+    }
+
     const tsT0 = this.global.getGlobal("ts_t0");
     const tsT1 = this.global.getGlobal("ts_t1");
 
@@ -80,7 +88,7 @@ export class LineChartComponent implements OnInit {
     const tDelta = interval / (this.nMarks - 1);
 
     // result array
-    const labels = [];
+    this.labels = [];
 
     let current = tsT0.value;
     while (current <= tsT1.value) {
@@ -100,11 +108,9 @@ export class LineChartComponent implements OnInit {
         //@ts-ignore
         label = date.toLocaleString('en-US', { dateStyle: 'short' });
       }
-      labels.push(label);
+      this.labels.push(label);
       current += tDelta
     }
-
-    return labels;
   }
 
   getData(dataId: string) {
