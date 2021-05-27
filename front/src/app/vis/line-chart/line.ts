@@ -1,4 +1,4 @@
-import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement, Title } from 'chart.js';
+import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement } from 'chart.js';
 
 export class LineChart {
 
@@ -17,7 +17,7 @@ export class LineChart {
     }
 
     //Registra os elementos utilizados pelo grafico
-    Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale, Title);
+    Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale);
     Chart.defaults.animation = false;
 
     this.chart = new Chart(this.canvas, {
@@ -29,7 +29,8 @@ export class LineChart {
       options: {
         plugins: {
           legend: {
-            display: true
+            display: true,
+            position: "top",
           },
           title: {
             display: false,
@@ -59,14 +60,14 @@ export class LineChart {
             },
             title: {
               display: false,
-              text: 'x'
+              text: 'X'
             }
           },
           y: {
             display: true,
             title: {
               display: false,
-              text: 'y'
+              text: 'Y'
             }
           }
         }
@@ -107,29 +108,11 @@ export class LineChart {
     this.chart.options.scales.y.title.text = label;
     this.chart.options.scales.y.title.display = true;
   }
+
   setLabels(labels: any) {
     this.chart.config.data.labels = labels;
   }
-  addLabel(label: any) {
-    let labels = this.chart.config.data.labels;
-    let found = false;
-    for (let i = 0; i < labels.length; i++) {
-      if (labels[i] == label) {
-        found = true;
-        break;
-      }
-    }
-    if (!found) {
-      labels.push(label);
-    }
-  }
-  addData(data: any) {
-    let datasets = this.chart.config.data.datasets;
-    for (let i = 0; i < datasets.length; i++) {
-      datasets[i].data.push(data[i]);
-    }
-    this.chart.update();
-  }
+
   addDataset(label: any, data: any, color: string) {
     let dataset = {
       label: label,
@@ -138,22 +121,7 @@ export class LineChart {
       data: data,
       fill: false
     };
-    let datasets = this.chart.config.data.datasets;
-    datasets.push(dataset);
-    this.chart.update();
-  }
-
-  removePolyDataset(label: any, color: string) {
-    let datasets = this.chart.config.data.datasets;
-    for (let i = 0; i < datasets.length; i++) {
-      let dataset = datasets[i];
-      if ((dataset.label == label) &&
-        (dataset.backgroundColor == color) &&
-        (dataset.borderColor == color)) {
-        datasets.splice(i, 1);
-        break;
-      }
-    }
+    this.chart.config.data.datasets.push(dataset);
     this.chart.update();
   }
 

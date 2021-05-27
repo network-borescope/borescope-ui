@@ -1,4 +1,4 @@
-import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElement, Title } from 'chart.js';
+import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElement } from 'chart.js';
 export class BarChart {
 
   private chart: any;
@@ -16,7 +16,7 @@ export class BarChart {
     }
 
     // Registra os elementos utilizados pelo grafico
-    Chart.register(PointElement, BarController, BarElement, CategoryScale, LinearScale, Title);
+    Chart.register(PointElement, BarController, BarElement, CategoryScale, LinearScale);
     Chart.defaults.animation = false;
 
     // Configuração do gráfico
@@ -29,7 +29,8 @@ export class BarChart {
       options: {
         plugins: {
           legend: {
-            display: true
+            display: true,
+            position: "top"
           },
           title: {
             display: false
@@ -98,28 +99,6 @@ export class BarChart {
     this.chart.config.data.labels = labels;
   }
 
-  addLabel(label: any) {
-    let labels = this.chart.config.data.labels;
-    let found = false;
-    for (let i = 0; i < labels.length; i++) {
-      if (labels[i] == label) {
-        found = true;
-        break;
-      }
-    }
-    if (!found) {
-      labels.push(label);
-    }
-  }
-
-  addData(data: any) {
-    let datasets = this.chart.config.data.datasets;
-    for (let i = 0; i < datasets.length; i++) {
-      datasets[i].data.push(data[i]);
-    }
-    this.chart.update();
-  }
-
   addDataset(label: any, data: any, color: string) {
     let dataset = {
       label: label,
@@ -130,20 +109,6 @@ export class BarChart {
     };
     let datasets = this.chart.config.data.datasets;
     datasets.push(dataset);
-    this.chart.update();
-  }
-
-  removePolyDataset(label: any, color: string) {
-    let datasets = this.chart.config.data.datasets;
-    for (let i = 0; i < datasets.length; i++) {
-      let dataset = datasets[i];
-      if ((dataset.label == label) &&
-        (dataset.backgroundColor == color) &&
-        (dataset.borderColor == color)) {
-        datasets.splice(i, 1);
-        break;
-      }
-    }
     this.chart.update();
   }
 
