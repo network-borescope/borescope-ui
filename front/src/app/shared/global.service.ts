@@ -157,6 +157,14 @@ export class GlobalService {
     }
     this.setGlobal(chart_widgets);
 
+    /**
+     * Estado das janelas de configuração
+     */
+     const config_widgets = {
+      key: "config_widgets",
+      value: {'filters': false}
+    }
+    this.setGlobal(config_widgets);
 
     const bounds_time = {
       key: "bounds_time",

@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
 
 @Component({
-  selector: 'app-config',
-  templateUrl: './config.component.html',
-  styleUrls: ['./config.component.css']
+  selector: 'app-filters',
+  templateUrl: './filters.component.html',
+  styleUrls: ['./filters.component.css']
 })
-export class ConfigComponent implements OnInit {
+export class FiltersComponent implements OnInit {
 
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService) { }
 
@@ -44,5 +45,4 @@ export class ConfigComponent implements OnInit {
 
     return list;
   }
-
 }

@@ -3,11 +3,11 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
 
-import { MapComponent } from 'src/app/vis/map/map.component';
-import { BarChartComponent } from 'src/app/vis/bar-chart/bar-chart.component';
-import { LineChartComponent } from 'src/app/vis/line-chart/line-chart.component';
+import { MapComponent } from 'src/app/widgets/map/map.component';
+import { BarChartComponent } from 'src/app/widgets/bar-chart/bar-chart.component';
+import { LineChartComponent } from 'src/app/widgets/line-chart/line-chart.component';
 
-import { ConfigComponent } from '../config/config.component';
+import { FiltersComponent } from 'src/app/widgets/filters/filters.component';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +23,7 @@ export class HomeComponent implements AfterViewInit {
   // referência para o componente do gráfico de linhas
   @ViewChild("appLineChart", { static: true }) private line!: LineChartComponent;
   // referência para componente do mapa
-  @ViewChild("appConfig", { static: true }) private config!: ConfigComponent;
+  @ViewChild("appFilters", { static: true }) private filters!: FiltersComponent;
 
   last: string = 'none';
   moving: string = 'none';
@@ -37,7 +37,7 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Calcula o z-index do widget do gráfico
    */
-  chartZindex(chartId: string){
+  chartZindex(chartId: string) {
     if (chartId == this.moving) {
       return 950;
     }
@@ -50,9 +50,17 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Checa se o widget do gráfico é visivel
    */
-   isChartVisible(chartId: string): boolean {
+  isChartVisible(chartId: string): boolean {
     const obj = this.global.getGlobal('chart_widgets');
     return obj.value[chartId];
+  }
+
+  /**
+   * Checa se o modal de filtro é visivel
+   */
+  isConfigVisible(configId: string): boolean {
+    const obj = this.global.getGlobal('config_widgets');
+    return obj.value[configId];
   }
 
   /**
@@ -77,7 +85,7 @@ export class HomeComponent implements AfterViewInit {
    */
   onPolyCreated(event: any) {
     const color = event.options.color;
-    const poly  = event._latlngs[0];
+    const poly = event._latlngs[0];
 
     this.updateBarChart('geometry', color, poly);
     this.updateLineChart('geometry', color, poly);
@@ -93,7 +101,7 @@ export class HomeComponent implements AfterViewInit {
    */
   async updateHeatmap() {
     const location = this.map.getLocation();
-    const time = this.config.getTime();
+    const time = this.filters.getTime();
 
     // TODO: pegar os outros parâmetros
     const uf: any = undefined;
@@ -107,7 +115,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   async updateBarChart(dataId: string = 'map', chartColor: string = '#AAAAAA', poly: any = undefined) {
-    const time = this.config.getTime();
+    const time = this.filters.getTime();
 
     const location = (dataId === 'geometry') ?
       this.map.getPoly(poly) : this.map.getLocation();
@@ -123,7 +131,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   async updateLineChart(dataId: string = 'map', chartColor: string = '#AAAAAA', event: any = undefined) {
-    const time = this.config.getTime();
+    const time = this.filters.getTime();
 
     const location = (dataId === 'geometry') ?
       this.map.getPoly(event) : this.map.getLocation();

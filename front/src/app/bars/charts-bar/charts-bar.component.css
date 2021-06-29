@@ -7,16 +7,14 @@
 }
 
 
-.btn-custom:active,
 .btn-custom:hover {
   background-color: #eee !important;
   outline-color: #eee !important;
   border-color: #eee !important;
 }
 
-.btn-custom:focus,
-.btn-custom:focus-within,
 .btn-custom:target,
+.btn-custom:active,
 .btn-custom:visited {
   background-color: #fff !important;
   outline-color: #fff !important;

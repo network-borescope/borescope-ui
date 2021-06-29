@@ -4,14 +4,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AngularDraggableModule } from 'angular2-draggable';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './views/home/home.component';
-import { MapComponent } from './vis/map/map.component';
-import { BarChartComponent } from './vis/bar-chart/bar-chart.component';
-import { LineChartComponent } from './vis/line-chart/line-chart.component';
-import { TopBarComponent } from './views/top-bar/top-bar.component';
-import { ConfigComponent } from './views/config/config.component';
 import { AppInitService } from './app-init.service';
-import { ChartsBarComponent } from './views/charts-bar/charts-bar.component';
+
+import { TopBarComponent } from './bars/top-bar/top-bar.component';
+import { ChartsBarComponent } from './bars/charts-bar/charts-bar.component';
+
+import { HomeComponent } from './home/home.component';
+import { MapComponent } from './widgets/map/map.component';
+import { BarChartComponent } from './widgets/bar-chart/bar-chart.component';
+import { LineChartComponent } from './widgets/line-chart/line-chart.component';
+import { FiltersComponent } from './widgets/filters/filters.component';
+import { ConfigBarComponent } from './bars/config-bar/config-bar.component';
+
+
 
 @NgModule({
   declarations: [
@@ -21,8 +26,9 @@ import { ChartsBarComponent } from './views/charts-bar/charts-bar.component';
     BarChartComponent,
     LineChartComponent,
     TopBarComponent,
-    ConfigComponent,
+    FiltersComponent,
     ChartsBarComponent,
+    ConfigBarComponent,
   ],
   imports: [
     BrowserModule,
