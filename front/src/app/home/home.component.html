@@ -26,9 +26,9 @@
   </div>
 
 
-  <app-config-bar class="config-menu"></app-config-bar>
+  <app-config-bar class="configs-menu"></app-config-bar>
 
-  <div ngDraggable style="position: absolute; width: 400px; bottom: 60px; left: 10px;"
+  <div style="position: absolute; width: 400px; bottom: 60px; left: 10px;"
   [style.z-index] = "this.isConfigVisible('filters') ? 950 : '-10' ">
     <app-filters #appFilters></app-filters>
   </div>

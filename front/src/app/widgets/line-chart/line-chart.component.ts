@@ -42,6 +42,7 @@ export class LineChartComponent implements OnInit {
     // computes the best unity
     const best_unity = this.util.compute_best_unity(0, mx);
 
+
     for (let i = 0; i < responseData.result.length; i++) {
       const pointTime  = this.util.secondsToDate(responseData.result[i][1]);
       const pointValue = responseData.result[i][0] / best_unity.div;

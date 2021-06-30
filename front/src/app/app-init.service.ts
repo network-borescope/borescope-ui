@@ -61,28 +61,6 @@ export class AppInitService {
     this.global.setGlobal(data);
   }
 
-  loadBairros() {
-    const clients = this.global.getGlobal('list_clientes').value;
-
-    let bairros = [];
-    let items = clients.items;
-
-    for (let i = 0; i < items.length; i++) {
-      let bairro = {
-        value: i + 1,
-        text: items[i].id,
-        item: items[i]
-      };
-      bairros.push(bairro);
-    }
-
-    let listBairro = {
-      key: "list_bairro",
-      value: bairros
-    };
-    this.global.setGlobal(listBairro);
-  }
-
   init() {
     return new Promise<void>(async (resolve) => {
 
@@ -91,7 +69,8 @@ export class AppInitService {
       await this.loadGeoBounds();
 
       this.loadClients();
-      this.loadBairros();
+
+      console.log('########## Initialization Done! ##########')
 
       resolve();
     });

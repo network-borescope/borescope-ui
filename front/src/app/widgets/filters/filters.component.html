@@ -1,14 +1,35 @@
 <div class="modal-content">
+
   <div class="modal-header">
     <h4 class="modal-title ng-binding">Filtros</h4>
   </div>
+
   <div class="modal-body">
-    <div class="modal-wrapper">
-      <span>Conteúdo do modal</span>
-    </div>
+      <div class="row">
+        <input style="width: 100%" type="email" list="clientes" multiple
+        title="" pattern="">
+        <datalist id="clientes">
+          <option *ngFor="let el of this.clients.items" [value]="el.id.toUpperCase()">
+        </datalist>
+      </div>
+
+      <div class="row" style="height: 10px;"></div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="input-group input-daterange">
+            <input type="text" class="form-control" [value]="this.getStartDate()"
+              (keyup)="this.updateDate('start', $event)">
+            <div class="input-group-addon">até</div>
+            <input type="text" class="form-control" [value]="this.getEndDate()"
+              (keyup)="this.updateDate('end', $event)">
+          </div>
+        </div>
+      </div>
   </div>
+
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary-color" data-dismiss="modal">Cancelar</button>
-    <button type="button" class="btn btn-primary-color">Salvar</button>
+    <button type="button" class="btn btn-secondary-color" (click)="this.toggleFiltersVisibility()">Cancelar</button>
+    <button type="button" class="btn btn-primary-color" (click)="this.saveFilters()">Salvar</button>
   </div>
 </div>

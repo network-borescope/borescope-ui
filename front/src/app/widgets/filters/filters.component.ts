@@ -11,10 +11,12 @@ import { UtilService } from 'src/app/shared/util.service';
 })
 export class FiltersComponent implements OnInit {
 
-  constructor(public global: GlobalService, public api: ApiService, public util: UtilService) { }
+  protected dateRange: any = {start: null, end: null};
+  public clients = this.global.getGlobal('list_clientes').value;
 
-  ngOnInit(): void {
-  }
+  constructor(public global: GlobalService, public api: ApiService, public util: UtilService) {}
+
+  ngOnInit(): void {}
 
   getTime() {
     let tsT0 = this.global.getGlobal("ts_t0");
@@ -23,26 +25,61 @@ export class FiltersComponent implements OnInit {
     list.push("time");
     list.push("between");
 
-    // fazer o ajuste apropriado posteriormente
-    // TODO: Fix timezone
-    const tz = -10800
-
     let start = new Date(tsT0.value * 1000);
-    let t0 = start.getTime()/1000 + tz;
+    let t0 = start.getTime() / 1000;
 
     let end = new Date(tsT1.value * 1000);
-    // let t1 = end.getTime()/1000 + tz;
-    let t1 = t0 + 24 * 60 * 60
-
-    console.log(start);
-    console.log(end);
-
-    // 1604424300,1604424540
-    // 1604424300,1604510700
+    let t1 = end.getTime() / 1000;
 
     list.push(t0);
     list.push(t1);
 
     return list;
   }
+
+  getStartDate() {
+    let tsT0 = this.global.getGlobal("ts_t0");
+
+    let start = new Date(tsT0.value * 1000);
+    return start.toISOString().split('T')[0];
+  }
+
+  getEndDate() {
+    let tsT1 = this.global.getGlobal("ts_t1");
+
+    let end = new Date(tsT1.value * 1000);
+    return end.toISOString().split('T')[0];
+  }
+
+  updateDate(dateId: string, event: any) {
+    this.dateRange[dateId] = event.target.value;
+  }
+
+  toggleFiltersVisibility() {
+    const obj = this.global.getGlobal('config_widgets');
+
+    obj.value['filters'] = !obj.value['filters'];
+    this.global.setGlobal(obj);
+  }
+
+  saveFilters() {
+    if (this.dateRange['start']) {
+      let start = new Date(this.dateRange['start']).getTime() / 1000;
+
+      let tsT0 = this.global.getGlobal("ts_t0");
+      tsT0.value = start;
+      this.global.setGlobal(tsT0);
+    }
+
+    if (this.dateRange['end']) {
+      let end = new Date(this.dateRange['end']).getTime() / 1000;
+
+      let tsT1 = this.global.getGlobal("ts_t1");
+      tsT1.value = end;
+      this.global.setGlobal(tsT1);
+    }
+
+    this.toggleFiltersVisibility();
+  }
+
 }
