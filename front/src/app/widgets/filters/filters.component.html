@@ -1,32 +1,37 @@
 <div class="modal-content">
 
   <div class="modal-header">
-    <h4 class="modal-title ng-binding">Filtros</h4>
+    <h4 class="modal-title ng-binding">Filters</h4>
   </div>
 
   <div class="modal-body">
-      <div class="row">
-        <input style="width: 100%" type="email" list="clientes" multiple
+
+    <div class="row">Clients</div>
+
+    <div class="row">
+        <input style="width: 100%" type="email" list="clientes" multiple (keyup)='this.updateClientList($event)'
         title="" pattern="">
         <datalist id="clientes">
           <option *ngFor="let el of this.clients.items" [value]="el.id.toUpperCase()">
         </datalist>
       </div>
 
-      <div class="row" style="height: 10px;"></div>
+      <div class="row" style="height: 5px;"></div>
+      <div class="row">Date Range</div>
 
       <div class="row">
         <div class="col-12">
           <div class="input-group input-daterange">
             <input type="text" class="form-control" [value]="this.getStartDate()"
               (keyup)="this.updateDate('start', $event)">
-            <div class="input-group-addon">até</div>
+            <div class="input-group-addon">to</div>
             <input type="text" class="form-control" [value]="this.getEndDate()"
               (keyup)="this.updateDate('end', $event)">
           </div>
         </div>
       </div>
-  </div>
+
+    </div>
 
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary-color" (click)="this.toggleFiltersVisibility()">Cancelar</button>

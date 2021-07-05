@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
@@ -11,12 +11,23 @@ import { UtilService } from 'src/app/shared/util.service';
 })
 export class FiltersComponent implements OnInit {
 
-  protected dateRange: any = {start: null, end: null};
+  @Output() filtersDefined = new EventEmitter();
+
   public clients = this.global.getGlobal('list_clientes').value;
+
+  public dateRange: any = {start: null, end: null};
+  public clientList = [];
 
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService) {}
 
   ngOnInit(): void {}
+
+  toggleFiltersVisibility() {
+    const obj = this.global.getGlobal('config_widgets');
+
+    obj.value['filters'] = !obj.value['filters'];
+    this.global.setGlobal(obj);
+  }
 
   getTime() {
     let tsT0 = this.global.getGlobal("ts_t0");
@@ -55,14 +66,7 @@ export class FiltersComponent implements OnInit {
     this.dateRange[dateId] = event.target.value;
   }
 
-  toggleFiltersVisibility() {
-    const obj = this.global.getGlobal('config_widgets');
-
-    obj.value['filters'] = !obj.value['filters'];
-    this.global.setGlobal(obj);
-  }
-
-  saveFilters() {
+  saveDate() {
     if (this.dateRange['start']) {
       let start = new Date(this.dateRange['start']).getTime() / 1000;
 
@@ -78,8 +82,44 @@ export class FiltersComponent implements OnInit {
       tsT1.value = end;
       this.global.setGlobal(tsT1);
     }
+  }
+
+  updateClientList(event: any) {
+    this.clientList = event.target.value.split(',').filter( (d: string) => d.length > 0);
+  }
+
+  saveClientList() {
+    if (this.clientList !== null) {
+      let info = this.global.getGlobal('list_clientes');
+      info.value = this.clientList;
+
+      this.global.setGlobal(info);
+    }
+  }
+
+  saveFilters() {
+    this.saveClientList();
+    this.saveDate();
 
     this.toggleFiltersVisibility();
+    this.filtersDefined.emit();
   }
+
+
+/**
+ * Monta o trecho da query que define a bairro.
+ */
+//  function getBairro() {
+//   let listBairro = getGlobal("list_bairro");
+//   let list = [];
+//   list.push("cliente");
+//   list.push("eq");
+//   getCbBairro().selected().forEach(function (value, index, array) {
+//     let o = listBairro.value[value-1].item;
+//     if (o.CODBAIRRO != undefined) list.push(parseInt(o.CODBAIRRO));
+//   });
+//   return list;
+// }
+
 
 }

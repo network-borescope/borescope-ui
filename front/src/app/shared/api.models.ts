@@ -47,13 +47,11 @@ export class QueryRequest {
   constructor() {
     let location = ["location", "zrect", 14, -22.75212144238171, -43.90960693359376, -23.073414748499108, -42.944183349609375];
     let time = [ "time", "between", 1583020800, 1585698900];
-    let estado = ["estado", "eq", 19];
-    let cidade = ["cidade", "eq", 1];
-    let bairro = ["bairro", "eq", 128, 132];
+    let client = ["cliente", "eq", '10'];
     this['select'] = ["hc"];
     this['group-by'] = "evolucao";
     this['group-by-output']= "kv";
-    this['where'] = [ time, location, estado, cidade, bairro ];
+    this['where'] = [ time, location, client ];
     this['id'] = 1;
     this['from'] = "covid";
   }

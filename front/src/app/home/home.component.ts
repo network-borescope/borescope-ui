@@ -96,6 +96,13 @@ export class HomeComponent implements AfterViewInit {
     this.line.clearDataInfo('geometry');
   }
 
+  onFiltersDefined() {
+    console.log('called')
+    this.updateHeatmap();
+    this.updateBarChart('filter');
+    this.updateLineChart('filter');
+  }
+
   /**
    * Função que faz o request dos heatmaps.
    */
@@ -104,11 +111,9 @@ export class HomeComponent implements AfterViewInit {
     const time = this.filters.getTime();
 
     // TODO: pegar os outros parâmetros
-    const uf: any = undefined;
-    const cidade: any = undefined;
-    const bairro: any = undefined;
+    const client: any = undefined;
 
-    const res = await this.api.requestHeatMap(location, time, uf, cidade, bairro);
+    const res = await this.api.requestHeatMap(location, time, client);
     console.log(res);
 
     this.map.drawHeatMap(res);
@@ -120,11 +125,9 @@ export class HomeComponent implements AfterViewInit {
     const location = (dataId === 'geometry') ?
       this.map.getPoly(poly) : this.map.getLocation();
 
-    const estado = (dataId === 'filter') ? [] : undefined;
-    const cidade = (dataId === 'filter') ? [] : undefined;
-    const bairro = (dataId === 'filter') ? [] : undefined;
+    const client = (dataId === 'filter') ? [] : undefined;
 
-    const res = await this.api.requestBarChart(location, time, estado, cidade, bairro);
+    const res = await this.api.requestBarChart(location, time, client);
     console.log(res);
 
     this.bar.drawChart(res, dataId, chartColor);
@@ -136,11 +139,9 @@ export class HomeComponent implements AfterViewInit {
     const location = (dataId === 'geometry') ?
       this.map.getPoly(event) : this.map.getLocation();
 
-    const estado = (dataId === 'filter') ? [] : undefined;
-    const cidade = (dataId === 'filter') ? [] : undefined;
-    const bairro = (dataId === 'filter') ? [] : undefined;
+    const client = (dataId === 'filter') ? [] : undefined;
 
-    const res = await this.api.requestLineChart(location, time, bairro, cidade, bairro);
+    const res = await this.api.requestLineChart(location, time, client);
     console.log(res);
 
     this.line.drawChart(res, dataId, chartColor);

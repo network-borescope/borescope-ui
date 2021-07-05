@@ -110,7 +110,7 @@ export class ApiService {
   /**
    * Solicita os dados que compõe o mapa de calor.
    */
-  async requestHeatMap(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined,) {
+  async requestHeatMap(location: any[], time: any[], client: any[] | undefined) {
     let query = new QueryRequest();
     let selectedChannel = this.global.getGlobal("selected_channel");
 
@@ -126,14 +126,8 @@ export class ApiService {
     if (time !== undefined) {
       query['where'].push(time);
     }
-    if (uf !== undefined) {
-      query['where'].push(uf);
-    }
-    if (cidade !== undefined) {
-      query['where'].push(cidade);
-    }
-    if (bairro !== undefined) {
-      query['where'].push(bairro);
+    if (client !== undefined) {
+      query['where'].push(client);
     }
 
     this.utils.showTrace("requestHeatMap", query);
@@ -155,7 +149,7 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico de barras.
    */
-  async requestBarChart(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined) {
+  async requestBarChart(location: any[], time: any[], client: any[] | undefined) {
     let query = new QueryRequest();
     let selectedChannel = this.global.getGlobal("selected_channel");
 
@@ -172,14 +166,8 @@ export class ApiService {
     if (time !== undefined) {
       query['where'].push(time);
     }
-    if (uf !== undefined) {
-      query['where'].push(uf);
-    }
-    if (cidade !== undefined) {
-      query['where'].push(cidade);
-    }
-    if (bairro !== undefined) {
-      query['where'].push(bairro);
+    if (client !== undefined) {
+      query['where'].push(client);
     }
 
     this.utils.showTrace("requestBarChart", query); // utils.js
@@ -203,7 +191,7 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico de linhas.
    */
-  async requestLineChart(location: any[], time: any[], uf: any[] | undefined, cidade: any[] | undefined, bairro: any[] | undefined) {
+  async requestLineChart(location: any[], time: any[], client: any[] | undefined) {
     let query = new QueryRequest();
     let selectedChannel = this.global.getGlobal("selected_channel");
 
@@ -220,6 +208,9 @@ export class ApiService {
     }
     if (time !== undefined) {
       query['where'].push(time);
+    }
+    if (client !== undefined) {
+      query['where'].push(client);
     }
 
     this.utils.showTrace("requestLineChart", query);
