@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from './shared/api.service';
+import { Component } from '@angular/core';
 
-import { GlobalService } from './shared/global.service';
 
 @Component({
   selector: 'app-root',

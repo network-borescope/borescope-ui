@@ -101,6 +101,10 @@ export class HomeComponent implements AfterViewInit {
     this.updateLineChart('filter', '#333');
   }
 
+  onChartTimeChanged() {
+    
+  }
+
   /**
    * Função que faz o request dos heatmaps.
    */

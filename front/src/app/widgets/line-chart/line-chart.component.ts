@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
 import { LineChart } from './line';
@@ -14,11 +15,14 @@ export class LineChartComponent implements OnInit {
   // referência para o div do grafico
   @ViewChild("lineChart", { static: true }) private lineDiv!: ElementRef;
 
+  @Output() chartTimeChanged = new EventEmitter();
+
   private lineChart: any;
   private chartData: any = {};
 
   private labels: any = [];
   private nMarks: any = undefined;
+
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
@@ -116,5 +120,11 @@ export class LineChartComponent implements OnInit {
 
   getData(dataId: string) {
     return this.chartData[dataId];
+  }
+
+
+  onClickTime(delta: number) {
+    console.log(delta);
+    this.chartTimeChanged.emit();
   }
 }

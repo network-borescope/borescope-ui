@@ -26,9 +26,9 @@ import { ConfigBarComponent } from './bars/config-bar/config-bar.component';
     BarChartComponent,
     LineChartComponent,
     TopBarComponent,
-    FiltersComponent,
     ChartsBarComponent,
     ConfigBarComponent,
+    FiltersComponent,
   ],
   imports: [
     BrowserModule,

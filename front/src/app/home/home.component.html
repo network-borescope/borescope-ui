@@ -22,9 +22,10 @@
   <div ngDraggable class="widget" style="position: absolute; top: 490px; right: 10px;"
   [style.z-index] = "this.isChartVisible('line') ? this.chartZindex('line') : '-10' "
   (started)="this.moving = 'line'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'line'">
-    <app-line-chart #appLineChart></app-line-chart>
+    <app-line-chart #appLineChart
+    (chartTimeChanged) = 'this.onChartTimeChanged()'
+    ></app-line-chart>
   </div>
-
 
   <app-config-bar class="configs-menu"></app-config-bar>
 
