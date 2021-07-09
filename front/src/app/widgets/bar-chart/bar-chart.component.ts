@@ -54,7 +54,6 @@ export class BarChartComponent implements OnInit {
     this.updateLabels(dataId);
     const data = this.getData(dataId);
 
-    this.barChart.removeDataset(dataId);
     this.barChart.setLabels(this.labels);
     this.barChart.addDataset(dataId, data, chartColor);
   }

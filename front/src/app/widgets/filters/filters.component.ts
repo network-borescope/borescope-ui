@@ -62,6 +62,21 @@ export class FiltersComponent implements OnInit {
     return end.toISOString().split('T')[0];
   }
 
+  getClients() {
+    let list = [];
+    list.push("cliente");
+    list.push("eq");
+
+    this.clientList.forEach((client: any) => {
+      let found = this.clients.items.find((c: any) => c.id.toUpperCase() === client);
+      if (found) {
+        list.push(parseInt(found.cod))
+      }
+    });
+
+    return list;
+  }
+
   updateDate(dateId: string, event: any) {
     this.dateRange[dateId] = event.target.value;
   }
@@ -104,22 +119,4 @@ export class FiltersComponent implements OnInit {
     this.toggleFiltersVisibility();
     this.filtersDefined.emit();
   }
-
-
-/**
- * Monta o trecho da query que define a bairro.
- */
-//  function getBairro() {
-//   let listBairro = getGlobal("list_bairro");
-//   let list = [];
-//   list.push("cliente");
-//   list.push("eq");
-//   getCbBairro().selected().forEach(function (value, index, array) {
-//     let o = listBairro.value[value-1].item;
-//     if (o.CODBAIRRO != undefined) list.push(parseInt(o.CODBAIRRO));
-//   });
-//   return list;
-// }
-
-
 }

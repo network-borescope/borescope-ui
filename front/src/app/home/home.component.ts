@@ -97,10 +97,8 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onFiltersDefined() {
-    console.log('called')
-    this.updateHeatmap();
-    this.updateBarChart('filter');
-    this.updateLineChart('filter');
+    this.updateBarChart('filter', '#333');
+    this.updateLineChart('filter', '#333');
   }
 
   /**
@@ -125,7 +123,8 @@ export class HomeComponent implements AfterViewInit {
     const location = (dataId === 'geometry') ?
       this.map.getPoly(poly) : this.map.getLocation();
 
-    const client = (dataId === 'filter') ? [] : undefined;
+    const client = (dataId === 'filter') ?
+      this.filters.getClients() : undefined;
 
     const res = await this.api.requestBarChart(location, time, client);
     console.log(res);
@@ -139,7 +138,8 @@ export class HomeComponent implements AfterViewInit {
     const location = (dataId === 'geometry') ?
       this.map.getPoly(event) : this.map.getLocation();
 
-    const client = (dataId === 'filter') ? [] : undefined;
+    const client = (dataId === 'filter') ?
+      this.filters.getClients() : undefined;
 
     const res = await this.api.requestLineChart(location, time, client);
     console.log(res);
