@@ -19,7 +19,7 @@
     <app-bar-chart #appBarChart></app-bar-chart>
   </div>
 
-  <div ngDraggable class="widget" style="position: absolute; top: 490px; right: 10px;"
+  <div ngDraggable class="widget" style="position: absolute; top: 490px; right: 10px; height: 332px !important;"
   [style.z-index] = "this.isChartVisible('line') ? this.chartZindex('line') : '-10' "
   (started)="this.moving = 'line'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'line'">
     <app-line-chart #appLineChart
