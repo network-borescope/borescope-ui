@@ -15,7 +15,7 @@ export class LineChartComponent implements OnInit {
   // referência para o div do grafico
   @ViewChild("lineChart", { static: true }) private lineDiv!: ElementRef;
 
-  @Output() chartTimeChanged = new EventEmitter();
+  @Output() chartTimeChanged = new EventEmitter<number>();
 
   private lineChart: any;
   private chartData: any = {};
@@ -125,6 +125,6 @@ export class LineChartComponent implements OnInit {
 
   onClickTime(delta: number) {
     console.log(delta);
-    this.chartTimeChanged.emit();
+    this.chartTimeChanged.emit(delta);
   }
 }

@@ -23,7 +23,7 @@
   [style.z-index] = "this.isChartVisible('line') ? this.chartZindex('line') : '-10' "
   (started)="this.moving = 'line'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'line'">
     <app-line-chart #appLineChart
-    (chartTimeChanged) = 'this.onChartTimeChanged()'
+    (chartTimeChanged) = "this.onChartTimeChanged($event)"
     ></app-line-chart>
   </div>
 

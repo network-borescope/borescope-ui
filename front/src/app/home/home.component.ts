@@ -101,8 +101,9 @@ export class HomeComponent implements AfterViewInit {
     this.updateLineChart('filter', '#333');
   }
 
-  onChartTimeChanged() {
-    
+  onChartTimeChanged(delta: number) {
+    // TODO: atualizar dados do line chart, bar chart e map
+    console.log(delta);
   }
 
   /**
