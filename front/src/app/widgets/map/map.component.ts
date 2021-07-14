@@ -32,6 +32,7 @@ export class MapComponent implements AfterViewInit {
     @Output() polyRemovedEvent = new EventEmitter<any>();
     @Output() polyEditedEvent = new EventEmitter<any>();
     @Output() moveEndedEvent = new EventEmitter();
+    @Output() markerClickedEvent = new EventEmitter<any>();
 
     // eventos de seleção de markers
     @Output() markerSelectionUpdatedEvent = new EventEmitter();
@@ -412,6 +413,8 @@ export class MapComponent implements AfterViewInit {
             }
 
             this.markerSelectionUpdatedEvent.emit();
+            console.log(layer);
+            this.markerClickedEvent.emit(layer);
         });
 
         // Evento de mouseout no marker.

@@ -106,6 +106,10 @@ export class HomeComponent implements AfterViewInit {
     console.log(delta);
   }
 
+  onMarkerClicked(event: any) {
+    console.log(event);
+  }
+
   /**
    * Função que faz o request dos heatmaps.
    */
