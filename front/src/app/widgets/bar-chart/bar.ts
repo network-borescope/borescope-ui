@@ -39,6 +39,7 @@ export class BarChart {
         responsive: false,
         scales: {
           x: {
+            stacked: true,
             title: {
               display: true,
               text: 'TTL'
@@ -46,6 +47,7 @@ export class BarChart {
           },
           y: {
             beginAtZero: true,
+            stacked: true,
             title: {
               display: true,
               text: 'Relative Frequency'
