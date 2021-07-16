@@ -115,9 +115,7 @@ export class BarChart {
   }
 
   updateMapData(newMapData: any) {
-    console.log(this.chart.config.data.datasets[0]);
     this.chart.config.data.datasets[0].data = newMapData; 
-    console.log(this.chart.config.data.datasets[0]);
     this.chart.update();
   }
 
