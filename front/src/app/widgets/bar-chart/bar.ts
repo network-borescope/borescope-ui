@@ -107,7 +107,8 @@ export class BarChart {
       backgroundColor: color,
       borderColor: color,
       data: data,
-      fill: false
+      fill: false,
+      stack: label
     };
     let datasets = this.chart.config.data.datasets;
     datasets.push(dataset);
