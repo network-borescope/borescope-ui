@@ -17,6 +17,7 @@ export class BarChartComponent implements OnInit {
 
   private barChart: any;
   private chartData: any = {};
+  private firstDraw: any;
 
   private labels: any = [];
   private nMarks: any = undefined;
@@ -32,7 +33,7 @@ export class BarChartComponent implements OnInit {
  */
   drawChart(responseData: any, dataId: string, chartColor: string) {
     // cleans the data
-    this.clearDataInfo(dataId);
+    //this.clearDataInfo('map');
 
     // calcula a soma dos valores em results
     const total = responseData.result.reduce((a: any, b: any) => {
@@ -42,23 +43,35 @@ export class BarChartComponent implements OnInit {
     if (!this.nMarks) {
       this.nMarks = responseData.result.length;
     }
-
+    let oldMapDataCounter = 0;
     // adiciona os valores normalizados ao dataset
     for (let i = 0; i < responseData.result.length; i++) {
       const pointId = responseData.result[i].k[0];
       const pointVl = responseData.result[i].v[0] / total;
 
+      oldMapDataCounter += 1;
       this.addDataInfo(dataId, pointId, pointVl);
     }
+    //checa se é a primeira vez que recebe um dado
+    //como o primeiro dado recebido é proveniente do map
+    //caso seja falso, nunca recebeu dado
+    if(!this.firstDraw || dataId != 'map') {
+      this.updateLabels(dataId);
+      const data = this.getData(dataId);
 
-    this.updateLabels(dataId);
-    const data = this.getData(dataId);
-
-    this.barChart.setLabels(this.labels);
-    this.barChart.addDataset(dataId, data, chartColor);
-  }
+      this.barChart.setLabels(this.labels);
+      this.barChart.addDataset(dataId, data, chartColor);
+      this.firstDraw = true;
+    } else {
+      
+      const data = this.getData(dataId);
+      const newMapData = data.slice(Math.max(data.length - oldMapDataCounter, 0));
+      this.barChart.updateMapData(newMapData);
+    }
+  };
 
   clearDataInfo(dataId: string) {
+
     this.chartData[dataId] = [];
     this.barChart.removeDataset(dataId);
   }
