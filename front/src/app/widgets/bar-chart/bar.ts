@@ -1,4 +1,4 @@
-import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElement, Legend } from 'chart.js';
+import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElement, Legend, Tooltip } from 'chart.js';
 export class BarChart {
 
   private chart: any;
@@ -16,7 +16,7 @@ export class BarChart {
     }
 
     // Registra os elementos utilizados pelo grafico
-    Chart.register(PointElement, BarController, BarElement, CategoryScale, LinearScale, Legend);
+    Chart.register(PointElement, BarController, BarElement, CategoryScale, LinearScale, Legend, Tooltip);
     Chart.defaults.animation = false;
 
     // Configuração do gráfico
