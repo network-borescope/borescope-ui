@@ -1,4 +1,4 @@
-import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement } from 'chart.js';
+import { CategoryScale, Chart, Legend, LinearScale, LineController, LineElement, PointElement, Tooltip } from 'chart.js';
 
 export class LineChart {
 
@@ -17,7 +17,7 @@ export class LineChart {
     }
 
     //Registra os elementos utilizados pelo grafico
-    Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale);
+    Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale, Legend, Tooltip);
     Chart.defaults.animation = false;
 
     this.chart = new Chart(this.canvas, {
