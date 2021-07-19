@@ -53,7 +53,7 @@ export class BarChartComponent implements OnInit {
       this.addDataInfo(dataId, pointId, pointVl);
     }
     
-    //checa se a cor passada já está no mapa
+    //checa se a cor passada já está no gráfico
     //se tiver, adiciona novo dataset
     //caso contrário, atualiza o dataset da cor referente
     if(!this.colorList.includes(chartColor)) {
@@ -64,7 +64,7 @@ export class BarChartComponent implements OnInit {
       this.barChart.addDataset(dataId, data, chartColor);
       this.colorList.push(chartColor);
     } else {
-      
+
       const data = this.getData(dataId);
       const newData = data.slice(Math.max(data.length - oldDataCounter, 0));
       this.barChart.updateChartData(newData, chartColor);
