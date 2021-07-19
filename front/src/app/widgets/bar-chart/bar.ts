@@ -115,9 +115,14 @@ export class BarChart {
     this.chart.update();
   }
 
-  updateMapData(newMapData: any) {
-    this.chart.config.data.datasets[0].data = newMapData; 
-    this.chart.update();
+  updateChartData(newData: any, color: string) {
+    const datasets = this.chart.config.data.datasets;
+    for(let i = 0; i < datasets.length; i++){
+      if(datasets[i].backgroundColor == color) {
+        datasets[i].data = newData;
+        this.chart.update();
+      }
+    }; 
   }
 
   removeDataset(label: any) {
