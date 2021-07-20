@@ -128,11 +128,11 @@ export class FiltersComponent implements OnInit {
   removeFilters() {
     let tsT0 = this.global.getGlobal("ts_t0");
     let start = new Date(tsT0.value * 1000);
-    this.dateRange['start'] = start.toISOString().split('T')[0];
+    this.dateRange['start'] = start.toISOString().slice(0,-8).replace('T', ' # ');
 
     let tsT1 = this.global.getGlobal("ts_t1");
     let end = new Date(tsT1.value * 1000);
-    this.dateRange['end'] = end.toISOString().split('T')[0];
+    this.dateRange['end'] = end.toISOString().slice(0,-8).replace('T', ' # ');
 
     this.clientsSelection = [];
     this.clientsInput.nativeElement.value = '';
