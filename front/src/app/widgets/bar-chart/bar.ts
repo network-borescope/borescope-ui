@@ -115,26 +115,23 @@ export class BarChart {
     this.chart.update();
   }
 
-  updateChartData(newData: any, color: string) {
+  updateDataset(color: string, data: any) {
     const datasets = this.chart.config.data.datasets;
     for(let i = 0; i < datasets.length; i++){
       if(datasets[i].backgroundColor == color) {
-        datasets[i].data = newData;
+        datasets[i].data = data;
         this.chart.update();
       }
-    }; 
+    };    
   }
 
-  removeDataset(label: any) {
-    let datasets = this.chart.config.data.datasets;
-    for (let i = 0; i < datasets.length; i++) {
-      let dataset = datasets[i];
-      if (dataset.label == label) {
-        datasets.splice(i, 1);
-        break;
+  removeDataset(color: string) {
+    const datasets = this.chart.config.data.datasets;
+    for(let i = 0; i < datasets.length; i++){
+      if(datasets[i].backgroundColor == color) {
+        datasets[i].data = [];
       }
-    }
-    this.chart.update();
+    }; 
   }
 
   clear() {

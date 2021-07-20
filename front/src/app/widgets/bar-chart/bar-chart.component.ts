@@ -33,7 +33,7 @@ export class BarChartComponent implements OnInit {
  */
   drawChart(responseData: any, dataId: string, chartColor: string) {
     // cleans the data
-    //this.clearDataInfo('map');
+    //this.clearDataInfo(dataId);
 
     // calcula a soma dos valores em results
     const total = responseData.result.reduce((a: any, b: any) => {
@@ -43,51 +43,47 @@ export class BarChartComponent implements OnInit {
     if (!this.nMarks) {
       this.nMarks = responseData.result.length;
     }
-    let oldDataCounter = 0;
+
+    if(this.chartData[chartColor]) {
+      this.clearDataInfo(chartColor);
+    };
+    
     // adiciona os valores normalizados ao dataset
     for (let i = 0; i < responseData.result.length; i++) {
       const pointId = responseData.result[i].k[0];
       const pointVl = responseData.result[i].v[0] / total;
 
-      oldDataCounter += 1;
-      this.addDataInfo(dataId, pointId, pointVl);
+      this.addDataInfo(chartColor, pointId, pointVl);
     }
     
-    //checa se a cor passada já está no gráfico
-    //se tiver, adiciona novo dataset
-    //caso contrário, atualiza o dataset da cor referente
-    if(!this.colorList.includes(chartColor)) {
-      this.updateLabels(dataId);
-      const data = this.getData(dataId);
+    this.updateLabels(chartColor);
+    const data = this.getData(chartColor);
 
-      this.barChart.setLabels(this.labels);
+    this.barChart.setLabels(this.labels);
+    if(!this.colorList.includes(chartColor)) {
       this.barChart.addDataset(dataId, data, chartColor);
       this.colorList.push(chartColor);
     } else {
-
-      const data = this.getData(dataId);
-      const newData = data.slice(Math.max(data.length - oldDataCounter, 0));
-      this.barChart.updateChartData(newData, chartColor);
+      this.barChart.updateDataset(chartColor, data);
     }
-    
   };
 
-  clearDataInfo(dataId: string) {
+  clearDataInfo(color: string) {
 
-    this.chartData[dataId] = [];
-    this.barChart.removeDataset(dataId);
+    this.chartData[color] = [];
+    this.barChart.removeDataset(color);
   }
 
-  addDataInfo(dataId: string, markerId: any, value: number) {
-    if(!this.chartData[dataId]) {
-      this.chartData[dataId] = [];
+  addDataInfo(color: string, markerId: any, value: number) {
+    if(!this.chartData[color]) {
+      this.chartData[color] = [];
     }
 
-    this.chartData[dataId].push({x: markerId, y: value});
+    this.chartData[color].push({x: markerId, y: value});
   }
 
-  updateLabels(dataId: string) {
-    this.chartData[dataId].forEach( (d: any) => {
+  updateLabels(color: string) {
+    this.chartData[color].forEach( (d: any) => {
       const x = d['x'];
 
       if (!this.labels.includes(x)) {
@@ -96,7 +92,7 @@ export class BarChartComponent implements OnInit {
     });
   }
 
-  getData(dataId: string) {
-    return this.chartData[dataId];
+  getData(color: string) {
+    return this.chartData[color];
   }
 }
