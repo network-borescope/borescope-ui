@@ -230,31 +230,4 @@ export class ApiService {
 
     return await response.json();
   }
-
-//   /**
-//  * Solicita os dados do bairro para compor o gráfico da esquerda.
-//  */
-// requestBairro2ChartLeft(codBairro) {
-//   let query = new QueryRequest();
-//   query.select = ["quantidades"];
-//   query["group-by"] = "ttl";
-//   query.where = [];
-//   query.where.push(getStartLocation());
-//   //query.where.push(selectUF());
-//   //query.where.push(selectCidade());
-//   query.where.push(selectBairro(codBairro));
-//   query.where.push(getTime());
-//   query.from = "antenas";
-//   showTrace("requestBairro2ChartLeft", query); // utils.js
-//   $.ajax({
-//     type: 'POST',
-//     url: xhttp_url,
-//     data: JSON.stringify(query),
-//     success: function(responseData) {
-//       drawBairroChartLeft(codBairro, responseData);
-//     },
-//     contentType: "application/json",
-//     dataType: 'json'
-//   });
-// }
 }

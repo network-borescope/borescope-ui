@@ -100,6 +100,8 @@ export class UtilService {
     return { t0: t0, t1: t1 };
   }
 
+  
+
 /**
  * Difine o intervalo de Y no gráfico inferior.
  */

@@ -33,7 +33,8 @@
   <div style="position: absolute; width: 400px; bottom: 60px; left: 10px;"
   [style.z-index] = "this.isConfigVisible('filters') ? 950 : '-10'">
     <app-filters #appFilters
-    (filtersDefined) = this.onFiltersDefined()></app-filters>
+    (filtersDefined) = this.onFiltersDefined()
+    (filtersRemoved) = this.onFiltersRemoved()></app-filters>
   </div>
 
 </div>

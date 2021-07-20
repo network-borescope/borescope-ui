@@ -36,6 +36,32 @@ export class AppInitService {
       value: bounds.result.vs[1][0]
     };
     this.global.setGlobal(tsT1);
+
+
+    let tsT0_filter = {
+      key: "ts_t0_filter",
+      value: tsT0.value
+    };
+    this.global.setGlobal(tsT0_filter);
+
+    let tsT1_filter = {
+      key: "ts_t1_filter",
+      value: tsT1.value
+    };
+    this.global.setGlobal(tsT1_filter);
+
+
+    let tsT0_vis = {
+      key: "ts_t0_vis",
+      value: tsT0.value
+    };
+    this.global.setGlobal(tsT0_vis);
+
+    let tsT1_vis = {
+      key: "ts_t1_vis",
+      value: tsT1.value
+    };
+    this.global.setGlobal(tsT1_vis);
   }
 
   async loadGeoBounds() {

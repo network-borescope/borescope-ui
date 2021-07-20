@@ -101,6 +101,11 @@ export class HomeComponent implements AfterViewInit {
     this.updateLineChart('filter', '#333');
   }
 
+  onFiltersRemoved() {
+    this.bar.clearDataInfo('filter');
+    this.line.clearDataInfo('filter');
+  }
+
   onChartTimeChanged(delta: number) {
     // TODO: atualizar dados do line chart, bar chart e map
     console.log(delta);
@@ -110,12 +115,35 @@ export class HomeComponent implements AfterViewInit {
     console.log(event);
   }
 
+  getTime(dataId: string = 'map') {
+
+    const t0Str = dataId === 'filter' ? 'ts_t0_filter' : 'ts_t0_vis';
+    const t1Str = dataId === 'filter' ? 'ts_t1_filter' : 'ts_t1_vis';
+
+    let tsT0 = this.global.getGlobal(t0Str);
+    let tsT1 = this.global.getGlobal(t1Str);
+    let list = [];
+    list.push("time");
+    list.push("between");
+
+    let start = new Date(tsT0.value * 1000);
+    let t0 = start.getTime() / 1000;
+
+    let end = new Date(tsT1.value * 1000);
+    let t1 = end.getTime() / 1000;
+
+    list.push(t0);
+    list.push(t1);
+
+    return list;
+  }
+
   /**
    * Função que faz o request dos heatmaps.
    */
   async updateHeatmap() {
     const location = this.map.getLocation();
-    const time = this.filters.getTime();
+    const time = this.getTime();
 
     // TODO: pegar os outros parâmetros
     const client: any = undefined;
@@ -127,7 +155,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   async updateBarChart(dataId: string = 'map', chartColor: string = '#AAAAAA', poly: any = undefined) {
-    const time = this.filters.getTime();
+    const time = this.getTime(dataId);
 
     const location = (dataId === 'geometry') ?
       this.map.getPoly(poly) : this.map.getLocation();
@@ -142,7 +170,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   async updateLineChart(dataId: string = 'map', chartColor: string = '#AAAAAA', event: any = undefined) {
-    const time = this.filters.getTime();
+    const time = this.getTime(dataId);
 
     const location = (dataId === 'geometry') ?
       this.map.getPoly(event) : this.map.getLocation();

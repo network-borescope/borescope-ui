@@ -103,6 +103,43 @@ export class GlobalService {
     this.setGlobal(ts_t1);
 
     /**
+     * Guarda o time inicial nas visualizações.
+     */
+    const ts_t0_vis = {
+      key: "ts_t0_vis",
+      value: undefined
+    };
+    this.setGlobal(ts_t0_vis);
+
+    /**
+     * Guarda o time final nas visualizações.
+     */
+    const ts_t1_vis = {
+      key: "ts_t1_vis",
+      value: undefined
+    };
+    this.setGlobal(ts_t1_vis);
+
+    /**
+     * Guarda o time inicial usado no filtro.
+     */
+    const ts_t0_filter = {
+      key: "ts_t0_filter",
+      value: undefined
+    };
+    this.setGlobal(ts_t0_filter);
+
+    /**
+     * Guarda o time final usado no filtro.
+     */
+    const ts_t1_filter = {
+      key: "ts_t1_filter",
+      value: undefined
+    };
+    this.setGlobal(ts_t1_filter);
+
+
+    /**
      * Serve para recuperar o item selecionado na combobox trace.
      * Podendo ser Trace, Queries ou All.
      */
@@ -153,16 +190,16 @@ export class GlobalService {
      */
     const chart_widgets = {
       key: "chart_widgets",
-      value: {'line': false, 'bar': false}
+      value: { 'line': false, 'bar': false }
     }
     this.setGlobal(chart_widgets);
 
     /**
      * Estado das janelas de configuração
      */
-     const config_widgets = {
+    const config_widgets = {
       key: "config_widgets",
-      value: {'filters': false}
+      value: { 'filters': false }
     }
     this.setGlobal(config_widgets);
 
