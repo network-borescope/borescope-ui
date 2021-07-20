@@ -64,14 +64,14 @@ export class FiltersComponent implements OnInit {
     let tsT0 = this.global.getGlobal("ts_t0_filter");
 
     let start = new Date(tsT0.value * 1000);
-    return start.toISOString().split('T')[0];
+    return  start.toISOString().slice(0,-8).replace('T', ' # ');
   }
 
   getEndDate() {
     let tsT1 = this.global.getGlobal("ts_t1_filter");
 
     let end = new Date(tsT1.value * 1000);
-    return end.toISOString().split('T')[0];
+    return end.toISOString().slice(0,-8).replace('T', ' # ');
   }
 
   updateDate(dateId: string, event: any) {
@@ -79,18 +79,33 @@ export class FiltersComponent implements OnInit {
   }
 
   saveDate() {
-    if (this.dateRange['start']) {
-      let start = new Date(this.dateRange['start']).getTime() / 1000;
+    let tsT0 = this.global.getGlobal("ts_t0_filter");
+    let tsT1 = this.global.getGlobal("ts_t1_filter");
 
-      let tsT0 = this.global.getGlobal("ts_t0_filter");
+    if (this.dateRange['start']) {
+      const parts = this.dateRange['start'].split(' # ');
+
+      let start = new Date(`${parts[0]}T${parts[1]}:00Z`).getTime() / 1000;
+      console.log(`${parts[0]}T${parts[1]}:00`, start)
+
+      if(start > tsT1.value) {
+        console.log('Invalid Filter Date: end < start.')
+        return
+      }
+
       tsT0.value = start;
       this.global.setGlobal(tsT0);
     }
 
     if (this.dateRange['end']) {
-      let end = new Date(this.dateRange['end']).getTime() / 1000;
+      const parts = this.dateRange['end'].split(' # ');
+      let end = new Date(`${parts[0]}T${parts[1]}:00Z`).getTime() / 1000;
 
-      let tsT1 = this.global.getGlobal("ts_t1_filter");
+      if(end < tsT0.value) {
+        console.log('Invalid Filter Date: end < start.')
+        return
+      }
+
       tsT1.value = end;
       this.global.setGlobal(tsT1);
     }
@@ -101,6 +116,12 @@ export class FiltersComponent implements OnInit {
     this.saveDate();
 
     this.toggleFiltersVisibility();
+
+    if(!this.clientsSelection.length) {
+      console.log('Invalid Filter: empity client list.')
+      return;
+    }
+
     this.filtersDefined.emit();
   }
 
