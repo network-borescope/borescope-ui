@@ -92,7 +92,9 @@ export class HomeComponent implements AfterViewInit {
     this.updateLineChart('geometry', color, poly);
   }
 
-  onPolyRemoved() {
+  onPolyRemoved(event: any) {
+    console.log(event.options.color);
+
     this.bar.clearDataInfo('geometry');
     this.line.clearDataInfo('geometry');
   }
@@ -107,9 +109,19 @@ export class HomeComponent implements AfterViewInit {
     this.line.clearDataInfo('filter');
   }
 
-  onMarkerClicked(feature: any) {
-    this.updateBarChart('client');
-    this.updateLineChart('client');
+  onMarkerAdded(event: any) {
+    const color = event.color;
+    const codigo = event.codigo;
+
+    this.updateBarChart('client', color, codigo);
+    this.updateLineChart('client', color, codigo);
+  }
+
+  onMarkerRemoved(event: any) {
+    console.log(event.color)
+
+    this.bar.clearDataInfo('client');
+    this.line.clearDataInfo('client');
   }
 
   onChartTimeChanged(delta: number) {
@@ -213,18 +225,18 @@ export class HomeComponent implements AfterViewInit {
     this.map.drawHeatMap(res);
   }
 
-  async updateBarChart(dataId: string = 'map', chartColor: string = '#AAAAAA', poly: any = undefined) {
+  async updateBarChart(dataId: string = 'map', chartColor: string = '#AAAAAA', feat: any = undefined) {
     const time = this.getTime(dataId);
 
     const location = (dataId === 'geometry') ?
-      this.map.getPoly(poly) : this.map.getLocation();
+      this.map.getPoly(feat) : this.map.getLocation();
 
     let client = undefined;
     if (dataId === 'filter') {
       client = this.filters.getClients();
     }
     if (dataId === 'client') {
-      client = this.map.getClients();
+      client = this.map.getClient(feat);
     }
 
     const res = await this.api.requestBarChart(location, time, client);
@@ -233,18 +245,18 @@ export class HomeComponent implements AfterViewInit {
     this.bar.drawChart(res, dataId, chartColor);
   }
 
-  async updateLineChart(dataId: string = 'map', chartColor: string = '#AAAAAA', event: any = undefined) {
+  async updateLineChart(dataId: string = 'map', chartColor: string = '#AAAAAA', feat: any = undefined) {
     const time = this.getTime(dataId);
 
     const location = (dataId === 'geometry') ?
-      this.map.getPoly(event) : this.map.getLocation();
+      this.map.getPoly(feat) : this.map.getLocation();
 
     let client = undefined;
     if (dataId === 'filter') {
       client = this.filters.getClients();
     }
     if (dataId === 'client') {
-      client = this.map.getClients();
+      client = this.map.getClient(feat);
     }
 
     const res = await this.api.requestLineChart(location, time, client);
