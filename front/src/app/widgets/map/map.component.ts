@@ -32,10 +32,9 @@ export class MapComponent implements AfterViewInit {
     @Output() polyRemovedEvent = new EventEmitter<any>();
     @Output() polyEditedEvent = new EventEmitter<any>();
     @Output() moveEndedEvent = new EventEmitter();
-    @Output() markerClickedEvent = new EventEmitter<any>();
 
     // eventos de seleção de markers
-    @Output() markerSelectionUpdatedEvent = new EventEmitter();
+    @Output() markerClickedEvent = new EventEmitter<any>();
 
     // objeto com o mapa do leaflet
     private map!: L.Map;
@@ -46,7 +45,7 @@ export class MapComponent implements AfterViewInit {
     // lista de layers ativos
     private listLayer: any[] = [];
     // lista dos bairros
-    private listBairro: any[] = [];
+    private listClient: any[] = [];
 
 
     // heatmap layer
@@ -183,8 +182,8 @@ export class MapComponent implements AfterViewInit {
     /**
      * Retorna lista de bairros.
      */
-    getListBairro() {
-        return this.listBairro;
+    getClients() {
+        return this.listClient;
     }
 
     /**
@@ -337,12 +336,12 @@ export class MapComponent implements AfterViewInit {
     /**
      * Guarda os dados do bairro para exibição futura.
      */
-    setCovidBairro(codBairro: any, recuperado: any, obito: any, ativo: any) {
-        for (let i = 0; i < this.listBairro.length; i++) {
-            if (this.listBairro[i].codigo == codBairro) {
-                this.listBairro[i].recuperado = recuperado;
-                this.listBairro[i].obito = obito;
-                this.listBairro[i].ativo = ativo;
+    setClientInfo(codBairro: any, recuperado: any, obito: any, ativo: any) {
+        for (let i = 0; i < this.listClient.length; i++) {
+            if (this.listClient[i].codigo == codBairro) {
+                this.listClient[i].recuperado = recuperado;
+                this.listClient[i].obito = obito;
+                this.listClient[i].ativo = ativo;
                 break;
             }
         }
@@ -351,11 +350,11 @@ export class MapComponent implements AfterViewInit {
     /**
      * Limpa dados dos bairros após mudança no intervalo temporal.
      */
-    clearCovidBairro() {
-        for (let i = 0; i < this.listBairro.length; i++) {
-            this.listBairro[i].recuperado = '...';
-            this.listBairro[i].obito = '...';
-            this.listBairro[i].ativo = '...';
+    clearClientInfo() {
+        for (let i = 0; i < this.listClient.length; i++) {
+            this.listClient[i].recuperado = '...';
+            this.listClient[i].obito = '...';
+            this.listClient[i].ativo = '...';
         }
     }
 
@@ -389,12 +388,12 @@ export class MapComponent implements AfterViewInit {
         // Evento de click no marker
         layer.on('click', () => {
 
-            const found = this.listBairro.findIndex(d => {
+            const found = this.listClient.findIndex(d => {
                 return d.codigo === feature.properties.cod;
             });
 
             if (found >= 0) {
-                this.listBairro.splice(found, 1);
+                this.listClient.splice(found, 1);
                 layer.setIcon(this.formatStatesStyle('blue'));
             }
             else {
@@ -402,30 +401,28 @@ export class MapComponent implements AfterViewInit {
                 let drawColorIndex = this.global.getGlobal("draw_color_index");
                 layer.setIcon(this.formatStatesStyle(drawColors.value[drawColorIndex.value]));
 
-                let bairro = {
+                let client = {
                     codigo: feature.properties.cod,
                     nome: feature.properties.id,
                     color: drawColors.value[drawColorIndex.value]
                 };
-                this.listBairro.push(bairro);
+                this.listClient.push(client);
                 this.nextDrawColor(layer);
                 this.updateDrawColors();
             }
 
-            this.markerSelectionUpdatedEvent.emit();
-            console.log(layer);
-            this.markerClickedEvent.emit(layer);
+            this.markerClickedEvent.emit(layer.feature);
         });
 
         // Evento de mouseout no marker.
         layer.on('mouseout', (e: any) => {
 
-            const found = this.listBairro.findIndex(d => {
+            const found = this.listClient.findIndex(d => {
                 return d.codigo === feature.properties.cod;
             });
 
             if (found >= 0) {
-                layer.setIcon(this.formatStatesStyle(this.listBairro[found].color));
+                layer.setIcon(this.formatStatesStyle(this.listClient[found].color));
             }
 
             layer.closePopup();

@@ -59,7 +59,7 @@ export class LineChartComponent implements OnInit {
     const unity = this.global.getGlobal("result_unity").value;
 
     this.lineChart.setLabelY(title + " [" + best_unity.prefix + unity + "]");
-        
+
     //checa se a cor passada já está no gráfico
     //se tiver, adiciona novo dataset
     //caso contrário, atualiza o dataset da cor referente
@@ -67,7 +67,7 @@ export class LineChartComponent implements OnInit {
       //point labels
       this.updateLabels();
       const data = this.getData(dataId);
-  
+
       this.lineChart.setLabels(this.labels);
       this.lineChart.addDataset(dataId, data, chartColor);
       this.colorList.push(chartColor);
@@ -75,7 +75,7 @@ export class LineChartComponent implements OnInit {
 
       const data = this.getData(dataId);
       const newData = data.slice(Math.max(data.length - oldDataCounter, 0));
-      this.lineChart.updateChartData(newData, chartColor);     
+      this.lineChart.updateChartData(newData, chartColor);
     };
 
   }
@@ -98,8 +98,8 @@ export class LineChartComponent implements OnInit {
       return;
     }
 
-    const tsT0 = this.global.getGlobal("ts_t0");
-    const tsT1 = this.global.getGlobal("ts_t1");
+    const tsT0 = this.global.getGlobal("ts_t0_vis");
+    const tsT1 = this.global.getGlobal("ts_t1_vis");
 
     const interval = tsT1.value - tsT0.value;
     const tDelta = interval / (this.nMarks - 1);
@@ -139,4 +139,5 @@ export class LineChartComponent implements OnInit {
     console.log(delta);
     this.chartTimeChanged.emit(delta);
   }
+
 }

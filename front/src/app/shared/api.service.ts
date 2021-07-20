@@ -110,7 +110,7 @@ export class ApiService {
   /**
    * Solicita os dados que compõe o mapa de calor.
    */
-  async requestHeatMap(location: any[], time: any[], client: any[] | undefined) {
+  async requestHeatMap(location: any[], time: any[]) {
     let query = new QueryRequest();
     let selectedChannel = this.global.getGlobal("selected_channel");
 
@@ -125,9 +125,6 @@ export class ApiService {
     }
     if (time !== undefined) {
       query['where'].push(time);
-    }
-    if (client !== undefined) {
-      query['where'].push(client);
     }
 
     this.utils.showTrace("requestHeatMap", query);

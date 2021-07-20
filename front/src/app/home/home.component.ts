@@ -8,6 +8,7 @@ import { BarChartComponent } from 'src/app/widgets/bar-chart/bar-chart.component
 import { LineChartComponent } from 'src/app/widgets/line-chart/line-chart.component';
 
 import { FiltersComponent } from 'src/app/widgets/filters/filters.component';
+import { UtilService } from '../shared/util.service';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +29,7 @@ export class HomeComponent implements AfterViewInit {
   last: string = 'none';
   moving: string = 'none';
 
-  constructor(public global: GlobalService, public api: ApiService) { }
+  constructor(public global: GlobalService, public api: ApiService, public util: UtilService) { }
 
   ngAfterViewInit(): void {
     this.initCharts();
@@ -106,17 +107,21 @@ export class HomeComponent implements AfterViewInit {
     this.line.clearDataInfo('filter');
   }
 
-  onChartTimeChanged(delta: number) {
-    // TODO: atualizar dados do line chart, bar chart e map
-    console.log(delta);
+  onMarkerClicked(feature: any) {
+    this.updateBarChart('client');
+    this.updateLineChart('client');
   }
 
-  onMarkerClicked(event: any) {
-    console.log(event);
+  onChartTimeChanged(delta: number) {
+    // TODO: check the time rante update function
+    this.updateTimeRange(delta)
+
+    this.updateHeatmap();
+    this.updateBarChart();
+    this.updateLineChart();
   }
 
   getTime(dataId: string = 'map') {
-
     const t0Str = dataId === 'filter' ? 'ts_t0_filter' : 'ts_t0_vis';
     const t1Str = dataId === 'filter' ? 'ts_t1_filter' : 'ts_t1_vis';
 
@@ -138,6 +143,63 @@ export class HomeComponent implements AfterViewInit {
     return list;
   }
 
+  updateTimeRange(id: number) {
+    let tsT0 = this.global.getGlobal("ts_t0_vis");
+    let tsT1 = this.global.getGlobal("ts_t1_vis");
+
+    let d = (tsT1.value - tsT0.value);
+
+    let small = 20;
+    let midi = 10;
+    let large = 2;
+
+    if (id == 1) {
+      d = d / small;
+    } else if (id == -1) {
+      d = - d / small;
+    } else if (id == 2) {
+      d = d / midi;
+    } else if (id == -2) {
+      d = - d / midi;
+    } else if (id == 3) {
+      d = d / large;
+    } else if (id == -3) {
+      d = - d / large;
+    }
+    else if (id == 4) {
+      d >>= 1;
+      let tmid = tsT0.value + d;
+      d >>= 1;
+      let t0 = tmid - d;
+      t0 = t0 - (t0 % 10);
+      let t1 = tmid + d;
+      if (t0 >= t1) t1 = t0 + 1;
+      tsT0.value = t0;
+      tsT1.value = t1;
+      d = 0;
+    }
+    else if (id == -4) {
+      d >>= 1;
+      let tmid = tsT0.value + d;
+      d <<= 1;
+      let t0 = tmid - d;
+      let t1 = tmid + d;
+      tsT0.value = t0;
+      tsT1.value = t1;
+      d = 0;
+    }
+
+    d = Math.floor(d);
+    let xt0 = tsT0.value + d;
+    let xt1 = tsT1.value + d;
+    let tnice = this.util.time_nice(xt0, xt1);
+
+    tsT0.value = tnice.t0;
+    tsT1.value = tnice.t1;
+    this.global.setGlobal(tsT0);
+    this.global.setGlobal(tsT1);
+  }
+
   /**
    * Função que faz o request dos heatmaps.
    */
@@ -145,10 +207,7 @@ export class HomeComponent implements AfterViewInit {
     const location = this.map.getLocation();
     const time = this.getTime();
 
-    // TODO: pegar os outros parâmetros
-    const client: any = undefined;
-
-    const res = await this.api.requestHeatMap(location, time, client);
+    const res = await this.api.requestHeatMap(location, time);
     console.log(res);
 
     this.map.drawHeatMap(res);
@@ -160,8 +219,13 @@ export class HomeComponent implements AfterViewInit {
     const location = (dataId === 'geometry') ?
       this.map.getPoly(poly) : this.map.getLocation();
 
-    const client = (dataId === 'filter') ?
-      this.filters.getClients() : undefined;
+    let client = undefined;
+    if (dataId === 'filter') {
+      client = this.filters.getClients();
+    }
+    if (dataId === 'client') {
+      client = this.map.getClients();
+    }
 
     const res = await this.api.requestBarChart(location, time, client);
     console.log(res);
@@ -175,8 +239,13 @@ export class HomeComponent implements AfterViewInit {
     const location = (dataId === 'geometry') ?
       this.map.getPoly(event) : this.map.getLocation();
 
-    const client = (dataId === 'filter') ?
-      this.filters.getClients() : undefined;
+    let client = undefined;
+    if (dataId === 'filter') {
+      client = this.filters.getClients();
+    }
+    if (dataId === 'client') {
+      client = this.map.getClients();
+    }
 
     const res = await this.api.requestLineChart(location, time, client);
     console.log(res);
