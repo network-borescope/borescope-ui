@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
@@ -14,6 +14,8 @@ export class BarChartComponent implements OnInit {
 
   // referência para o div do grafico
   @ViewChild("barChart", { static: true }) private barDiv!: ElementRef;
+
+  @Output() checkboxClicked = new EventEmitter<number>();
 
   private barChart: any;
   private chartData: any = {};
@@ -101,5 +103,9 @@ export class BarChartComponent implements OnInit {
 
   getData(color: string) {
     return this.chartData[color];
+  }
+
+  onCheckboxClick() {
+    this.checkboxClicked.emit();
   }
 }

@@ -133,6 +133,11 @@ export class HomeComponent implements AfterViewInit {
     this.updateLineChart();
   }
 
+  onCheckboxClicked() {
+    //TODO: trocar o dado pro parâmetro novo quando estiver disponível
+    this.updateBarChart();
+  };
+
   getTime(dataId: string = 'map') {
     const t0Str = dataId === 'filter' ? 'ts_t0_filter' : 'ts_t0_vis';
     const t1Str = dataId === 'filter' ? 'ts_t1_filter' : 'ts_t1_vis';
