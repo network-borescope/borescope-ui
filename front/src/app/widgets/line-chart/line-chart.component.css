@@ -1,12 +1,12 @@
 .handler-line-chart {
     position: absolute;
     background-color: #fff;
-    bottom: 1px;
+    bottom: 2px;
     left: 37px;
 }
 
 .btn-line-chart{
-    color: black;
+    color: #AAAAAA;
     background-color: #fff;
     outline-color: #fff !important;
   }
