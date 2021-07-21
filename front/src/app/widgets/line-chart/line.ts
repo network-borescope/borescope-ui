@@ -125,21 +125,31 @@ export class LineChart {
     this.chart.update();
   }
 
-  updateChartData(newData: any, color: string) {
+  updateDataset(color: string, data: any) {
     const datasets = this.chart.config.data.datasets;
     for(let i = 0; i < datasets.length; i++){
       if(datasets[i].backgroundColor == color) {
-        datasets[i].data = newData;
+        datasets[i].data = data;
         this.chart.update();
       }
     }; 
   }
 
-  removeDataset(label: any) {
+  removeDataset(color: string) {
+    const datasets = this.chart.config.data.datasets;
+    for(let i = 0; i < datasets.length; i++){
+      if(datasets[i].backgroundColor == color) {
+        datasets[i].data = [];
+        this.chart.update();
+      }
+    }; 
+  }
+
+  removeLabel(label: any, color: string) {
     let datasets = this.chart.config.data.datasets;
     for (let i = 0; i < datasets.length; i++) {
       let dataset = datasets[i];
-      if (dataset.label == label) {
+      if (dataset.label == label && dataset.backgroundColor == color) {
         datasets.splice(i, 1);
         break;
       }

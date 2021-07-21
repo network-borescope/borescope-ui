@@ -43,7 +43,10 @@ export class LineChartComponent implements OnInit {
     if (!this.nMarks) {
       this.nMarks = responseData.result.length;
     }
-    let oldDataCounter = 0;
+
+    if(this.chartData[chartColor]) {
+      this.clearDataInfo(chartColor);
+    };
     // computes the best unity
     const best_unity = this.util.compute_best_unity(0, mx);
 
@@ -51,8 +54,7 @@ export class LineChartComponent implements OnInit {
       const pointTime  = this.util.secondsToDate(responseData.result[i][1]);
       const pointValue = responseData.result[i][0] / best_unity.div;
 
-      oldDataCounter += 1;
-      this.addDataInfo(dataId, pointTime, pointValue);
+      this.addDataInfo(chartColor, pointTime, pointValue);
     }
     // y axis title
     const title = this.global.getGlobal("result_title").value;
@@ -60,37 +62,35 @@ export class LineChartComponent implements OnInit {
 
     this.lineChart.setLabelY(title + " [" + best_unity.prefix + unity + "]");
 
-    //checa se a cor passada já está no gráfico
-    //se tiver, adiciona novo dataset
-    //caso contrário, atualiza o dataset da cor referente
-    if(!this.colorList.includes(chartColor)) {
-      //point labels
-      this.updateLabels();
-      const data = this.getData(dataId);
+    //point labels
+    this.updateLabels();
+    const data = this.getData(chartColor);
 
-      this.lineChart.setLabels(this.labels);
+    this.lineChart.setLabels(this.labels);
+    if(!this.colorList.includes(chartColor)) {
       this.lineChart.addDataset(dataId, data, chartColor);
       this.colorList.push(chartColor);
     } else {
-
-      const data = this.getData(dataId);
-      const newData = data.slice(Math.max(data.length - oldDataCounter, 0));
-      this.lineChart.updateChartData(newData, chartColor);
-    };
-
+      this.lineChart.updateDataset(chartColor, data);
+    }
   }
 
-  clearDataInfo(dataId: string) {
-    this.chartData[dataId] = [];
-    this.lineChart.removeDataset(dataId);
+  clearDataInfo(color: string) {
+    this.chartData[color] = [];
+    this.lineChart.removeDataset(color);
   }
 
-  addDataInfo(dataId: string, markerId: any, value: number) {
-    if(!this.chartData[dataId]) {
-      this.chartData[dataId] = [];
+  clearLabel(label: any, color: string) {
+    this.chartData[color] = [];
+    this.lineChart.removeLabel(label, color);
+  }
+
+  addDataInfo(color: string, markerId: any, value: number) {
+    if(!this.chartData[color]) {
+      this.chartData[color] = [];
     }
 
-    this.chartData[dataId].push({x: markerId, y: value});
+    this.chartData[color].push({x: markerId, y: value});
   }
 
   updateLabels() {
