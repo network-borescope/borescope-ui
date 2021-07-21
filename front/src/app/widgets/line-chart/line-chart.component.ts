@@ -83,6 +83,7 @@ export class LineChartComponent implements OnInit {
   clearLabel(label: any, color: string) {
     this.chartData[color] = [];
     this.lineChart.removeLabel(label, color);
+    this.colorList.splice(this.colorList.indexOf(color),1); 
   }
 
   addDataInfo(color: string, markerId: any, value: number) {

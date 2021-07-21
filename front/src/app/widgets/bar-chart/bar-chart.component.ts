@@ -72,6 +72,7 @@ export class BarChartComponent implements OnInit {
 
     this.chartData[color] = [];
     this.barChart.removeDataset(color);
+    this.colorList.splice(this.colorList.indexOf(color),1); 
   }
 
   clearLabel(label: any, color: string) {
