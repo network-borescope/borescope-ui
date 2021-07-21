@@ -93,9 +93,9 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onPolyRemoved(event: any) {
-    console.log(event.options.color);
+    const color = event.options.color;
 
-    this.bar.clearDataInfo('geometry');
+    this.bar.clearLabel('geometry', color);
     this.line.clearDataInfo('geometry');
   }
 
@@ -105,7 +105,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onFiltersRemoved() {
-    this.bar.clearDataInfo('filter');
+    this.bar.clearLabel('filter', '#333'); 
     this.line.clearDataInfo('filter');
   }
 

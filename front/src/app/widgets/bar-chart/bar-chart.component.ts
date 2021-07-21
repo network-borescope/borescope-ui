@@ -74,6 +74,12 @@ export class BarChartComponent implements OnInit {
     this.barChart.removeDataset(color);
   }
 
+  clearLabel(label: any, color: string) {
+  
+    this.chartData[color] = [];
+    this.barChart.removeLabel(label, color);
+  }
+
   addDataInfo(color: string, markerId: any, value: number) {
     if(!this.chartData[color]) {
       this.chartData[color] = [];

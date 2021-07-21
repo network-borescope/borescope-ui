@@ -130,8 +130,21 @@ export class BarChart {
     for(let i = 0; i < datasets.length; i++){
       if(datasets[i].backgroundColor == color) {
         datasets[i].data = [];
+        this.chart.update();
       }
     }; 
+  }
+
+  removeLabel(label: any, color: string) {
+    let datasets = this.chart.config.data.datasets;
+    for (let i = 0; i < datasets.length; i++) {
+      let dataset = datasets[i];
+      if (dataset.label == label && dataset.backgroundColor == color) {
+        datasets.splice(i, 1);
+        break;
+      }
+    }
+    this.chart.update();
   }
 
   clear() {
