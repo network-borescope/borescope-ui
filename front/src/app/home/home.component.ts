@@ -105,8 +105,8 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onFiltersRemoved() {
-    this.bar.clearLabel('filter', '#333'); 
-    this.line.clearLabel('filter', '#333'); 
+    this.bar.clearLabel('filter', '#333');
+    this.line.clearLabel('filter', '#333');
   }
 
   onMarkerAdded(event: any) {
