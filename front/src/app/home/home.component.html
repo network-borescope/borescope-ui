@@ -15,13 +15,13 @@
 
   <app-charts-bar class="charts-menu"></app-charts-bar>
 
-  <div ngDraggable class="widget" style="position: absolute; top: 180px; right: 10px;"
+  <div ngDraggable class="widget" style="position: absolute; top: 180px; right: 10px; height: 340px !important;"
   [style.z-index] = "this.isChartVisible('bar') ? this.chartZindex('bar') : '-10' "
   (started)="this.moving = 'bar'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'bar'">
     <app-bar-chart #appBarChart></app-bar-chart>
   </div>
 
-  <div ngDraggable class="widget" style="position: absolute; top: 500px; right: 10px; height: 340px !important;"
+  <div ngDraggable class="widget" style="position: absolute; top: 530px; right: 10px; height: 340px !important;"
   [style.z-index] = "this.isChartVisible('line') ? this.chartZindex('line') : '-10' "
   (started)="this.moving = 'line'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'line'">
     <app-line-chart #appLineChart
