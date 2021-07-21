@@ -118,10 +118,10 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onMarkerRemoved(event: any) {
-    console.log(event.color)
+    const color = event.color;
 
-    this.bar.clearDataInfo('client');
-    this.line.clearDataInfo('client');
+    this.bar.clearLabel('client', color);
+    this.line.clearLabel('client', color);
   }
 
   onChartTimeChanged(delta: number) {
