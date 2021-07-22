@@ -46,7 +46,6 @@ export class BarChart {
             }
           },
           y: {
-            beginAtZero: true,
             stacked: true,
             title: {
               display: true,
@@ -122,7 +121,7 @@ export class BarChart {
         datasets[i].data = data;
         this.chart.update();
       }
-    };    
+    };
   }
 
   removeDataset(color: string) {
@@ -132,7 +131,7 @@ export class BarChart {
         datasets[i].data = [];
         this.chart.update();
       }
-    }; 
+    };
   }
 
   removeLabel(label: any, color: string) {
