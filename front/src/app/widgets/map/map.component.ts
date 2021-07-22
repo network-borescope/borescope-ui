@@ -47,8 +47,8 @@ export class MapComponent implements AfterViewInit {
   private listLayer: any[] = [];
   // lista dos bairros
   private listClient: any[] = [];
-  // clientLayer
-  private clientLayer: any[] = [];
+  // lista com os clients selecionados no filtro para adição no mapa
+  private clientLayers: any[] = [];
 
 
   // heatmap layer
@@ -531,20 +531,30 @@ export class MapComponent implements AfterViewInit {
       markerList.push(L.circle([lat,lng], 500, { color: '#333', fillColor: '#333'}));
     };
 
-    if(this.clientLayer.length) {
-      for(let i = 0; i < this.clientLayer.length; i++){
-        this.map.removeLayer(this.clientLayer[i]);
+    if(this.clientLayers.length) {
+      for(let i = 0; i < this.clientLayers.length; i++){
+        this.map.removeLayer(this.clientLayers[i]);
       };
-      this.clientLayer = [];
+      this.clientLayers = [];
       for(let i = 0; i < clientData.length; i++) {
         markerList[i].addTo(this.map);
-        this.clientLayer.push(markerList[i]);
+        this.clientLayers.push(markerList[i]);
       };
     } else {
       for(let i = 0; i < clientData.length; i++) {
         markerList[i].addTo(this.map);
-        this.clientLayer.push(markerList[i]);
+        this.clientLayers.push(markerList[i]);
       };
     }
+  };
+
+  /**
+   * Função que deleta o marker
+   */
+  eraseFilterMarkers() {
+    for(let i = 0; i < this.clientLayers.length; i++){
+      this.map.removeLayer(this.clientLayers[i]);
+    };
+    this.clientLayers = [];
   };
 }

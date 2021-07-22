@@ -107,7 +107,8 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onFiltersRemoved() {
-    console.log(this)
+    
+    this.removeFilterMarkers();
     this.bar.clearLabel('filter', '#333');
     this.line.clearLabel('filter', '#333');
   }
@@ -222,6 +223,10 @@ export class HomeComponent implements AfterViewInit {
 
   updateFilterMarkers(clientData: any) {
     this.map.drawFilterMarkers(clientData);
+  }
+
+  removeFilterMarkers() {
+    this.map.eraseFilterMarkers();
   }
 
   /**
