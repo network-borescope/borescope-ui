@@ -47,6 +47,8 @@ export class MapComponent implements AfterViewInit {
   private listLayer: any[] = [];
   // lista dos bairros
   private listClient: any[] = [];
+  // clientLayer
+  private clientLayer: any[] = [];
 
 
   // heatmap layer
@@ -517,4 +519,32 @@ export class MapComponent implements AfterViewInit {
       this.map.addLayer(this.current_heatmapLayer);
     }
   }
+
+  /**
+   * Função que adiciona os markers do filtro ao mapa
+   */
+  drawFilterMarkers(clientData: any) {
+    const markerList = [];
+    for(let i = 0; i < clientData.length; i++) {
+      const lat = clientData[i].lat;
+      const lng = clientData[i].lon;
+      markerList.push(L.circle([lat,lng], 500, { color: '#333', fillColor: '#333'}));
+    };
+
+    if(this.clientLayer.length) {
+      for(let i = 0; i < this.clientLayer.length; i++){
+        this.map.removeLayer(this.clientLayer[i]);
+      };
+      this.clientLayer = [];
+      for(let i = 0; i < clientData.length; i++) {
+        markerList[i].addTo(this.map);
+        this.clientLayer.push(markerList[i]);
+      };
+    } else {
+      for(let i = 0; i < clientData.length; i++) {
+        markerList[i].addTo(this.map);
+        this.clientLayer.push(markerList[i]);
+      };
+    }
+  };
 }
