@@ -20,8 +20,6 @@ export class BarChartComponent implements OnInit {
   private barChart: any;
 
   private chartData: any = {};
-  private colorList: any = [];
-
   private labels: any = [];
 
   constructor(public global: GlobalService, public util: UtilService) { }
@@ -34,88 +32,99 @@ export class BarChartComponent implements OnInit {
  * Plota os dados do Mapa no grafico.
  */
   drawChart(responseData: any, dataId: string, chartColor: string) {
-    // calcula a soma dos valores em results
-    const total = responseData.result.reduce((a: any, b: any) => {
-      return a + b.v[0];
-    }, 0);
+    // new dataId
+    if (!this.chartData[dataId]) {
+      this.chartData[dataId] = {};
+    }
 
-    if(this.chartData[chartColor]) {
-      this.clearData(chartColor);
-    };
+    // clear existing (dataId, color)
+    this.clearData(dataId, chartColor);
+    this.chartData[dataId][chartColor] = [];
 
-    // adiciona os valores normalizados ao dataset
+    // adiciona os valores não normalizados
     for (let i = 0; i < responseData.result.length; i++) {
       const pointId = +responseData.result[i].k[0];
-      const pointVl = responseData.result[i].v[0] / total;
+      const pointVl = +responseData.result[i].v[0];
 
-      this.addDataPoint(chartColor, pointId, pointVl);
+      this.chartData[dataId][chartColor].push({ x: pointId, y: pointVl });
     }
 
-    this.updateLabels(chartColor);
+    // atualiza os labels
+    this.updateLabels(dataId, chartColor);
     this.barChart.setLabels(this.labels);
 
+    // completa os pontos que faltam
     this.fillMissingPoints();
-    const data = this.getData(chartColor);
 
-    if(!this.colorList.includes(chartColor)) {
-      this.barChart.addDataset(dataId, data, chartColor);
-      this.colorList.push(chartColor);
-    }
-    else {
-      this.barChart.updateDataset(chartColor, data);
+    // normaliza os dados de dataId
+    const data = this.normalizeData(dataId);
+
+    // atualiza os gráficos
+    for (const color of Object.keys(data)) {
+      this.barChart.updateDataset(dataId, color, data[color]);
     }
   };
 
-  clearData(color: string) {
-    this.chartData[color] = [];
-    this.barChart.removeDataset(color);
+  clearData(dataId: string, color: string) {
+    delete this.chartData[dataId][color];
+    this.barChart.removeDataset(dataId, color);
   }
 
-  clearLabel(label: any, color: string) {
-    this.chartData[color] = [];
-    this.barChart.removeLabel(label, color);
-    this.colorList.splice(this.colorList.indexOf(color),1);
-  }
-
-  addDataPoint(color: string, markerId: any, value: number) {
-    if(!this.chartData[color]) {
-      this.chartData[color] = [];
-    }
-
-    this.chartData[color].push({x: markerId, y: value});
-    console.log(color, markerId);
+  clearLabel() {
+    this.labels = [];
   }
 
   fillMissingPoints() {
-    const colors = Object.keys(this.chartData);
-
-    for (let color of colors) {
-      this.labels.forEach((label: number) => {
-          if (!this.chartData[color].some((d: any) => d.x === label)) {
-            this.chartData[color].push({x: label, y: 0});
+    const dataIds = Object.keys(this.chartData);
+    for (let dataId of dataIds) {
+      const colors = Object.keys(this.chartData[dataId]);
+      for (let color of colors) {
+        this.labels.forEach((label: number) => {
+          if (!this.chartData[dataId][color].some((d: any) => d.x === label)) {
+            this.chartData[dataId][color].push({ x: label, y: 0 });
           }
-      });
+        });
 
-      this.chartData[color].sort((a: any, b: any) => a.x - b.x)
+        this.chartData[dataId][color].sort((a: any, b: any) => a.x - b.x)
+      }
     }
   }
 
-  updateLabels(color: string) {
-    this.chartData[color].forEach( (d: any) => {
-      const x = +d['x'];
+  normalizeData(dataId: string) {
+    // pega os datasets de dataId
+    const data = this.chartData[dataId];
 
+    // calcula a soma dos da categoria
+    let total = 0;
+    for (let cor of Object.keys(data)) {
+      const partial = data[cor].reduce((a: any, b: any) => {
+        return a + b.y;
+      }, 0);
+
+      total += partial;
+    }
+
+    // normaliza os valores
+    const norm: any = {};
+    for (let cor of Object.keys(data)) {
+      norm[cor] = [];
+      for (let pId = 0; pId < data[cor].length; pId++) {
+        norm[cor].push( data[cor][pId].y / total );
+      };
+    }
+
+    return norm;
+  }
+
+  updateLabels(dataId: string, color: string) {
+    this.chartData[dataId][color].forEach((d: any) => {
+      const x = d['x'];
       if (!this.labels.includes(x)) {
         this.labels.push(x);
-
-        console.log(color, x);
       }
     });
 
     this.labels.sort((a: number, b: number) => a - b);
-  }
-
-  getData(color: string) {
-    return this.chartData[color];
   }
 
   onCheckboxClick() {

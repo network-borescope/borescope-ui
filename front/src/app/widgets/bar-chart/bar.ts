@@ -100,38 +100,39 @@ export class BarChart {
     this.chart.config.data.labels = labels;
   }
 
-  addDataset(label: any, data: any, color: string) {
-    let dataset = {
-      label: label,
-      backgroundColor: color,
-      borderColor: color,
-      data: data,
-      fill: false,
-      stack: label
-    };
-    let datasets = this.chart.config.data.datasets;
-    datasets.push(dataset);
+  updateDataset(dataId:string, color: string, data: any) {
+    const datasets = this.chart.config.data.datasets;
+
+    const id = datasets.findIndex((d: any) => d.label === dataId && d.backgroundColor == color)
+    if (id >= 0) {
+      datasets[id].data = data;
+    }
+    else {
+      const newData = {
+        label: dataId,
+        backgroundColor: color,
+        borderColor: color,
+        data: data,
+        fill: false,
+        stack: dataId
+      };
+
+      datasets.push(newData);
+    }
+
+    console.log(datasets)
+
     this.chart.update();
   }
 
-  updateDataset(color: string, data: any) {
+  removeDataset(dataId:string, color: string) {
     const datasets = this.chart.config.data.datasets;
-    for(let i = 0; i < datasets.length; i++){
-      if(datasets[i].backgroundColor == color) {
-        datasets[i].data = data;
-        this.chart.update();
-      }
-    };
-  }
 
-  removeDataset(color: string) {
-    const datasets = this.chart.config.data.datasets;
-    for(let i = 0; i < datasets.length; i++){
-      if(datasets[i].backgroundColor == color) {
-        datasets[i].data = [];
-        this.chart.update();
-      }
-    };
+    const id = datasets.findIndex((d: any) => d.label === dataId && d.backgroundColor == color)
+    if (id >= 0) {
+      datasets.splice(id, 1)
+      this.chart.update();
+    }
   }
 
   removeLabel(label: any, color: string) {
