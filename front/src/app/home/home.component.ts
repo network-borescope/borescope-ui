@@ -99,12 +99,16 @@ export class HomeComponent implements AfterViewInit {
     this.line.clearLabel('geometry', color);
   }
 
-  onFiltersDefined() {
+  onFiltersDefined(clientData: any) {
+
+    this.updateFilterMarkers(clientData);
     this.updateBarChart('filter', '#333');
     this.updateLineChart('filter', '#333');
   }
 
   onFiltersRemoved() {
+
+    this.removeFilterMarkers();
     this.bar.clearData('filter', '#333');
     this.line.clearLabel('filter', '#333');
   }
@@ -217,6 +221,14 @@ export class HomeComponent implements AfterViewInit {
     this.global.setGlobal(tsT1);
   }
 
+  updateFilterMarkers(clientData: any) {
+    this.map.drawFilterMarkers(clientData);
+  }
+
+  removeFilterMarkers() {
+    this.map.eraseFilterMarkers();
+  }
+
   /**
    * Função que faz o request dos heatmaps.
    */
@@ -232,7 +244,6 @@ export class HomeComponent implements AfterViewInit {
 
   async updateBarChart(dataId: string = 'map', chartColor: string = '#AAAAAA', feat: any = undefined) {
     const time = this.getTime(dataId);
-
     const location = (dataId === 'geometry') ?
       this.map.getPoly(feat) : this.map.getLocation();
 

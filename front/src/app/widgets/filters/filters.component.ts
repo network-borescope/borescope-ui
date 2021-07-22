@@ -11,7 +11,7 @@ import { UtilService } from 'src/app/shared/util.service';
 })
 export class FiltersComponent implements OnInit {
 
-  @Output() filtersDefined = new EventEmitter();
+  @Output() filtersDefined = new EventEmitter<any>();
   @Output() filtersRemoved = new EventEmitter();
 
   @ViewChild("clientsInput", { static: true }) private clientsInput!: ElementRef;
@@ -121,8 +121,15 @@ export class FiltersComponent implements OnInit {
       console.log('Invalid Filter: empity client list.')
       return;
     }
-
-    this.filtersDefined.emit();
+    
+    const clientsList = this.clients.items;
+    const selectedClients = this.clientsSelection;
+    const clientsData = [];
+    for(let i = 0; i < selectedClients.length; i++) {
+      let client = clientsList.find((x: any) => x.id === selectedClients[i]);
+      clientsData.push(client)
+    };
+    this.filtersDefined.emit(clientsData);
   }
 
   removeFilters() {
