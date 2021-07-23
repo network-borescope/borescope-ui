@@ -87,8 +87,6 @@ export class LineChartComponent implements OnInit {
       }
     }
 
-    console.log('max', max);
-
     // computes the best unity
     return this.util.compute_best_unity(0, max);
   }
