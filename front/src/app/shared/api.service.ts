@@ -36,7 +36,6 @@ export class ApiService {
   async getSchema(): Promise<any> {
 
     let schema = new SchemaRequest();
-    schema['from'] = "antenas";
     schema['id'] = this.getQueryId();
 
     this.utils.showTrace("initSchema", schema);
@@ -62,7 +61,6 @@ export class ApiService {
   async getTimeBounds(): Promise<any> {
     let data = new BoundsRequest(24);
     data['bounds'] = "time";
-    data['from'] = "antenas";
     data['id'] = this.getQueryId();
 
     this.utils.showTrace("initTimeBounds", data);
@@ -87,7 +85,6 @@ export class ApiService {
    */
   async getGeoBounds(): Promise<any> {
     let data = new BoundsRequest(24);
-    data['from'] = "antenas";
     data['id'] = this.getQueryId();
 
     this.utils.showTrace("initGeoBounds", data);
@@ -116,7 +113,6 @@ export class ApiService {
 
     query['select'] = [selectedChannel.value];
     query['group-by']  = "location";
-    query['from'] = "antenas";
     query['id'] = this.getQueryId();
 
     query['where'] = [];
@@ -153,7 +149,6 @@ export class ApiService {
     // query['select'] = [selectedChannel.value];
     query['select'] = [selectedChannel.value];
     query['group-by'] = "ttl";
-    query['from'] = "antenas";
     query['id'] = this.getQueryId();
 
     query['where'] = [];
@@ -195,7 +190,6 @@ export class ApiService {
     query['select'] = [selectedChannel.value];
     query["group-by"] = "time";
     query["group-by-output"] = "vs_ks";
-    query['from'] = "antenas";
     query['id'] = this.getQueryId();
 
     query.where = [];
