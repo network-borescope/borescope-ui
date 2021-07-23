@@ -123,11 +123,18 @@ export class LineChartComponent implements OnInit {
       return;
     }
 
+    // só atualiza se chegar um dado com mais pontos
+    if (nPoints === 0) {
+      return;
+    }
+
     const tsT0 = this.global.getGlobal("ts_t0_vis");
     const tsT1 = this.global.getGlobal("ts_t1_vis");
 
     const interval = tsT1.value - tsT0.value;
     const tDelta = interval / (nPoints - 1);
+
+    console.log(tsT0.value, tsT1.value, tDelta);
 
     // result array
     this.labels = [];

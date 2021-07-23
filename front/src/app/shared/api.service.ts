@@ -167,7 +167,7 @@ export class ApiService {
       query['where'].push(client);
     }
 
-    this.utils.showTrace("requestBarChart", query); // utils.js
+    this.utils.showTrace("requestBarChart", query);
 
     // post header
     const headers = {

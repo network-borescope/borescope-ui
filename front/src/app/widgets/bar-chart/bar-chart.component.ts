@@ -67,6 +67,14 @@ export class BarChartComponent implements OnInit {
   clearData(dataId: string, color: string) {
     delete this.chartData[dataId][color];
     this.barChart.removeDataset(dataId, color);
+
+    // normaliza os dados de dataId
+    const data = this.normalizeData(dataId);
+
+    // atualiza os gráficos
+    for (const color of Object.keys(data)) {
+      this.barChart.updateDataset(dataId, color, data[color]);
+    }
   }
 
   clearLabel() {
