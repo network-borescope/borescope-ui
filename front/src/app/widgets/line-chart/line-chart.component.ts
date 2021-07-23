@@ -19,11 +19,8 @@ export class LineChartComponent implements OnInit {
 
   private lineChart: any;
   private chartData: any = {};
-  private colorList: any = [];
-
   private labels: any = [];
-  private nMarks: any = undefined;
-
+  private bestUnity: any = undefined;
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
@@ -32,70 +29,99 @@ export class LineChartComponent implements OnInit {
   }
 
   drawChart(responseData: any, dataId: any, chartColor: any) {
-    // cleans the data
-    //this.clearDataInfo(dataId);
-
-    // calcula o maior valor nos resultados
-    const mx = responseData.result.reduce((a: any, b: any) => {
-      return a + b[0];
-    }, 0);
-
-    if (!this.nMarks) {
-      this.nMarks = responseData.result.length;
+    // new dataId
+    if (!this.chartData[dataId]) {
+      this.chartData[dataId] = {};
     }
 
-    if(this.chartData[chartColor]) {
-      this.clearDataInfo(chartColor);
-    };
-    // computes the best unity
-    const best_unity = this.util.compute_best_unity(0, mx);
+    // clear existing (dataId, color)
+    this.clearData(dataId, chartColor);
+    this.chartData[dataId][chartColor] = [];
 
     for (let i = 0; i < responseData.result.length; i++) {
-      const pointTime  = this.util.secondsToDate(responseData.result[i][1]);
-      const pointValue = responseData.result[i][0] / best_unity.div;
+      const pointTime  = responseData.result[i][1];
+      const pointValue = responseData.result[i][0];
 
-      this.addDataInfo(chartColor, pointTime, pointValue);
+      this.chartData[dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue });
     }
-    // y axis title
-    const title = this.global.getGlobal("result_title").value;
-    const unity = this.global.getGlobal("result_unity").value;
 
-    this.lineChart.setLabelY(title + " [" + best_unity.prefix + unity + "]");
+    // atualiza os labels
+    this.updateLabels(dataId, chartColor);
+    this.lineChart.setLabels(this.labels);
+
+    // recalcula a unidade de tempo e atualiza o eixo y.
+    const unity = this.computeUnity();
+    this.lineChart.setLabelY("Requisitions" + " [" + unity.prefix + "package" + "]");
 
     //point labels
-    this.updateLabels();
-    const data = this.getData(chartColor);
+    const data = this.normalizeData(unity.div);
 
-    this.lineChart.setLabels(this.labels);
-    if(!this.colorList.includes(chartColor)) {
-      this.lineChart.addDataset(dataId, data, chartColor);
-      this.colorList.push(chartColor);
-    } else {
-      this.lineChart.updateDataset(chartColor, data);
+    // atualiza os gráficos
+    for (const dId of Object.keys(data)) {
+      for (const color of Object.keys(data[dId])) {
+        this.lineChart.updateDataset(dId, color, data[dId][color]);
+      }
     }
   }
 
-  clearDataInfo(color: string) {
-    this.chartData[color] = [];
-    this.lineChart.removeDataset(color);
+  clearData(dataId: string, color: string) {
+    delete this.chartData[dataId][color];
+    this.lineChart.removeDataset(dataId, color);
   }
 
-  clearLabel(label: any, color: string) {
-    this.chartData[color] = [];
-    this.lineChart.removeLabel(label, color);
-    this.colorList.splice(this.colorList.indexOf(color),1); 
+  clearLabel() {
+    this.labels = [];
   }
 
-  addDataInfo(color: string, markerId: any, value: number) {
-    if(!this.chartData[color]) {
-      this.chartData[color] = [];
+  computeUnity() {
+    let max = -1;
+
+    const dataIds = Object.keys(this.chartData);
+    for (let dataId of dataIds) {
+      const colors = Object.keys(this.chartData[dataId]);
+      for (let color of colors) {
+        // pega o máximo do dado atual
+        const mx = Math.max(...this.chartData[dataId][color].map((d: any) => d.y))
+        // atualiza o máximo global
+        max = Math.max(mx, max);
+      }
     }
 
-    this.chartData[color].push({x: markerId, y: value});
+    console.log('max', max);
+
+    // computes the best unity
+    return this.util.compute_best_unity(0, max);
   }
 
-  updateLabels() {
-    if (this.labels.length > 0) {
+
+  normalizeData(unity: number) {
+    // pega o dataset
+    const data = this.chartData;
+
+    // normaliza os valores
+    const norm: any = {};
+
+    const dataIds = Object.keys(data);
+    for (let dataId of dataIds) {
+      norm[dataId] = {};
+      const colors = Object.keys(data[dataId]);
+      for (let color of colors) {
+        norm[dataId][color] = [];
+        for (let pId = 0; pId < data[dataId][color].length; pId++) {
+          norm[dataId][color].push( data[dataId][color][pId].y / unity );
+        };
+      }
+    }
+
+    return norm;
+  }
+
+
+  updateLabels(dataId: string, chartColor: string) {
+    const nPoints = this.chartData[dataId][chartColor].length;
+
+    // só atualiza se chegar um dado com mais pontos
+    if (this.labels.length > nPoints) {
       return;
     }
 
@@ -103,7 +129,7 @@ export class LineChartComponent implements OnInit {
     const tsT1 = this.global.getGlobal("ts_t1_vis");
 
     const interval = tsT1.value - tsT0.value;
-    const tDelta = interval / (this.nMarks - 1);
+    const tDelta = interval / (nPoints - 1);
 
     // result array
     this.labels = [];
@@ -131,14 +157,7 @@ export class LineChartComponent implements OnInit {
     }
   }
 
-  getData(dataId: string) {
-    return this.chartData[dataId];
-  }
-
-
   onClickTime(delta: number) {
-    console.log(delta);
     this.chartTimeChanged.emit(delta);
   }
-
 }

@@ -120,8 +120,6 @@ export class BarChart {
       datasets.push(newData);
     }
 
-    console.log(datasets)
-
     this.chart.update();
   }
 
@@ -133,18 +131,6 @@ export class BarChart {
       datasets.splice(id, 1)
       this.chart.update();
     }
-  }
-
-  removeLabel(label: any, color: string) {
-    let datasets = this.chart.config.data.datasets;
-    for (let i = 0; i < datasets.length; i++) {
-      let dataset = datasets[i];
-      if (dataset.label == label && dataset.backgroundColor == color) {
-        datasets.splice(i, 1);
-        break;
-      }
-    }
-    this.chart.update();
   }
 
   clear() {

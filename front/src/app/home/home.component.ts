@@ -96,7 +96,7 @@ export class HomeComponent implements AfterViewInit {
     const color = event.options.color;
 
     this.bar.clearData('geometry', color);
-    this.line.clearLabel('geometry', color);
+    this.line.clearData('geometry', color);
   }
 
   onFiltersDefined(clientData: any) {
@@ -110,7 +110,7 @@ export class HomeComponent implements AfterViewInit {
 
     this.removeFilterMarkers();
     this.bar.clearData('filter', '#333');
-    this.line.clearLabel('filter', '#333');
+    this.line.clearData('filter', '#333');
   }
 
   onMarkerAdded(event: any) {
@@ -125,7 +125,7 @@ export class HomeComponent implements AfterViewInit {
     const color = event.color;
 
     this.bar.clearData('client', color);
-    this.line.clearLabel('client', color);
+    this.line.clearData('client', color);
   }
 
   onChartTimeChanged(delta: number) {

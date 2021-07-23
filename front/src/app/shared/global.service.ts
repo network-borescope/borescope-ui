@@ -47,26 +47,6 @@ export class GlobalService {
     this.setGlobal(selected_channel);
 
     /**
-     * Serve para compor a legenda do eixo y do gráfico.
-     * Podendo ser Antenas usadas ou Chamadas ativas.
-     */
-    const result_title = {
-      key: "result_title",
-      value: "Requisitions"
-    };
-    this.setGlobal(result_title);
-
-    /**
-     * Serve para compor a legenda do eixo y do gráfico.
-     * Podendo ser Antenas ou Chamada.
-     */
-    const result_unity = {
-      key: "result_unity",
-      value: "package"
-    };
-    this.setGlobal(result_unity);
-
-    /**
      * Estabelece uma constante para um valor de zoom no mapa.
      */
     const geo_extra_zoom = {

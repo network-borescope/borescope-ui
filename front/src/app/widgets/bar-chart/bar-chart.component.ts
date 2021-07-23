@@ -18,7 +18,6 @@ export class BarChartComponent implements OnInit {
   @Output() checkboxClicked = new EventEmitter<number>();
 
   private barChart: any;
-
   private chartData: any = {};
   private labels: any = [];
 
