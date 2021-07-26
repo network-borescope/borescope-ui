@@ -95,11 +95,11 @@ export class HomeComponent implements AfterViewInit {
   onPolyRemoved(event: any) {
     const color = event.options.color;
 
-    this.line.clearData('geometry', color);
+    this.line.clearChart('geometry', color);
 
     const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
     for (const groupBy of barChartGroupBy) {
-      this.bar.clearData(groupBy, 'geometry', color);
+      this.bar.clearChart(groupBy, 'geometry', color);
     }
 
     const groupBy = this.global.getGlobal('selected_bar_group_by').value;
@@ -115,11 +115,11 @@ export class HomeComponent implements AfterViewInit {
 
   onFiltersRemoved() {
     this.removeFilterMarkers();
-    this.line.clearData('filter', '#333');
+    this.line.clearChart('filter', '#333');
 
     const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
     for (const groupBy of barChartGroupBy) {
-      this.bar.clearData(groupBy, 'filter', '#333');
+      this.bar.clearChart(groupBy, 'filter', '#333');
     }
 
     const groupBy = this.global.getGlobal('selected_bar_group_by').value;
@@ -137,11 +137,11 @@ export class HomeComponent implements AfterViewInit {
   onMarkerRemoved(event: any) {
     const color = event.color;
 
-    this.line.clearData('client', color);
+    this.line.clearChart('client', color);
 
     const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
     for (const groupBy of barChartGroupBy) {
-      this.bar.clearData(groupBy, 'client', color);
+      this.bar.clearChart(groupBy, 'client', color);
     }
 
     const groupBy = this.global.getGlobal('selected_bar_group_by').value;
@@ -257,8 +257,6 @@ export class HomeComponent implements AfterViewInit {
     const time = this.getTime();
 
     const res = await this.api.requestHeatMap(location, time);
-    console.log(res);
-
     this.map.drawHeatMap(res);
   }
 
@@ -305,8 +303,6 @@ export class HomeComponent implements AfterViewInit {
     }
 
     const res = await this.api.requestLineChart(location, time, client);
-    console.log(res);
-
     this.line.drawChart(res, dataId, chartColor);
   }
 }

@@ -35,7 +35,7 @@ export class LineChartComponent implements OnInit {
     }
 
     // clear existing (dataId, color)
-    this.clearData(dataId, chartColor);
+    this.clearChart(dataId, chartColor);
     this.chartData[dataId][chartColor] = [];
 
     for (let i = 0; i < responseData.result.length; i++) {
@@ -64,7 +64,7 @@ export class LineChartComponent implements OnInit {
     }
   }
 
-  clearData(dataId: string, color: string) {
+  clearChart(dataId: string, color: string) {
     delete this.chartData[dataId][color];
     this.lineChart.removeDataset(dataId, color);
   }

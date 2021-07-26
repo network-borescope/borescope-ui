@@ -93,7 +93,7 @@ export class BarChartComponent implements OnInit {
     delete this.nrmData[groupBy][dataId][color]
   }
 
-  clearData(groupBy: string, dataId: string, color: string) {
+  clearChart(groupBy: string, dataId: string, color: string) {
     this.deleteData(groupBy, dataId, color);
 
     // normaliza os dados de dataId
