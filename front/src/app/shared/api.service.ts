@@ -142,13 +142,13 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico de barras.
    */
-  async requestBarChart(location: any[], time: any[], client: any[] | undefined) {
+  async requestBarChart(location: any[], time: any[], client: any[] | undefined, groupBy: string = 'ttl') {
     let query = new QueryRequest();
     let selectedChannel = this.global.getGlobal("selected_channel");
 
     // query['select'] = [selectedChannel.value];
     query['select'] = [selectedChannel.value];
-    query['group-by'] = "ttl";
+    query['group-by'] = groupBy;
     query['id'] = this.getQueryId();
 
     query['where'] = [];

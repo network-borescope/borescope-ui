@@ -95,37 +95,57 @@ export class HomeComponent implements AfterViewInit {
   onPolyRemoved(event: any) {
     const color = event.options.color;
 
-    this.bar.clearData('geometry', color);
     this.line.clearData('geometry', color);
+
+    const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
+    for (const groupBy of barChartGroupBy) {
+      this.bar.clearData(groupBy, 'geometry', color);
+    }
+
+    const groupBy = this.global.getGlobal('selected_bar_group_by').value;
+    this.bar.drawChart(groupBy);
   }
 
   onFiltersDefined(clientData: any) {
 
     this.updateFilterMarkers(clientData);
-    this.updateBarChart('filter', '#333');
     this.updateLineChart('filter', '#333');
+    this.updateBarChart('filter', '#333');
   }
 
   onFiltersRemoved() {
-
     this.removeFilterMarkers();
-    this.bar.clearData('filter', '#333');
     this.line.clearData('filter', '#333');
+
+    const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
+    for (const groupBy of barChartGroupBy) {
+      this.bar.clearData(groupBy, 'filter', '#333');
+    }
+
+    const groupBy = this.global.getGlobal('selected_bar_group_by').value;
+    this.bar.drawChart(groupBy);
   }
 
   onMarkerAdded(event: any) {
     const color = event.color;
     const codigo = event.codigo;
 
-    this.updateBarChart('client', color, codigo);
     this.updateLineChart('client', color, codigo);
+    this.updateBarChart('client', color, codigo);
   }
 
   onMarkerRemoved(event: any) {
     const color = event.color;
 
-    this.bar.clearData('client', color);
     this.line.clearData('client', color);
+
+    const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
+    for (const groupBy of barChartGroupBy) {
+      this.bar.clearData(groupBy, 'client', color);
+    }
+
+    const groupBy = this.global.getGlobal('selected_bar_group_by').value;
+    this.bar.drawChart(groupBy);
   }
 
   onChartTimeChanged(delta: number) {
@@ -138,8 +158,8 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onCheckboxClicked() {
-    //TODO: trocar o dado pro parâmetro novo quando estiver disponível
-    this.updateBarChart();
+    const groupBy = this.global.getGlobal('selected_bar_group_by').value;
+    this.bar.drawChart(groupBy);
   };
 
   getTime(dataId: string = 'map') {
@@ -255,10 +275,19 @@ export class HomeComponent implements AfterViewInit {
       client = this.map.getClient(feat);
     }
 
-    const res = await this.api.requestBarChart(location, time, client);
-    console.log(res);
+    const data: any = {};
+    const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
+    for (const gId of barChartGroupBy) {
+      const parts = gId.split('-');
+      const query = parts.length > 1 ? parts : parts[0];
 
-    this.bar.drawChart(res, dataId, chartColor);
+      const res = await this.api.requestBarChart(location, time, client, query);
+      data[gId] = res;
+    }
+    this.bar.updateData(data, dataId, chartColor);
+
+    const groupBy = this.global.getGlobal('selected_bar_group_by').value;
+    this.bar.drawChart(groupBy);
   }
 
   async updateLineChart(dataId: string = 'map', chartColor: string = '#AAAAAA', feat: any = undefined) {

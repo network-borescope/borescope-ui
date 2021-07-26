@@ -134,8 +134,6 @@ export class LineChartComponent implements OnInit {
     const interval = tsT1.value - tsT0.value;
     const tDelta = interval / (nPoints - 1);
 
-    console.log(tsT0.value, tsT1.value, tDelta);
-
     // result array
     this.labels = [];
 

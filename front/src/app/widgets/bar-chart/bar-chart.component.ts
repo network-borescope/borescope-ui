@@ -18,8 +18,10 @@ export class BarChartComponent implements OnInit {
   @Output() checkboxClicked = new EventEmitter<number>();
 
   private barChart: any;
-  private chartData: any = {};
-  private labels: any = [];
+
+  private labels: any = {};
+  private rawData: any = {};
+  private nrmData: any = {};
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
@@ -27,79 +29,104 @@ export class BarChartComponent implements OnInit {
     this.barChart = new BarChart(this.barDiv.nativeElement);
   }
 
-  /**
- * Plota os dados do Mapa no grafico.
- */
-  drawChart(responseData: any, dataId: string, chartColor: string) {
-    // new dataId
-    if (!this.chartData[dataId]) {
-      this.chartData[dataId] = {};
+  updateData(responseData: any, dataId: string, chartColor: string) {
+    // manages data for each groupBy
+    for(let groupBy of Object.keys(responseData)) {
+      // clear existing (dataId, color)
+      this.deleteData(groupBy, dataId, chartColor);
+      this.rawData[groupBy][dataId][chartColor] = [];
+
+      // adiciona os valores não normalizados
+      for (let i = 0; i < responseData[groupBy].result.length; i++) {
+        const pointId = +responseData[groupBy].result[i].k[0];
+        const pointVl = +responseData[groupBy].result[i].v[0];
+
+        this.rawData[groupBy][dataId][chartColor].push({ x: pointId, y: pointVl });
+      }
+
+      // atualiza os labels baseado no dado novo
+      this.updateLabels(groupBy, dataId, chartColor);
+
+      // completa os pontos que faltam
+      this.fillMissingPoints(groupBy);
+
+      // normaliza os dados de dataId
+      this.normalizeData(groupBy, dataId);
     }
+  }
 
-    // clear existing (dataId, color)
-    this.clearData(dataId, chartColor);
-    this.chartData[dataId][chartColor] = [];
-
-    // adiciona os valores não normalizados
-    for (let i = 0; i < responseData.result.length; i++) {
-      const pointId = +responseData.result[i].k[0];
-      const pointVl = +responseData.result[i].v[0];
-
-      this.chartData[dataId][chartColor].push({ x: pointId, y: pointVl });
-    }
-
+  drawChart(groupBy: string) {
     // atualiza os labels
-    this.updateLabels(dataId, chartColor);
-    this.barChart.setLabels(this.labels);
+    this.barChart.setLabels(this.labels[groupBy]);
 
-    // completa os pontos que faltam
-    this.fillMissingPoints();
-
-    // normaliza os dados de dataId
-    const data = this.normalizeData(dataId);
-
-    // atualiza os gráficos
-    for (const color of Object.keys(data)) {
-      this.barChart.updateDataset(dataId, color, data[color]);
-    }
-  };
-
-  clearData(dataId: string, color: string) {
-    delete this.chartData[dataId][color];
-    this.barChart.removeDataset(dataId, color);
-
-    // normaliza os dados de dataId
-    const data = this.normalizeData(dataId);
-
-    // atualiza os gráficos
-    for (const color of Object.keys(data)) {
-      this.barChart.updateDataset(dataId, color, data[color]);
-    }
-  }
-
-  clearLabel() {
-    this.labels = [];
-  }
-
-  fillMissingPoints() {
-    const dataIds = Object.keys(this.chartData);
-    for (let dataId of dataIds) {
-      const colors = Object.keys(this.chartData[dataId]);
-      for (let color of colors) {
-        this.labels.forEach((label: number) => {
-          if (!this.chartData[dataId][color].some((d: any) => d.x === label)) {
-            this.chartData[dataId][color].push({ x: label, y: 0 });
-          }
-        });
-
-        this.chartData[dataId][color].sort((a: any, b: any) => a.x - b.x)
+    // atualiza os dados
+    for (const dataId of Object.keys(this.nrmData[groupBy])) {
+      for (const color of Object.keys(this.nrmData[groupBy][dataId])) {
+        // gets the data
+        const data = this.nrmData[groupBy][dataId];
+        this.barChart.updateDataset(dataId, color, data[color]);
       }
     }
   }
 
-  normalizeData(dataId: string) {
+  deleteData(groupBy: string, dataId: string, color: string) {
+    // new group
+    if (!this.rawData[groupBy]) {
+      this.rawData[groupBy] = {};
+    }
+    // new dataId
+    if (!this.rawData[groupBy][dataId]) {
+      this.rawData[groupBy][dataId] = {};
+    }
+
+    delete this.rawData[groupBy][dataId][color];
+
+    // new group
+    if (!this.nrmData[groupBy]) {
+      this.nrmData[groupBy] = {};
+    }
+    // new dataId
+    if (!this.nrmData[groupBy][dataId]) {
+      this.nrmData[groupBy][dataId] = {};
+    }
+
+    delete this.nrmData[groupBy][dataId][color]
+  }
+
+  clearData(groupBy: string, dataId: string, color: string) {
+    this.deleteData(groupBy, dataId, color);
+
+    // normaliza os dados de dataId
+    this.normalizeData(groupBy, dataId);
+
+    // removes from chart
+    this.barChart.removeDataset(dataId, color);
+  }
+
+  clearLabel(groupBy: string) {
+    this.labels[groupBy] = [];
+  }
+
+  fillMissingPoints(groupBy: string) {
+    const dataIds = Object.keys(this.rawData[groupBy]);
+    for (let dataId of dataIds) {
+      const colors = Object.keys(this.rawData[groupBy][dataId]);
+      for (let color of colors) {
+        this.labels[groupBy].forEach((label: number) => {
+          if (!this.rawData[groupBy][dataId][color].some((d: any) => d.x === label)) {
+            this.rawData[groupBy][dataId][color].push({ x: label, y: 0 });
+          }
+        });
+
+        this.rawData[groupBy][dataId][color].sort((a: any, b: any) => a.x - b.x)
+      }
+    }
+  }
+
+  normalizeData(groupBy: string, dataId: string) {
+
     // pega os datasets de dataId
-    const data = this.chartData[dataId];
+    const data = this.rawData[groupBy][dataId];
 
     // calcula a soma dos da categoria
     let total = 0;
@@ -120,21 +147,32 @@ export class BarChartComponent implements OnInit {
       };
     }
 
-    return norm;
+    // substitui o dado normalizado anterior
+    this.nrmData[groupBy][dataId] = data;
   }
 
-  updateLabels(dataId: string, color: string) {
-    this.chartData[dataId][color].forEach((d: any) => {
+  updateLabels(groupBy:string, dataId: string, color: string) {
+    if (!this.labels[groupBy]) {
+      this.labels[groupBy] = [];
+    }
+
+    this.rawData[groupBy][dataId][color].forEach((d: any) => {
       const x = d['x'];
-      if (!this.labels.includes(x)) {
-        this.labels.push(x);
+      if (!this.labels[groupBy].includes(x)) {
+        this.labels[groupBy].push(x);
       }
     });
 
-    this.labels.sort((a: number, b: number) => a - b);
+    this.labels[groupBy].sort((a: number, b: number) => a - b);
   }
 
-  onCheckboxClick() {
+  onCheckboxClick(event: any) {
+     const selected_bar_group_by = {
+      key: "selected_bar_group_by",
+      value: event.target.value
+    };
+
+    this.global.setGlobal(selected_bar_group_by)
     this.checkboxClicked.emit();
   }
 }

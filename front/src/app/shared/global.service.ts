@@ -118,6 +118,23 @@ export class GlobalService {
     };
     this.setGlobal(ts_t1_filter);
 
+    /**
+     * Guarda as opções de groupBy do bar chart.
+     */
+     const bar_group_by = {
+      key: "bar_group_by",
+      value: ['ttl', 'cliente-ttl']
+    };
+    this.setGlobal(bar_group_by);
+
+    /**
+     * Guarda a seleção de groupBy do bar chart.
+     */
+     const selected_bar_group_by = {
+      key: "selected_bar_group_by",
+      value: 'ttl'
+    };
+    this.setGlobal(selected_bar_group_by);
 
     /**
      * Serve para recuperar o item selecionado na combobox trace.
