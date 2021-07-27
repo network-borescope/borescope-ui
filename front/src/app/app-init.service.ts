@@ -25,43 +25,36 @@ export class AppInitService {
     const bounds = await this.api.getTimeBounds();
     console.log(bounds);
 
-    let tsT0 = {
-      key: "ts_t0",
-      value: bounds.result.vs[0][0]
+    let bounds_time = {
+      key: "bounds_time",
+      value: [bounds.result.vs[0][0], bounds.result.vs[1][0]]
     };
-    this.global.setGlobal(tsT0);
+    this.global.setGlobal(bounds_time);
 
-    let tsT1 = {
-      key: "ts_t1",
-      value: bounds.result.vs[1][0]
+    let t0_filter = {
+      key: "t0_filter",
+      value: bounds_time.value[0]
     };
-    this.global.setGlobal(tsT1);
+    this.global.setGlobal(t0_filter);
 
-
-    let tsT0_filter = {
-      key: "ts_t0_filter",
-      value: tsT0.value
+    let t1_filter = {
+      key: "t1_filter",
+      value: bounds_time.value[1]
     };
-    this.global.setGlobal(tsT0_filter);
+    this.global.setGlobal(t1_filter);
 
-    let tsT1_filter = {
-      key: "ts_t1_filter",
-      value: tsT1.value
+
+    let t0_vis = {
+      key: "t0_vis",
+      value: bounds_time.value[0]
     };
-    this.global.setGlobal(tsT1_filter);
+    this.global.setGlobal(t0_vis);
 
-
-    let tsT0_vis = {
-      key: "ts_t0_vis",
-      value: tsT0.value
+    let t1_vis = {
+      key: "t1_vis",
+      value: bounds_time.value[1]
     };
-    this.global.setGlobal(tsT0_vis);
-
-    let tsT1_vis = {
-      key: "ts_t1_vis",
-      value: tsT1.value
-    };
-    this.global.setGlobal(tsT1_vis);
+    this.global.setGlobal(t1_vis);
   }
 
   async loadGeoBounds() {

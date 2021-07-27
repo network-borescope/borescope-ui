@@ -65,6 +65,7 @@ export class LineChartComponent implements OnInit {
   }
 
   clearChart(dataId: string, color: string) {
+    console.log(dataId, color, this.chartData)
     delete this.chartData[dataId][color];
     this.lineChart.removeDataset(dataId, color);
   }
@@ -128,8 +129,8 @@ export class LineChartComponent implements OnInit {
       return;
     }
 
-    const tsT0 = this.global.getGlobal("ts_t0_vis");
-    const tsT1 = this.global.getGlobal("ts_t1_vis");
+    const tsT0 = this.global.getGlobal("t0_vis");
+    const tsT1 = this.global.getGlobal("t1_vis");
 
     const interval = tsT1.value - tsT0.value;
     const tDelta = interval / (nPoints - 1);
@@ -144,16 +145,16 @@ export class LineChartComponent implements OnInit {
 
       if (interval < 1200) { // 20 min
         //@ts-ignore
-        label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'medium' });
+        label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'medium', timeZone: 'UTC' });
       } else if (interval < 72000) { // 20 hs
         //@ts-ignore
-        label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'medium' });
+        label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'medium', timeZone: 'UTC' });
       } else if (interval < 4320000) { // 50 dias
         //@ts-ignore
-        label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short' });
+        label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
       } else {
         //@ts-ignore
-        label = date.toLocaleString('en-US', { dateStyle: 'short' });
+        label = date.toLocaleString('en-US', { dateStyle: 'short', timeZone: 'UTC' });
       }
       this.labels.push(label);
       current += tDelta

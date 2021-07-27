@@ -13,14 +13,14 @@ export class ChartsBarComponent implements OnInit {
   ngOnInit(): void {}
 
   toggleChartVisibility(chartId: string) {
-    const obj = this.global.getGlobal('chart_widgets');
+    const obj = this.global.getGlobal('widgets_charts');
 
     obj.value[chartId] = !obj.value[chartId];
     this.global.setGlobal(obj);
   }
 
   isChartVisible(chartId: string): boolean {
-    const obj = this.global.getGlobal('chart_widgets');
+    const obj = this.global.getGlobal('widgets_charts');
     return obj.value[chartId];
   }
 }

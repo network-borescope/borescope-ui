@@ -52,7 +52,7 @@ export class HomeComponent implements AfterViewInit {
    * Checa se o widget do gráfico é visivel
    */
   isChartVisible(chartId: string): boolean {
-    const obj = this.global.getGlobal('chart_widgets');
+    const obj = this.global.getGlobal('widgets_charts');
     return obj.value[chartId];
   }
 
@@ -60,7 +60,7 @@ export class HomeComponent implements AfterViewInit {
    * Checa se o modal de filtro é visivel
    */
   isConfigVisible(configId: string): boolean {
-    const obj = this.global.getGlobal('config_widgets');
+    const obj = this.global.getGlobal('widgets_config');
     return obj.value[configId];
   }
 
@@ -102,7 +102,7 @@ export class HomeComponent implements AfterViewInit {
       this.bar.clearChart(groupBy, 'geometry', color);
     }
 
-    const groupBy = this.global.getGlobal('selected_bar_group_by').value;
+    const groupBy = this.global.getGlobal('bar_group_by_selection').value;
     this.bar.drawChart(groupBy);
   }
 
@@ -122,7 +122,7 @@ export class HomeComponent implements AfterViewInit {
       this.bar.clearChart(groupBy, 'filter', '#333');
     }
 
-    const groupBy = this.global.getGlobal('selected_bar_group_by').value;
+    const groupBy = this.global.getGlobal('bar_group_by_selection').value;
     this.bar.drawChart(groupBy);
   }
 
@@ -144,7 +144,7 @@ export class HomeComponent implements AfterViewInit {
       this.bar.clearChart(groupBy, 'client', color);
     }
 
-    const groupBy = this.global.getGlobal('selected_bar_group_by').value;
+    const groupBy = this.global.getGlobal('bar_group_by_selection').value;
     this.bar.drawChart(groupBy);
   }
 
@@ -158,13 +158,13 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onCheckboxClicked() {
-    const groupBy = this.global.getGlobal('selected_bar_group_by').value;
+    const groupBy = this.global.getGlobal('bar_group_by_selection').value;
     this.bar.drawChart(groupBy);
   };
 
   getTime(dataId: string = 'map') {
-    const t0Str = dataId === 'filter' ? 'ts_t0_filter' : 'ts_t0_vis';
-    const t1Str = dataId === 'filter' ? 'ts_t1_filter' : 'ts_t1_vis';
+    const t0Str = dataId === 'filter' ? 't0_filter' : 't0_vis';
+    const t1Str = dataId === 'filter' ? 't1_filter' : 't1_vis';
 
     let tsT0 = this.global.getGlobal(t0Str);
     let tsT1 = this.global.getGlobal(t1Str);
@@ -172,21 +172,15 @@ export class HomeComponent implements AfterViewInit {
     list.push("time");
     list.push("between");
 
-    let start = new Date(tsT0.value * 1000);
-    let t0 = start.getTime() / 1000;
-
-    let end = new Date(tsT1.value * 1000);
-    let t1 = end.getTime() / 1000;
-
-    list.push(t0);
-    list.push(t1);
+    list.push(tsT0.value);
+    list.push(tsT1.value);
 
     return list;
   }
 
   updateTimeRange(id: number) {
-    let tsT0 = this.global.getGlobal("ts_t0_vis");
-    let tsT1 = this.global.getGlobal("ts_t1_vis");
+    let tsT0 = this.global.getGlobal("t0_vis");
+    let tsT1 = this.global.getGlobal("t1_vis");
 
     let d = (tsT1.value - tsT0.value);
 
@@ -284,7 +278,7 @@ export class HomeComponent implements AfterViewInit {
     }
     this.bar.updateData(data, dataId, chartColor);
 
-    const groupBy = this.global.getGlobal('selected_bar_group_by').value;
+    const groupBy = this.global.getGlobal('bar_group_by_selection').value;
     this.bar.drawChart(groupBy);
   }
 

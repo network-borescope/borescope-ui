@@ -100,7 +100,7 @@ export class UtilService {
     return { t0: t0, t1: t1 };
   }
 
-  
+
 
 /**
  * Difine o intervalo de Y no gráfico inferior.
@@ -137,8 +137,8 @@ export class UtilService {
    * Converte segundos em data.
    */
   secondsToDate(seconds: number) {
-    var date = new Date(1970, 0, 1, 0, 0, 0, 0);
-    date.setSeconds(seconds);
+    var date = new Date(0);
+    date.setUTCSeconds(seconds);
     return date;
   }
 

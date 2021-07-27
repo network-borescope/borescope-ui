@@ -26,7 +26,7 @@ export class FiltersComponent implements OnInit {
   ngOnInit(): void {}
 
   toggleFiltersVisibility() {
-    const obj = this.global.getGlobal('config_widgets');
+    const obj = this.global.getGlobal('widgets_config');
 
     obj.value['filters'] = !obj.value['filters'];
     this.global.setGlobal(obj);
@@ -61,14 +61,14 @@ export class FiltersComponent implements OnInit {
   }
 
   getStartDate() {
-    let tsT0 = this.global.getGlobal("ts_t0_filter");
+    let tsT0 = this.global.getGlobal("t0_filter");
 
     let start = new Date(tsT0.value * 1000);
     return  start.toISOString().slice(0,-8).replace('T', ' # ');
   }
 
   getEndDate() {
-    let tsT1 = this.global.getGlobal("ts_t1_filter");
+    let tsT1 = this.global.getGlobal("t1_filter");
 
     let end = new Date(tsT1.value * 1000);
     return end.toISOString().slice(0,-8).replace('T', ' # ');
@@ -79,8 +79,8 @@ export class FiltersComponent implements OnInit {
   }
 
   saveDate() {
-    let tsT0 = this.global.getGlobal("ts_t0_filter");
-    let tsT1 = this.global.getGlobal("ts_t1_filter");
+    let tsT0 = this.global.getGlobal("t0_filter");
+    let tsT1 = this.global.getGlobal("t1_filter");
 
     if (this.dateRange['start']) {
       const parts = this.dateRange['start'].split(' # ');
@@ -121,7 +121,7 @@ export class FiltersComponent implements OnInit {
       console.log('Invalid Filter: empity client list.')
       return;
     }
-    
+
     const clientsList = this.clients.items;
     const selectedClients = this.clientsSelection;
     const clientsData = [];
@@ -133,12 +133,12 @@ export class FiltersComponent implements OnInit {
   }
 
   removeFilters() {
-    let tsT0 = this.global.getGlobal("ts_t0");
-    let start = new Date(tsT0.value * 1000);
+    let t0 = this.global.getGlobal("t0_filter");
+    let start = new Date(t0.value * 1000);
     this.dateRange['start'] = start.toISOString().slice(0,-8).replace('T', ' # ');
 
-    let tsT1 = this.global.getGlobal("ts_t1");
-    let end = new Date(tsT1.value * 1000);
+    let t1 = this.global.getGlobal("t1_filter");
+    let end = new Date(t1.value * 1000);
     this.dateRange['end'] = end.toISOString().slice(0,-8).replace('T', ' # ');
 
     this.clientsSelection = [];

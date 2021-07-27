@@ -272,7 +272,7 @@ export class MapComponent implements AfterViewInit {
     this.getMap().eachLayer(layer => {
       if (layer instanceof L.Polygon || layer instanceof L.Rectangle) {
         let color = layer.options.color;
-        if (drawColors.value.indexOf("" + color) != -1) {
+        if (drawColors.value.indexOf(color) != -1) {
           used.push(color);
         }
       } else if (layer instanceof L.Marker) {
@@ -318,27 +318,11 @@ export class MapComponent implements AfterViewInit {
   }
 
   /**
-   * Retorna cor dos bairros.
-   */
-  getColor(d: any) {
-    /*
-    return d > 1000 ? '#800026' :
-           d > 500  ? '#BD0026' :
-           d > 200  ? '#E31A1C' :
-           d > 100  ? '#FC4E2A' :
-           d > 50   ? '#FD8D3C' :
-           d > 20   ? '#FEB24C' :
-           d > 10   ? '#FED976' :
-                      '#FFEDA0';
-    */
-    return '#050505';
-  }
-
-  /**
    * Formata o poligono dos bairros ao clicar.
    */
   statesStyle(geoJsonPoint: any, latlng: any) {
-    return L.marker(latlng, { icon: L.AwesomeMarkers.icon({ icon: 'home', prefix: 'fa', markerColor: 'blue', spin: false }) });
+    // @ts-ignore
+    return L.marker(latlng, { icon: L.AwesomeMarkers.icon({ icon: 'home', prefix: 'fa', markerColor: 'lightgray', spin: false }) });
   }
 
   /**
@@ -377,25 +361,30 @@ export class MapComponent implements AfterViewInit {
    * Atribui eventos aos markers dos pops.
    */
   onEachFeature(feature: any, layer: any) {
-    const nomeBairro = feature.properties.id;
+    const partes = feature.properties.id.split('_').map((str: string) => {
+      return str.charAt(0).toUpperCase() + str.toLocaleLowerCase().slice(1);
+    });
+    const cliente = partes.join(' ');
+
+
     const contentPopup =
       "<div>" +
-      "<div style='display: block;' id='idBairro" + nomeBairro + "Nome'><b>" + nomeBairro + "</b></div>" +
+      "<div style='display: block;'><b>" + cliente + "</b></div>" +
 
-      "<div style='display: block;'>" +
-      "<div style='display: inline-block; width: 100px;'>Linux</div>" +
-      "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_64'>...</div>" +
-      "</div>" +
+      // "<div style='display: block;'>" +
+      // "<div style='display: inline-block; width: 100px;'>Linux</div>" +
+      // "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_64'>...</div>" +
+      // "</div>" +
 
-      "<div style='display: block;'>" +
-      "<div style='display: inline-block; width: 100px;'>Windows</div>" +
-      "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_128'>...</div>" +
-      "</div>" +
+      // "<div style='display: block;'>" +
+      // "<div style='display: inline-block; width: 100px;'>Windows</div>" +
+      // "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_128'>...</div>" +
+      // "</div>" +
 
-      "<div style='display: block;'>" +
-      "<div style='display: inline-block; width: 100px;'>Unix</div>" +
-      "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_256'>...</div>" +
-      "</div>" +
+      // "<div style='display: block;'>" +
+      // "<div style='display: inline-block; width: 100px;'>Unix</div>" +
+      // "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_256'>...</div>" +
+      // "</div>" +
       "</div>";
 
     layer.bindPopup(contentPopup);
@@ -407,7 +396,7 @@ export class MapComponent implements AfterViewInit {
       });
 
       if (found >= 0) {
-        layer.setIcon(this.formatStatesStyle('blue'));
+        layer.setIcon(this.formatStatesStyle('lightgray'));
 
         const client = this.listClient.splice(found, 1)[0];
         this.markerRemovedEvent.emit(client);
