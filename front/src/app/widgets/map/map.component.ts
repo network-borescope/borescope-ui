@@ -55,10 +55,10 @@ export class MapComponent implements AfterViewInit {
   private current_heatmapLayer: any;
   // heatmap configuration
   private heatCfg = {
-    "radius": 15.0,
+    "radius": 10.0,
     "maxOpacity": 1.0,
     "scaleRadius": false,
-    "useLocalExtrema": false,
+    "useLocalExtrema": true,
     valueField: 'count',
     gradient: {
       '0.0': '#feedde', '.2': '#fdd0a2', '.4': '#fdae6b', '.6': '#fd8d3c', '.8': '#e6550d', '1.0': '#a63603'
@@ -97,7 +97,8 @@ export class MapComponent implements AfterViewInit {
     }).addTo(this.map);
 
     // configuração dos marcadores
-    L.Marker.prototype.options.icon = L.AwesomeMarkers.icon({ icon: 'home', prefix: 'fa', markerColor: 'blue', spin: false });
+    // @ts-ignore
+    L.Marker.prototype.options.icon = L.AwesomeMarkers.icon({ icon: 'home', prefix: 'fa', markerColor: 'lightgray', spin: false });
 
     // carregamento do dado dos clientes
     const clientes = this.global.getGlobal('list_clientes').value.items.map((d: any) => {
@@ -361,8 +362,8 @@ export class MapComponent implements AfterViewInit {
    * Atribui eventos aos markers dos pops.
    */
   onEachFeature(feature: any, layer: any) {
-    const partes = feature.properties.id.split('_').map((str: string) => {
-      return str.charAt(0).toUpperCase() + str.toLocaleLowerCase().slice(1);
+    const partes = feature.properties.id.replace(' ', '_').split('_').map((str: string) => {
+      return str.toUpperCase()
     });
     const cliente = partes.join(' ');
 
@@ -513,11 +514,13 @@ export class MapComponent implements AfterViewInit {
    * Função que adiciona os markers do filtro ao mapa
    */
   drawFilterMarkers(clientData: any) {
+    console.log(clientData);
+
     const markerList = [];
     for(let i = 0; i < clientData.length; i++) {
       const lat = clientData[i].lat;
       const lng = clientData[i].lon;
-      markerList.push(L.circle([lat,lng], 500, { color: '#333', fillColor: '#333'}));
+      markerList.push(L.circle([lat,lng], 300, { color: '#333', fillColor: '#333', opacity: 1, fillOpacity: 1}));
     };
 
     if(this.clientLayers.length) {

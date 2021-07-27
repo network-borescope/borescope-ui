@@ -16,14 +16,21 @@ export class FiltersComponent implements OnInit {
 
   @ViewChild("clientsInput", { static: true }) private clientsInput!: ElementRef;
 
-  public clients = this.global.getGlobal('list_clientes').value;
+  public clients: any = [];
   public clientsSelection = [];
 
   public dateRange: any = {start: null, end: null};
 
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.clients = this.global.getGlobal('list_clientes').value;
+    console.log(this.clients);
+
+    this.clients.items.forEach((element: any) => {
+      element.id = element.id.toUpperCase();
+    });
+  }
 
   toggleFiltersVisibility() {
     const obj = this.global.getGlobal('widgets_config');
@@ -38,7 +45,7 @@ export class FiltersComponent implements OnInit {
     list.push("eq");
 
     this.clientsSelection.forEach((client: any) => {
-      let found = this.clients.items.find((c: any) => c.id.toUpperCase() === client);
+      let found = this.clients.items.find((c: any) => c.id === client);
       if (found) {
         list.push(parseInt(found.cod))
       }
@@ -124,11 +131,15 @@ export class FiltersComponent implements OnInit {
 
     const clientsList = this.clients.items;
     const selectedClients = this.clientsSelection;
+
     const clientsData = [];
     for(let i = 0; i < selectedClients.length; i++) {
       let client = clientsList.find((x: any) => x.id === selectedClients[i]);
       clientsData.push(client)
     };
+
+    console.log(clientsList, selectedClients, clientsData)
+
     this.filtersDefined.emit(clientsData);
   }
 

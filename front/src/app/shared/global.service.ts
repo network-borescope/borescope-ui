@@ -105,7 +105,7 @@ export class GlobalService {
      */
      const bar_group_by = {
       key: "bar_group_by",
-      value: ['ttl', 'cliente-ttl']
+      value: ['ttl'] //, 'cliente-ttl']
     };
     this.setGlobal(bar_group_by);
 

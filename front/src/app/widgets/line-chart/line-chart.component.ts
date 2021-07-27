@@ -65,7 +65,6 @@ export class LineChartComponent implements OnInit {
   }
 
   clearChart(dataId: string, color: string) {
-    console.log(dataId, color, this.chartData)
     delete this.chartData[dataId][color];
     this.lineChart.removeDataset(dataId, color);
   }

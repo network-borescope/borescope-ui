@@ -65,6 +65,20 @@ export class HomeComponent implements AfterViewInit {
   }
 
   /**
+   * Adiciona marcação aos markers selecionados no Filtro
+   */
+  updateFilterMarkers(clientData: any) {
+    this.map.drawFilterMarkers(clientData);
+  }
+
+  /**
+   * Remove a marcação dos markers removidos no Filtro
+   */
+   removeFilterMarkers() {
+    this.map.eraseFilterMarkers();
+  }
+
+  /**
    * Inicializa os gráficos usando os dados do mapa
    */
   async initCharts() {
@@ -233,14 +247,6 @@ export class HomeComponent implements AfterViewInit {
     tsT1.value = tnice.t1;
     this.global.setGlobal(tsT0);
     this.global.setGlobal(tsT1);
-  }
-
-  updateFilterMarkers(clientData: any) {
-    this.map.drawFilterMarkers(clientData);
-  }
-
-  removeFilterMarkers() {
-    this.map.eraseFilterMarkers();
   }
 
   /**

@@ -143,12 +143,13 @@ export class BarChartComponent implements OnInit {
     for (let cor of Object.keys(data)) {
       norm[cor] = [];
       for (let pId = 0; pId < data[cor].length; pId++) {
-        norm[cor].push( data[cor][pId].y / total );
+        const nrmPnt = {x: data[cor][pId].x, y: data[cor][pId].y / total};
+        norm[cor].push( nrmPnt );
       };
     }
 
     // substitui o dado normalizado anterior
-    this.nrmData[groupBy][dataId] = data;
+    this.nrmData[groupBy][dataId] = norm;
   }
 
   updateLabels(groupBy:string, dataId: string, color: string) {
