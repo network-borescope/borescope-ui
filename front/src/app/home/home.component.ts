@@ -83,6 +83,8 @@ export class HomeComponent implements AfterViewInit {
    */
   async initCharts() {
     await this.updateHeatmap();
+
+    // default: barchart e linechart do mapa
     await this.updateBarChart();
     await this.updateLineChart();
   }
@@ -91,6 +93,9 @@ export class HomeComponent implements AfterViewInit {
    * updates the map chart after map update
    */
   onMoveEnded() {
+    this.updateHeatmap();
+
+    // default: barchart e linechart do mapa
     this.updateBarChart();
     this.updateLineChart();
   }
@@ -220,7 +225,6 @@ export class HomeComponent implements AfterViewInit {
       let tmid = tsT0.value + d;
       d >>= 1;
       let t0 = tmid - d;
-      t0 = t0 - (t0 % 10);
       let t1 = tmid + d;
       if (t0 >= t1) t1 = t0 + 1;
       tsT0.value = t0;
@@ -233,6 +237,7 @@ export class HomeComponent implements AfterViewInit {
       d <<= 1;
       let t0 = tmid - d;
       let t1 = tmid + d;
+      if (t0 >= t1) t1 = t0 + 1;
       tsT0.value = t0;
       tsT1.value = t1;
       d = 0;
@@ -242,6 +247,14 @@ export class HomeComponent implements AfterViewInit {
     let xt0 = tsT0.value + d;
     let xt1 = tsT1.value + d;
     let tnice = this.util.time_nice(xt0, xt1);
+
+    const sDate = new Date(0);
+    sDate.setUTCSeconds(tnice.t0)
+    const eDate = new Date(0);
+    eDate.setUTCSeconds(tnice.t1)
+
+    console.log('#### New time ############################')
+    console.log(sDate.toUTCString(), eDate.toUTCString());
 
     tsT0.value = tnice.t0;
     tsT1.value = tnice.t1;
