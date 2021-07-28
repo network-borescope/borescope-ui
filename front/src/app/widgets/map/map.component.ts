@@ -76,7 +76,7 @@ export class MapComponent implements AfterViewInit {
    * Configura o mapa.
    */
   //  -15.787129, -47.884329
-  async setupMap(lat = -15.787129, lng = -47.884329, zoom = 11) {
+  async setupMap(lat = -15.787129, lng = -47.884329, zoom = 13) {
     if (this.mapDiv === undefined) {
       return;
     }
@@ -519,7 +519,7 @@ export class MapComponent implements AfterViewInit {
     for(let i = 0; i < clientData.length; i++) {
       const lat = clientData[i].lat;
       const lng = clientData[i].lon;
-      markerList.push(L.circle([lat,lng], 250, { color: '#333', fillColor: '#333', opacity: 1, fillOpacity: 1}));
+      markerList.push(L.circle([lat,lng], 250, { color: this.global.getGlobal('filter_color').value, fillColor: this.global.getGlobal('filter_color').value, opacity: 1, fillOpacity: 1}));
     };
 
     if(this.clientLayers.length) {

@@ -225,11 +225,11 @@ export class HomeComponent implements AfterViewInit {
    onFiltersDefined(clientData: any) {
     this.map.drawFilterMarkers(clientData);
 
-    this.updateLineChart('filter', '#333');
-    this.updateBarChart('filter', '#333');
+    this.updateLineChart('filter', this.global.getGlobal('filter_color').value);
+    this.updateBarChart('filter', this.global.getGlobal('filter_color').value);
 
     // adiciona ao estado global
-    this.addChartElementToGlobal('filter', '#333', clientData);
+    this.addChartElementToGlobal('filter', this.global.getGlobal('filter_color').value, clientData);
   }
 
   /**
@@ -238,15 +238,15 @@ export class HomeComponent implements AfterViewInit {
    onFiltersRemoved() {
     this.map.eraseFilterMarkers();
 
-    this.line.clearChart('filter', '#333');
+    this.line.clearChart('filter', this.global.getGlobal('filter_color').value);
 
     const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
     for (const groupBy of barChartGroupBy) {
-      this.bar.clearChart(groupBy, 'filter', '#333');
+      this.bar.clearChart(groupBy, 'filter', this.global.getGlobal('filter_color').value);
     }
 
     // remove do estado global
-    this.removeChartElementFromGlobal('filter', '#333');
+    this.removeChartElementFromGlobal('filter', this.global.getGlobal('filter_color').value);
   }
 
   /**

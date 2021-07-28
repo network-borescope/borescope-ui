@@ -151,7 +151,7 @@ export class GlobalService {
      */
     const draw_colors = {
       key: "draw_colors",
-      value: ['red', 'orange', 'green', 'purple', 'darkred', 'darkgreen', 'darkpurple']
+      value: ['green', 'purple', 'red', 'darkgreen', 'darkpurple', 'darkred']
     };
     this.setGlobal(draw_colors);
 
@@ -163,6 +163,24 @@ export class GlobalService {
       value: 0
     };
     this.setGlobal(draw_color_index);
+
+    /**
+     * Guarda a cor do filtro.
+     */
+     const filter_color = {
+      key: 'filter_color',
+      value: 'blue'
+    }
+    this.setGlobal(filter_color);
+
+    /**
+     * Guarda a cor do outlier.
+     */
+     const outlier_color = {
+      key: 'outlier_color',
+      value: 'orange'
+    }
+    this.setGlobal(outlier_color);
 
     /**
      * Guarta a lista de clientes
