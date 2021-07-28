@@ -80,6 +80,11 @@ export class AppInitService {
     this.global.setGlobal(data);
   }
 
+  loadIPs() {
+    // const schema = await this.api.getIPs();
+
+  }
+
   init() {
     return new Promise<void>(async (resolve) => {
 

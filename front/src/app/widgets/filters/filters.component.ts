@@ -83,7 +83,6 @@ export class FiltersComponent implements OnInit {
       const parts = this.dateRange['start'].split(' # ');
 
       let start = new Date(`${parts[0]}T${parts[1]}:00Z`).getTime() / 1000;
-      console.log(`${parts[0]}T${parts[1]}:00`, start)
 
       if(start > tsT1.value) {
         console.log('Invalid Filter Date: end < start.')

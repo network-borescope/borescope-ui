@@ -19,7 +19,7 @@
   [style.z-index] = "this.isChartVisible('bar') ? this.chartZindex('bar') : '-10' "
   (started)="this.moving = 'bar'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'bar'">
     <app-bar-chart #appBarChart
-    (checkboxClicked) = "this.onCheckboxClicked()"
+    (checkboxClicked) = "this.onBarGroupByChanged()"
     ></app-bar-chart>
   </div>
 

@@ -367,7 +367,6 @@ export class MapComponent implements AfterViewInit {
     });
     const cliente = partes.join(' ');
 
-
     const contentPopup =
       "<div>" +
       "<div style='display: block;'><b>" + cliente + "</b></div>" +

@@ -20,7 +20,6 @@ export class LineChartComponent implements OnInit {
   private lineChart: any;
   private chartData: any = {};
   private labels: any = [];
-  private bestUnity: any = undefined;
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
@@ -35,7 +34,6 @@ export class LineChartComponent implements OnInit {
     }
 
     // clear existing (dataId, color)
-    this.clearChart(dataId, chartColor);
     this.chartData[dataId][chartColor] = [];
 
     for (let i = 0; i < responseData.result.length; i++) {

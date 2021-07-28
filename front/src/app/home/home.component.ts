@@ -73,7 +73,7 @@ export class HomeComponent implements AfterViewInit {
 
     // procura o elemento
     const id = elements.value.findIndex((el: any) => {
-      el.dataId === dataId && el.chartColor === chartColor
+      return el.dataId === dataId && el.chartColor === chartColor
     });
 
     // se achar, remove
@@ -97,7 +97,7 @@ export class HomeComponent implements AfterViewInit {
 
     // procura o elemento
     const id = elements.value.findIndex((el: any) => {
-      el.dataId === dataId && el.chartColor === chartColor
+      return el.dataId === dataId && el.chartColor === chartColor
     });
 
     // se achar, remove
@@ -113,7 +113,20 @@ export class HomeComponent implements AfterViewInit {
    * Redesenha todos os gráficos
    */
    redrawAllCharts() {
+    this.updateHeatmap();
 
+    this.line.clearLabel();
+
+    const groupBy = this.global.getGlobal('bar_group_by').value;
+    for (const group of groupBy) {
+      this.bar.clearLabel(groupBy);
+    }
+
+    const elements = this.global.getGlobal('active_chart_elements').value;
+    for (const elem of elements) {
+      this.updateLineChart(elem.dataId, elem.chartColor, elem.feature);
+      this.updateBarChart(elem.dataId, elem.chartColor, elem.feature);
+    }
   }
 
   /**
@@ -236,12 +249,18 @@ export class HomeComponent implements AfterViewInit {
     this.removeChartElementFromGlobal('filter', '#333');
   }
 
-  onCheckboxClicked() {
+  /**
+   * Atualiza o critério de groupby do barchart
+   */
+  onBarGroupByChanged() {
     const groupBy = this.global.getGlobal('bar_group_by_value').value;
     this.bar.drawChart(groupBy);
   };
 
 
+  /**
+   * Atualiza o período de tempo ativo das visualizações
+   */
   onChartTimeChanged(delta: number) {
     // atualiza o range de tempo dos gráficcos
     this.updateChartsTimeRange(delta)
