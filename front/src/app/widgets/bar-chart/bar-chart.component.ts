@@ -168,12 +168,12 @@ export class BarChartComponent implements OnInit {
   }
 
   onCheckboxClick(event: any) {
-     const bar_group_by_selection = {
-      key: "bar_group_by_selection",
+     const bar_group_by_value = {
+      key: "bar_group_by_value",
       value: event.target.value
     };
 
-    this.global.setGlobal(bar_group_by_selection)
+    this.global.setGlobal(bar_group_by_value)
     this.checkboxClicked.emit();
   }
 }

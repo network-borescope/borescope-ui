@@ -65,95 +65,134 @@ export class HomeComponent implements AfterViewInit {
   }
 
   /**
-   * Adiciona marcação aos markers selecionados no Filtro
+   * Adiciona um elemento do gráfico ao estado global
    */
-  updateFilterMarkers(clientData: any) {
-    this.map.drawFilterMarkers(clientData);
+  addChartElementToGlobal(dataId: string, chartColor: string, feature: any = undefined) {
+    // restaura o estado
+    const elements = this.global.getGlobal('active_chart_elements');
+
+    // procura o elemento
+    const id = elements.value.findIndex((el: any) => {
+      el.dataId === dataId && el.chartColor === chartColor
+    });
+
+    // se achar, remove
+    if (id >= 0) {
+      elements.value.splice(id, 1);
+    }
+
+    // adiciona o novo elemento
+    elements.value.push({dataId, chartColor, feature});
+
+    // restaura o estado
+    this.global.setGlobal(elements)
   }
 
   /**
-   * Remove a marcação dos markers removidos no Filtro
+   * Remove um elemento do gráfico do estado global
    */
-   removeFilterMarkers() {
-    this.map.eraseFilterMarkers();
+   removeChartElementFromGlobal(dataId: string, chartColor: string, feature: any = undefined) {
+    // remove o polígono a lista de elementos ativos
+    const elements = this.global.getGlobal('active_chart_elements');
+
+    // procura o elemento
+    const id = elements.value.findIndex((el: any) => {
+      el.dataId === dataId && el.chartColor === chartColor
+    });
+
+    // se achar, remove
+    if (id >= 0) {
+      elements.value.splice(id, 1);
+    }
+
+    // atualiza o estado
+    this.global.setGlobal(elements)
+  }
+
+  /**
+   * Redesenha todos os gráficos
+   */
+   redrawAllCharts() {
+
   }
 
   /**
    * Inicializa os gráficos usando os dados do mapa
    */
-  async initCharts() {
-    await this.updateHeatmap();
-
-    // default: barchart e linechart do mapa
-    await this.updateBarChart();
-    await this.updateLineChart();
-  }
-
-  /**
-   * updates the map chart after map update
-   */
-  onMoveEnded() {
+  initCharts() {
     this.updateHeatmap();
 
-    // default: barchart e linechart do mapa
-    this.updateBarChart();
-    this.updateLineChart();
+    // barchart e linechart do mapa
+    this.updateLineChart('map', '#AAAAAA');
+    this.updateBarChart('map', '#AAAAAA');
+
+    // adiciona ao estado global
+    this.addChartElementToGlobal('map', '#AAAAAA');
   }
 
   /**
-   * Atualiza os gráficos a pós as seleções do mapa
+   * Atualiza o mapa depois de um evento de zoom ou pan
+   */
+  onMoveEnded() {
+    // atualiza o heatmap
+    this.updateHeatmap();
+
+    // redesenha o elemento map dos gráficos
+    this.updateLineChart('map', '#AAAAAA');
+    this.updateBarChart('map', '#AAAAAA');
+  }
+
+  /**
+   * Atualiza os gráficos após a criação de uma seleções do mapa
    */
   onPolyCreated(event: any) {
     const color = event.options.color;
     const poly = event._latlngs[0];
 
-    this.updateBarChart('geometry', color, poly);
+    // barchart e linechart da seleção geométrica
     this.updateLineChart('geometry', color, poly);
+    this.updateBarChart('geometry', color, poly);
+
+    // adiciona ao estado global
+    this.addChartElementToGlobal('geometry', color, poly);
   }
 
-  onPolyRemoved(event: any) {
+  /**
+   * Atualiza os gráficos após a remoção de uma seleções do mapa
+   */
+   onPolyRemoved(event: any) {
     const color = event.options.color;
 
     this.line.clearChart('geometry', color);
 
-    const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
-    for (const groupBy of barChartGroupBy) {
+    const groups = this.global.getGlobal('bar_group_by').value;
+    for (const groupBy of groups) {
       this.bar.clearChart(groupBy, 'geometry', color);
     }
 
-    const groupBy = this.global.getGlobal('bar_group_by_selection').value;
-    this.bar.drawChart(groupBy);
+    // remove do estado global
+    this.removeChartElementFromGlobal('geometry', color);
   }
 
-  onFiltersDefined(clientData: any) {
-
-    this.updateFilterMarkers(clientData);
-    this.updateLineChart('filter', '#333');
-    this.updateBarChart('filter', '#333');
-  }
-
-  onFiltersRemoved() {
-    this.removeFilterMarkers();
-    this.line.clearChart('filter', '#333');
-
-    const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
-    for (const groupBy of barChartGroupBy) {
-      this.bar.clearChart(groupBy, 'filter', '#333');
-    }
-
-    const groupBy = this.global.getGlobal('bar_group_by_selection').value;
-    this.bar.drawChart(groupBy);
-  }
-
-  onMarkerAdded(event: any) {
+  /**
+   * Atualiza os gráficos após a seleção de um pin do mapa
+   */
+   onMarkerAdded(event: any) {
     const color = event.color;
     const codigo = event.codigo;
 
+    // barchart e linechart do marker
     this.updateLineChart('client', color, codigo);
     this.updateBarChart('client', color, codigo);
+
+    // adiciona ao estado global
+    this.addChartElementToGlobal('client', color, codigo);
   }
 
-  onMarkerRemoved(event: any) {
+  /**
+   * Atualiza os gráficos após a remoção de um pin do mapa
+   */
+   onMarkerRemoved(event: any) {
     const color = event.color;
 
     this.line.clearChart('client', color);
@@ -163,24 +202,56 @@ export class HomeComponent implements AfterViewInit {
       this.bar.clearChart(groupBy, 'client', color);
     }
 
-    const groupBy = this.global.getGlobal('bar_group_by_selection').value;
-    this.bar.drawChart(groupBy);
+    // remove do estado global
+    this.removeChartElementFromGlobal('client', color);
   }
 
-  onChartTimeChanged(delta: number) {
-    // TODO: check the time rante update function
-    this.updateTimeRange(delta)
+  /**
+   * Atualiza os gráficos após a criação de um filtro
+   */
+   onFiltersDefined(clientData: any) {
+    this.map.drawFilterMarkers(clientData);
 
-    this.updateHeatmap();
-    this.updateBarChart();
-    this.updateLineChart();
+    this.updateLineChart('filter', '#333');
+    this.updateBarChart('filter', '#333');
+
+    // adiciona ao estado global
+    this.addChartElementToGlobal('filter', '#333', clientData);
+  }
+
+  /**
+   * Atualiza os gráficos após a remoção de um filtro
+   */
+   onFiltersRemoved() {
+    this.map.eraseFilterMarkers();
+
+    this.line.clearChart('filter', '#333');
+
+    const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
+    for (const groupBy of barChartGroupBy) {
+      this.bar.clearChart(groupBy, 'filter', '#333');
+    }
+
+    // remove do estado global
+    this.removeChartElementFromGlobal('filter', '#333');
   }
 
   onCheckboxClicked() {
-    const groupBy = this.global.getGlobal('bar_group_by_selection').value;
+    const groupBy = this.global.getGlobal('bar_group_by_value').value;
     this.bar.drawChart(groupBy);
   };
 
+
+  onChartTimeChanged(delta: number) {
+    // atualiza o range de tempo dos gráficcos
+    this.updateChartsTimeRange(delta)
+    // redesenha todos os gráficos
+    this.redrawAllCharts();
+  }
+
+  /**
+   * Intervalo de tempo usado na montagem da consulta
+   */
   getTime(dataId: string = 'map') {
     const t0Str = dataId === 'filter' ? 't0_filter' : 't0_vis';
     const t1Str = dataId === 'filter' ? 't1_filter' : 't1_vis';
@@ -197,7 +268,10 @@ export class HomeComponent implements AfterViewInit {
     return list;
   }
 
-  updateTimeRange(id: number) {
+  /**
+   * Atualiza o intervalo de tempo dos gráficos
+   */
+  updateChartsTimeRange(id: number) {
     let tsT0 = this.global.getGlobal("t0_vis");
     let tsT1 = this.global.getGlobal("t1_vis");
 
@@ -253,7 +327,7 @@ export class HomeComponent implements AfterViewInit {
     const eDate = new Date(0);
     eDate.setUTCSeconds(tnice.t1)
 
-    console.log('#### New time ############################')
+    console.log('#### New time range ############################')
     console.log(sDate.toUTCString(), eDate.toUTCString());
 
     tsT0.value = tnice.t0;
@@ -273,7 +347,7 @@ export class HomeComponent implements AfterViewInit {
     this.map.drawHeatMap(res);
   }
 
-  async updateBarChart(dataId: string = 'map', chartColor: string = '#AAAAAA', feat: any = undefined) {
+  async updateBarChart(dataId: string, chartColor: string, feat: any = undefined) {
     const time = this.getTime(dataId);
     const location = (dataId === 'geometry') ?
       this.map.getPoly(feat) : this.map.getLocation();
@@ -287,21 +361,21 @@ export class HomeComponent implements AfterViewInit {
     }
 
     const data: any = {};
-    const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
-    for (const gId of barChartGroupBy) {
-      const parts = gId.split('-');
+    const groupBy = this.global.getGlobal('bar_group_by').value;
+    for (const group of groupBy) {
+      const parts = group.split('-');
       const query = parts.length > 1 ? parts : parts[0];
 
       const res = await this.api.requestBarChart(location, time, client, query);
-      data[gId] = res;
+      data[group] = res;
     }
     this.bar.updateData(data, dataId, chartColor);
 
-    const groupBy = this.global.getGlobal('bar_group_by_selection').value;
-    this.bar.drawChart(groupBy);
+    const groupByValue = this.global.getGlobal('bar_group_by_value').value;
+    this.bar.drawChart(groupByValue);
   }
 
-  async updateLineChart(dataId: string = 'map', chartColor: string = '#AAAAAA', feat: any = undefined) {
+  async updateLineChart(dataId: string, chartColor: string, feat: any = undefined) {
     const time = this.getTime(dataId);
 
     const location = (dataId === 'geometry') ?

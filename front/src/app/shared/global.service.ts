@@ -29,6 +29,16 @@ export class GlobalService {
     this.setGlobal(query_id);
 
     /**
+     * Elementos ativos nos gráficos
+     */
+    const active_chart_elements = {
+      key: "active_chart_elements",
+      value: []
+    };
+    this.setGlobal(active_chart_elements);
+
+
+    /**
      * Usado na composição das consultas.
      */
     const selected_channel = {
@@ -103,7 +113,7 @@ export class GlobalService {
     /**
      * Guarda as opções de groupBy do bar chart.
      */
-     const bar_group_by = {
+    const bar_group_by = {
       key: "bar_group_by",
       value: ['ttl'] //, 'cliente-ttl']
     };
@@ -112,11 +122,29 @@ export class GlobalService {
     /**
      * Guarda a seleção de groupBy do bar chart.
      */
-     const bar_group_by_selection = {
-      key: "bar_group_by_selection",
+    const bar_group_by_value = {
+      key: "bar_group_by_value",
       value: 'ttl'
     };
-    this.setGlobal(bar_group_by_selection);
+    this.setGlobal(bar_group_by_value);
+
+    /**
+     * Guarda as opções de volume do line chart.
+     */
+    const line_volume = {
+      key: "line_volume",
+      value: ['ttl'] //, 'cliente-ttl']
+    };
+    this.setGlobal(line_volume);
+
+    /**
+     * Guarda a seleção de volume do line chart.
+     */
+    const line_volume_value = {
+      key: "line_volume_value",
+      value: 'ttl'
+    };
+    this.setGlobal(line_volume_value);
 
     /**
      * Estabelece uma constante com uma lista de cores.
@@ -126,7 +154,6 @@ export class GlobalService {
       value: ['red', 'orange', 'green', 'purple', 'darkred', 'darkgreen', 'darkpurple']
     };
     this.setGlobal(draw_colors);
-
 
     /**
      * Guarda a cor atual.
@@ -165,9 +192,9 @@ export class GlobalService {
     this.setGlobal(widgets_config);
 
     /**
-     * Serve para recuperar o item selecionado na combobox trace.
+     * Modo de debug.
      */
-     const trace_mode = {
+    const trace_mode = {
       key: "trace_mode",
       value: true
     };

@@ -25,7 +25,6 @@ export class FiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this.clients = this.global.getGlobal('list_clientes').value;
-    console.log(this.clients);
 
     this.clients.items.forEach((element: any) => {
       element.id = element.id.toUpperCase();
@@ -54,17 +53,8 @@ export class FiltersComponent implements OnInit {
     return list;
   }
 
-  updateClientList(event: any) {
-    this.clientsSelection = event.target.value.split(',').filter( (d: string) => d.length > 0);
-  }
-
-  saveClientList() {
-    if (this.clientsSelection !== null) {
-      let info = this.global.getGlobal('list_clientes');
-      info.value = this.clientsSelection;
-
-      this.global.setGlobal(info);
-    }
+  updateClientSelection(event: any) {
+    this.clientsSelection = event.target.value.split(',').filter( (d: string) => d.length > 0 );
   }
 
   getStartDate() {
@@ -119,11 +109,6 @@ export class FiltersComponent implements OnInit {
   }
 
   saveFilters() {
-    this.saveClientList();
-    this.saveDate();
-
-    this.toggleFiltersVisibility();
-
     if(!this.clientsSelection.length) {
       console.log('Invalid Filter: empity client list.')
       return;
@@ -138,8 +123,8 @@ export class FiltersComponent implements OnInit {
       clientsData.push(client)
     };
 
-    console.log(clientsList, selectedClients, clientsData)
-
+    this.saveDate();
+    this.toggleFiltersVisibility();
     this.filtersDefined.emit(clientsData);
   }
 
@@ -155,9 +140,7 @@ export class FiltersComponent implements OnInit {
     this.clientsSelection = [];
     this.clientsInput.nativeElement.value = '';
 
-    this.saveClientList();
     this.saveDate();
-
     this.toggleFiltersVisibility();
     this.filtersRemoved.emit();
   }

@@ -520,7 +520,7 @@ export class MapComponent implements AfterViewInit {
     for(let i = 0; i < clientData.length; i++) {
       const lat = clientData[i].lat;
       const lng = clientData[i].lon;
-      markerList.push(L.circle([lat,lng], 300, { color: '#333', fillColor: '#333', opacity: 1, fillOpacity: 1}));
+      markerList.push(L.circle([lat,lng], 250, { color: '#333', fillColor: '#333', opacity: 1, fillOpacity: 1}));
     };
 
     if(this.clientLayers.length) {
