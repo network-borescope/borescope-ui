@@ -3,8 +3,6 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
 import { LineChart } from './line';
-
-
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
@@ -162,7 +160,7 @@ export class LineChartComponent implements OnInit {
   onClickTime(delta: number) {
     this.chartTimeChanged.emit(delta);
   }
-  
+
   onCheckboxClick(event: any) {
     this.checkboxClicked.emit();
   }

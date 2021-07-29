@@ -4,8 +4,6 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, Vie
 // inclusão do leaflet
 import * as L from 'leaflet';
 
-// inclusão do awesome-markers
-import 'leaflet.awesome-markers';
 // inclusão do leaflet draw
 import 'leaflet-draw';
 
