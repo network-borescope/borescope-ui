@@ -257,6 +257,9 @@ export class HomeComponent implements AfterViewInit {
     this.bar.drawChart(groupBy);
   };
 
+  onLineGroupByChanged() {
+    console.log('Evento propagado')
+  }
 
   /**
    * Atualiza o período de tempo ativo das visualizações

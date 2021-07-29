@@ -23,11 +23,12 @@
     ></app-bar-chart>
   </div>
 
-  <div ngDraggable class="widget" style="position: absolute; top: 530px; right: 10px; height: 340px !important;"
+  <div ngDraggable class="widget" style="position: absolute; top: 530px; right: 10px; height: 378px !important;"
   [style.z-index] = "this.isChartVisible('line') ? this.chartZindex('line') : '-10' "
   (started)="this.moving = 'line'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'line'">
     <app-line-chart #appLineChart
     (chartTimeChanged) = "this.onChartTimeChanged($event)"
+    (checkboxClicked) = "this.onLineGroupByChanged()"
     ></app-line-chart>
   </div>
 

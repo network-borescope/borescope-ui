@@ -1,29 +1,39 @@
 <div class="fill">
   <canvas class="fill" style="padding-bottom: 10px; border-bottom: 1px solid #eee;" #lineChart></canvas>
+  <div style="margin-top: 7px; padding-bottom: 7px; border-bottom: 1px solid #eee;">
+    <div class="checkbox-inline ">
+      <input class="form-check-input" type="radio" name="lineChartGroupBy" id="lineChartGroupBy" (change)="this.onCheckboxClick($event)">
+      <div style="display: inline-block; margin-left: 6px; vertical-align: middle;">
+        <label class="form-check-label" for="lineChartGroupBy">
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="handler-line-chart">
+    <button class="btn btn-line-chart" (click)='this.onClickTime(-3)'>
+      <i class="fas fa-fast-backward fa-lg"></i>
+    </button>
+    <button class="btn btn-line-chart" (click)='this.onClickTime(-2)'>
+      <i class="fas fa-backward fa-lg"></i>
+    </button>
+    <button class="btn btn-line-chart" (click)='this.onClickTime(-1)'>
+      <i class="fas fa-step-backward fa-lg"></i>
+    </button>
+    <button class="btn btn-line-chart" (click)='this.onClickTime(1)'>
+      <i class="fas fa-step-forward fa-lg"></i>
+    </button>
+    <button class="btn btn-line-chart" (click)='this.onClickTime(2)'>
+      <i class="fas fa-forward fa-lg"></i>
+    </button>
+    <button class="btn btn-line-chart" (click)='this.onClickTime(3)'>
+      <i class="fas fa-fast-forward fa-lg"></i>
+    </button>
+    <button class="btn btn-line-chart" (click)='this.onClickTime(4)'>
+      <i class="fas fa-search-plus fa-lg"></i>
+    </button>
+    <button class="btn btn-line-chart" (click)='this.onClickTime(-4)'>
+      <i class="fas fa-search-minus fa-lg"></i>
+    </button>
+  </div>
 </div>
-<div class="handler-line-chart">
-  <button class="btn btn-line-chart" (click)='this.onClickTime(-3)'>
-    <i class="fas fa-fast-backward fa-lg"></i>
-  </button>
-  <button class="btn btn-line-chart" (click)='this.onClickTime(-2)'>
-    <i class="fas fa-backward fa-lg"></i>
-  </button>
-  <button class="btn btn-line-chart" (click)='this.onClickTime(-1)'>
-    <i class="fas fa-step-backward fa-lg"></i>
-  </button>
-  <button class="btn btn-line-chart" (click)='this.onClickTime(1)'>
-    <i class="fas fa-step-forward fa-lg"></i>
-  </button>
-  <button class="btn btn-line-chart" (click)='this.onClickTime(2)'>
-    <i class="fas fa-forward fa-lg"></i>
-  </button>
-  <button class="btn btn-line-chart" (click)='this.onClickTime(3)'>
-    <i class="fas fa-fast-forward fa-lg"></i>
-  </button>
-  <button class="btn btn-line-chart" (click)='this.onClickTime(4)'>
-    <i class="fas fa-search-plus fa-lg"></i>
-  </button>
-  <button class="btn btn-line-chart" (click)='this.onClickTime(-4)'>
-    <i class="fas fa-search-minus fa-lg"></i>
-  </button>
-</div>
+

@@ -156,7 +156,7 @@ export class LineChart {
       this.chart.update();
     }
   }
-
+  
   clear() {
     this.chart.data.labels = [];
     this.chart.data.datasets = [];

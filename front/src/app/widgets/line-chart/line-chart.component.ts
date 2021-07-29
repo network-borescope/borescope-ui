@@ -16,6 +16,7 @@ export class LineChartComponent implements OnInit {
   @ViewChild("lineChart", { static: true }) private lineDiv!: ElementRef;
 
   @Output() chartTimeChanged = new EventEmitter<number>();
+  @Output() checkboxClicked = new EventEmitter<number>();
 
   private lineChart: any;
   private chartData: any = {};
@@ -160,5 +161,9 @@ export class LineChartComponent implements OnInit {
 
   onClickTime(delta: number) {
     this.chartTimeChanged.emit(delta);
+  }
+  
+  onCheckboxClick(event: any) {
+    this.checkboxClicked.emit();
   }
 }
