@@ -96,6 +96,13 @@ export class MapComponent implements AfterViewInit {
 
     // carregamento do dado dos clientes
     const clientes = this.global.getGlobal('list_clientes').value.items.map((d: any) => {
+      if(d.id === "OTHERS") {
+        const outlierMarker = L.circle([d.lat,d.lon], 250, { color: this.global.getGlobal('outlier_color').value,
+                                                             fillColor: this.global.getGlobal('outlier_color').value,
+                                                             opacity: 1,
+                                                             fillOpacity: 1});
+        outlierMarker.addTo(this.map);
+      };
       return {
         "type": "Feature",
         "geometry": {
