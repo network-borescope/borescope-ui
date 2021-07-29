@@ -191,15 +191,15 @@ export class HomeComponent implements AfterViewInit {
    * Atualiza os gráficos após a seleção de um pin do mapa
    */
    onMarkerAdded(event: any) {
+    const cod = event.cod;
     const color = event.color;
-    const codigo = event.codigo;
 
     // barchart e linechart do marker
-    this.updateLineChart('client', color, codigo);
-    this.updateBarChart('client', color, codigo);
+    this.updateLineChart('client', color, cod);
+    this.updateBarChart('client', color, cod);
 
     // adiciona ao estado global
-    this.addChartElementToGlobal('client', color, codigo);
+    this.addChartElementToGlobal('client', color, cod);
   }
 
   /**

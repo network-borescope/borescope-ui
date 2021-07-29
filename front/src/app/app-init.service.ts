@@ -15,7 +15,7 @@ export class AppInitService {
 
     const data = {
       key: "schema_info",
-      value: schema
+      value: schema.result
     }
 
     this.global.setGlobal(data);
@@ -71,18 +71,12 @@ export class AppInitService {
 
   loadClients() {
     const schema = this.global.getGlobal('schema_info').value;
-    const result = schema.result;
 
     const data = {
       key: 'list_clientes',
-      value: result.clientes_df
+      value: schema.clientes_df
     };
     this.global.setGlobal(data);
-  }
-
-  loadIPs() {
-    // const schema = await this.api.getIPs();
-
   }
 
   init() {

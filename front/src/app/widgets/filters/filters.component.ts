@@ -25,10 +25,6 @@ export class FiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this.clients = this.global.getGlobal('list_clientes').value;
-
-    this.clients.items.forEach((element: any) => {
-      element.id = element.id.toUpperCase();
-    });
   }
 
   toggleFiltersVisibility() {
@@ -44,7 +40,7 @@ export class FiltersComponent implements OnInit {
     list.push("eq");
 
     this.clientsSelection.forEach((client: any) => {
-      let found = this.clients.items.find((c: any) => c.id === client);
+      let found = this.clients.items.find((c: any) => c.caption === client);
       if (found) {
         list.push(parseInt(found.cod))
       }
@@ -118,7 +114,7 @@ export class FiltersComponent implements OnInit {
 
     const clientsData = [];
     for(let i = 0; i < selectedClients.length; i++) {
-      let client = clientsList.find((x: any) => x.id === selectedClients[i]);
+      let client = clientsList.find((x: any) => x.caption === selectedClients[i]);
       clientsData.push(client)
     };
 

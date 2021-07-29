@@ -147,13 +147,25 @@ export class GlobalService {
     this.setGlobal(line_volume_value);
 
     /**
-     * Estabelece uma constante com uma lista de cores.
+     * Estabelece uma lista de cores.
      */
-    const draw_colors = {
+     const draw_colors = {
       key: "draw_colors",
-      value: ['green', 'purple', 'red', 'darkgreen', 'darkpurple', 'darkred']
+      value: [
+        '#1F77B4', '#2CA02C', '#9467BD', '#8C564B', '#E377C2',
+        '#AEC7E8', '#98DF8A', '#C5B0D5', '#C49C94', '#F7B6D2'
+      ]
     };
     this.setGlobal(draw_colors);
+
+    /**
+     * Lista de cores usadas.
+     */
+     const used_draw_colors = {
+      key: "used_draw_colors",
+      value: []
+    };
+    this.setGlobal(used_draw_colors);
 
     /**
      * Guarda a cor atual.
@@ -165,11 +177,20 @@ export class GlobalService {
     this.setGlobal(draw_color_index);
 
     /**
+     * Guarda a cor do elemento não selecionado.
+     */
+     const unselected_color = {
+      key: 'unselected_color',
+      value: '##CCC'
+    }
+    this.setGlobal(unselected_color);
+
+    /**
      * Guarda a cor do filtro.
      */
      const filter_color = {
       key: 'filter_color',
-      value: 'blue'
+      value: '#FF7F0E'
     }
     this.setGlobal(filter_color);
 
@@ -178,7 +199,7 @@ export class GlobalService {
      */
      const outlier_color = {
       key: 'outlier_color',
-      value: 'orange'
+      value: '#D62728'
     }
     this.setGlobal(outlier_color);
 

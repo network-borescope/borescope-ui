@@ -12,7 +12,7 @@
         <input style="width: 100%" type="email" list="clientes" multiple (keyup)='this.updateClientSelection($event)'
         title="" pattern="" #clientsInput>
         <datalist id="clientes">
-          <option *ngFor="let el of this.clients.items" [value]="el.id">
+          <option *ngFor="let el of this.clients.items" [value]="el.caption">
         </datalist>
       </div>
 

@@ -69,7 +69,7 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.setupMap();
-    this.updateDrawColors();
+    this.updatePolygonDrawColors();
   }
 
   /**
@@ -96,10 +96,6 @@ export class MapComponent implements AfterViewInit {
       zoomOffset: -1
     }).addTo(this.map);
 
-    // configuração dos marcadores
-    // @ts-ignore
-    L.Marker.prototype.options.icon = L.AwesomeMarkers.icon({ icon: 'home', prefix: 'fa', markerColor: 'lightgray', spin: false });
-
     // carregamento do dado dos clientes
     const clientes = this.global.getGlobal('list_clientes').value.items.map((d: any) => {
       return {
@@ -111,7 +107,7 @@ export class MapComponent implements AfterViewInit {
         "properties": d
       }
     })
-    this.geojson = L.geoJSON(clientes, { pointToLayer: this.statesStyle, onEachFeature: this.onEachFeature.bind(this) }).addTo(this.map);
+    this.geojson = L.geoJSON(clientes, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) }).addTo(this.map);
 
     // Inicialização dos layers editaveis
     let editableLayers = new L.FeatureGroup();
@@ -143,8 +139,8 @@ export class MapComponent implements AfterViewInit {
     // Eventos do mapa: criação do polígono
     this.map.on(L.Draw.Event.CREATED, (e: any) => {
       this.listLayer.push(e.layer);
-      this.nextDrawColor(e.layer);
-      this.updateDrawColors();
+
+      this.updateUsedColors(true, e.layer.options.color);
 
       this.polyCreatedEvent.emit(e.layer);
       editableLayers.addLayer(e.layer);
@@ -156,6 +152,8 @@ export class MapComponent implements AfterViewInit {
       e.layers.eachLayer((layer: any) => {
         this.polyRemovedEvent.emit(layer)
         this.removeLayer(layer);
+
+        this.updateUsedColors(false, layer.options.color);
       });
     });
 
@@ -262,46 +260,60 @@ export class MapComponent implements AfterViewInit {
    * Escolhe uma cor a partir das que já
    * foram usadas.
    */
-  nextDrawColor(newLayer: any) {
-    let drawColors = this.global.getGlobal("draw_colors");
+  updateUsedColors(added: boolean, color: string) {
+    const drawColors = this.global.getGlobal("draw_colors");
+    const usedColors = this.global.getGlobal("used_draw_colors");
 
-    let used = [];
-    if (newLayer != null) {
-      used.push(newLayer.options.color);
+    // atualiza as cores usadas
+    if (added) {
+      usedColors.value.push(color);
     }
+    else {
+      usedColors.value = usedColors.value.filter( (d: string) => d !== color );
+    }
+    this.global.setGlobal(usedColors);
 
-    this.getMap().eachLayer(layer => {
-      if (layer instanceof L.Polygon || layer instanceof L.Rectangle) {
-        let color = layer.options.color;
-        if (drawColors.value.indexOf(color) != -1) {
-          used.push(color);
-        }
-      } else if (layer instanceof L.Marker) {
-        if (layer.options.icon === undefined) {
-          return;
-        }
-
-        const options: L.AwesomeMarkers.AwesomeMarkersIconOptions = layer.options.icon.options;
-        let color = options.markerColor;
-
-        if (drawColors.value.indexOf(`${color}`) != -1) {
-          used.push(color);
-        }
-      }
-    });
-
+    // atualiza o índice de cor
     let drawColorIndex = this.global.getGlobal("draw_color_index");
-    if (used.length > 0) {
-      for (let i = 0; i < drawColors.value.length; i++) {
-        if (used.indexOf(drawColors.value[i]) == -1) {
-          drawColorIndex.value = i;
-          this.global.setGlobal(drawColorIndex);
-          break;
-        }
+    for(let id = 0; id< drawColors.value.length; id++) {
+      const current = drawColors.value[id];
+
+      console.log(current)
+      if(!usedColors.value.includes(current)) {
+        drawColorIndex.value = id;
+        break;
       }
     }
+    this.global.setGlobal(drawColorIndex);
+    this.updatePolygonDrawColors();
+
+    console.log(added, color, usedColors, drawColors, drawColorIndex);
   }
 
+   /**
+   * Define a cor do retangulo e do poligono que serão desenhados no mapa.
+   */
+    updatePolygonDrawColors() {
+      if (this.drawControl === undefined) {
+        return;
+      }
+
+      let drawColors = this.global.getGlobal("draw_colors");
+      let drawColorIndex = this.global.getGlobal("draw_color_index");
+
+      this.drawControl.setDrawingOptions({
+        rectangle: {
+          shapeOptions: {
+            color: drawColors.value[drawColorIndex.value]
+          }
+        },
+        polygon: {
+          shapeOptions: {
+            color: drawColors.value[drawColorIndex.value]
+          }
+        }
+      });
+    }
   /**
    * Remove poligono da lista.
    */
@@ -321,113 +333,82 @@ export class MapComponent implements AfterViewInit {
   /**
    * Formata o poligono dos bairros ao clicar.
    */
-  statesStyle(geoJsonPoint: any, latlng: any) {
+  clientMarker(geoJsonPoint: any, latlng: any) {
     // @ts-ignore
-    return L.marker(latlng, { icon: L.AwesomeMarkers.icon({ icon: 'home', prefix: 'fa', markerColor: 'lightgray', spin: false }) });
+    let color = this.global.getGlobal("unselected_color").value;
+    return L.marker(latlng, { icon: this.clientIcon(color) });
   }
 
   /**
    * Formata o poligono dos bairros.
    */
-  formatStatesStyle(color: any) {
-    return L.AwesomeMarkers.icon({ icon: 'home', prefix: 'fa', markerColor: color, spin: false });
-  }
-
-  /**
-   * Guarda os dados do bairro para exibição futura.
-   */
-  setClientInfo(codBairro: any, recuperado: any, obito: any, ativo: any) {
-    for (let i = 0; i < this.listClient.length; i++) {
-      if (this.listClient[i].codigo == codBairro) {
-        this.listClient[i].recuperado = recuperado;
-        this.listClient[i].obito = obito;
-        this.listClient[i].ativo = ativo;
-        break;
-      }
-    }
-  }
-
-  /**
-   * Limpa dados dos bairros após mudança no intervalo temporal.
-   */
-  clearClientInfo() {
-    for (let i = 0; i < this.listClient.length; i++) {
-      this.listClient[i].recuperado = '...';
-      this.listClient[i].obito = '...';
-      this.listClient[i].ativo = '...';
-    }
+  clientIcon(color: any) {
+    return L.divIcon({
+      className: 'custom-div-icon',
+      html: `<div style='background-color:${color};' class='marker-pin'></div><i class='fa fa-circle awesome'>`,
+      iconSize: [30, 42],
+      iconAnchor: [15, 42],
+      popupAnchor: [0, -38]
+    });
   }
 
   /**
    * Atribui eventos aos markers dos pops.
    */
   onEachFeature(feature: any, layer: any) {
-    const partes = feature.properties.id.replace(' ', '_').split('_').map((str: string) => {
-      return str.toUpperCase()
-    });
-    const cliente = partes.join(' ');
-
+    // criação do popup
+    const cliente = feature.properties.caption;
     const contentPopup =
       "<div>" +
       "<div style='display: block;'><b>" + cliente + "</b></div>" +
-
-      // "<div style='display: block;'>" +
-      // "<div style='display: inline-block; width: 100px;'>Linux</div>" +
-      // "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_64'>...</div>" +
-      // "</div>" +
-
-      // "<div style='display: block;'>" +
-      // "<div style='display: inline-block; width: 100px;'>Windows</div>" +
-      // "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_128'>...</div>" +
-      // "</div>" +
-
-      // "<div style='display: block;'>" +
-      // "<div style='display: inline-block; width: 100px;'>Unix</div>" +
-      // "<div style='display: inline-block; width: 60px; text-align: right;' id='idBairro" + nomeBairro + "_256'>...</div>" +
-      // "</div>" +
       "</div>";
-
     layer.bindPopup(contentPopup);
 
     // Evento de click no marker
     layer.on('click', () => {
+      // default color
+      let color = this.global.getGlobal("unselected_color").value;
+      // searches the client
       const found = this.listClient.findIndex(d => {
-        return d.codigo === feature.properties.cod;
+        return d.cod === feature.properties.cod;
       });
 
       if (found >= 0) {
-        layer.setIcon(this.formatStatesStyle('lightgray'));
+        layer.setIcon(this.clientIcon(color));
+        const client = this.listClient.splice(found, 1);
+        color = client[0].color;
 
-        const client = this.listClient.splice(found, 1)[0];
-        this.markerRemovedEvent.emit(client);
+        this.markerRemovedEvent.emit(client[0]);
       }
       else {
         let drawColors = this.global.getGlobal("draw_colors");
         let drawColorIndex = this.global.getGlobal("draw_color_index");
-        layer.setIcon(this.formatStatesStyle(drawColors.value[drawColorIndex.value]));
+
+        color = drawColors.value[drawColorIndex.value];
+        layer.setIcon(this.clientIcon(color));
 
         const client = {
-          codigo: feature.properties.cod,
+          cod: feature.properties.cod,
           nome: feature.properties.id,
-          color: drawColors.value[drawColorIndex.value],
+          color: color,
         };
         this.listClient.push(client);
-        this.nextDrawColor(layer);
-        this.updateDrawColors();
 
         this.markerAddedEvent.emit(client);
       }
+
+      this.updateUsedColors(found<0, color);
     });
 
     // Evento de mouseout no marker.
     layer.on('mouseout', (e: any) => {
 
       const found = this.listClient.findIndex(d => {
-        return d.codigo === feature.properties.cod;
+        return d.cod === feature.properties.cod;
       });
 
       if (found >= 0) {
-        layer.setIcon(this.formatStatesStyle(this.listClient[found].color));
+        layer.setIcon(this.clientIcon(this.listClient[found].color));
       }
 
       layer.closePopup();
@@ -436,31 +417,6 @@ export class MapComponent implements AfterViewInit {
     // Evento de mouseover no marker.
     layer.on('mouseover', (e: any) => {
       layer.openPopup();
-    });
-  }
-
-  /**
-   * Define a cor do retangulo e do poligono que serão desenhados no mapa.
-   */
-  updateDrawColors() {
-    if (this.drawControl === undefined) {
-      return;
-    }
-
-    let drawColors = this.global.getGlobal("draw_colors");
-    let drawColorIndex = this.global.getGlobal("draw_color_index");
-
-    this.drawControl.setDrawingOptions({
-      rectangle: {
-        shapeOptions: {
-          color: drawColors.value[drawColorIndex.value]
-        }
-      },
-      polygon: {
-        shapeOptions: {
-          color: drawColors.value[drawColorIndex.value]
-        }
-      }
     });
   }
 
@@ -513,8 +469,6 @@ export class MapComponent implements AfterViewInit {
    * Função que adiciona os markers do filtro ao mapa
    */
   drawFilterMarkers(clientData: any) {
-    console.log(clientData);
-
     const markerList = [];
     for(let i = 0; i < clientData.length; i++) {
       const lat = clientData[i].lat;

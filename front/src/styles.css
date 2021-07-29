@@ -24,3 +24,33 @@ html, body {
   border-top-right-radius: 7px !important;
   box-shadow: 2px 3px 5px #ccc;
 }
+
+
+.marker-pin {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #999;
+  border-radius: 50% 50% 50% 0;
+  background-color: #bbb;
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  margin: -15px 0 0 -15px;
+}
+
+.custom-div-icon i {
+   position: absolute;
+   width: 22px;
+   font-size: 22px;
+   left: 0;
+   right: 0;
+   margin: 10px auto;
+   text-align: center;
+}
+
+.custom-div-icon i.awesome {
+  color: white;
+  margin: 16px auto;
+  font-size: 10px;
+}
