@@ -162,6 +162,12 @@ export class LineChartComponent implements OnInit {
   }
 
   onCheckboxClick(event: any) {
+    const line_volume_value = {
+      key: "line_volume_value",
+      value: event.target.value
+    };
+
+    this.global.setGlobal(line_volume_value)
     this.checkboxClicked.emit();
   }
 }

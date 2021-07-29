@@ -28,7 +28,7 @@
   (started)="this.moving = 'line'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'line'">
     <app-line-chart #appLineChart
     (chartTimeChanged) = "this.onChartTimeChanged($event)"
-    (checkboxClicked) = "this.onLineGroupByChanged()"
+    (checkboxClicked) = "this.onLineVolumeChanged()"
     ></app-line-chart>
   </div>
 

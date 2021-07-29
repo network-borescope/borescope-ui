@@ -257,14 +257,31 @@ export class HomeComponent implements AfterViewInit {
     this.bar.drawChart(groupBy);
   };
 
-  onLineGroupByChanged() {
-    console.log('Evento propagado')
+  /**
+   * Atualiza o volume de saída do linechart
+   */
+   onLineVolumeChanged() {
+    const volume = this.global.getGlobal('line_volume_value').value;
+    // this.line.drawChart(volume);
   }
 
   /**
    * Atualiza o período de tempo ativo das visualizações
    */
-  onChartTimeChanged(delta: number) {
+  async onChartTimeChanged(delta: number) {
+    // reseta o tempo
+    if (delta === 5) {
+      const bounds = this.global.getGlobal('bounds_time');
+
+      let tsT0 = this.global.getGlobal("t0_vis");
+      tsT0.value = bounds.value[0];
+      this.global.setGlobal(tsT0);
+
+      let tsT1 = this.global.getGlobal("t1_vis");
+      tsT1.value = bounds.value[1];
+      this.global.setGlobal(tsT1);
+    }
+
     // atualiza o range de tempo dos gráficcos
     this.updateChartsTimeRange(delta)
     // redesenha todos os gráficos
@@ -336,6 +353,9 @@ export class HomeComponent implements AfterViewInit {
       if (t0 >= t1) t1 = t0 + 1;
       tsT0.value = t0;
       tsT1.value = t1;
+      d = 0;
+    }
+    else if(id == 5) {
       d = 0;
     }
 

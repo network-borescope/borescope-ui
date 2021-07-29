@@ -2,7 +2,7 @@
     position: absolute;
     background-color: #fff;
     bottom: 2px;
-    left: 37px;
+    left: 5px;
 }
 
 .btn-line-chart{
@@ -10,7 +10,7 @@
     background-color: #fff;
     outline-color: #fff !important;
   }
-  
+
 .btn-line-chart:hover {
     background-color: #eee !important;
     outline-color: #eee !important;

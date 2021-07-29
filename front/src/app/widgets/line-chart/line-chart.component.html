@@ -1,10 +1,11 @@
 <div class="fill">
   <canvas class="fill" style="padding-bottom: 10px; border-bottom: 1px solid #eee;" #lineChart></canvas>
   <div style="margin-top: 7px; padding-bottom: 7px; border-bottom: 1px solid #eee;">
-    <div class="checkbox-inline ">
-      <input class="form-check-input" type="radio" name="lineChartGroupBy" id="lineChartGroupBy" (change)="this.onCheckboxClick($event)">
+    <div *ngFor="let volume of this.global.getGlobal('line_volume').value; let idx = index" class="checkbox-inline ">
+      <input class="form-check-input" type="radio" name="lineVolume" id="lineVolume" [checked]="idx === 0" (change)="this.onCheckboxClick($event)">
       <div style="display: inline-block; margin-left: 6px; vertical-align: middle;">
-        <label class="form-check-label" for="lineChartGroupBy">
+        <label class="form-check-label" for="lineVolume">
+          {{volume}}
         </label>
       </div>
     </div>
@@ -33,6 +34,9 @@
     </button>
     <button class="btn btn-line-chart" (click)='this.onClickTime(-4)'>
       <i class="fas fa-search-minus fa-lg"></i>
+    </button>
+    <button class="btn btn-line-chart" (click)='this.onClickTime(5)'>
+      <i class="fas fa-sync-alt fa-lg"></i>
     </button>
   </div>
 </div>
