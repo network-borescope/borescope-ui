@@ -20,24 +20,21 @@
     <div class="row">Date Range</div>
 
     <div class="row">
-      <div class="col">
-        <div class="input-group input-daterange">
-          <input type="text" class="form-control" [value]="this.getStartDate()"
-            (keyup)="this.updateDate('start', $event)">
-          <div class="input-group-addon">to</div>
-          <input type="text" class="form-control" [value]="this.getEndDate()" (keyup)="this.updateDate('end', $event)">
+      <div class="input-group input-daterange">
+        <input type="text" class="form-control" [value]="this.getStartDate()" (keyup)="this.updateDate('start', $event)">
+        <div class="input-group-addon">to</div>
+        <input type="text" class="form-control" [value]="this.getEndDate()" (keyup)="this.updateDate('end', $event)">
+        <div class="input-group-addon" style="padding: 0;">
+          <button class="btn btn-filter" (click)='this.onClickRefresh()'>
+            <i class="fas fa-sync-alt fa-lg" [style.color]="this.refreshAvailable() ? '#F97432' : '#AAAAAA'"></i>
+          </button>
         </div>
       </div>
-      <div class="col">
-        <button class="btn btn-filter" (click)='this.onClickRefresh()'>
-          <i class="fas fa-sync-alt fa-lg" [style.color]="this.refreshAvailable() ? '#F97432' : '#AAAAAA'"></i>
-        </button>
-      </div>
+
+      <div class="row" style="height: 20px;"></div>
     </div>
 
-  </div>
-
-  <div class="modal-footer">
+  <div class="modal-footer" style="padding-right: 0;">
     <button type="button" class="btn btn-primary-color" (click)="this.saveFilters()">Salve</button>
     <button type="button" class="btn btn-delete-color" (click)="this.removeFilters()">Delete</button>
     <button type="button" class="btn btn-secondary-color" (click)="this.toggleFiltersVisibility()">Cancel</button>

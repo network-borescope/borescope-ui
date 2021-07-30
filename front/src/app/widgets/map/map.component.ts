@@ -96,13 +96,13 @@ export class MapComponent implements AfterViewInit {
 
     // carregamento do dado dos clientes
     const clientes = this.global.getGlobal('list_clientes').value.items.map((d: any) => {
+      // adciona um marcador extra
       if(d.id === "OTHERS") {
-        const outlierMarker = L.circle([d.lat,d.lon], 250, { color: this.global.getGlobal('outlier_color').value,
-                                                             fillColor: this.global.getGlobal('outlier_color').value,
-                                                             opacity: 1,
-                                                             fillOpacity: 1});
+        const outColor = this.global.getGlobal('outlier_color').value;
+        const outlierMarker = L.circle([d.lat,d.lon], 250, { color: outColor, fillColor: outColor, opacity: 1, fillOpacity: 1});
         outlierMarker.addTo(this.map);
       };
+
       return {
         "type": "Feature",
         "geometry": {
@@ -360,21 +360,21 @@ export class MapComponent implements AfterViewInit {
   onEachFeature(feature: any, layer: any) {
     // criação do popup
     const cliente = feature.properties.caption;
-    let contentPopup =
-    "<div>" +
-    "<div style='display: block;'><b>" + cliente + "</b></div>" +
-    "</div>";
-    if(layer.feature.properties.id == "OTHERS") {
-      const ips = this.global.getGlobal("list_ips").value;
-      contentPopup += "<hr style='margin: 5px 0'>";
-      ips.forEach((ip: any) => {
-        contentPopup +=
-        "<div>" +
-        "<div style='display: block;'><b>" + ip + "</b></div>" +
-        "</div>";
-      });
+    let contentPopup = '';
 
-    };
+    if(layer.feature.properties.id == "OTHERS") {
+      const size = this.global.getGlobal('list_ips').value.length;
+
+      contentPopup = "<div>" +
+      "<div style='display: block;'><b>" + cliente + " (" + size + " IPs)</b></div>" +
+      "</div>";
+    }
+    else {
+      contentPopup = "<div>" +
+      "<div style='display: block;'><b>" + cliente + "</b></div>" +
+      "</div>";
+    }
+
     layer.bindPopup(contentPopup);
 
     // Evento de click no marker

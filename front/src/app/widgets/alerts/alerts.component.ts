@@ -11,9 +11,13 @@ import { UtilService } from 'src/app/shared/util.service';
 })
 export class AlertsComponent implements OnInit {
 
+  public ipsList: string[] = [];
+
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService) { }
 
   ngOnInit(): void {
+    const ips = this.global.getGlobal('list_ips');
+    this.ipsList = ips.value;
   }
 
   toggleFiltersVisibility() {

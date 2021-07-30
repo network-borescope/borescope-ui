@@ -1,0 +1,30 @@
+.customTable > tbody{
+  height:200px !important;
+  max-height:200px !important;
+  overflow-y:scroll;
+  width: 100%;
+}
+
+.customTable > thead,tbody,tr,td,th{
+  display:block;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background:#AAA;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}

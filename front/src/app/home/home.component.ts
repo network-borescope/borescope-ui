@@ -36,6 +36,7 @@ export class HomeComponent implements AfterViewInit {
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService) {
     this.timeBoundsRefreshFnc = setInterval(async () => {
       this.timeBoundsRefresh();
+      this.listIpsRefresh();
     }, 60 * 1000);
   }
 
@@ -100,9 +101,25 @@ export class HomeComponent implements AfterViewInit {
       };
       this.global.setGlobal(bounds_time);
 
-      console.log(bounds_time)
+      console.log(bounds_time);
       console.log('#######################################')
   }
+
+  async listIpsRefresh() {
+    console.log('########## ipListRefresh ##########')
+
+    // TODO: alterar para uma chamada para o servidor
+    const ips = this.global.getGlobal("list_ips").value;
+
+    let list_ips = {
+      key: "list_ips",
+      value: ips
+    };
+    this.global.setGlobal(list_ips);
+
+    console.log(list_ips);
+    console.log('#######################################')
+}
 
 
   /**

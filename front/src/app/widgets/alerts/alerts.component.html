@@ -1,15 +1,31 @@
-<div class="modal-content">
+<div class="modal-content" >
 
   <div class="modal-header">
     <h4 class="modal-title ng-binding">Alerts</h4>
   </div>
 
-  <div class="modal-body">
-    <div class="row">Unknown IPs</div>
+  <div class="modal-body" >
+    <div class="row">
+      <table class="table-striped customTable" style="width: 100% !important;">
+        <thead>
+          <tr style="height: 30px">
+            <th>Unknown IPs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ip of this.ipsList" style="height: 30px">
+            <td>OTHERS: {{ip}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    
+    <div class="row">
+
+    </div>
+
   </div>
-
+<!--
   <div class="modal-footer">
-  </div>
+  </div> -->
 </div>

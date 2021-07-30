@@ -1,7 +1,9 @@
 .btn-filter{
+  padding: 6px 12px;
   color: #AAAAAA;
   background-color: #fff;
   outline-color: #fff !important;
+  height: 32px !important;;
 }
 
 .btn-filter:hover {
