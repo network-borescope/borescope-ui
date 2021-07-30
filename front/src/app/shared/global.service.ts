@@ -213,6 +213,13 @@ export class GlobalService {
     this.setGlobal(list_clientes);
 
     /**
+     * Guarda a lista de ips
+     */
+     const list_ips = {
+      key: "list_ips",
+      value: []
+    }
+    /**
      * Estado das janelas dos gráficos
      */
     const widgets_charts = {

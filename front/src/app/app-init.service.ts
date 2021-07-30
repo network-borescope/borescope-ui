@@ -71,10 +71,18 @@ export class AppInitService {
 
   loadClients() {
     const schema = this.global.getGlobal('schema_info').value;
-
+    
     const data = {
       key: 'list_clientes',
       value: schema.clientes_df
+    };
+    this.global.setGlobal(data);
+  }
+
+  loadIPs() {
+    const data = {
+      key: 'list_ips',
+      value: ['10.255.255.255', '172.31.255.255', '192.168.255.255']
     };
     this.global.setGlobal(data);
   }
@@ -87,7 +95,7 @@ export class AppInitService {
       await this.loadGeoBounds();
 
       this.loadClients();
-
+      this.loadIPs();
       console.log('########## Initialization Done! ##########')
 
       resolve();

@@ -360,11 +360,27 @@ export class MapComponent implements AfterViewInit {
   onEachFeature(feature: any, layer: any) {
     // criação do popup
     const cliente = feature.properties.caption;
-    const contentPopup =
+    if(layer.feature.properties.id == "OTHERS") {
+      let contentPopup =
       "<div>" +
       "<div style='display: block;'><b>" + cliente + "</b></div>" +
       "</div>";
-    layer.bindPopup(contentPopup);
+      const ips = this.global.getGlobal("list_ips").value;
+      ips.forEach((ip: any) => {
+        contentPopup +=
+        "<div>" +
+        "<div style='display: block;'><b>" + ip + "</b></div>" +
+        "</div>";        
+      });   
+      layer.bindPopup(contentPopup);
+    } else{
+      const contentPopup =
+      "<div>" +
+      "<div style='display: block;'><b>" + cliente + "</b></div>" +
+      "</div>";
+      layer.bindPopup(contentPopup);
+    };
+
 
     // Evento de click no marker
     layer.on('click', () => {
