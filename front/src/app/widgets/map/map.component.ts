@@ -360,11 +360,11 @@ export class MapComponent implements AfterViewInit {
   onEachFeature(feature: any, layer: any) {
     // criação do popup
     const cliente = feature.properties.caption;
+    let contentPopup =
+    "<div>" +
+    "<div style='display: block;'><b>" + cliente + "</b></div>" +
+    "</div>";
     if(layer.feature.properties.id == "OTHERS") {
-      let contentPopup =
-      "<div>" +
-      "<div style='display: block;'><b>" + cliente + "</b></div>" +
-      "</div>";
       const ips = this.global.getGlobal("list_ips").value;
       ips.forEach((ip: any) => {
         contentPopup +=
@@ -373,11 +373,7 @@ export class MapComponent implements AfterViewInit {
         "</div>";        
       });   
       layer.bindPopup(contentPopup);
-    } else{
-      const contentPopup =
-      "<div>" +
-      "<div style='display: block;'><b>" + cliente + "</b></div>" +
-      "</div>";
+    } else {
       layer.bindPopup(contentPopup);
     };
 
