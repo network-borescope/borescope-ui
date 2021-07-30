@@ -366,13 +366,14 @@ export class MapComponent implements AfterViewInit {
     "</div>";
     if(layer.feature.properties.id == "OTHERS") {
       const ips = this.global.getGlobal("list_ips").value;
+      contentPopup += "<hr style='margin: 5px 0'>";
       ips.forEach((ip: any) => {
         contentPopup +=
         "<div>" +
         "<div style='display: block;'><b>" + ip + "</b></div>" +
-        "</div>";        
-      });   
-      
+        "</div>";
+      });
+
     };
     layer.bindPopup(contentPopup);
 

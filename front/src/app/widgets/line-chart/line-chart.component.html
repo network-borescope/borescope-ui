@@ -36,7 +36,9 @@
       <i class="fas fa-search-minus fa-lg"></i>
     </button>
     <button class="btn btn-line-chart" (click)='this.onClickTime(5)'>
-      <i class="fas fa-sync-alt fa-lg"></i>
+      <i class="fas fa-sync-alt fa-lg"
+      [style.color]="this.refreshAvailable() ? '#F97432' : '#AAAAAA'"
+      ></i>
     </button>
   </div>
 </div>

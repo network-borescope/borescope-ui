@@ -26,13 +26,25 @@ export class HomeComponent implements AfterViewInit {
   // referência para componente do mapa
   @ViewChild("appFilters", { static: true }) private filters!: FiltersComponent;
 
-  last: string = 'none';
-  moving: string = 'none';
+  public last: string = 'none';
+  public moving: string = 'none';
 
-  constructor(public global: GlobalService, public api: ApiService, public util: UtilService) { }
+  private timeBoundsRefreshFnc: any = undefined;
+
+  constructor(public global: GlobalService, public api: ApiService, public util: UtilService) {
+    this.timeBoundsRefreshFnc = setInterval(async () => {
+      this.timeBoundsRefresh();
+    }, 60 * 1000);
+  }
 
   ngAfterViewInit(): void {
     this.initCharts();
+  }
+
+  ngDestroy() {
+    if (this.timeBoundsRefreshFnc) {
+      clearInterval(this.timeBoundsRefreshFnc);
+    }
   }
 
   /**
@@ -75,6 +87,20 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Atualização automática do gráfico
    */
+  async timeBoundsRefresh() {
+      console.log('########## timeBoundsRefresh ##########')
+
+      const bounds = await this.api.getTimeBounds();
+
+      let bounds_time = {
+        key: "bounds_time",
+        value: [bounds.result.vs[0][0], bounds.result.vs[1][0]]
+      };
+      this.global.setGlobal(bounds_time);
+
+      console.log(bounds_time)
+      console.log('#######################################')
+  }
 
 
   /**

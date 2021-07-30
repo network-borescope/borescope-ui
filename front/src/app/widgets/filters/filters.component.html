@@ -9,29 +9,33 @@
     <div class="row">Clients</div>
 
     <div class="row">
-        <input style="width: 100%" type="email" list="clientes" multiple (keyup)='this.updateClientSelection($event)'
+      <input style="width: 100%" type="email" list="clientes" multiple (keyup)='this.updateClientSelection($event)'
         title="" pattern="" #clientsInput>
-        <datalist id="clientes">
-          <option *ngFor="let el of this.clients.items" [value]="el.caption">
-        </datalist>
-      </div>
+      <datalist id="clientes">
+        <option *ngFor="let el of this.clients.items" [value]="el.caption">
+      </datalist>
+    </div>
 
-      <div class="row" style="height: 5px;"></div>
-      <div class="row">Date Range</div>
+    <div class="row" style="height: 5px;"></div>
+    <div class="row">Date Range</div>
 
-      <div class="row">
-        <div class="col-12">
-          <div class="input-group input-daterange">
-            <input type="text" class="form-control" [value]="this.getStartDate()"
-              (keyup)="this.updateDate('start', $event)">
-            <div class="input-group-addon">to</div>
-            <input type="text" class="form-control" [value]="this.getEndDate()"
-              (keyup)="this.updateDate('end', $event)">
-          </div>
+    <div class="row">
+      <div class="col">
+        <div class="input-group input-daterange">
+          <input type="text" class="form-control" [value]="this.getStartDate()"
+            (keyup)="this.updateDate('start', $event)">
+          <div class="input-group-addon">to</div>
+          <input type="text" class="form-control" [value]="this.getEndDate()" (keyup)="this.updateDate('end', $event)">
         </div>
       </div>
-
+      <div class="col">
+        <button class="btn btn-filter" (click)='this.onClickRefresh()'>
+          <i class="fas fa-sync-alt fa-lg" [style.color]="this.refreshAvailable() ? '#F97432' : '#AAAAAA'"></i>
+        </button>
+      </div>
     </div>
+
+  </div>
 
   <div class="modal-footer">
     <button type="button" class="btn btn-primary-color" (click)="this.saveFilters()">Salve</button>

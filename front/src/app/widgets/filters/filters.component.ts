@@ -54,6 +54,7 @@ export class FiltersComponent implements OnInit {
   }
 
   getStartDate() {
+    console.log('-------')
     let tsT0 = this.global.getGlobal("t0_filter");
 
     let start = new Date(tsT0.value * 1000);
@@ -138,5 +139,27 @@ export class FiltersComponent implements OnInit {
     this.saveDate();
     this.toggleFiltersVisibility();
     this.filtersRemoved.emit();
+  }
+
+  onClickRefresh() {
+    const bnds = this.global.getGlobal("bounds_time");
+
+    const tsT0 = this.global.getGlobal("t0_filter");
+    const tsT1 = this.global.getGlobal("t1_filter");
+
+    tsT0.value = bnds.value[0];
+    tsT1.value = bnds.value[1];
+
+    this.global.setGlobal(tsT0);
+    this.global.setGlobal(tsT1);
+  }
+
+  refreshAvailable() {
+    const bnds = this.global.getGlobal("bounds_time");
+
+    const tsT0 = this.global.getGlobal("t0_filter");
+    const tsT1 = this.global.getGlobal("t1_filter");
+
+    return bnds.value[0] !== tsT0.value || bnds.value[1] !== tsT1.value;
   }
 }

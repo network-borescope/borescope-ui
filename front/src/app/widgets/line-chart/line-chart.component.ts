@@ -222,4 +222,13 @@ export class LineChartComponent implements OnInit {
     this.global.setGlobal(line_volume_value)
     this.checkboxClicked.emit();
   }
+
+  refreshAvailable() {
+    const bnds = this.global.getGlobal("bounds_time");
+
+    const tsT0 = this.global.getGlobal("t0_vis");
+    const tsT1 = this.global.getGlobal("t1_vis");
+
+    return bnds.value[0] !== tsT0.value || bnds.value[1] !== tsT1.value;
+  }
 }
