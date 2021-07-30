@@ -54,7 +54,6 @@ export class FiltersComponent implements OnInit {
   }
 
   getStartDate() {
-    console.log('-------')
     let tsT0 = this.global.getGlobal("t0_filter");
 
     let start = new Date(tsT0.value * 1000);
