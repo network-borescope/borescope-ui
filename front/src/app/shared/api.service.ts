@@ -183,7 +183,7 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico de linhas.
    */
-  async requestLineChart(location: any[], time: any[], client: any[] | undefined) {
+  async requestLineChart(location: any[], time: any[], client: any[] | undefined, volume: string = 'ttl') {
     let query = new QueryRequest();
     let selectedChannel = this.global.getGlobal("selected_channel");
 
@@ -191,6 +191,7 @@ export class ApiService {
     query["group-by"] = "time";
     query["group-by-output"] = "vs_ks";
     query['id'] = this.getQueryId();
+    // query['from'] = volume;
 
     query.where = [];
     query['where'] = [];

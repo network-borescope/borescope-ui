@@ -32,7 +32,7 @@ export class BarChartComponent implements OnInit {
   updateData(responseData: any, dataId: string, chartColor: string) {
     // manages data for each groupBy
     for(let groupBy of Object.keys(responseData)) {
-      // clear existing (dataId, color)
+      // clear existing element
       this.deleteData(groupBy, dataId, chartColor);
       this.rawData[groupBy][dataId][chartColor] = [];
 
@@ -45,17 +45,20 @@ export class BarChartComponent implements OnInit {
       }
 
       // atualiza os labels baseado no dado novo
-      this.updateLabels(groupBy, dataId, chartColor);
+      this.updateLabels(groupBy);
+
+      // normaliza os dados de dataId
+      this.normalizeData(groupBy);
 
       // completa os pontos que faltam
       this.fillMissingPoints(groupBy);
-
-      // normaliza os dados de dataId
-      this.normalizeData(groupBy, dataId);
     }
   }
 
   drawChart(groupBy: string) {
+    // set x labal
+    this.barChart.setLabelX(groupBy.toUpperCase());
+
     // atualiza os labels
     this.barChart.setLabels(this.labels[groupBy]);
 
@@ -94,81 +97,103 @@ export class BarChartComponent implements OnInit {
   }
 
   clearChart(groupBy: string, dataId: string, color: string) {
-    this.deleteData(groupBy, dataId, color);
-
-    // normaliza os dados de dataId
-    this.normalizeData(groupBy, dataId);
-
     // removes from chart
     this.barChart.removeDataset(dataId, color);
+
+    this.deleteData(groupBy, dataId, color);
+
+    // atualiza os labels baseado no dado novo
+    this.updateLabels(groupBy);
+
+    // normaliza os dados de dataId
+    this.normalizeData(groupBy);
+
+    // completa os pontos que faltam
+    this.fillMissingPoints(groupBy);
   }
 
   clearLabel(groupBy: string) {
     this.labels[groupBy] = [];
   }
 
+  normalizeData(groupBy: string) {
+    // limpa os dados normalizados
+    this.nrmData[groupBy] = {};
+
+    // repete para cada dataId
+    for (const dataId of Object.keys(this.rawData[groupBy])) {
+      // pega os datasets de dataId
+      const data = this.rawData[groupBy][dataId];
+
+      // calcula a soma dos da categoria
+      let total = 0;
+      for (let cor of Object.keys(data)) {
+        const partial = data[cor].reduce((a: any, b: any) => {
+          return a + b.y;
+        }, 0);
+
+        total += partial;
+      }
+
+      // normaliza os valores
+      const norm: any = {};
+      for (let cor of Object.keys(data)) {
+        norm[cor] = [];
+        for (let pId = 0; pId < data[cor].length; pId++) {
+          const nrmPnt = {x: data[cor][pId].x, y: data[cor][pId].y / total};
+          norm[cor].push( nrmPnt );
+        };
+      }
+
+      // substitui o dado normalizado anterior
+      this.nrmData[groupBy][dataId] = norm;
+    }
+  }
+
   fillMissingPoints(groupBy: string) {
-    const dataIds = Object.keys(this.rawData[groupBy]);
+    // lista de tipos de elementos
+    const dataIds = Object.keys(this.nrmData[groupBy]);
     for (let dataId of dataIds) {
-      const colors = Object.keys(this.rawData[groupBy][dataId]);
+      // lista de cores no elemento
+      const colors = Object.keys(this.nrmData[groupBy][dataId]);
       for (let color of colors) {
+        // para cada label
         this.labels[groupBy].forEach((label: number) => {
-          if (!this.rawData[groupBy][dataId][color].some((d: any) => d.x === label)) {
-            this.rawData[groupBy][dataId][color].push({ x: label, y: 0 });
+          // se não existe valor associado ao label, adiciona zero
+          if (!this.nrmData[groupBy][dataId][color].some((d: any) => d.x === label)) {
+            this.nrmData[groupBy][dataId][color].push({ x: label, y: 0 });
           }
         });
 
-        this.rawData[groupBy][dataId][color].sort((a: any, b: any) => a.x - b.x)
+        // ordena os pontos
+        this.nrmData[groupBy][dataId][color].sort((a: any, b: any) => a.x - b.x)
       }
     }
   }
 
-  normalizeData(groupBy: string, dataId: string) {
+  updateLabels(groupBy: string) {
+    // limpa os labels do gráfico
+    this.labels[groupBy] = [];
 
-    // pega os datasets de dataId
-    const data = this.rawData[groupBy][dataId];
-
-    // calcula a soma dos da categoria
-    let total = 0;
-    for (let cor of Object.keys(data)) {
-      const partial = data[cor].reduce((a: any, b: any) => {
-        return a + b.y;
-      }, 0);
-
-      total += partial;
-    }
-
-    // normaliza os valores
-    const norm: any = {};
-    for (let cor of Object.keys(data)) {
-      norm[cor] = [];
-      for (let pId = 0; pId < data[cor].length; pId++) {
-        const nrmPnt = {x: data[cor][pId].x, y: data[cor][pId].y / total};
-        norm[cor].push( nrmPnt );
-      };
-    }
-
-    // substitui o dado normalizado anterior
-    this.nrmData[groupBy][dataId] = norm;
-  }
-
-  updateLabels(groupBy:string, dataId: string, color: string) {
-    if (!this.labels[groupBy]) {
-      this.labels[groupBy] = [];
-    }
-
-    this.rawData[groupBy][dataId][color].forEach((d: any) => {
-      const x = d['x'];
-      if (!this.labels[groupBy].includes(x)) {
-        this.labels[groupBy].push(x);
+    // percorre os tipos de elementos
+    for (const dataId of Object.keys(this.rawData[groupBy])) {
+      // percorre os elementos
+      for (const color of Object.keys(this.rawData[groupBy][dataId])) {
+        this.rawData[groupBy][dataId][color].forEach((d: any) => {
+          const x = d['x'];
+          if (!this.labels[groupBy].includes(x)) {
+            this.labels[groupBy].push(x);
+          }
+        });
       }
-    });
+    }
 
+    // ordena os labels
     this.labels[groupBy].sort((a: number, b: number) => a - b);
   }
 
   onCheckboxClick(event: any) {
-     const bar_group_by_value = {
+    const bar_group_by_value = {
       key: "bar_group_by_value",
       value: event.target.value
     };

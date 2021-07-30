@@ -283,7 +283,6 @@ export class MapComponent implements AfterViewInit {
     for(let id = 0; id< drawColors.value.length; id++) {
       const current = drawColors.value[id];
 
-      console.log(current)
       if(!usedColors.value.includes(current)) {
         drawColorIndex.value = id;
         break;
@@ -291,8 +290,6 @@ export class MapComponent implements AfterViewInit {
     }
     this.global.setGlobal(drawColorIndex);
     this.updatePolygonDrawColors();
-
-    console.log(added, color, usedColors, drawColors, drawColorIndex);
   }
 
    /**

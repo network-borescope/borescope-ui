@@ -85,14 +85,14 @@ export class BarChart {
 
   // Modifica as configurações dos labels
   setLabelX(label: string) {
-    this.chart.options.scales.x[0].title.text = label;
-    this.chart.options.scales.x[0].title.display = true;
+    this.chart.options.scales.x.title.text = label;
+    this.chart.options.scales.x.title.display = true;
   }
 
   // Modifica as configurações dos labels
   setLabelY(label: string) {
-    this.chart.options.scales.y[0].title.text = label;
-    this.chart.options.scales.y[0].title.display = true;
+    this.chart.options.scales.y.title.text = label;
+    this.chart.options.scales.y.title.display = true;
   }
 
   // Modifica as configurações dos labels

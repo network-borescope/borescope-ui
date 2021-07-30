@@ -36,6 +36,48 @@ export class HomeComponent implements AfterViewInit {
   }
 
   /**
+   * Inicializa os gráficos usando os dados do mapa
+   */
+  initCharts() {
+    this.updateHeatmap();
+
+    // barchart e linechart do mapa
+    this.updateLineChart('map', '#AAAAAA');
+    this.updateBarChart('map', '#AAAAAA');
+
+    // adiciona ao estado global
+    this.addChartElementToGlobal('map', '#AAAAAA');
+  }
+
+  /**
+   * Redesenha todos os gráficos
+   */
+  redrawAllCharts() {
+    this.updateHeatmap();
+
+    const volume = this.global.getGlobal('line_volume').value;
+    for (const vol of volume) {
+      this.line.clearLabel(vol);
+    }
+
+    const groupBy = this.global.getGlobal('bar_group_by').value;
+    for (const group of groupBy) {
+      this.bar.clearLabel(group);
+    }
+
+    const elements = this.global.getGlobal('active_chart_elements').value;
+    for (const elem of elements) {
+      this.updateLineChart(elem.dataId, elem.chartColor, elem.feature);
+      this.updateBarChart(elem.dataId, elem.chartColor, elem.feature);
+    }
+  }
+
+  /**
+   * Atualização automática do gráfico
+   */
+
+
+  /**
    * Calcula o z-index do widget do gráfico
    */
   chartZindex(chartId: string) {
@@ -82,7 +124,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     // adiciona o novo elemento
-    elements.value.push({dataId, chartColor, feature});
+    elements.value.push({ dataId, chartColor, feature });
 
     // restaura o estado
     this.global.setGlobal(elements)
@@ -91,7 +133,7 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Remove um elemento do gráfico do estado global
    */
-   removeChartElementFromGlobal(dataId: string, chartColor: string, feature: any = undefined) {
+  removeChartElementFromGlobal(dataId: string, chartColor: string, feature: any = undefined) {
     // remove o polígono a lista de elementos ativos
     const elements = this.global.getGlobal('active_chart_elements');
 
@@ -107,40 +149,6 @@ export class HomeComponent implements AfterViewInit {
 
     // atualiza o estado
     this.global.setGlobal(elements)
-  }
-
-  /**
-   * Redesenha todos os gráficos
-   */
-   redrawAllCharts() {
-    this.updateHeatmap();
-
-    this.line.clearLabel();
-
-    const groupBy = this.global.getGlobal('bar_group_by').value;
-    for (const group of groupBy) {
-      this.bar.clearLabel(groupBy);
-    }
-
-    const elements = this.global.getGlobal('active_chart_elements').value;
-    for (const elem of elements) {
-      this.updateLineChart(elem.dataId, elem.chartColor, elem.feature);
-      this.updateBarChart(elem.dataId, elem.chartColor, elem.feature);
-    }
-  }
-
-  /**
-   * Inicializa os gráficos usando os dados do mapa
-   */
-  initCharts() {
-    this.updateHeatmap();
-
-    // barchart e linechart do mapa
-    this.updateLineChart('map', '#AAAAAA');
-    this.updateBarChart('map', '#AAAAAA');
-
-    // adiciona ao estado global
-    this.addChartElementToGlobal('map', '#AAAAAA');
   }
 
   /**
@@ -173,10 +181,13 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Atualiza os gráficos após a remoção de uma seleções do mapa
    */
-   onPolyRemoved(event: any) {
+  onPolyRemoved(event: any) {
     const color = event.options.color;
 
-    this.line.clearChart('geometry', color);
+    const volumes = this.global.getGlobal('line_volume').value;
+    for (const volume of volumes) {
+      this.line.clearChart(volume, 'geometry', color);
+    }
 
     const groups = this.global.getGlobal('bar_group_by').value;
     for (const groupBy of groups) {
@@ -190,7 +201,7 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Atualiza os gráficos após a seleção de um pin do mapa
    */
-   onMarkerAdded(event: any) {
+  onMarkerAdded(event: any) {
     const cod = event.cod;
     const color = event.color;
 
@@ -205,10 +216,13 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Atualiza os gráficos após a remoção de um pin do mapa
    */
-   onMarkerRemoved(event: any) {
+  onMarkerRemoved(event: any) {
     const color = event.color;
 
-    this.line.clearChart('client', color);
+    const volumes = this.global.getGlobal('line_volume').value;
+    for (const volume of volumes) {
+      this.line.clearChart(volume, 'client', color);
+    }
 
     const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
     for (const groupBy of barChartGroupBy) {
@@ -222,7 +236,7 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Atualiza os gráficos após a criação de um filtro
    */
-   onFiltersDefined(clientData: any) {
+  onFiltersDefined(clientData: any) {
     this.map.drawFilterMarkers(clientData);
 
     this.updateLineChart('filter', this.global.getGlobal('filter_color').value);
@@ -235,10 +249,13 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Atualiza os gráficos após a remoção de um filtro
    */
-   onFiltersRemoved() {
+  onFiltersRemoved() {
     this.map.eraseFilterMarkers();
 
-    this.line.clearChart('filter', this.global.getGlobal('filter_color').value);
+    const volumes = this.global.getGlobal('line_volume').value;
+    for (const volume of volumes) {
+      this.line.clearChart(volume, 'filter', this.global.getGlobal('filter_color').value);
+    }
 
     const barChartGroupBy = this.global.getGlobal('bar_group_by').value;
     for (const groupBy of barChartGroupBy) {
@@ -260,9 +277,9 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Atualiza o volume de saída do linechart
    */
-   onLineVolumeChanged() {
+  onLineVolumeChanged() {
     const volume = this.global.getGlobal('line_volume_value').value;
-    // this.line.drawChart(volume);
+    this.line.drawChart(volume);
   }
 
   /**
@@ -355,7 +372,7 @@ export class HomeComponent implements AfterViewInit {
       tsT1.value = t1;
       d = 0;
     }
-    else if(id == 5) {
+    else if (id == 5) {
       d = 0;
     }
 
@@ -431,7 +448,18 @@ export class HomeComponent implements AfterViewInit {
       client = this.map.getClient(feat);
     }
 
-    const res = await this.api.requestLineChart(location, time, client);
-    this.line.drawChart(res, dataId, chartColor);
+    const data: any = {};
+    const volumes = this.global.getGlobal('line_volume').value;
+    for (const volume of volumes) {
+      const parts = volume.split('-');
+      const query = parts.length > 1 ? parts : parts[0];
+
+      const res = await this.api.requestLineChart(location, time, client, query);
+      data[volume] = res;
+    }
+    this.line.updateData(data, dataId, chartColor);
+
+    const volumeValue = this.global.getGlobal('line_volume_value').value;
+    this.line.drawChart(volumeValue);
   }
 }
