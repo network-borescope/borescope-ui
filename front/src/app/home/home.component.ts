@@ -23,6 +23,8 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild("appBarChart", { static: true }) private bar!: BarChartComponent;
   // referência para o componente do gráfico de linhas
   @ViewChild("appLineChart", { static: true }) private line!: LineChartComponent;
+  // referência para o componente do gráfico de linhas
+  @ViewChild("appAlerts", { static: true }) private alerts!: LineChartComponent;
   // referência para componente do mapa
   @ViewChild("appFilters", { static: true }) private filters!: FiltersComponent;
 

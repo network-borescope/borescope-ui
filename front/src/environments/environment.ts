@@ -4,9 +4,8 @@
 
 export const environment = {
   production: false,
-  backend: 'http://localhost:4200'
-
-  // MAPA_TILE_LAYER: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+  backend: 'http://localhost:4200',
+  backendDev: 'http://gwrec.cloudnext.rnp.br:60083'
 };
 
 /*

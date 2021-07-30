@@ -23,7 +23,7 @@
     ></app-bar-chart>
   </div>
 
-  <div ngDraggable class="widget" style="position: absolute; top: 530px; right: 10px; height: 378px !important;"
+  <div ngDraggable class="widget" style="position: absolute; top: 530px; right: 10px; height: 380px !important;"
   [style.z-index] = "this.isChartVisible('line') ? this.chartZindex('line') : '-10' "
   (started)="this.moving = 'line'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'line'">
     <app-line-chart #appLineChart
@@ -32,9 +32,15 @@
     ></app-line-chart>
   </div>
 
+  <div ngDraggable style="position: absolute; top: 130px; left: 55px; width: 300px; height: 300px;"
+  [style.z-index] = "this.isChartVisible('alerts') ? this.chartZindex('alerts') : '-10' "
+  (started)="this.moving = 'alerts'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'alerts'">
+    <app-alerts #appAlerts></app-alerts>
+  </div>
+
   <app-config-bar class="configs-menu"></app-config-bar>
 
-  <div style="position: absolute; width: 400px; bottom: 60px; left: 10px;"
+  <div style="position: absolute; width: 400px; bottom: 65px; left: 10px;"
   [style.z-index] = "this.isConfigVisible('filters') ? 950 : '-10'">
     <app-filters #appFilters
     (filtersDefined) = this.onFiltersDefined($event)
