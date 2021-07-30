@@ -372,11 +372,9 @@ export class MapComponent implements AfterViewInit {
         "<div style='display: block;'><b>" + ip + "</b></div>" +
         "</div>";        
       });   
-      layer.bindPopup(contentPopup);
-    } else {
-      layer.bindPopup(contentPopup);
+      
     };
-
+    layer.bindPopup(contentPopup);
 
     // Evento de click no marker
     layer.on('click', () => {
