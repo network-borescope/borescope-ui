@@ -1,3 +1,29 @@
-.margin-fix {
-  margin-right: 20px;
+.menu-container {
+  display: flex;
+  flex-direction: row;
+  height: 120px;
+  margin: auto;
+}
+
+.project-title {
+  color: white;
+  margin: auto;
+}
+
+.uff-logo {
+  height: 60px;
+  width: 60px;
+  margin-left: 15px;
+  margin-right: 10px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.ic-logo {
+  height: 60px;
+  width: 60px;
+  margin-left: 10px;
+  margin-right: 30px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
