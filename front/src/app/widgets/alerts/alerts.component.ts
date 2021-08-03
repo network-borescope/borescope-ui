@@ -18,7 +18,6 @@ export class AlertsComponent implements OnInit {
   ngOnInit(): void {
     const ips = this.global.getGlobal('list_ips');
     this.ipsList = ips.value;
-
   }
 
   toggleFiltersVisibility() {

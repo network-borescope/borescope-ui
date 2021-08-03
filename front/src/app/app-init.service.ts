@@ -73,11 +73,11 @@ export class AppInitService {
     const data = await this.api.getIPs();
     console.log(data);
 
-    const list = {
+    const list_ips = {
       key: 'list_ips',
       value: data
     };
-    this.global.setGlobal(data);
+    this.global.setGlobal(list_ips);
   }
 
   loadClients() {

@@ -109,7 +109,7 @@ export class HomeComponent implements AfterViewInit {
     console.log('########## ipListRefresh ##############')
     const ips = await this.api.getIPs();
 
-    let list_ips = {
+    const list_ips = {
       key: "list_ips",
       value: ips
     };
