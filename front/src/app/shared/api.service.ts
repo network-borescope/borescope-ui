@@ -14,7 +14,7 @@ export class ApiService {
   // base server url
   server_url: string = environment.backend;
   // static files
-  files_url: string = `${environment.backend}/extra/`
+  files_url: string = `${environment.backend}/extra`
   // xhttp urls
   xhttp_url: string = `${environment.backend}/tc/query`;
 
@@ -34,7 +34,7 @@ export class ApiService {
 
   async getIPs() {
     // IPs address
-    const address = this.files_url + 'dynamic_ips.js'
+    const address = this.files_url + '/dynamic_ips.js'
     this.utils.showTrace("getIPs", {});
 
     // Return a new promise.

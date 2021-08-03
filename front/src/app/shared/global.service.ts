@@ -115,7 +115,7 @@ export class GlobalService {
      */
     const bar_from = {
       key: "bar_from",
-      value: ['ttl'] //, 'cliente-ttl']
+      value: ['ttls'] //, 'serv']
     };
     this.setGlobal(bar_from);
 
@@ -124,7 +124,7 @@ export class GlobalService {
      */
     const bar_from_value = {
       key: "bar_from_value",
-      value: 'ttl'
+      value: 'ttls'
     };
     this.setGlobal(bar_from_value);
 
@@ -133,7 +133,7 @@ export class GlobalService {
      */
     const line_from = {
       key: "line_from",
-      value: ['ttl'] //, 'cliente-ttl']
+      value: ['ttls'] //, 'dns']
     };
     this.setGlobal(line_from);
 
@@ -142,7 +142,7 @@ export class GlobalService {
      */
     const line_from_value = {
       key: "line_from_value",
-      value: 'ttl'
+      value: 'ttls'
     };
     this.setGlobal(line_from_value);
 
@@ -219,6 +219,8 @@ export class GlobalService {
       key: "list_ips",
       value: []
     }
+    this.setGlobal(list_ips);
+
     /**
      * Estado das janelas dos gráficos
      */

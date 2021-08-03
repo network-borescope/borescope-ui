@@ -48,8 +48,8 @@ export class QueryRequest {
     let location = ["location", "zrect", 14, -22.75212144238171, -43.90960693359376, -23.073414748499108, -42.944183349609375];
     let time = [ "time", "between", 1583020800, 1585698900];
     let client = ["cliente", "eq", '10'];
-    this['select'] = ["hc"];
-    this['group-by'] = "evolucao";
+    this['select'] = ["hsum"];
+    this['group-by'] = "";
     this['group-by-output']= "kv";
     this['where'] = [ time, location, client ];
     this['id'] = 1;

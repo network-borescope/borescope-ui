@@ -91,22 +91,22 @@ export class HomeComponent implements AfterViewInit {
    * Atualização automática do gráfico
    */
   async timeBoundsRefresh() {
-      console.log('########## timeBoundsRefresh ##########')
+    console.log('########## timeBoundsRefresh ##########')
 
-      const bounds = await this.api.getTimeBounds();
+    const bounds = await this.api.getTimeBounds();
 
-      let bounds_time = {
-        key: "bounds_time",
-        value: [bounds.result.vs[0][0], bounds.result.vs[1][0]]
-      };
-      this.global.setGlobal(bounds_time);
+    let bounds_time = {
+      key: "bounds_time",
+      value: [bounds.result.vs[0][0], bounds.result.vs[1][0]]
+    };
+    this.global.setGlobal(bounds_time);
 
-      console.log(bounds_time);
-      console.log('#######################################')
+    console.log(bounds_time);
+    console.log('#######################################')
   }
 
   async listIpsRefresh() {
-    console.log('########## ipListRefresh ##########')
+    console.log('########## ipListRefresh ##############')
     const ips = await this.api.getIPs();
 
     let list_ips = {
