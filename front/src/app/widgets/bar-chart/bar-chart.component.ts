@@ -30,100 +30,100 @@ export class BarChartComponent implements OnInit {
   }
 
   updateData(responseData: any, dataId: string, chartColor: string) {
-    // manages data for each groupBy
-    for(let groupBy of Object.keys(responseData)) {
+    // manages data for each from
+    for(let from of Object.keys(responseData)) {
       // clear existing element
-      this.deleteData(groupBy, dataId, chartColor);
-      this.rawData[groupBy][dataId][chartColor] = [];
+      this.deleteData(from, dataId, chartColor);
+      this.rawData[from][dataId][chartColor] = [];
 
       // adiciona os valores não normalizados
-      for (let i = 0; i < responseData[groupBy].result.length; i++) {
-        const pointId = +responseData[groupBy].result[i].k[0];
-        const pointVl = +responseData[groupBy].result[i].v[0];
+      for (let i = 0; i < responseData[from].result.length; i++) {
+        const pointId = +responseData[from].result[i].k[0];
+        const pointVl = +responseData[from].result[i].v[0];
 
-        this.rawData[groupBy][dataId][chartColor].push({ x: pointId, y: pointVl });
+        this.rawData[from][dataId][chartColor].push({ x: pointId, y: pointVl });
       }
 
       // atualiza os labels baseado no dado novo
-      this.updateLabels(groupBy);
+      this.updateLabels(from);
 
       // normaliza os dados de dataId
-      this.normalizeData(groupBy);
+      this.normalizeData(from);
 
       // completa os pontos que faltam
-      this.fillMissingPoints(groupBy);
+      this.fillMissingPoints(from);
     }
   }
 
-  drawChart(groupBy: string) {
+  drawChart(from: string) {
     // set x labal
-    this.barChart.setLabelX(groupBy.toUpperCase());
+    this.barChart.setLabelX(from.toUpperCase());
 
     // atualiza os labels
-    this.barChart.setLabels(this.labels[groupBy]);
+    this.barChart.setLabels(this.labels[from]);
 
     // atualiza os dados
-    for (const dataId of Object.keys(this.nrmData[groupBy])) {
-      for (const color of Object.keys(this.nrmData[groupBy][dataId])) {
+    for (const dataId of Object.keys(this.nrmData[from])) {
+      for (const color of Object.keys(this.nrmData[from][dataId])) {
         // gets the data
-        const data = this.nrmData[groupBy][dataId];
+        const data = this.nrmData[from][dataId];
         this.barChart.updateDataset(dataId, color, data[color]);
       }
     }
   }
 
-  deleteData(groupBy: string, dataId: string, color: string) {
+  deleteData(from: string, dataId: string, color: string) {
     // new group
-    if (!this.rawData[groupBy]) {
-      this.rawData[groupBy] = {};
+    if (!this.rawData[from]) {
+      this.rawData[from] = {};
     }
     // new dataId
-    if (!this.rawData[groupBy][dataId]) {
-      this.rawData[groupBy][dataId] = {};
+    if (!this.rawData[from][dataId]) {
+      this.rawData[from][dataId] = {};
     }
 
-    delete this.rawData[groupBy][dataId][color];
+    delete this.rawData[from][dataId][color];
 
     // new group
-    if (!this.nrmData[groupBy]) {
-      this.nrmData[groupBy] = {};
+    if (!this.nrmData[from]) {
+      this.nrmData[from] = {};
     }
     // new dataId
-    if (!this.nrmData[groupBy][dataId]) {
-      this.nrmData[groupBy][dataId] = {};
+    if (!this.nrmData[from][dataId]) {
+      this.nrmData[from][dataId] = {};
     }
 
-    delete this.nrmData[groupBy][dataId][color]
+    delete this.nrmData[from][dataId][color]
   }
 
-  clearChart(groupBy: string, dataId: string, color: string) {
+  clearChart(from: string, dataId: string, color: string) {
     // removes from chart
     this.barChart.removeDataset(dataId, color);
 
-    this.deleteData(groupBy, dataId, color);
+    this.deleteData(from, dataId, color);
 
     // atualiza os labels baseado no dado novo
-    this.updateLabels(groupBy);
+    this.updateLabels(from);
 
     // normaliza os dados de dataId
-    this.normalizeData(groupBy);
+    this.normalizeData(from);
 
     // completa os pontos que faltam
-    this.fillMissingPoints(groupBy);
+    this.fillMissingPoints(from);
   }
 
-  clearLabel(groupBy: string) {
-    this.labels[groupBy] = [];
+  clearLabel(from: string) {
+    this.labels[from] = [];
   }
 
-  normalizeData(groupBy: string) {
+  normalizeData(from: string) {
     // limpa os dados normalizados
-    this.nrmData[groupBy] = {};
+    this.nrmData[from] = {};
 
     // repete para cada dataId
-    for (const dataId of Object.keys(this.rawData[groupBy])) {
+    for (const dataId of Object.keys(this.rawData[from])) {
       // pega os datasets de dataId
-      const data = this.rawData[groupBy][dataId];
+      const data = this.rawData[from][dataId];
 
       // calcula a soma dos da categoria
       let total = 0;
@@ -146,59 +146,59 @@ export class BarChartComponent implements OnInit {
       }
 
       // substitui o dado normalizado anterior
-      this.nrmData[groupBy][dataId] = norm;
+      this.nrmData[from][dataId] = norm;
     }
   }
 
-  fillMissingPoints(groupBy: string) {
+  fillMissingPoints(from: string) {
     // lista de tipos de elementos
-    const dataIds = Object.keys(this.nrmData[groupBy]);
+    const dataIds = Object.keys(this.nrmData[from]);
     for (let dataId of dataIds) {
       // lista de cores no elemento
-      const colors = Object.keys(this.nrmData[groupBy][dataId]);
+      const colors = Object.keys(this.nrmData[from][dataId]);
       for (let color of colors) {
         // para cada label
-        this.labels[groupBy].forEach((label: number) => {
+        this.labels[from].forEach((label: number) => {
           // se não existe valor associado ao label, adiciona zero
-          if (!this.nrmData[groupBy][dataId][color].some((d: any) => d.x === label)) {
-            this.nrmData[groupBy][dataId][color].push({ x: label, y: 0 });
+          if (!this.nrmData[from][dataId][color].some((d: any) => d.x === label)) {
+            this.nrmData[from][dataId][color].push({ x: label, y: 0 });
           }
         });
 
         // ordena os pontos
-        this.nrmData[groupBy][dataId][color].sort((a: any, b: any) => a.x - b.x)
+        this.nrmData[from][dataId][color].sort((a: any, b: any) => a.x - b.x)
       }
     }
   }
 
-  updateLabels(groupBy: string) {
+  updateLabels(from: string) {
     // limpa os labels do gráfico
-    this.labels[groupBy] = [];
+    this.labels[from] = [];
 
     // percorre os tipos de elementos
-    for (const dataId of Object.keys(this.rawData[groupBy])) {
+    for (const dataId of Object.keys(this.rawData[from])) {
       // percorre os elementos
-      for (const color of Object.keys(this.rawData[groupBy][dataId])) {
-        this.rawData[groupBy][dataId][color].forEach((d: any) => {
+      for (const color of Object.keys(this.rawData[from][dataId])) {
+        this.rawData[from][dataId][color].forEach((d: any) => {
           const x = d['x'];
-          if (!this.labels[groupBy].includes(x)) {
-            this.labels[groupBy].push(x);
+          if (!this.labels[from].includes(x)) {
+            this.labels[from].push(x);
           }
         });
       }
     }
 
     // ordena os labels
-    this.labels[groupBy].sort((a: number, b: number) => a - b);
+    this.labels[from].sort((a: number, b: number) => a - b);
   }
 
   onCheckboxClick(event: any) {
-    const bar_group_by_value = {
-      key: "bar_group_by_value",
+    const bar_from_value = {
+      key: "bar_from_value",
       value: event.target.value
     };
 
-    this.global.setGlobal(bar_group_by_value)
+    this.global.setGlobal(bar_from_value)
     this.checkboxClicked.emit();
   }
 }

@@ -9,7 +9,7 @@
   constructor() {
     this.schema = [1];
     this.id = 1;
-    this.from = "ttl";
+    this.from = "ttls";
   }
 }
 
@@ -29,7 +29,7 @@ export class BoundsRequest {
     this.where = [location];
     this.dummy = [1];
     this.id = 1;
-    this.from = "ttl"
+    this.from = "ttls"
   }
 }
 
@@ -53,6 +53,6 @@ export class QueryRequest {
     this['group-by-output']= "kv";
     this['where'] = [ time, location, client ];
     this['id'] = 1;
-    this['from'] = "ttl";
+    this['from'] = "ttls";
   }
 }

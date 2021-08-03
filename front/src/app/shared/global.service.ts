@@ -111,40 +111,40 @@ export class GlobalService {
     this.setGlobal(t1_filter);
 
     /**
-     * Guarda as opções de groupBy do bar chart.
+     * Guarda as opções de from do bar chart.
      */
-    const bar_group_by = {
-      key: "bar_group_by",
+    const bar_from = {
+      key: "bar_from",
       value: ['ttl'] //, 'cliente-ttl']
     };
-    this.setGlobal(bar_group_by);
+    this.setGlobal(bar_from);
 
     /**
-     * Guarda a seleção de groupBy do bar chart.
+     * Guarda a seleção de from do bar chart.
      */
-    const bar_group_by_value = {
-      key: "bar_group_by_value",
+    const bar_from_value = {
+      key: "bar_from_value",
       value: 'ttl'
     };
-    this.setGlobal(bar_group_by_value);
+    this.setGlobal(bar_from_value);
 
     /**
-     * Guarda as opções de volume do line chart.
+     * Guarda as opções de from do line chart.
      */
-    const line_volume = {
-      key: "line_volume",
+    const line_from = {
+      key: "line_from",
       value: ['ttl'] //, 'cliente-ttl']
     };
-    this.setGlobal(line_volume);
+    this.setGlobal(line_from);
 
     /**
-     * Guarda a seleção de volume do line chart.
+     * Guarda a seleção de from do line chart.
      */
-    const line_volume_value = {
-      key: "line_volume_value",
+    const line_from_value = {
+      key: "line_from_value",
       value: 'ttl'
     };
-    this.setGlobal(line_volume_value);
+    this.setGlobal(line_from_value);
 
     /**
      * Estabelece uma lista de cores.

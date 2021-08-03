@@ -31,98 +31,98 @@ export class LineChartComponent implements OnInit {
   }
 
   updateData(responseData: any, dataId: any, chartColor: any) {
-    // manages data for each volume
-    for (let volume of Object.keys(responseData)) {
+    // manages data for each from
+    for (let from of Object.keys(responseData)) {
       // clear existing element
-      this.deleteData(volume, dataId, chartColor);
-      this.rawData[volume][dataId][chartColor] = [];
+      this.deleteData(from, dataId, chartColor);
+      this.rawData[from][dataId][chartColor] = [];
 
       // adiciona os valores não normalizados
-      for (let i = 0; i < responseData[volume].result.length; i++) {
-        const pointTime = responseData[volume].result[i][1];
-        const pointValue = responseData[volume].result[i][0];
+      for (let i = 0; i < responseData[from].result.length; i++) {
+        const pointTime = responseData[from].result[i][1];
+        const pointValue = responseData[from].result[i][0];
 
-        this.rawData[volume][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue });
+        this.rawData[from][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue });
       }
 
       // computes the unity
-      this.computeUnity(volume);
+      this.computeUnity(from);
 
       // atualiza os labels baseado no dado novo
-      this.updateLabels(volume);
+      this.updateLabels(from);
 
       // normaliza os dados de dataId
-      this.normalizeData(volume);
+      this.normalizeData(from);
     }
   }
 
-  drawChart(volume: string) {
+  drawChart(from: string) {
     // set y label.
     this.lineChart.setLabelY("Requisitions" + " [" + this.unity.prefix + "package" + "]");
 
     // atualiza os labels
-    this.lineChart.setLabels(this.labels[volume]);
+    this.lineChart.setLabels(this.labels[from]);
 
     // atualiza os gráficos
-    for (const dataId of Object.keys(this.nrmData[volume])) {
-      for (const color of Object.keys(this.nrmData[volume][dataId])) {
+    for (const dataId of Object.keys(this.nrmData[from])) {
+      for (const color of Object.keys(this.nrmData[from][dataId])) {
         // gets the data
-        const data = this.nrmData[volume][dataId];
+        const data = this.nrmData[from][dataId];
         this.lineChart.updateDataset(dataId, color, data[color]);
       }
     }
   }
 
-  deleteData(volume: string, dataId: string, color: string) {
+  deleteData(from: string, dataId: string, color: string) {
     // new group
-    if (!this.rawData[volume]) {
-      this.rawData[volume] = {};
+    if (!this.rawData[from]) {
+      this.rawData[from] = {};
     }
     // new dataId
-    if (!this.rawData[volume][dataId]) {
-      this.rawData[volume][dataId] = {};
+    if (!this.rawData[from][dataId]) {
+      this.rawData[from][dataId] = {};
     }
 
-    delete this.rawData[volume][dataId][color];
+    delete this.rawData[from][dataId][color];
 
     // new group
-    if (!this.nrmData[volume]) {
-      this.nrmData[volume] = {};
+    if (!this.nrmData[from]) {
+      this.nrmData[from] = {};
     }
     // new dataId
-    if (!this.nrmData[volume][dataId]) {
-      this.nrmData[volume][dataId] = {};
+    if (!this.nrmData[from][dataId]) {
+      this.nrmData[from][dataId] = {};
     }
 
-    delete this.nrmData[volume][dataId][color]
+    delete this.nrmData[from][dataId][color]
   }
 
-  clearChart(volume: string, dataId: string, color: string) {
+  clearChart(from: string, dataId: string, color: string) {
     // removes from chart
     this.lineChart.removeDataset(dataId, color);
 
-    this.deleteData(volume, dataId, color);
+    this.deleteData(from, dataId, color);
 
     // atualiza os labels baseado no dado novo
-    this.updateLabels(volume);
+    this.updateLabels(from);
 
     // normaliza os dados de dataId
-    this.normalizeData(volume);
+    this.normalizeData(from);
   }
 
-  clearLabel(volume: string) {
-    this.labels[volume] = [];
+  clearLabel(from: string) {
+    this.labels[from] = [];
   }
 
-  computeUnity(volume: string) {
+  computeUnity(from: string) {
     let max = -1;
 
-    const dataIds = Object.keys(this.rawData[volume]);
+    const dataIds = Object.keys(this.rawData[from]);
     for (let dataId of dataIds) {
-      const colors = Object.keys(this.rawData[volume][dataId]);
+      const colors = Object.keys(this.rawData[from][dataId]);
       for (let color of colors) {
         // pega o máximo do dado atual
-        const mx = Math.max(...this.rawData[volume][dataId][color].map((d: any) => d.y))
+        const mx = Math.max(...this.rawData[from][dataId][color].map((d: any) => d.y))
         // atualiza o máximo global
         max = Math.max(mx, max);
       }
@@ -132,41 +132,41 @@ export class LineChartComponent implements OnInit {
     this.unity = this.util.compute_best_unity(0, max);
   }
 
-  normalizeData(volume: string) {
+  normalizeData(from: string) {
     // pega o dataset
-    const data = this.rawData[volume];
+    const data = this.rawData[from];
 
     // limpa os dados normalizados
-    this.nrmData[volume] = {};
+    this.nrmData[from] = {};
 
     const dataIds = Object.keys(data);
     for (let dataId of dataIds) {
-      this.nrmData[volume][dataId] = {};
+      this.nrmData[from][dataId] = {};
       const colors = Object.keys(data[dataId]);
       for (let color of colors) {
-        this.nrmData[volume][dataId][color] = [];
+        this.nrmData[from][dataId][color] = [];
         for (let pId = 0; pId < data[dataId][color].length; pId++) {
-          this.nrmData[volume][dataId][color].push(data[dataId][color][pId].y / this.unity.div);
+          this.nrmData[from][dataId][color].push(data[dataId][color][pId].y / this.unity.div);
         };
       }
     }
   }
 
-  updateLabels(volume: string) {
+  updateLabels(from: string) {
     // result array
-    this.labels[volume] = [];
+    this.labels[from] = [];
 
     const tsT0 = this.global.getGlobal("t0_vis");
     const tsT1 = this.global.getGlobal("t1_vis");
 
     const interval = tsT1.value - tsT0.value;
 
-    const data = this.rawData[volume];
+    const data = this.rawData[from];
 
     for (let dataId of Object.keys(data)) {
       for (let chartColor of Object.keys(data[dataId])) {
         // numero de pontos
-        const nPoints = this.rawData[volume][dataId][chartColor].length;
+        const nPoints = this.rawData[from][dataId][chartColor].length;
 
         // só atualiza se chegar um dado com mais pontos
         if (this.labels.length > nPoints) {
@@ -182,7 +182,7 @@ export class LineChartComponent implements OnInit {
         const tDelta = interval / (nPoints - 1);
 
         // result array
-        this.labels[volume] = [];
+        this.labels[from] = [];
 
         let current = tsT0.value;
         while (current <= tsT1.value) {
@@ -202,7 +202,7 @@ export class LineChartComponent implements OnInit {
             //@ts-ignore
             label = date.toLocaleString('en-US', { dateStyle: 'short', timeZone: 'UTC' });
           }
-          this.labels[volume].push(label);
+          this.labels[from].push(label);
           current += tDelta
         }
       }
@@ -214,12 +214,12 @@ export class LineChartComponent implements OnInit {
   }
 
   onCheckboxClick(event: any) {
-    const line_volume_value = {
-      key: "line_volume_value",
+    const line_from_value = {
+      key: "line_from_value",
       value: event.target.value
     };
 
-    this.global.setGlobal(line_volume_value)
+    this.global.setGlobal(line_from_value)
     this.checkboxClicked.emit();
   }
 

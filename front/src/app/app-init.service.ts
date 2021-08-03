@@ -69,6 +69,17 @@ export class AppInitService {
     this.global.setGlobal(data);
   }
 
+  async loadIPs() {
+    const data = await this.api.getIPs();
+    console.log(data);
+
+    const list = {
+      key: 'list_ips',
+      value: data
+    };
+    this.global.setGlobal(data);
+  }
+
   loadClients() {
     const schema = this.global.getGlobal('schema_info').value;
 
@@ -79,32 +90,15 @@ export class AppInitService {
     this.global.setGlobal(data);
   }
 
-  loadIPs() {
-    const data = {
-      key: 'list_ips',
-      value: [
-        '10.255.255.255', '172.31.255.255', '192.168.255.255',
-        '10.255.255.255', '172.31.255.255', '192.168.255.255',
-        '10.255.255.255', '172.31.255.255', '192.168.255.255',
-        '10.255.255.255', '172.31.255.255', '192.168.255.255',
-        '10.255.255.255', '172.31.255.255', '192.168.255.255',
-        '10.255.255.255', '172.31.255.255', '192.168.255.255',
-        '10.255.255.255', '172.31.255.255', '192.168.255.255',
-        '10.255.255.255', '172.31.255.255', '192.168.255.255'
-      ]
-    };
-    this.global.setGlobal(data);
-  }
-
   init() {
     return new Promise<void>(async (resolve) => {
 
       await this.loadSchema();
       await this.loadTimeBounds();
       await this.loadGeoBounds();
+      await this.loadIPs();
 
       this.loadClients();
-      this.loadIPs();
       console.log('########## Initialization Done! ##########')
 
       resolve();

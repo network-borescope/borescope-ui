@@ -13,6 +13,8 @@ export class ApiService {
 
   // base server url
   server_url: string = environment.backend;
+  // static files
+  files_url: string = `${environment.backend}/extra/`
   // xhttp urls
   xhttp_url: string = `${environment.backend}/tc/query`;
 
@@ -28,6 +30,19 @@ export class ApiService {
     this.global.setGlobal(query_id);
 
     return id;
+  }
+
+  async getIPs() {
+    // IPs address
+    const address = this.files_url + 'dynamic_ips.js'
+    this.utils.showTrace("getIPs", {});
+
+    // Return a new promise.
+    const response = await fetch(address, {
+      method: 'GET',
+    });
+
+    return await response.json();
   }
 
   /**
@@ -142,13 +157,13 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico de barras.
    */
-  async requestBarChart(location: any[], time: any[], client: any[] | undefined, groupBy: string = 'ttl') {
+  async requestBarChart(location: any[], time: any[], client: any[] | undefined, from: string = 'ttls') {
     let query = new QueryRequest();
     let selectedChannel = this.global.getGlobal("selected_channel");
 
-    // query['select'] = [selectedChannel.value];
+    query['from'] = from;
     query['select'] = [selectedChannel.value];
-    query['group-by'] = groupBy;
+    query['group-by'] = 'ttl';
     query['id'] = this.getQueryId();
 
     query['where'] = [];
@@ -183,15 +198,15 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico de linhas.
    */
-  async requestLineChart(location: any[], time: any[], client: any[] | undefined, volume: string = 'ttl') {
+  async requestLineChart(location: any[], time: any[], client: any[] | undefined, from: string = 'ttls') {
     let query = new QueryRequest();
     let selectedChannel = this.global.getGlobal("selected_channel");
 
+    query['from'] = from;
     query['select'] = [selectedChannel.value];
     query["group-by"] = "time";
     query["group-by-output"] = "vs_ks";
     query['id'] = this.getQueryId();
-    // query['from'] = volume;
 
     query.where = [];
     query['where'] = [];
