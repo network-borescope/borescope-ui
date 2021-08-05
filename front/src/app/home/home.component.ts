@@ -229,14 +229,14 @@ export class HomeComponent implements AfterViewInit {
 
     const line_params = this.global.getGlobal('line_params').value;
     for (const param of line_params) {
-      this.line.clearChart(param, 'geometry', color);
+      this.line.clearChart(param.id, 'geometry', color);
     }
 
     const bar_params = this.global.getGlobal('bar_params').value;
     const lmap = this.global.getGlobal('label_maps').value;
 
     for (const param of bar_params) {
-      this.bar.clearChart(param, 'geometry', color, lmap);
+      this.bar.clearChart(param.id, 'geometry', color, lmap);
     }
 
     // remove do estado global
@@ -266,14 +266,14 @@ export class HomeComponent implements AfterViewInit {
 
     const line_params = this.global.getGlobal('line_params').value;
     for (const param of line_params) {
-      this.line.clearChart(param, 'client', color);
+      this.line.clearChart(param.id, 'client', color);
     }
 
     const bar_params = this.global.getGlobal('bar_params').value;
     const lmap = this.global.getGlobal('label_maps').value;
 
     for (const param of bar_params) {
-      this.bar.clearChart(param, 'client', color, lmap);
+      this.bar.clearChart(param.id, 'client', color, lmap);
     }
 
     // remove do estado global
@@ -301,14 +301,14 @@ export class HomeComponent implements AfterViewInit {
 
     const line_params = this.global.getGlobal('line_params').value;
     for (const param of line_params) {
-      this.line.clearChart(param, 'filter', this.global.getGlobal('filter_color').value);
+      this.line.clearChart(param.id, 'filter', this.global.getGlobal('filter_color').value);
     }
 
     const bar_params = this.global.getGlobal('bar_params').value;
     const lmap = this.global.getGlobal('label_maps').value;
 
     for (const param of bar_params) {
-      this.bar.clearChart(param, 'filter', this.global.getGlobal('filter_color').value, lmap);
+      this.bar.clearChart(param.id, 'filter', this.global.getGlobal('filter_color').value, lmap);
     }
 
     // remove do estado global

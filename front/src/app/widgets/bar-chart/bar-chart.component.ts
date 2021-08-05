@@ -61,7 +61,12 @@ export class BarChartComponent implements OnInit {
 
   drawChart(from: string) {
     // set x labal
-    this.barChart.setLabelX(from.toUpperCase());
+    if (from.includes('ttls')) {
+      this.barChart.setLabelX('TTLs');
+    }
+    else {
+      this.barChart.setLabelX('Services');
+    }
 
     // atualiza os labels
     this.barChart.setLabels(this.labels[from]);

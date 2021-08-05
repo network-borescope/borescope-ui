@@ -106,8 +106,8 @@ export class GlobalService {
     const label_maps = {
       key: "label_maps",
       value: {
-        'hist_ttls': {},
-        'hist_serv': {}
+        'ttls': {},
+        'services': {}
       }
     };
     this.setGlobal(label_maps);
@@ -118,8 +118,8 @@ export class GlobalService {
     const bar_params = {
       key: "bar_params",
       value: [
-        {id: 'hist_ttls', from: 'ttls', groupBy: 'ttl',  select: ["hsum"]},
-        {id: 'hist_serv', from: 'serv', groupBy: 'serv', select: ["hsum"]}
+        {id: 'ttls', from: 'ttls', groupBy: 'ttl',  select: ["hsum"]},
+        {id: 'services', from: 'serv', groupBy: 'serv', select: ["hsum"]}
       ]
     };
     this.setGlobal(bar_params);
@@ -139,9 +139,9 @@ export class GlobalService {
     const line_params = {
       key: "line_params",
       value: [
-        {id: 'time_ttls', from: 'ttls', groupBy: 'time', select: ['hsum']},
-        {id: 'time_in',  from: 'dns',  groupBy: 'time', select: ['total_ireq', 'total_ireq_off']},
-        {id: 'time_out', from: 'dns',  groupBy: 'time', select: ['total_oreq', 'total_oreq_off']},
+        {id: 'packet_rate', from: 'ttls', groupBy: 'time', select: ['hsum']},
+        {id: 'dns_in',  from: 'dns',  groupBy: 'time', select: ['total_ireq', 'total_ireq_off']},
+        {id: 'dns_out', from: 'dns',  groupBy: 'time', select: ['total_oreq', 'total_oreq_off']},
       ]
     };
     this.setGlobal(line_params);

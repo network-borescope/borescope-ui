@@ -106,8 +106,8 @@ export class AppInitService {
     const data = {
       key: 'label_maps',
       value: {
-        'hist_ttls': {},
-        'hist_serv': schema['serv'].services
+        'ttls': {},
+        'services': schema['serv'].services
       }
     };
     this.global.setGlobal(data);

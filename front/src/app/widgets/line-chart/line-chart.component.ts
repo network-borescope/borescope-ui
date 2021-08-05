@@ -43,8 +43,17 @@ export class LineChartComponent implements OnInit {
 
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[paramId].result.length; i++) {
-        const pointTime = responseData[paramId].result[i][1];
-        const pointValue = responseData[paramId].result[i][0];
+        const dataSz = responseData[paramId].result[i].length;
+
+        const pointTime = responseData[paramId].result[i][dataSz - 1];
+
+        let pointValue = 0;
+        if (dataSz === 2) {
+          pointValue = responseData[paramId].result[i][0];
+        }
+        if (dataSz === 3) {
+          pointValue = responseData[paramId].result[i][0] > 0 ? responseData[paramId].result[i][1] / responseData[paramId].result[i][0] : 0;
+        }
 
         this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue });
       }
@@ -61,8 +70,15 @@ export class LineChartComponent implements OnInit {
   }
 
   drawChart(from: string) {
-    // set y label.
-    this.lineChart.setLabelY("Requisitions" + " [" + this.unity.prefix + "package" + "]");
+    // TODO: passar os labels de y em um objeto.
+    if (from.includes('dns')) {
+      // set y label.
+      this.lineChart.setLabelY("Requisitions [%]");
+    }
+    else {
+      // set y label.
+      this.lineChart.setLabelY("Requisitions" + " [" + this.unity[from].prefix + "package" + "]");
+    }
 
     // atualiza os labels
     this.lineChart.setLabels(this.labels[from]);
@@ -133,7 +149,7 @@ export class LineChartComponent implements OnInit {
     }
 
     // computes the best unity
-    this.unity = this.util.compute_best_unity(0, max);
+    this.unity[from] = this.util.compute_best_unity(0, max);
   }
 
   normalizeData(from: string) {
@@ -150,7 +166,7 @@ export class LineChartComponent implements OnInit {
       for (let color of colors) {
         this.nrmData[from][dataId][color] = [];
         for (let pId = 0; pId < data[dataId][color].length; pId++) {
-          this.nrmData[from][dataId][color].push(data[dataId][color][pId].y / this.unity.div);
+          this.nrmData[from][dataId][color].push(data[dataId][color][pId].y / this.unity[from].div);
         };
       }
     }
