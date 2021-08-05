@@ -101,6 +101,18 @@ export class GlobalService {
     this.setGlobal(t1_filter);
 
     /**
+     * Mapa de labels do barchart.
+     */
+    const label_maps = {
+      key: "label_maps",
+      value: {
+        'hist_ttls': {},
+        'hist_serv': {}
+      }
+    };
+    this.setGlobal(label_maps);
+
+    /**
      * Guarda as opções de from do bar chart.
      */
     const bar_params = {
