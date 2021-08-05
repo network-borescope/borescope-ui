@@ -100,6 +100,19 @@ export class AppInitService {
     this.global.setGlobal(data);
   }
 
+  loadLabelMaps() {
+    const schema = this.global.getGlobal('schema_info').value;
+
+    const data = {
+      key: 'label_maps',
+      value: {
+        'hist_ttls': {},
+        'hist_serv': schema['serv'].services
+      }
+    };
+    this.global.setGlobal(data);
+  }
+
   init() {
     return new Promise<void>(async (resolve) => {
 
@@ -109,6 +122,7 @@ export class AppInitService {
       await this.loadIPs();
 
       this.loadClients();
+      this.loadLabelMaps();
       console.log('########## Initialization Done! ##########')
 
       resolve();

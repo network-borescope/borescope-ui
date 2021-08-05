@@ -33,7 +33,7 @@ export class BarChartComponent implements OnInit {
     this.barChart = new BarChart(this.barDiv.nativeElement);
   }
 
-  updateData(responseData: any, dataId: string, chartColor: string) {
+  updateData(responseData: any, dataId: string, chartColor: string, lmap: any) {
     // manages data for each from
     for(let from of Object.keys(responseData)) {
       // clear existing element
@@ -49,7 +49,7 @@ export class BarChartComponent implements OnInit {
       }
 
       // atualiza os labels baseado no dado novo
-      this.updateLabels(from);
+      this.updateLabels(from, lmap);
 
       // normaliza os dados de dataId
       this.normalizeData(from);
@@ -100,14 +100,14 @@ export class BarChartComponent implements OnInit {
     delete this.nrmData[from][dataId][color]
   }
 
-  clearChart(from: string, dataId: string, color: string) {
+  clearChart(from: string, dataId: string, color: string, lmap: any) {
     // removes from chart
     this.barChart.removeDataset(dataId, color);
 
     this.deleteData(from, dataId, color);
 
     // atualiza os labels baseado no dado novo
-    this.updateLabels(from);
+    this.updateLabels(from, lmap);
 
     // normaliza os dados de dataId
     this.normalizeData(from);
@@ -175,7 +175,7 @@ export class BarChartComponent implements OnInit {
     }
   }
 
-  updateLabels(from: string) {
+  updateLabels(from: string, lmap: any) {
     // limpa os labels do gráfico
     this.labels[from] = [];
 
@@ -184,7 +184,7 @@ export class BarChartComponent implements OnInit {
       // percorre os elementos
       for (const color of Object.keys(this.rawData[from][dataId])) {
         this.rawData[from][dataId][color].forEach((d: any) => {
-          const x = d['x'];
+          const x = Object.keys(lmap[from]).length > 0 ? lmap[from][d['x']] : d['x'];
           if (!this.labels[from].includes(x)) {
             this.labels[from].push(x);
           }

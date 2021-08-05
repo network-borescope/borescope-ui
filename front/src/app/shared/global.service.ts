@@ -117,7 +117,7 @@ export class GlobalService {
      */
     const bar_params_value = {
       key: "bar_params_value",
-      value: bar_params.value[0]
+      value: bar_params.value[0].id
     };
     this.setGlobal(bar_params_value);
 
@@ -139,7 +139,7 @@ export class GlobalService {
      */
     const line_params_value = {
       key: "line_params_value",
-      value: line_params.value[0]
+      value: line_params.value[0].id
     };
     this.setGlobal(line_params_value);
 

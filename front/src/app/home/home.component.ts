@@ -233,8 +233,10 @@ export class HomeComponent implements AfterViewInit {
     }
 
     const bar_params = this.global.getGlobal('bar_params').value;
+    const lmap = this.global.getGlobal('label_maps').value;
+
     for (const param of bar_params) {
-      this.bar.clearChart(param, 'geometry', color);
+      this.bar.clearChart(param, 'geometry', color, lmap);
     }
 
     // remove do estado global
@@ -268,8 +270,10 @@ export class HomeComponent implements AfterViewInit {
     }
 
     const bar_params = this.global.getGlobal('bar_params').value;
+    const lmap = this.global.getGlobal('label_maps').value;
+
     for (const param of bar_params) {
-      this.bar.clearChart(param, 'client', color);
+      this.bar.clearChart(param, 'client', color, lmap);
     }
 
     // remove do estado global
@@ -301,8 +305,10 @@ export class HomeComponent implements AfterViewInit {
     }
 
     const bar_params = this.global.getGlobal('bar_params').value;
+    const lmap = this.global.getGlobal('label_maps').value;
+
     for (const param of bar_params) {
-      this.bar.clearChart(param, 'filter', this.global.getGlobal('filter_color').value);
+      this.bar.clearChart(param, 'filter', this.global.getGlobal('filter_color').value, lmap);
     }
 
     // remove do estado global
@@ -314,7 +320,6 @@ export class HomeComponent implements AfterViewInit {
    */
   onBarGroupByChanged() {
     const param = this.global.getGlobal('bar_params_value').value;
-    console.log(param);
     this.bar.drawChart(param);
   };
 
@@ -469,10 +474,11 @@ export class HomeComponent implements AfterViewInit {
       const res = await this.api.requestBarChart(location, time, client, param);
       data[param.id] = res;
     }
-    this.bar.updateData(data, dataId, chartColor);
+    const lmap = this.global.getGlobal('label_maps').value;
+    this.bar.updateData(data, dataId, chartColor, lmap);
 
     const param = this.global.getGlobal('bar_params_value').value;
-    this.bar.drawChart(param.id);
+    this.bar.drawChart(param);
   }
 
   async updateLineChart(dataId: string, chartColor: string, feat: any = undefined) {
@@ -491,6 +497,7 @@ export class HomeComponent implements AfterViewInit {
 
     const data: any = {};
     const line_params = this.global.getGlobal('line_params').value;
+
     for (const param of line_params) {
       const res = await this.api.requestLineChart(location, time, client, param);
       data[param.id] = res;
@@ -498,6 +505,6 @@ export class HomeComponent implements AfterViewInit {
     this.line.updateData(data, dataId, chartColor);
 
     const param = this.global.getGlobal('line_params_value').value;
-    this.line.drawChart(param.id);
+    this.line.drawChart(param);
   }
 }
