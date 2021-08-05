@@ -70,14 +70,14 @@ export class HomeComponent implements AfterViewInit {
   redrawAllCharts() {
     this.updateHeatmap();
 
-    const froms_line = this.global.getGlobal('line_from').value;
-    for (const lfrom of froms_line) {
-      this.line.clearLabel(lfrom);
+    const line_params = this.global.getGlobal('line_params').value;
+    for (const param of line_params) {
+      this.line.clearLabel(param);
     }
 
-    const froms_bar = this.global.getGlobal('bar_from').value;
-    for (const bfom of froms_bar) {
-      this.bar.clearLabel(bfom);
+    const bar_params = this.global.getGlobal('bar_params').value;
+    for (const param of bar_params) {
+      this.bar.clearLabel(param);
     }
 
     const elements = this.global.getGlobal('active_chart_elements').value;
@@ -227,14 +227,14 @@ export class HomeComponent implements AfterViewInit {
   onPolyRemoved(event: any) {
     const color = event.options.color;
 
-    const froms = this.global.getGlobal('line_from').value;
-    for (const from of froms) {
-      this.line.clearChart(from, 'geometry', color);
+    const line_params = this.global.getGlobal('line_params').value;
+    for (const param of line_params) {
+      this.line.clearChart(param, 'geometry', color);
     }
 
-    const groups = this.global.getGlobal('bar_from').value;
-    for (const from of groups) {
-      this.bar.clearChart(from, 'geometry', color);
+    const bar_params = this.global.getGlobal('bar_params').value;
+    for (const param of bar_params) {
+      this.bar.clearChart(param, 'geometry', color);
     }
 
     // remove do estado global
@@ -262,14 +262,14 @@ export class HomeComponent implements AfterViewInit {
   onMarkerRemoved(event: any) {
     const color = event.color;
 
-    const froms = this.global.getGlobal('line_from').value;
-    for (const from of froms) {
-      this.line.clearChart(from, 'client', color);
+    const line_params = this.global.getGlobal('line_params').value;
+    for (const param of line_params) {
+      this.line.clearChart(param, 'client', color);
     }
 
-    const barChartGroupBy = this.global.getGlobal('bar_from').value;
-    for (const from of barChartGroupBy) {
-      this.bar.clearChart(from, 'client', color);
+    const bar_params = this.global.getGlobal('bar_params').value;
+    for (const param of bar_params) {
+      this.bar.clearChart(param, 'client', color);
     }
 
     // remove do estado global
@@ -295,14 +295,14 @@ export class HomeComponent implements AfterViewInit {
   onFiltersRemoved() {
     this.map.eraseFilterMarkers();
 
-    const froms = this.global.getGlobal('line_from').value;
-    for (const from of froms) {
-      this.line.clearChart(from, 'filter', this.global.getGlobal('filter_color').value);
+    const line_params = this.global.getGlobal('line_params').value;
+    for (const param of line_params) {
+      this.line.clearChart(param, 'filter', this.global.getGlobal('filter_color').value);
     }
 
-    const barChartGroupBy = this.global.getGlobal('bar_from').value;
-    for (const from of barChartGroupBy) {
-      this.bar.clearChart(from, 'filter', this.global.getGlobal('filter_color').value);
+    const bar_params = this.global.getGlobal('bar_params').value;
+    for (const param of bar_params) {
+      this.bar.clearChart(param, 'filter', this.global.getGlobal('filter_color').value);
     }
 
     // remove do estado global
@@ -313,16 +313,17 @@ export class HomeComponent implements AfterViewInit {
    * Atualiza o critério de groupby do barchart
    */
   onBarGroupByChanged() {
-    const from = this.global.getGlobal('bar_from_value').value;
-    this.bar.drawChart(from);
+    const param = this.global.getGlobal('bar_params_value').value;
+    console.log(param);
+    this.bar.drawChart(param);
   };
 
   /**
    * Atualiza o from de saída do linechart
    */
   onLineVolumeChanged() {
-    const from = this.global.getGlobal('line_from_value').value;
-    this.line.drawChart(from);
+    const param = this.global.getGlobal('line_params_value').value;
+    this.line.drawChart(param);
   }
 
   /**
@@ -463,18 +464,15 @@ export class HomeComponent implements AfterViewInit {
     }
 
     const data: any = {};
-    const from = this.global.getGlobal('bar_from').value;
-    for (const group of from) {
-      const parts = group.split('-');
-      const query = parts.length > 1 ? parts : parts[0];
-
-      const res = await this.api.requestBarChart(location, time, client, query);
-      data[group] = res;
+    const bar_params = this.global.getGlobal('bar_params').value;
+    for (const param of bar_params) {
+      const res = await this.api.requestBarChart(location, time, client, param);
+      data[param.id] = res;
     }
     this.bar.updateData(data, dataId, chartColor);
 
-    const fromValue = this.global.getGlobal('bar_from_value').value;
-    this.bar.drawChart(fromValue);
+    const param = this.global.getGlobal('bar_params_value').value;
+    this.bar.drawChart(param.id);
   }
 
   async updateLineChart(dataId: string, chartColor: string, feat: any = undefined) {
@@ -492,17 +490,14 @@ export class HomeComponent implements AfterViewInit {
     }
 
     const data: any = {};
-    const froms = this.global.getGlobal('line_from').value;
-    for (const from of froms) {
-      const parts = from.split('-');
-      const query = parts.length > 1 ? parts : parts[0];
-
-      const res = await this.api.requestLineChart(location, time, client, query);
-      data[from] = res;
+    const line_params = this.global.getGlobal('line_params').value;
+    for (const param of line_params) {
+      const res = await this.api.requestLineChart(location, time, client, param);
+      data[param.id] = res;
     }
     this.line.updateData(data, dataId, chartColor);
 
-    const fromValue = this.global.getGlobal('line_from_value').value;
-    this.line.drawChart(fromValue);
+    const param = this.global.getGlobal('line_params_value').value;
+    this.line.drawChart(param.id);
   }
 }

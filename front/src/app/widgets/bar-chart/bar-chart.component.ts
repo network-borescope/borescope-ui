@@ -23,7 +23,11 @@ export class BarChartComponent implements OnInit {
   private rawData: any = {};
   private nrmData: any = {};
 
-  constructor(public global: GlobalService, public util: UtilService) { }
+  public ids: any = [];
+
+  constructor(public global: GlobalService, public util: UtilService) {
+    this.ids = this.global.getGlobal('bar_params').value;
+  }
 
   ngOnInit(): void {
     this.barChart = new BarChart(this.barDiv.nativeElement);
@@ -193,12 +197,12 @@ export class BarChartComponent implements OnInit {
   }
 
   onCheckboxClick(event: any) {
-    const bar_from_value = {
-      key: "bar_from_value",
+    const bar_params_value = {
+      key: "bar_params_value",
       value: event.target.value
     };
 
-    this.global.setGlobal(bar_from_value)
+    this.global.setGlobal(bar_params_value)
     this.checkboxClicked.emit();
   }
 }

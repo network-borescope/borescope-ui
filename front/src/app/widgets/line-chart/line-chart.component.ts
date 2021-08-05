@@ -24,7 +24,11 @@ export class LineChartComponent implements OnInit {
 
   private unity: any = {};
 
-  constructor(public global: GlobalService, public util: UtilService) { }
+  public ids: any = [];
+
+  constructor(public global: GlobalService, public util: UtilService) {
+    this.ids = this.global.getGlobal('line_params').value;
+  }
 
   ngOnInit(): void {
     this.lineChart = new LineChart(this.lineDiv.nativeElement);
@@ -32,27 +36,27 @@ export class LineChartComponent implements OnInit {
 
   updateData(responseData: any, dataId: any, chartColor: any) {
     // manages data for each from
-    for (let from of Object.keys(responseData)) {
+    for (let paramId of Object.keys(responseData)) {
       // clear existing element
-      this.deleteData(from, dataId, chartColor);
-      this.rawData[from][dataId][chartColor] = [];
+      this.deleteData(paramId, dataId, chartColor);
+      this.rawData[paramId][dataId][chartColor] = [];
 
       // adiciona os valores não normalizados
-      for (let i = 0; i < responseData[from].result.length; i++) {
-        const pointTime = responseData[from].result[i][1];
-        const pointValue = responseData[from].result[i][0];
+      for (let i = 0; i < responseData[paramId].result.length; i++) {
+        const pointTime = responseData[paramId].result[i][1];
+        const pointValue = responseData[paramId].result[i][0];
 
-        this.rawData[from][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue });
+        this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue });
       }
 
       // computes the unity
-      this.computeUnity(from);
+      this.computeUnity(paramId);
 
       // atualiza os labels baseado no dado novo
-      this.updateLabels(from);
+      this.updateLabels(paramId);
 
       // normaliza os dados de dataId
-      this.normalizeData(from);
+      this.normalizeData(paramId);
     }
   }
 
@@ -214,12 +218,12 @@ export class LineChartComponent implements OnInit {
   }
 
   onCheckboxClick(event: any) {
-    const line_from_value = {
-      key: "line_from_value",
+    const line_params_value = {
+      key: "line_params_value",
       value: event.target.value
     };
 
-    this.global.setGlobal(line_from_value)
+    this.global.setGlobal(line_params_value)
     this.checkboxClicked.emit();
   }
 

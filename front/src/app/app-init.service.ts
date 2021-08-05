@@ -10,12 +10,22 @@ export class AppInitService {
   constructor(public global: GlobalService, public api: ApiService, public utils: UtilService) { }
 
   async loadSchema() {
-    const schema = await this.api.getSchema();
-    console.log(schema);
+    const schema_ttls = await this.api.getSchema('ttls');
+    console.log(schema_ttls);
+
+    const schema_serv = await this.api.getSchema('serv');
+    console.log(schema_serv);
+
+    const schema_dns  = await this.api.getSchema('dns');
+    console.log(schema_dns);
 
     const data = {
       key: "schema_info",
-      value: schema.result
+      value: {
+        'ttls': schema_ttls.result,
+        'serv': schema_serv.result,
+        'dns' : schema_dns.result
+      }
     }
 
     this.global.setGlobal(data);
@@ -85,7 +95,7 @@ export class AppInitService {
 
     const data = {
       key: 'list_clientes',
-      value: schema.clientes_df
+      value: schema['ttls'].clientes_df
     };
     this.global.setGlobal(data);
   }

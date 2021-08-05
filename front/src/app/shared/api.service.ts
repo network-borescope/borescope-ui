@@ -48,10 +48,11 @@ export class ApiService {
   /**
    * Carrega o schema do tiny cubes
    */
-  async getSchema(): Promise<any> {
+  async getSchema(from: string = 'ttls'): Promise<any> {
 
     let schema = new SchemaRequest();
     schema['id'] = this.getQueryId();
+    schema['from'] = from;
 
     this.utils.showTrace("initSchema", schema);
 
@@ -124,9 +125,8 @@ export class ApiService {
    */
   async requestHeatMap(location: any[], time: any[]) {
     let query = new QueryRequest();
-    let selectedChannel = this.global.getGlobal("selected_channel");
 
-    query['select'] = [selectedChannel.value];
+    query['select'] = ['hsum'];
     query['group-by']  = "location";
     query['id'] = this.getQueryId();
 
@@ -157,13 +157,12 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico de barras.
    */
-  async requestBarChart(location: any[], time: any[], client: any[] | undefined, from: string = 'ttls') {
+  async requestBarChart(location: any[], time: any[], client: any[] | undefined, params: any) {
     let query = new QueryRequest();
-    let selectedChannel = this.global.getGlobal("selected_channel");
 
-    query['from'] = from;
-    query['select'] = [selectedChannel.value];
-    query['group-by'] = 'ttl';
+    query['from'] = params.from;
+    query['select'] = params.select;
+    query['group-by'] = params.groupBy;
     query['id'] = this.getQueryId();
 
     query['where'] = [];
@@ -198,12 +197,11 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico de linhas.
    */
-  async requestLineChart(location: any[], time: any[], client: any[] | undefined, from: string = 'ttls') {
+  async requestLineChart(location: any[], time: any[], client: any[] | undefined, params: any) {
     let query = new QueryRequest();
-    let selectedChannel = this.global.getGlobal("selected_channel");
 
-    query['from'] = from;
-    query['select'] = [selectedChannel.value];
+    query['from'] = params.from;
+    query['select'] = params.select;
     query["group-by"] = "time";
     query["group-by-output"] = "vs_ks";
     query['id'] = this.getQueryId();

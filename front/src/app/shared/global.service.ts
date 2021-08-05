@@ -37,16 +37,6 @@ export class GlobalService {
     };
     this.setGlobal(active_chart_elements);
 
-
-    /**
-     * Usado na composição das consultas.
-     */
-    const selected_channel = {
-      key: "selected_channel",
-      value: "hsum"
-    };
-    this.setGlobal(selected_channel);
-
     /**
      * Domínio temporal dos dados.
      */
@@ -113,38 +103,45 @@ export class GlobalService {
     /**
      * Guarda as opções de from do bar chart.
      */
-    const bar_from = {
-      key: "bar_from",
-      value: ['ttls'] //, 'serv']
+    const bar_params = {
+      key: "bar_params",
+      value: [
+        {id: 'hist_ttls', from: 'ttls', groupBy: 'ttl',  select: ["hsum"]},
+        {id: 'hist_serv', from: 'serv', groupBy: 'serv', select: ["hsum"]}
+      ]
     };
-    this.setGlobal(bar_from);
+    this.setGlobal(bar_params);
 
     /**
      * Guarda a seleção de from do bar chart.
      */
-    const bar_from_value = {
-      key: "bar_from_value",
-      value: 'ttls'
+    const bar_params_value = {
+      key: "bar_params_value",
+      value: bar_params.value[0]
     };
-    this.setGlobal(bar_from_value);
+    this.setGlobal(bar_params_value);
 
     /**
      * Guarda as opções de from do line chart.
      */
-    const line_from = {
-      key: "line_from",
-      value: ['ttls'] //, 'dns']
+    const line_params = {
+      key: "line_params",
+      value: [
+        {id: 'time_ttls', from: 'ttls', groupBy: 'time', select: ['hsum']},
+        {id: 'time_in',  from: 'dns',  groupBy: 'time', select: ['total_ireq', 'total_ireq_off']},
+        {id: 'time_out', from: 'dns',  groupBy: 'time', select: ['total_oreq', 'total_oreq_off']},
+      ]
     };
-    this.setGlobal(line_from);
+    this.setGlobal(line_params);
 
     /**
      * Guarda a seleção de from do line chart.
      */
-    const line_from_value = {
-      key: "line_from_value",
-      value: 'ttls'
+    const line_params_value = {
+      key: "line_params_value",
+      value: line_params.value[0]
     };
-    this.setGlobal(line_from_value);
+    this.setGlobal(line_params_value);
 
     /**
      * Estabelece uma lista de cores.
