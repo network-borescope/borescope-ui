@@ -249,10 +249,10 @@ export class HomeComponent implements AfterViewInit {
   onMarkerAdded(event: any) {
     const cod = event.cod;
     const color = event.color;
-
+    const name = event.nome;
     // barchart e linechart do marker
-    this.updateLineChart('client', color, cod);
-    this.updateBarChart('client', color, cod);
+    this.updateLineChart('client', color, cod, name);
+    this.updateBarChart('client', color, cod, name);
 
     // adiciona ao estado global
     this.addChartElementToGlobal('client', color, cod);
@@ -455,7 +455,7 @@ export class HomeComponent implements AfterViewInit {
     this.map.drawHeatMap(res);
   }
 
-  async updateBarChart(dataId: string, chartColor: string, feat: any = undefined) {
+  async updateBarChart(dataId: string, chartColor: string, feat: any = undefined, name: any = undefined) {
     const time = this.getTime(dataId);
     const location = (dataId === 'geometry') ?
       this.map.getPoly(feat) : this.map.getLocation();
@@ -478,12 +478,11 @@ export class HomeComponent implements AfterViewInit {
     this.bar.updateData(data, dataId, chartColor, lmap);
 
     const param = this.global.getGlobal('bar_params_value').value;
-    this.bar.drawChart(param);
+    this.bar.drawChart(param, name);
   }
 
-  async updateLineChart(dataId: string, chartColor: string, feat: any = undefined) {
+  async updateLineChart(dataId: string, chartColor: string, feat: any = undefined, name: any = undefined) {
     const time = this.getTime(dataId);
-
     const location = (dataId === 'geometry') ?
       this.map.getPoly(feat) : this.map.getLocation();
 
@@ -505,6 +504,6 @@ export class HomeComponent implements AfterViewInit {
     this.line.updateData(data, dataId, chartColor);
 
     const param = this.global.getGlobal('line_params_value').value;
-    this.line.drawChart(param);
+    this.line.drawChart(param, name);
   }
 }

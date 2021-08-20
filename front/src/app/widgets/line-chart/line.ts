@@ -125,16 +125,21 @@ export class LineChart {
     this.chart.update();
   }
 
-  updateDataset(dataId: string, color: string, data: any) {
+  updateDataset(dataId: string, color: string, data: any, name: any = undefined) {
     const datasets = this.chart.config.data.datasets;
-
-    const id = datasets.findIndex((d: any) => d.label === dataId && d.backgroundColor == color)
+    let label = "";
+    if(name) {
+      label = dataId + " (" + name + ")" 
+    } else {
+      label = dataId
+    };
+    const id = datasets.findIndex((d: any) => d.backgroundColor == color)
     if (id >= 0) {
       datasets[id].data = data;
     }
     else {
       const newData = {
-        label: dataId,
+        label: label,
         backgroundColor: color,
         borderColor: color,
         data: data,
@@ -150,7 +155,7 @@ export class LineChart {
   removeDataset(dataId: string, color: string) {
     const datasets = this.chart.config.data.datasets;
 
-    const id = datasets.findIndex((d: any) => d.label === dataId && d.backgroundColor == color)
+    const id = datasets.findIndex((d: any) => d.backgroundColor == color)
     if (id >= 0) {
       datasets.splice(id, 1)
       this.chart.update();

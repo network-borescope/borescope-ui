@@ -69,7 +69,7 @@ export class LineChartComponent implements OnInit {
     }
   }
 
-  drawChart(from: string) {
+  drawChart(from: string, name: any = undefined) {
     // TODO: passar os labels de y em um objeto.
     if (from.includes('dns')) {
       // set y label.
@@ -81,14 +81,14 @@ export class LineChartComponent implements OnInit {
     }
 
     // atualiza os labels
-    this.lineChart.setLabels(this.labels[from]);
+    this.lineChart.setLabels(this.labels[from], name);
 
     // atualiza os gráficos
     for (const dataId of Object.keys(this.nrmData[from])) {
       for (const color of Object.keys(this.nrmData[from][dataId])) {
         // gets the data
         const data = this.nrmData[from][dataId];
-        this.lineChart.updateDataset(dataId, color, data[color]);
+        this.lineChart.updateDataset(dataId, color, data[color], name);
       }
     }
   }
