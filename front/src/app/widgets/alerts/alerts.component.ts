@@ -22,8 +22,15 @@ export class AlertsComponent implements OnInit {
     for(let i = 0; i < ips.value.length; i++) {
       let t0_ip = new Date(ips.value[i][1]).getTime();
       let t1_ip = new Date(ips.value[i][2]).getTime();
-      if(t0_ip >= t0_vis && t1_ip <= t1_vis) this.ipsList.push(ips.value[i])
+      if(t0_ip >= t0_vis && t1_ip <= t1_vis) this.ipsList.push(ips.value[i]);
     };
+    if(this.ipsList.length) {
+      const obj = this.global.getGlobal('widgets_charts');
+
+      obj.value['alerts'] = !obj.value['alerts'];
+      console.log(obj);
+      this.global.setGlobal(obj);
+    }
   }
 
   toggleFiltersVisibility() {

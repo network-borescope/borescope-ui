@@ -23,9 +23,4 @@ export class ChartsBarComponent implements OnInit {
     const obj = this.global.getGlobal('widgets_charts');
     return obj.value[chartId];
   }
-
-  isThereAnyAlert(): boolean {
-    const ips = this.global.getGlobal('list_ips');
-    return ips.value.length;
-  }
 }
