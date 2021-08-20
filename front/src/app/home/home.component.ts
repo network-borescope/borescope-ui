@@ -249,7 +249,7 @@ export class HomeComponent implements AfterViewInit {
   onMarkerAdded(event: any) {
     const cod = event.cod;
     const color = event.color;
-    const name = event.nome;
+    const name = event.nome.replace(/_/g, ' ');;
     // barchart e linechart do marker
     this.updateLineChart('client', color, cod, name);
     this.updateBarChart('client', color, cod, name);
@@ -285,10 +285,8 @@ export class HomeComponent implements AfterViewInit {
    */
   onFiltersDefined(clientData: any) {
     this.map.drawFilterMarkers(clientData);
-
     this.updateLineChart('filter', this.global.getGlobal('filter_color').value);
     this.updateBarChart('filter', this.global.getGlobal('filter_color').value);
-
     // adiciona ao estado global
     this.addChartElementToGlobal('filter', this.global.getGlobal('filter_color').value, clientData);
   }
