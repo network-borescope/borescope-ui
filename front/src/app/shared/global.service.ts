@@ -235,7 +235,7 @@ export class GlobalService {
      */
     const widgets_charts = {
       key: "widgets_charts",
-      value: { 'line': false, 'bar': false, 'alerts': true }
+      value: { 'line': false, 'bar': false, 'alerts': false }
     }
     this.setGlobal(widgets_charts);
 
