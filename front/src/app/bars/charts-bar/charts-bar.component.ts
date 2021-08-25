@@ -23,4 +23,15 @@ export class ChartsBarComponent implements OnInit {
     const obj = this.global.getGlobal('widgets_charts');
     return obj.value[chartId];
   }
+
+  setAlertColor() {
+    const obj = this.global.getGlobal('widgets_charts');
+    if(obj.value['hasAlert']) {
+      return '#F51720';
+    }
+    else {
+      if(obj.value['alerts']) return '#243d8f';
+      else return '#000';
+    } 
+  }
 }

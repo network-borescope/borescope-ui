@@ -28,7 +28,7 @@ export class AlertsComponent implements OnInit {
       const obj = this.global.getGlobal('widgets_charts');
 
       obj.value['alerts'] = !obj.value['alerts'];
-      console.log(obj);
+      obj.value['hasAlert'] = true;
       this.global.setGlobal(obj);
     }
   }
