@@ -40,23 +40,17 @@ export class LineChartComponent implements OnInit {
       // clear existing element
       this.deleteData(paramId, dataId, chartColor);
       this.rawData[paramId][dataId][chartColor] = [];
-
+      console.log(responseData)
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[paramId].result.length; i++) {
-        const dataSz = responseData[paramId].result[i].length;
-
-        const pointTime = responseData[paramId].result[i][dataSz - 1];
-
-        let pointValue = 0;
-        if (dataSz === 2) {
-          pointValue = responseData[paramId].result[i][0];
-        }
-        if (dataSz === 3) {
-          pointValue = responseData[paramId].result[i][0] > 0 ? responseData[paramId].result[i][1] / responseData[paramId].result[i][0] : 0;
-        }
+        //pega valor das médias
+        const pointTime = responseData[paramId].result[i].k[0];
+        //pega o tempo
+        const pointValue = responseData[paramId].result[i].v[0];
 
         this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue });
       }
+      
 
       // computes the unity
       this.computeUnity(paramId);

@@ -199,11 +199,12 @@ export class ApiService {
    */
   async requestLineChart(location: any[], time: any[], client: any[] | undefined, params: any) {
     let query = new QueryRequest();
+    const tsT0 = this.global.getGlobal("t0_vis").value;
+    const tsT1 = this.global.getGlobal("t1_vis").value;
 
     query['from'] = params.from;
     query['select'] = params.select;
-    query["group-by"] = "time";
-    query["group-by-output"] = "vs_ks";
+    query["group-by"] = {"field":"time","min-k":tsT0,"max-k":tsT1,"n-points":1024, "v":"AMPNS"};
     query['id'] = this.getQueryId();
 
     query.where = [];
