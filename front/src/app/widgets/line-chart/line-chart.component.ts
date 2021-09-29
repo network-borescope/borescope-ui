@@ -40,23 +40,16 @@ export class LineChartComponent implements OnInit {
       // clear existing element
       this.deleteData(paramId, dataId, chartColor);
       this.rawData[paramId][dataId][chartColor] = [];
-
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[paramId].result.length; i++) {
-        const dataSz = responseData[paramId].result[i].length;
-
-        const pointTime = responseData[paramId].result[i][dataSz - 1];
-
-        let pointValue = 0;
-        if (dataSz === 2) {
-          pointValue = responseData[paramId].result[i][0];
-        }
-        if (dataSz === 3) {
-          pointValue = responseData[paramId].result[i][0] > 0 ? responseData[paramId].result[i][1] / responseData[paramId].result[i][0] : 0;
-        }
+        //pega valor das médias
+        const pointTime = responseData[paramId].result[i].k[0];
+        //pega o tempo
+        const pointValue = responseData[paramId].result[i].v[0];
 
         this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue });
       }
+      
 
       // computes the unity
       this.computeUnity(paramId);
@@ -69,7 +62,7 @@ export class LineChartComponent implements OnInit {
     }
   }
 
-  drawChart(from: string) {
+  drawChart(from: string, name: any = undefined) {
     // TODO: passar os labels de y em um objeto.
     if (from.includes('dns')) {
       // set y label.
@@ -81,14 +74,14 @@ export class LineChartComponent implements OnInit {
     }
 
     // atualiza os labels
-    this.lineChart.setLabels(this.labels[from]);
+    this.lineChart.setLabels(this.labels[from], name);
 
     // atualiza os gráficos
     for (const dataId of Object.keys(this.nrmData[from])) {
       for (const color of Object.keys(this.nrmData[from][dataId])) {
         // gets the data
         const data = this.nrmData[from][dataId];
-        this.lineChart.updateDataset(dataId, color, data[color]);
+        this.lineChart.updateDataset(dataId, color, data[color], name);
       }
     }
   }

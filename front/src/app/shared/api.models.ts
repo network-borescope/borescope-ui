@@ -41,7 +41,7 @@ export class QueryRequest {
   'where': any[];
   'id': number;
   'from': string;
-  'group-by': string;
+  'group-by': any;
   'group-by-output': string;
 
   constructor() {
@@ -49,7 +49,7 @@ export class QueryRequest {
     let time = [ "time", "between", 1583020800, 1585698900];
     let client = ["cliente", "eq", '10'];
     this['select'] = ["hsum"];
-    this['group-by'] = "";
+    this['group-by'] = {};
     this['group-by-output']= "kv";
     this['where'] = [ time, location, client ];
     this['id'] = 1;

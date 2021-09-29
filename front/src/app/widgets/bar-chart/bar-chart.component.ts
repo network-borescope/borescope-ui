@@ -59,7 +59,7 @@ export class BarChartComponent implements OnInit {
     }
   }
 
-  drawChart(from: string) {
+  drawChart(from: string, name: any = undefined) {
     // set x labal
     if (from.includes('ttls')) {
       this.barChart.setLabelX('TTLs');
@@ -69,14 +69,14 @@ export class BarChartComponent implements OnInit {
     }
 
     // atualiza os labels
-    this.barChart.setLabels(this.labels[from]);
+    this.barChart.setLabels(this.labels[from], name);
 
     // atualiza os dados
     for (const dataId of Object.keys(this.nrmData[from])) {
       for (const color of Object.keys(this.nrmData[from][dataId])) {
         // gets the data
         const data = this.nrmData[from][dataId];
-        this.barChart.updateDataset(dataId, color, data[color]);
+        this.barChart.updateDataset(dataId, color, data[color], name);
       }
     }
   }

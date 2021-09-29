@@ -139,9 +139,9 @@ export class GlobalService {
     const line_params = {
       key: "line_params",
       value: [
-        {id: 'packet_rate', caption: "packet rate", from: 'ttls', groupBy: 'time', select: ['hsum']},
-        {id: 'dns_in',  caption: "dns requests received w/o answer", from: 'dns',  groupBy: 'time', select: ['total_ireq', 'total_ireq_off']},
-        {id: 'dns_out', caption: "dns requests sent w/o answer", from: 'dns',  groupBy: 'time', select: ['total_oreq', 'total_oreq_off']},
+        {id: 'packet rate', from: 'ttls', groupBy: 'time', select: ['hsum']},
+        {id: 'dns requests received w/o answer',  from: 'dns',  groupBy: 'time', select: ['total_ireq', 'total_ireq_off']},
+        {id: 'dns requests sent w/o answer', from: 'dns',  groupBy: 'time', select: ['total_oreq', 'total_oreq_off']},
       ]
     };
     this.setGlobal(line_params);
@@ -235,7 +235,7 @@ export class GlobalService {
      */
     const widgets_charts = {
       key: "widgets_charts",
-      value: { 'line': false, 'bar': false, 'alerts': true }
+      value: { 'line': false, 'bar': false, 'alerts': false, 'hasAlert': false }
     }
     this.setGlobal(widgets_charts);
 
