@@ -40,7 +40,6 @@ export class LineChartComponent implements OnInit {
       // clear existing element
       this.deleteData(paramId, dataId, chartColor);
       this.rawData[paramId][dataId][chartColor] = [];
-      console.log(responseData)
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[paramId].result.length; i++) {
         //pega valor das médias
