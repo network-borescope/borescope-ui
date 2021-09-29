@@ -65,7 +65,7 @@ export class BarChartComponent implements OnInit {
       this.barChart.setLabelX('TTLs');
     }
     else {
-      this.barChart.setLabelX('Services');
+      this.barChart.setLabelX('TCP Connection Services');
     }
 
     // atualiza os labels

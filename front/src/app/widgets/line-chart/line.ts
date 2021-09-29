@@ -55,8 +55,8 @@ export class LineChart {
           x: {
             display: true,
             time: {
-              parser: 'MM/DD/YYYY HH:mm:ss',
-              tooltipFormat: 'll HH:mm:ss'
+              parser: 'MM/DD/YYYY HH:mm',
+              tooltipFormat: 'll HH:mm'
             },
             title: {
               display: false,
@@ -156,7 +156,7 @@ export class LineChart {
       this.chart.update();
     }
   }
-  
+
   clear() {
     this.chart.data.labels = [];
     this.chart.data.datasets = [];

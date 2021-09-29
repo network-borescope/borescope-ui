@@ -211,10 +211,10 @@ export class LineChartComponent implements OnInit {
 
           if (interval < 1200) { // 20 min
             //@ts-ignore
-            label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'medium', timeZone: 'UTC' });
+            label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
           } else if (interval < 72000) { // 20 hs
             //@ts-ignore
-            label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'medium', timeZone: 'UTC' });
+            label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
           } else if (interval < 4320000) { // 50 dias
             //@ts-ignore
             label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
