@@ -139,7 +139,7 @@ export class GlobalService {
     const line_params = {
       key: "line_params",
       value: [
-        {id: 'packet rate', from: 'ttls', groupBy: 'time', select: ['hsum'], caption: 'packet rate'},
+        {id: 'packet_rate', from: 'ttls', groupBy: 'time', select: ['hsum'], caption: 'packet rate'},
         {id: 'dns_in',  from: 'dns',  groupBy: 'time', select: ['total_ireq', 'total_ireq_off'], caption: 'dns requests received w/o answer'},
         {id: 'dns_out', from: 'dns',  groupBy: 'time', select: ['total_oreq', 'total_oreq_off'], caption: 'dns requests sent w/o answer'},
       ]
