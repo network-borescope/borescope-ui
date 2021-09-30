@@ -414,7 +414,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     // Evento de mouseout no marker.
-    layer.on('mouseout', (e: any) => {
+    layer.on('mouseout', () => {
 
       const found = this.listClient.findIndex(d => {
         return d.cod === feature.properties.cod;
@@ -428,7 +428,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     // Evento de mouseover no marker.
-    layer.on('mouseover', (e: any) => {
+    layer.on('mouseover', () => {
       layer.openPopup();
     });
   }
