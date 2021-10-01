@@ -11,4 +11,8 @@
     <span class="fas fa-line-chart fa-lg"
     [style.color]="this.isChartVisible('line') ? '#243d8f' : '#000' "></span>
   </button>
+  <button class="btn btn-custom" type="button" (click)="this.toggleChartVisibility('net')">
+    <span class="fas fa-project-diagram fa-lg"
+    [style.color]="this.isChartVisible('net') ? '#243d8f' : '#000' "></span>
+  </button>
 </div>
