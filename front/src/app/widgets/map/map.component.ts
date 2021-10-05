@@ -74,7 +74,7 @@ export class MapComponent implements AfterViewInit {
    * Configura o mapa.
    */
   //  -15.787129, -47.884329
-  async setupMap(lat = -15.787129, lng = -47.884329, zoom = 13) {
+  async setupMap(lat = -15.787129, lng = -47.884329, zoom = 5) {
     if (this.mapDiv === undefined) {
       return;
     }
