@@ -329,6 +329,18 @@ export class HomeComponent implements AfterViewInit {
     this.line.drawChart(param);
   }
 
+  onSelectedValueChanged(){
+    const param = this.global.getGlobal('line_params_value').value;
+    const line_params = this.global.getGlobal('line_params').value;
+    console.log(line_params)
+    console.log(this.line)
+    for (let param of line_params) {
+      console.log(param.id);
+    }
+    //this.line.updateData('map', '#AAAAAA');
+    //this.line.updateData(line_params[0], dataId, chartColor);
+  }
+
   /**
    * Atualiza o período de tempo ativo das visualizações
    */
@@ -499,6 +511,7 @@ export class HomeComponent implements AfterViewInit {
       const res = await this.api.requestLineChart(location, time, client, param);
       data[param.id] = res;
     }
+    console.log(data)
     this.line.updateData(data, dataId, chartColor);
 
     const param = this.global.getGlobal('line_params_value').value;

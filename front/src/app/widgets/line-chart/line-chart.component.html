@@ -1,6 +1,11 @@
 <div class="fill">
   <canvas class="fill" style="padding-bottom: 10px; border-bottom: 1px solid #eee;" #lineChart></canvas>
   <div style="margin-top: 7px; padding-bottom: 7px; border-bottom: 1px solid #eee;">
+    <select name="select" class="param-selector" (change)="this.onSelectChange($event)">
+      <option value="0" selected>Average</option>
+      <option value="2">Max</option>
+      <option value="3">Min</option>
+    </select>
     <div *ngFor="let param of this.ids; let idx = index" class="checkbox-inline ">
       <input class="form-check-input" type="radio" name="lineParams" id="lineParams" [checked]="idx === 0" [value]="param.id" (change)="this.onCheckboxClick($event)">
        <div style="display: inline-block; margin-left: 6px; vertical-align: middle; font-size: 11px;">

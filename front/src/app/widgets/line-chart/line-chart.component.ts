@@ -15,6 +15,7 @@ export class LineChartComponent implements OnInit {
 
   @Output() chartTimeChanged = new EventEmitter<number>();
   @Output() checkboxClicked = new EventEmitter<number>();
+  @Output() selectChanged = new EventEmitter<number>();
 
   private lineChart: any;
 
@@ -37,20 +38,26 @@ export class LineChartComponent implements OnInit {
   updateData(responseData: any, dataId: any, chartColor: any) {
     // manages data for each from
     for (let paramId of Object.keys(responseData)) {
+      //creating list to average, max, min
+      this.rawData[paramId][dataId][chartColor] = {'average': [], 'max': [], 'min': []};
+      console.log(this.rawData)
       // clear existing element
       this.deleteData(paramId, dataId, chartColor);
-      this.rawData[paramId][dataId][chartColor] = [];
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[paramId].result.length; i++) {
-        //pega valor das médias
-        const pointTime = responseData[paramId].result[i].k[0];
         //pega o tempo
-        const pointValue = responseData[paramId].result[i].v[0];
-
-        this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue });
+        const pointTime = responseData[paramId].result[i].k[0];
+        //pega valor das médias
+        const pointAverageValue = responseData[paramId].result[i].v[0];
+        //pega valor max
+        const pointMaxValue = responseData[paramId].result[i].v[2];
+        //pega valor min
+        const pointMinValue = responseData[paramId].result[i].v[3];        
+        this.rawData[paramId][dataId][chartColor]['average'].push({ x: this.util.secondsToDate(pointTime), y: pointAverageValue });
+        this.rawData[paramId][dataId][chartColor]['max'].push({ x: this.util.secondsToDate(pointTime), y: pointMaxValue });
+        this.rawData[paramId][dataId][chartColor]['min'].push({ x: this.util.secondsToDate(pointTime), y: pointMinValue });
       }
-      
-
+      console.log(this.rawData);
       // computes the unity
       this.computeUnity(paramId);
 
@@ -96,8 +103,9 @@ export class LineChartComponent implements OnInit {
       this.rawData[from][dataId] = {};
     }
 
-    delete this.rawData[from][dataId][color];
-
+    delete this.rawData[from][dataId][color]['average'];
+    delete this.rawData[from][dataId][color]['max'];
+    delete this.rawData[from][dataId][color]['min'];
     // new group
     if (!this.nrmData[from]) {
       this.nrmData[from] = {};
@@ -107,7 +115,9 @@ export class LineChartComponent implements OnInit {
       this.nrmData[from][dataId] = {};
     }
 
-    delete this.nrmData[from][dataId][color]
+    delete this.nrmData[from][dataId][color]['average'];
+    delete this.nrmData[from][dataId][color]['max'];
+    delete this.nrmData[from][dataId][color]['min'];
   }
 
   clearChart(from: string, dataId: string, color: string) {
@@ -231,9 +241,19 @@ export class LineChartComponent implements OnInit {
       key: "line_params_value",
       value: event.target.value
     };
-
-    this.global.setGlobal(line_params_value)
+    
+    this.global.setGlobal(line_params_value);
     this.checkboxClicked.emit();
+  }
+
+  onSelectChange(event: any) {
+    const line_params_value = {
+      key: "line_params_value",
+      value: parseInt(event.target.value)
+    };
+
+    this.global.setGlobal(line_params_value);
+    this.selectChanged.emit();
   }
 
   refreshAvailable() {
