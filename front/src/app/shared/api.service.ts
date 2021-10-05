@@ -68,7 +68,10 @@ export class ApiService {
       body: JSON.stringify(schema),
     });
 
-    return await response.json();
+    const jsn = await response.json();
+    console.log('=====>', response, jsn)
+
+    return jsn;
   }
 
   /**

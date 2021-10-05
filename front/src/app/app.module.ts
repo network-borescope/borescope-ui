@@ -16,6 +16,7 @@ import { LineChartComponent } from './widgets/line-chart/line-chart.component';
 import { FiltersComponent } from './widgets/filters/filters.component';
 import { ConfigBarComponent } from './bars/config-bar/config-bar.component';
 import { AlertsComponent } from './widgets/alerts/alerts.component';
+import { NetworkComponent } from './widgets/network/network.component';
 
 
 
@@ -31,6 +32,7 @@ import { AlertsComponent } from './widgets/alerts/alerts.component';
     ConfigBarComponent,
     FiltersComponent,
     AlertsComponent,
+    NetworkComponent,
   ],
   imports: [
     BrowserModule,
