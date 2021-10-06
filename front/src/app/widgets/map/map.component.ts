@@ -488,7 +488,16 @@ export class MapComponent implements AfterViewInit {
     } else {
       this.current_heatmapLayer = new HeatmapOverlay(this.heatCfg);
       this.current_heatmapLayer.setData(heatData);
-      this.map.addLayer(this.current_heatmapLayer);
+      // desenha o heatmap apenas se o zoom for maior do que 8
+      let currentHeatmapLayer = this.current_heatmapLayer;
+      let map = this.map;
+      this.map.on('zoomend', function() {
+        if(map.getZoom() < 9) {
+          map.removeLayer(currentHeatmapLayer);
+        } else {
+          map.addLayer(currentHeatmapLayer);      
+        }
+      });
     }
   }
 
