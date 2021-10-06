@@ -93,14 +93,14 @@ export class MapComponent implements AfterViewInit {
       tileSize: 512,
       zoomOffset: -1
     }).addTo(this.map);
-
+    // Inicialização do layer do outlier
+    let outlierMarker = new L.FeatureGroup();
     // carregamento do dado dos clientes
     const clientes = this.global.getGlobal('list_clientes').value.items.map((d: any) => {
       // adciona um marcador extra
       if(d.id === "OTHERS") {
         const outColor = this.global.getGlobal('outlier_color').value;
-        const outlierMarker = L.circle([d.lat,d.lon], 250, { color: outColor, fillColor: outColor, opacity: 1, fillOpacity: 1});
-        outlierMarker.addTo(this.map);
+        outlierMarker.addLayer(L.circle([d.lat,d.lon], 250, { color: outColor, fillColor: outColor, opacity: 1, fillOpacity: 1}));
       };
 
       return {
@@ -112,12 +112,26 @@ export class MapComponent implements AfterViewInit {
         "properties": d
       }
     })
-    this.geojson = L.geoJSON(clientes, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) }).addTo(this.map);
+    // Inicialização layers dos markers dos clientes
+    let clientMarkersLayers = new L.FeatureGroup();
+    this.geojson = L.geoJSON(clientes, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) });
+    clientMarkersLayers.addLayer(this.geojson);
 
     // Inicialização dos layers editaveis
     let editableLayers = new L.FeatureGroup();
-    this.map.addLayer(editableLayers);
-
+    // adição e remoção dos layers baseado no
+    let map = this.map;
+    this.map.on('zoomend', function() {
+      if(map.getZoom() < 9) {
+        map.removeLayer(clientMarkersLayers);
+        map.removeLayer(editableLayers);
+        map.removeLayer(outlierMarker);
+      } else {
+        map.addLayer(clientMarkersLayers);
+        map.addLayer(editableLayers);  
+        map.addLayer(outlierMarker);      
+      }
+    });
     // Controles de desnho dos polígonos
     this.drawControl = new L.Control.Draw({
       position: 'topleft',
