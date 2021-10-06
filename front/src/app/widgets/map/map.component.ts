@@ -112,9 +112,15 @@ export class MapComponent implements AfterViewInit {
         "properties": d
       }
     })
+    let map = this.map;
     // adição dos layers clicáveis
+    let capitalsMarkersLayers = new L.FeatureGroup().addTo(this.map);
     const capitals = this.global.getGlobal('state_capitals').value.default;
-    console.log(capitals);
+    for(let i = 0; i < capitals.length; i++) {
+      let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers() }).on("mouseup", this.capitalClick, false);
+      capitalsMarkersLayers.addLayer(capitalMarker);
+    }
+    
     // Inicialização layers dos markers dos clientes
     let clientMarkersLayers = new L.FeatureGroup();
     this.geojson = L.geoJSON(clientes, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) });
@@ -123,7 +129,6 @@ export class MapComponent implements AfterViewInit {
     // Inicialização dos layers editaveis
     let editableLayers = new L.FeatureGroup();
     // adição e remoção dos layers baseado no
-    let map = this.map;
     this.map.on('zoomend', function() {
       if(map.getZoom() < 9) {
         map.removeLayer(clientMarkersLayers);
@@ -157,7 +162,6 @@ export class MapComponent implements AfterViewInit {
       }
     });
     this.map.addControl(this.drawControl);
-
     // Eventos do mapa: criação do polígono
     this.map.on(L.Draw.Event.CREATED, (e: any) => {
       this.listLayer.push(e.layer);
@@ -369,6 +373,25 @@ export class MapComponent implements AfterViewInit {
       iconAnchor: [15, 42],
       popupAnchor: [0, -38]
     });
+  }
+
+  /**
+   * Markers das capitais dos estados.
+   */
+  capitalMarkers(){
+    return L.divIcon({
+      className: 'custom-div-icon',
+      html: `<div style='background-color:#000;' class='marker-pin'></div><i class='fa fa-circle awesome'>`,
+      iconSize: [30, 42],
+      iconAnchor: [15, 42]
+    });    
+  }
+  /**
+   * Ação de click no marker da capital.
+   */
+  
+  capitalClick(event: any) {
+    event.sourceTarget._map.setView([event.latlng.lat, event.latlng.lng], 9);
   }
 
   /**
