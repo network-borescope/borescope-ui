@@ -56,7 +56,6 @@ export class HomeComponent implements AfterViewInit {
    */
   initCharts() {
     this.updateHeatmap();
-
     // barchart e linechart do mapa
     this.updateLineChart('map', '#AAAAAA');
     this.updateBarChart('map', '#AAAAAA');

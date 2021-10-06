@@ -112,6 +112,9 @@ export class MapComponent implements AfterViewInit {
         "properties": d
       }
     })
+    // adição dos layers clicáveis
+    const capitals = this.global.getGlobal('state_capitals').value.default;
+    console.log(capitals);
     // Inicialização layers dos markers dos clientes
     let clientMarkersLayers = new L.FeatureGroup();
     this.geojson = L.geoJSON(clientes, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) });

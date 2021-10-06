@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as capitals from '../../assets/capitais.json';
 
 @Injectable({
   providedIn: 'root'
@@ -193,7 +194,16 @@ export class GlobalService {
       value: '##CCC'
     }
     this.setGlobal(unselected_color);
-
+    
+    /**
+     * Guarda a as capitais e suas localizações.
+     */
+     const state_capitals =  {
+       key: 'state_capitals',
+       value: capitals
+     }
+     this.setGlobal(state_capitals);
+    
     /**
      * Guarda a cor do filtro.
      */
