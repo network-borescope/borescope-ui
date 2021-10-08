@@ -16,3 +16,8 @@
     outline-color: #eee !important;
     color: black;
 }
+
+.param-selector {
+    width:88px;
+    left: 10px;
+}

@@ -15,6 +15,7 @@ export class LineChartComponent implements OnInit {
 
   @Output() chartTimeChanged = new EventEmitter<number>();
   @Output() checkboxClicked = new EventEmitter<number>();
+  @Output() selectChanged = new EventEmitter<number>();
 
   private lineChart: any;
 
@@ -39,18 +40,20 @@ export class LineChartComponent implements OnInit {
     for (let paramId of Object.keys(responseData)) {
       // clear existing element
       this.deleteData(paramId, dataId, chartColor);
+      //creating list to average, max, min
       this.rawData[paramId][dataId][chartColor] = [];
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[paramId].result.length; i++) {
-        //pega valor das médias
-        const pointTime = responseData[paramId].result[i].k[0];
         //pega o tempo
-        const pointValue = responseData[paramId].result[i].v[0];
-
-        this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue });
+        const pointTime = responseData[paramId].result[i].k[0];
+        //pega valor das médias
+        const pointAverageValue = responseData[paramId].result[i].v[0];
+        //pega valor max
+        const pointMaxValue = responseData[paramId].result[i].v[2];
+        //pega valor min
+        const pointMinValue = responseData[paramId].result[i].v[3];        
+        this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointAverageValue, z: pointMaxValue, k: pointMinValue});
       }
-      
-
       // computes the unity
       this.computeUnity(paramId);
 
@@ -62,7 +65,7 @@ export class LineChartComponent implements OnInit {
     }
   }
 
-  drawChart(from: string, name: any = undefined) {
+  drawChart(from: string, selectedParam: string, name: any = undefined) {
     // TODO: passar os labels de y em um objeto.
     if (from.includes('dns')) {
       // set y label.
@@ -81,7 +84,17 @@ export class LineChartComponent implements OnInit {
       for (const color of Object.keys(this.nrmData[from][dataId])) {
         // gets the data
         const data = this.nrmData[from][dataId];
-        this.lineChart.updateDataset(dataId, color, data[color], name);
+        const chartData = [];
+        for(let i = 0; i < data[color].length; i++) {
+          if(selectedParam == 'average') {
+            chartData.push(data[color][i].x);
+          } else if(selectedParam == 'max') {
+            chartData.push(data[color][i].y);
+          } else {
+            chartData.push(data[color][i].z);
+          }     
+        }
+        this.lineChart.updateDataset(dataId, color, chartData, name);
       }
     }
   }
@@ -97,7 +110,6 @@ export class LineChartComponent implements OnInit {
     }
 
     delete this.rawData[from][dataId][color];
-
     // new group
     if (!this.nrmData[from]) {
       this.nrmData[from] = {};
@@ -107,7 +119,7 @@ export class LineChartComponent implements OnInit {
       this.nrmData[from][dataId] = {};
     }
 
-    delete this.nrmData[from][dataId][color]
+    delete this.nrmData[from][dataId][color];
   }
 
   clearChart(from: string, dataId: string, color: string) {
@@ -159,7 +171,9 @@ export class LineChartComponent implements OnInit {
       for (let color of colors) {
         this.nrmData[from][dataId][color] = [];
         for (let pId = 0; pId < data[dataId][color].length; pId++) {
-          this.nrmData[from][dataId][color].push(data[dataId][color][pId].y / this.unity[from].div);
+          this.nrmData[from][dataId][color].push({ x: data[dataId][color][pId].y / this.unity[from].div,
+                                                   y: data[dataId][color][pId].z / this.unity[from].div,
+                                                   z: data[dataId][color][pId].k / this.unity[from].div});
         };
       }
     }
@@ -231,9 +245,18 @@ export class LineChartComponent implements OnInit {
       key: "line_params_value",
       value: event.target.value
     };
-
-    this.global.setGlobal(line_params_value)
+    
+    this.global.setGlobal(line_params_value);
     this.checkboxClicked.emit();
+  }
+
+  onSelectChange(event: any) {
+    const line_selected_params_value = {
+      key: "line_selected_params_value",
+      value: event.target.value
+    };
+    this.global.setGlobal(line_selected_params_value);
+    this.selectChanged.emit();
   }
 
   refreshAvailable() {
