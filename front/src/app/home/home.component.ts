@@ -326,7 +326,8 @@ export class HomeComponent implements AfterViewInit {
    */
   onLineVolumeChanged() {
     const param = this.global.getGlobal('line_params_value').value;
-    this.line.drawChart(param);
+    const selectedParam = this.global.getGlobal('line_selected_params_value').value;
+    this.line.drawChart(param, selectedParam);
   }
 
   onSelectedValueChanged(){
@@ -515,6 +516,7 @@ export class HomeComponent implements AfterViewInit {
     this.line.updateData(data, dataId, chartColor);
 
     const param = this.global.getGlobal('line_params_value').value;
-    this.line.drawChart(param, name);
+    const selectedParam = this.global.getGlobal('line_selected_params_value').value;
+    this.line.drawChart(param, selectedParam, name);
   }
 }

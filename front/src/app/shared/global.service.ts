@@ -155,7 +155,16 @@ export class GlobalService {
       value: line_params.value[0].id
     };
     this.setGlobal(line_params_value);
-
+    
+    /**
+     * Guarda a seleção de average, max, min selecionado no line chart.
+     */   
+    const line_selected_params_value = {
+      key: "line_selected_params_value",
+      value: 'average'
+    };
+    this.setGlobal(line_selected_params_value);
+    
     /**
      * Estabelece uma lista de cores.
      */

@@ -38,11 +38,11 @@ export class LineChartComponent implements OnInit {
   updateData(responseData: any, dataId: any, chartColor: any) {
     // manages data for each from
     for (let paramId of Object.keys(responseData)) {
-      //creating list to average, max, min
-      this.rawData[paramId][dataId][chartColor] = {'average': [], 'max': [], 'min': []};
-      console.log(this.rawData)
       // clear existing element
       this.deleteData(paramId, dataId, chartColor);
+      //creating list to average, max, min
+      this.rawData[paramId][dataId][chartColor] = [];
+      console.log(this.rawData)
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[paramId].result.length; i++) {
         //pega o tempo
@@ -53,9 +53,7 @@ export class LineChartComponent implements OnInit {
         const pointMaxValue = responseData[paramId].result[i].v[2];
         //pega valor min
         const pointMinValue = responseData[paramId].result[i].v[3];        
-        this.rawData[paramId][dataId][chartColor]['average'].push({ x: this.util.secondsToDate(pointTime), y: pointAverageValue });
-        this.rawData[paramId][dataId][chartColor]['max'].push({ x: this.util.secondsToDate(pointTime), y: pointMaxValue });
-        this.rawData[paramId][dataId][chartColor]['min'].push({ x: this.util.secondsToDate(pointTime), y: pointMinValue });
+        this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointAverageValue, z: pointMaxValue, k: pointMinValue});
       }
       console.log(this.rawData);
       // computes the unity
@@ -66,10 +64,11 @@ export class LineChartComponent implements OnInit {
 
       // normaliza os dados de dataId
       this.normalizeData(paramId);
+      console.log(this.nrmData);
     }
   }
 
-  drawChart(from: string, name: any = undefined) {
+  drawChart(from: string, selectedParam: string, name: any = undefined) {
     // TODO: passar os labels de y em um objeto.
     if (from.includes('dns')) {
       // set y label.
@@ -88,7 +87,18 @@ export class LineChartComponent implements OnInit {
       for (const color of Object.keys(this.nrmData[from][dataId])) {
         // gets the data
         const data = this.nrmData[from][dataId];
-        this.lineChart.updateDataset(dataId, color, data[color], name);
+        const chartData = [];
+        console.log(data);
+        for(let i = 0; i < data[color].length; i++) {
+          if(selectedParam == 'average') {
+            chartData.push(data[color][i].y);
+          } else if(selectedParam == 'max') {
+            chartData.push(data[color][i].z);
+          } else {
+            chartData.push(data[color][i].k);
+          }     
+        }
+        this.lineChart.updateDataset(dataId, color, chartData, name);
       }
     }
   }
@@ -103,9 +113,7 @@ export class LineChartComponent implements OnInit {
       this.rawData[from][dataId] = {};
     }
 
-    delete this.rawData[from][dataId][color]['average'];
-    delete this.rawData[from][dataId][color]['max'];
-    delete this.rawData[from][dataId][color]['min'];
+    delete this.rawData[from][dataId][color];
     // new group
     if (!this.nrmData[from]) {
       this.nrmData[from] = {};
@@ -115,9 +123,7 @@ export class LineChartComponent implements OnInit {
       this.nrmData[from][dataId] = {};
     }
 
-    delete this.nrmData[from][dataId][color]['average'];
-    delete this.nrmData[from][dataId][color]['max'];
-    delete this.nrmData[from][dataId][color]['min'];
+    delete this.nrmData[from][dataId][color];
   }
 
   clearChart(from: string, dataId: string, color: string) {
@@ -169,7 +175,9 @@ export class LineChartComponent implements OnInit {
       for (let color of colors) {
         this.nrmData[from][dataId][color] = [];
         for (let pId = 0; pId < data[dataId][color].length; pId++) {
-          this.nrmData[from][dataId][color].push(data[dataId][color][pId].y / this.unity[from].div);
+          this.nrmData[from][dataId][color].push({ x: data[dataId][color][pId].y / this.unity[from].div,
+                                                   y: data[dataId][color][pId].z / this.unity[from].div,
+                                                   k: data[dataId][color][pId].k / this.unity[from].div});
         };
       }
     }
