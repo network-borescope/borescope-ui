@@ -506,7 +506,6 @@ export class HomeComponent implements AfterViewInit {
       const res = await this.api.requestLineChart(location, time, client, param);
       data[param.id] = res;
     }
-    console.log(data)
     this.line.updateData(data, dataId, chartColor);
 
     const param = this.global.getGlobal('line_params_value').value;
