@@ -207,7 +207,7 @@ export class ApiService {
 
     query['from'] = params.from;
     query['select'] = params.select;
-    query["group-by"] = {"field":"time","min-k":tsT0,"max-k":tsT1,"n-points":1064, "v":"AMPNS"};
+    query["group-by"] = {"field":"time","min-k":tsT0,"max-k":tsT1,"n-points":1024, "v":"AMPNS"};
     query['id'] = this.getQueryId();
 
     query.where = [];
