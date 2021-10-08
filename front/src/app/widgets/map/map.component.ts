@@ -74,7 +74,7 @@ export class MapComponent implements AfterViewInit {
    * Configura o mapa.
    */
   //  -15.787129, -47.884329
-  async setupMap(lat = -15.787129, lng = -47.884329, zoom = 13) {
+  async setupMap(lat = -15.787129, lng = -47.884329, zoom = 5) {
     if (this.mapDiv === undefined) {
       return;
     }
@@ -93,14 +93,14 @@ export class MapComponent implements AfterViewInit {
       tileSize: 512,
       zoomOffset: -1
     }).addTo(this.map);
-
+    // Inicialização do layer do outlier
+    let outlierMarker = new L.FeatureGroup();
     // carregamento do dado dos clientes
     const clientes = this.global.getGlobal('list_clientes').value.items.map((d: any) => {
       // adciona um marcador extra
       if(d.id === "OTHERS") {
         const outColor = this.global.getGlobal('outlier_color').value;
-        const outlierMarker = L.circle([d.lat,d.lon], 250, { color: outColor, fillColor: outColor, opacity: 1, fillOpacity: 1});
-        outlierMarker.addTo(this.map);
+        outlierMarker.addLayer(L.circle([d.lat,d.lon], 250, { color: outColor, fillColor: outColor, opacity: 1, fillOpacity: 1}));
       };
 
       return {
@@ -112,12 +112,34 @@ export class MapComponent implements AfterViewInit {
         "properties": d
       }
     })
-    this.geojson = L.geoJSON(clientes, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) }).addTo(this.map);
+    let map = this.map;
+    // adição dos layers clicáveis
+    let capitalsMarkersLayers = new L.FeatureGroup().addTo(this.map);
+    const capitals = this.global.getGlobal('state_capitals').value.default;
+    for(let i = 0; i < capitals.length; i++) {
+      let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers() }).on("mouseup", this.capitalClick, false);
+      capitalsMarkersLayers.addLayer(capitalMarker);
+    }
+    
+    // Inicialização layers dos markers dos clientes
+    let clientMarkersLayers = new L.FeatureGroup();
+    this.geojson = L.geoJSON(clientes, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) });
+    clientMarkersLayers.addLayer(this.geojson);
 
     // Inicialização dos layers editaveis
     let editableLayers = new L.FeatureGroup();
-    this.map.addLayer(editableLayers);
-
+    // adição e remoção dos layers baseado no
+    this.map.on('zoomend', function() {
+      if(map.getZoom() < 9) {
+        map.removeLayer(clientMarkersLayers);
+        map.removeLayer(editableLayers);
+        map.removeLayer(outlierMarker);
+      } else {
+        map.addLayer(clientMarkersLayers);
+        map.addLayer(editableLayers);  
+        map.addLayer(outlierMarker);      
+      }
+    });
     // Controles de desnho dos polígonos
     this.drawControl = new L.Control.Draw({
       position: 'topleft',
@@ -140,7 +162,6 @@ export class MapComponent implements AfterViewInit {
       }
     });
     this.map.addControl(this.drawControl);
-
     // Eventos do mapa: criação do polígono
     this.map.on(L.Draw.Event.CREATED, (e: any) => {
       this.listLayer.push(e.layer);
@@ -355,6 +376,25 @@ export class MapComponent implements AfterViewInit {
   }
 
   /**
+   * Markers das capitais dos estados.
+   */
+  capitalMarkers(){
+    return L.divIcon({
+      className: 'custom-div-icon',
+      html: `<div style='background-color:#000;' class='marker-pin'></div><i class='fa fa-circle awesome'>`,
+      iconSize: [30, 42],
+      iconAnchor: [15, 42]
+    });    
+  }
+  /**
+   * Ação de click no marker da capital.
+   */
+  
+  capitalClick(event: any) {
+    event.sourceTarget._map.setView([event.latlng.lat, event.latlng.lng], 9);
+  }
+
+  /**
    * Atribui eventos aos markers dos pops.
    */
   onEachFeature(feature: any, layer: any) {
@@ -474,7 +514,16 @@ export class MapComponent implements AfterViewInit {
     } else {
       this.current_heatmapLayer = new HeatmapOverlay(this.heatCfg);
       this.current_heatmapLayer.setData(heatData);
-      this.map.addLayer(this.current_heatmapLayer);
+      // desenha o heatmap apenas se o zoom for maior do que 8
+      let currentHeatmapLayer = this.current_heatmapLayer;
+      let map = this.map;
+      this.map.on('zoomend', function() {
+        if(map.getZoom() < 9) {
+          map.removeLayer(currentHeatmapLayer);
+        } else {
+          map.addLayer(currentHeatmapLayer);      
+        }
+      });
     }
   }
 
