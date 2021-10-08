@@ -94,7 +94,6 @@ export class LineChartComponent implements OnInit {
             chartData.push(data[color][i].z);
           }     
         }
-        console.log(chartData);
         this.lineChart.updateDataset(dataId, color, chartData, name);
       }
     }
