@@ -331,15 +331,9 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onSelectedValueChanged(){
+    const selectedParam = this.global.getGlobal('line_selected_params_value').value;
     const param = this.global.getGlobal('line_params_value').value;
-    const line_params = this.global.getGlobal('line_params').value;
-    console.log(line_params)
-    console.log(this.line)
-    for (let param of line_params) {
-      console.log(param.id);
-    }
-    //this.line.updateData('map', '#AAAAAA');
-    //this.line.updateData(line_params[0], dataId, chartColor);
+    this.line.drawChart(param, selectedParam);
   }
 
   /**

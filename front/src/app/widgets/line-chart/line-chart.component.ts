@@ -42,7 +42,6 @@ export class LineChartComponent implements OnInit {
       this.deleteData(paramId, dataId, chartColor);
       //creating list to average, max, min
       this.rawData[paramId][dataId][chartColor] = [];
-      console.log(this.rawData)
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[paramId].result.length; i++) {
         //pega o tempo
@@ -55,7 +54,6 @@ export class LineChartComponent implements OnInit {
         const pointMinValue = responseData[paramId].result[i].v[3];        
         this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointAverageValue, z: pointMaxValue, k: pointMinValue});
       }
-      console.log(this.rawData);
       // computes the unity
       this.computeUnity(paramId);
 
@@ -64,7 +62,6 @@ export class LineChartComponent implements OnInit {
 
       // normaliza os dados de dataId
       this.normalizeData(paramId);
-      console.log(this.nrmData);
     }
   }
 
@@ -88,16 +85,16 @@ export class LineChartComponent implements OnInit {
         // gets the data
         const data = this.nrmData[from][dataId];
         const chartData = [];
-        console.log(data);
         for(let i = 0; i < data[color].length; i++) {
           if(selectedParam == 'average') {
-            chartData.push(data[color][i].y);
+            chartData.push(data[color][i].x);
           } else if(selectedParam == 'max') {
-            chartData.push(data[color][i].z);
+            chartData.push(data[color][i].y);
           } else {
-            chartData.push(data[color][i].k);
+            chartData.push(data[color][i].z);
           }     
         }
+        console.log(chartData);
         this.lineChart.updateDataset(dataId, color, chartData, name);
       }
     }
@@ -177,7 +174,7 @@ export class LineChartComponent implements OnInit {
         for (let pId = 0; pId < data[dataId][color].length; pId++) {
           this.nrmData[from][dataId][color].push({ x: data[dataId][color][pId].y / this.unity[from].div,
                                                    y: data[dataId][color][pId].z / this.unity[from].div,
-                                                   k: data[dataId][color][pId].k / this.unity[from].div});
+                                                   z: data[dataId][color][pId].k / this.unity[from].div});
         };
       }
     }
@@ -255,12 +252,11 @@ export class LineChartComponent implements OnInit {
   }
 
   onSelectChange(event: any) {
-    const line_params_value = {
-      key: "line_params_value",
-      value: parseInt(event.target.value)
+    const line_selected_params_value = {
+      key: "line_selected_params_value",
+      value: event.target.value
     };
-
-    this.global.setGlobal(line_params_value);
+    this.global.setGlobal(line_selected_params_value);
     this.selectChanged.emit();
   }
 
