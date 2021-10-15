@@ -80,8 +80,8 @@
 
 .network-window {
   position: absolute;
-  top: 832px;
-  right: 10px;
+  top: 180px;
+  right: 532px;
   width: 516px;
   height: 327px !important;
   z-index: -10;
@@ -101,7 +101,8 @@
   
   .network-window {
     width: 600px;
-    top: 920px;
+    top: 180px;
+    right: 620px;
     height: 380px !important;
   }
 }

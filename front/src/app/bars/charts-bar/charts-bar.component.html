@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" (click)="this.setChartsPosition()">
   <button class="btn btn-custom" type="button" (click)="this.toggleChartVisibility('alerts')">
     <span class="fas fa-exclamation fa-lg" id="alerts"
     [style.color]="this.setAlertColor()"></span>

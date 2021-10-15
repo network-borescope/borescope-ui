@@ -24,6 +24,14 @@ export class ChartsBarComponent implements OnInit {
     return obj.value[chartId];
   }
 
+  setChartsPosition() {
+    const obj = this.global.getGlobal('widgets_charts').value;
+    const barDiv = document.querySelectorAll<HTMLElement>(".bar-chart-window")[0];
+    const lineDiv = document.querySelectorAll<HTMLElement>(".line-chart-window")[0];
+    const netDiv = document.querySelectorAll<HTMLElement>(".network-window")[0];
+    console.log(obj)
+  }
+
   setAlertColor() {
     const obj = this.global.getGlobal('widgets_charts');
     if(obj.value['hasAlert']) {
