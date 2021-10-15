@@ -13,6 +13,13 @@ html, body {
   height: 100%;
 }
 
+.chart-check {
+  display: inline-block;
+  margin-left: 6px;
+  vertical-align: middle;
+  font-size: 9px;
+}
+
 .leaflet-touch .leaflet-bar a:last-child {
   border-bottom-left-radius: 7px !important;
   border-bottom-right-radius: 7px !important;
@@ -110,4 +117,10 @@ html, body {
   margin: -4px 0 0 -1px;
   top: 50%;
   left: 100%;
+}
+
+@media screen and (min-width: 1024px) {
+  .chart-check {
+    font-size: 11px;
+  }
 }

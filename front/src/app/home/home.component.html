@@ -15,7 +15,7 @@
 
   <app-charts-bar class="charts-menu"></app-charts-bar>
 
-  <div ngDraggable class="widget" style="position: absolute; top: 180px; right: 10px; height: 340px !important;  z-index: -10;"
+  <div ngDraggable class="widget bar-chart-window"
   [style.z-index] = "this.isChartVisible('bar') ? this.chartZindex('bar') : '-10' "
   (started)="this.moving = 'bar'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'bar'">
     <app-bar-chart #appBarChart
@@ -23,7 +23,7 @@
     ></app-bar-chart>
   </div>
 
-  <div ngDraggable class="widget" style="position: absolute; top: 530px; right: 10px; height: 400px !important; z-index: -10;"
+  <div ngDraggable class="widget line-chart-window"
   [style.z-index] = "this.isChartVisible('line') ? this.chartZindex('line') : '-10' "
   (started)="this.moving = 'line'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'line'">
     <app-line-chart #appLineChart
@@ -33,7 +33,7 @@
     ></app-line-chart>
   </div>
 
-  <div ngDraggable class="widget" style="position: absolute; top: 920px; right: 10px; height: 380px !important; z-index: -10;"
+  <div ngDraggable class="widget network-window"
   [style.z-index] = "this.isChartVisible('net') ? this.chartZindex('net') : '-10' "
   (started)="this.moving = 'net'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'net'">
     <app-network #appNetworkChart></app-network>

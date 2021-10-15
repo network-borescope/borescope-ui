@@ -18,6 +18,33 @@
 }
 
 .param-selector {
-    width:88px;
-    left: 10px;
+    width: 71px;
+    font-size: 9px;
+    left: 17px;
+    height: 27px;
+    position: relative;
+}
+
+.line-time-icon {
+    font-size: 1em;
+}
+.handler-line-chart .btn {
+    height: 24px;
+    padding: 6px 21px;
+}
+
+@media screen and (min-width: 1024px) {
+    .line-time-icon {
+        font-size: 1.33em;
+    }
+
+    .handler-line-chart .btn {
+        height: 34px;
+        padding: 6px 24px;
+    }
+
+    .param-selector {
+        width: 71px;
+        font-size: 11px;
+    }
 }

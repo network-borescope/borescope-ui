@@ -36,7 +36,7 @@ export class BarChart {
             display: false
           }
         },
-        responsive: false,
+        responsive: true,
         scales: {
           x: {
             stacked: true,

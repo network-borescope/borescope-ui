@@ -46,7 +46,7 @@ export class LineChart {
             radius: 0
           }
         },
-        responsive: false,
+        responsive: true,
         hover: {
           mode: 'nearest',
           intersect: true
