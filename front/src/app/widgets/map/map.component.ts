@@ -391,7 +391,7 @@ export class MapComponent implements AfterViewInit {
    */
   
   capitalClick(event: any) {
-    event.sourceTarget._map.setView([event.latlng.lat, event.latlng.lng], 9);
+    event.sourceTarget._map.setView([event.latlng.lat, event.latlng.lng], 12);
   }
 
   /**
