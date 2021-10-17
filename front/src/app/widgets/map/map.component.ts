@@ -131,10 +131,12 @@ export class MapComponent implements AfterViewInit {
     // adição e remoção dos layers baseado no
     this.map.on('zoomend', function() {
       if(map.getZoom() < 9) {
+        map.addLayer(capitalsMarkersLayers);
         map.removeLayer(clientMarkersLayers);
         map.removeLayer(editableLayers);
         map.removeLayer(outlierMarker);
       } else {
+        map.removeLayer(capitalsMarkersLayers);
         map.addLayer(clientMarkersLayers);
         map.addLayer(editableLayers);  
         map.addLayer(outlierMarker);      
