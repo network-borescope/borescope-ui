@@ -11,6 +11,9 @@ import 'leaflet-draw';
 import 'leaflet-heatmap';
 declare var HeatmapOverlay: any;
 
+// inclusão easybutton
+import 'leaflet-easybutton';
+
 // inclusões da aplicação
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
@@ -200,6 +203,11 @@ export class MapComponent implements AfterViewInit {
     this.map.on('moveend', () => {
       this.moveEndedEvent.emit();
     });
+
+     
+    L.easyButton('fa-crosshairs fa-lg', function(btn, map){
+      map.setView([lat, lng], zoom);
+    }).addTo(this.map);
   }
 
   /**
