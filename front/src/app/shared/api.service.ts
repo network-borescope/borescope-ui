@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 import { GlobalService } from './global.service';
 import { UtilService } from './util.service';
 
-import { BoundsRequest, QueryRequest, SchemaRequest } from 'src/app/shared/api.models';
+import { BoundsRequest, QueryRequest, SchemaRequest, MatrixRequest } from 'src/app/shared/api.models';
 
 @Injectable({
   providedIn: 'root'
@@ -237,6 +237,25 @@ export class ApiService {
       body: JSON.stringify(query),
     });
 
+    return await response.json();
+  }
+
+  async requestHeatmatrix() {
+    let query = new MatrixRequest();
+    this.utils.showTrace("requestHeatMatrix", query);
+
+    // post header
+    const headers = {
+      'Content-Type': 'application/json',
+      'dataType': 'json'
+    };
+
+    // Return a new promise.
+    const response = await fetch('http://gwrec.cloudnext.rnp.br:60085/tc/query', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(query),
+    });
     return await response.json();
   }
 }

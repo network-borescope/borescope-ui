@@ -62,6 +62,9 @@ export class HomeComponent implements AfterViewInit {
 
     // adiciona ao estado global
     this.addChartElementToGlobal('map', '#AAAAAA');
+
+    // heat matrix
+    this.updateHeatmatrix();
   }
 
   /**
@@ -511,5 +514,10 @@ export class HomeComponent implements AfterViewInit {
     const param = this.global.getGlobal('line_params_value').value;
     const selectedParam = this.global.getGlobal('line_selected_params_value').value;
     this.line.drawChart(param, selectedParam, name);
+  }
+
+  async updateHeatmatrix() {
+    const res = await this.api.requestHeatmatrix();
+    console.log(res);
   }
 }

@@ -56,3 +56,19 @@ export class QueryRequest {
     this['from'] = "ttls";
   }
 }
+
+export class MatrixRequest {
+  'what': string;
+  'metric': number;
+  'field': string;
+  'start': number;
+  'end': number;
+
+  constructor() {
+    this['what'] = "matrix";
+    this['metric'] = 10;
+    this['field']= "h_avg";
+    this['start'] = 1;
+    this['end'] = 1634149785;
+  }
+}
