@@ -26,6 +26,7 @@
     "d3-tip": "^0.9.1",
     "leaflet": "^1.7.1",
     "leaflet-draw": "^1.0.4",
+    "leaflet-easybutton": "^2.4.0",
     "leaflet-heatmap": "^1.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
