@@ -39,21 +39,17 @@ export class Network {
   }
 
   setData(data: any) {
-    this._data = data;
-
     this._data = []
 
-    for(let id = 0; id < 25; id++) {
-      for(let jd = 0; jd < 25; jd++) {
-        const elem = {
-          key_x: id,
-          key_y: jd,
-          val: Math.random()
-        }
-
-        this._data.push(elem);
+    for(let i = 0; i < data.length; i++) {
+      const elem = {
+        key_x: data[i][0],
+        key_y: data[i][1],
+        val: data[i][2]
       }
+      this._data.push(elem);
     }
+    console.log(this._data)
   }
 
   render() {

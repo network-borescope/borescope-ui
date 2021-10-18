@@ -6,6 +6,7 @@ import { GlobalService } from 'src/app/shared/global.service';
 import { MapComponent } from 'src/app/widgets/map/map.component';
 import { BarChartComponent } from 'src/app/widgets/bar-chart/bar-chart.component';
 import { LineChartComponent } from 'src/app/widgets/line-chart/line-chart.component';
+import { NetworkComponent } from 'src/app/widgets/network/network.component';
 import { AlertsComponent } from '../widgets/alerts/alerts.component';
 
 import { FiltersComponent } from 'src/app/widgets/filters/filters.component';
@@ -24,7 +25,9 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild("appBarChart", { static: true }) private bar!: BarChartComponent;
   // referência para o componente do gráfico de linhas
   @ViewChild("appLineChart", { static: true }) private line!: LineChartComponent;
-  // referência para o componente do gráfico de linhas
+  // referência para o componente da heatmatrix
+  @ViewChild("appNetworkChart", { static: true }) private net!: NetworkComponent;
+  // referência para o componente dos alertas
   @ViewChild("appAlerts", { static: true }) private alerts!: AlertsComponent;
   // referência para componente do mapa
   @ViewChild("appFilters", { static: true }) private filters!: FiltersComponent;
@@ -519,5 +522,7 @@ export class HomeComponent implements AfterViewInit {
   async updateHeatmatrix() {
     const res = await this.api.requestHeatmatrix();
     console.log(res);
+    const data = JSON.parse(res).result;
+    this.net.drawChart(data);
   }
 }

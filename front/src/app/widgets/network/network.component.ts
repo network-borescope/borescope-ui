@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
 import { Network } from './network';
@@ -19,8 +19,11 @@ export class NetworkComponent implements OnInit {
 
   ngOnInit(): void {
     this.netChart = new Network(this.netDiv.nativeElement);
-    this.netChart.setData([]);
-    this.netChart.render();
   }
 
+  drawChart(data: any) {
+    this.netChart.setData(data);
+    this.netChart.render();
+  }
 }
+ 

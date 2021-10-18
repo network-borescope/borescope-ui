@@ -236,10 +236,12 @@ export class ApiService {
       headers,
       body: JSON.stringify(query),
     });
-
     return await response.json();
   }
 
+  /**
+   * Solicita os dados do mapa para compor a heatmatrix.
+   */
   async requestHeatmatrix() {
     let query = new MatrixRequest();
     this.utils.showTrace("requestHeatMatrix", query);
