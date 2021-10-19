@@ -1,2 +1,59 @@
-<div class="fill" #netChart>
+<div>
+    <div class="fill network-chart" #netChart></div>
+    <div style="display: flex; margin-top: 7px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
+        <div id="code-select-box" class="code-select">
+            <select name="code" class="network-select">
+                <optgroup label="Atraso e perda">
+                    <option>Failures</option>
+                    <option>Histogram-rtt</option>
+                    <option>Histogram-ttl-reverse</option>
+                    <option>Packet-count-lost-bidir</option>
+                    <option>Packet-count-sent</option>
+                    <option>Packet-duplicates-bidir</option>
+                    <option>Packet-loss-rate-bidir</option>
+                    <option>Packet-reorders-bidir</option>
+                    <option>Pscheduler-run-href</option>
+                </optgroup>
+                <optgroup label="Atraso unidirecional">
+                    <option>Failures</option>
+                    <option>Histogram-owdelay</option>
+                    <option>Histogram-ttl</option>
+                    <option>Packet-count-lost</option>
+                    <option>Packet-count-sent</option>
+                    <option>Packet-duplicates</option>
+                    <option>Packet-loss-rate</option>
+                    <option>Packet-reorders</option>
+                    <option>Time-error-estimates</option>
+                    <option>Pscheduler-run-href</option>
+                </optgroup>
+                <optgroup label="BANDA (BBR)">
+                    <option>Failures</option>
+                    <option>Packet-retransmits</option>
+                    <option>Packet-retransmits-subintervals</option>
+                    <option>Throughput</option>
+                    <option>Throughput-subintervals</option>
+                    <option>Pscheduler-run-href</option>
+                </optgroup>
+                <optgroup label="BANDA (CUBIC)">
+                    <option>Failures</option>
+                    <option>Packet-retransmits</option>
+                    <option>Packet-retransmits-subintervals</option>
+                    <option>Throughput</option>
+                    <option>Throughput-subintervals</option>
+                    <option>Pscheduler-run-href</option>
+                </optgroup>
+                <optgroup label="TraceRoute">
+                    <option>Failures</option>
+                    <option>Packet-trace</option>
+                </optgroup>
+            </select>
+        </div>
+        <div id="codfield-select-box" class="codfield-select">
+            <select name="codefield" class="network-select">
+                <option>Average</option>
+                <option>Max</option>
+                <option>Min</option>
+            </select>        
+        </div>
+    </div>
 </div>

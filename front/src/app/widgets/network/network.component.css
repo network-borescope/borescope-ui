@@ -1,0 +1,41 @@
+.network-chart {
+    height: 327px;
+}
+
+.network-select {
+    font-size: 9px;
+}
+
+.code-select {
+    width: 164px;
+    margin-top: 7px;
+    margin-left: 19px;
+}
+
+.codfield-select {
+    width: 71px;
+    margin-top: 7px;
+    margin-left: 19px;
+}
+
+@media screen and (min-width: 1024px) {
+    .network-chart {
+        height: 380px;
+    }
+
+    .network-select {
+        font-size: 11px;
+    }
+    
+    .code-select {
+        width: 192px;
+        margin-top: 7px;
+        margin-left: 19px;
+    }
+    
+    .codfield-select {
+        width: 79px;
+        margin-top: 7px;
+        margin-left: 19px;
+    }
+}
