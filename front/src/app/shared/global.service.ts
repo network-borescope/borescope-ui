@@ -164,7 +164,24 @@ export class GlobalService {
       value: 'average'
     };
     this.setGlobal(line_selected_params_value);
-    
+
+    /**
+     * Guarda a seleção dos parametros para a heatmatrix
+     */       
+      const heatmatrix_param = {
+      key: "heatmatrix_param",
+      value: "10",
+    };
+    this.setGlobal(heatmatrix_param);
+
+    /**
+     * Guarda a seleção dos valores para a heatmatrix
+     */       
+    const heatmatrix_value = {
+      key: "heatmatrix_value",
+      value: "h_avg",
+    };
+    this.setGlobal(heatmatrix_value);
     /**
      * Estabelece uma lista de cores.
      */

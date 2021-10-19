@@ -36,7 +36,10 @@
   <div ngDraggable class="widget network-window"
   [style.z-index] = "this.isChartVisible('net') ? this.chartZindex('net') : '-10' "
   (started)="this.moving = 'net'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'net'">
-    <app-network #appNetworkChart></app-network>
+    <app-network #appNetworkChart 
+    (valueChanged) = "this.onHeatmatrixSelectChanged()"
+    (paramChanged) = "this.onHeatmatrixSelectChanged()"
+    ></app-network>
   </div>
 
   <div ngDraggable style="position: absolute; top: 400px; left: 10px; width: 200px; z-index: 900;"

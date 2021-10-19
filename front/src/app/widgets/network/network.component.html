@@ -2,7 +2,7 @@
     <div class="fill network-chart" #netChart></div>
     <div style="display: flex; margin-top: 7px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
         <div id="code-select-box" class="code-select">
-            <select name="code" class="network-select">
+            <select name="code" class="network-select" (change)="this.onParamChange($event)">
                 <optgroup label="Atraso e perda">
                     <option value="10">Failures</option>
                     <option value="11">Histogram-rtt (average)</option>
@@ -64,7 +64,7 @@
             </select>
         </div>
         <div id="codfield-select-box" class="codfield-select">
-            <select name="codefield" class="network-select">
+            <select name="codefield" class="network-select" (change)="this.onValueChange($event)">
                 <option value="h_avg">Average</option>
                 <option value="h_min">Max</option>
                 <option value="h_max">Min</option>

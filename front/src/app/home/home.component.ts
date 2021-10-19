@@ -342,6 +342,12 @@ export class HomeComponent implements AfterViewInit {
     this.line.drawChart(param, selectedParam);
   }
 
+  onHeatmatrixSelectChanged() {
+    const selectedParam = this.global.getGlobal('heatmatrix_param').value;
+    const selectedValue = this.global.getGlobal('heatmatrix_value').value;
+    console.log(selectedParam, selectedValue);
+  }
+
   /**
    * Atualiza o período de tempo ativo das visualizações
    */
