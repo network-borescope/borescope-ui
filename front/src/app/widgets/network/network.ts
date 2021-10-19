@@ -40,7 +40,6 @@ export class Network {
 
   setData(data: any) {
     this._data = data
-    console.log(this._data)
   }
 
   render() {
