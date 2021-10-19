@@ -39,16 +39,7 @@ export class Network {
   }
 
   setData(data: any) {
-    this._data = []
-
-    for(let i = 0; i < data.length; i++) {
-      const elem = {
-        key_x: data[i][0],
-        key_y: data[i][1],
-        val: data[i][2]
-      }
-      this._data.push(elem);
-    }
+    this._data = data
     console.log(this._data)
   }
 
@@ -106,14 +97,14 @@ export class Network {
   }
 
   updateScales() {
-    const labels = Array.from(new Set(this._data.map((d: any) =>  d.key_x)));
+    const labels = Array.from(new Set(this._data.map((d: any) =>  d[0])));
 
     // @ts-ignore
     this._xScale.domain(labels);
     // @ts-ignore
     this._yScale.domain(labels);
     // @ts-ignore
-    this._cScale.domain( d3.extent(this._data.map((d: any) => d.val)) );
+    this._cScale.domain( d3.extent(this._data.map((d: any) => d[2])) );
   }
 
   updateAxes() {
@@ -138,7 +129,7 @@ export class Network {
     // @ts-ignore
     const tip = d3Tip()
     .attr('class', 'd3-tip').html((d: any) => {
-      return `${(d.val).toFixed(1)}`;
+      return `${(d[2]).toFixed(1)}`;
     })
     this._svgCanvas.call(tip);
 
@@ -147,11 +138,11 @@ export class Network {
     rects.selectAll("rect")
         .data(this._data)
         .join("rect")
-        .attr("x", (d: any) => this._xScale(d.key_x))
-        .attr("y", (d: any) => this._yScale(d.key_y))
+        .attr("x", (d: any) => this._xScale(d[0]))
+        .attr("y", (d: any) => this._yScale(d[1]))
         .attr("width", this._xScale.bandwidth())
         .attr("height", this._yScale.bandwidth())
-        .attr("fill", (d: any) => this._cScale(d.val))
+        .attr("fill", (d: any) => this._cScale(d[2]))
         .on('mouseover', (e: any, d: any) => tip.show(d, e.target))
         .on('mouseout' , (e: any, d: any) => tip.hide(d, e.target));
   }
