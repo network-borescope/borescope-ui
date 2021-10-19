@@ -37,8 +37,8 @@
   [style.z-index] = "this.isChartVisible('net') ? this.chartZindex('net') : '-10' "
   (started)="this.moving = 'net'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'net'">
     <app-network #appNetworkChart 
-    (valueChanged) = "this.onHeatmatrixSelectChanged()"
-    (paramChanged) = "this.onHeatmatrixSelectChanged()"
+    (valueChanged) = "this.updateHeatmatrix();"
+    (paramChanged) = "this.updateHeatmatrix();"
     ></app-network>
   </div>
 

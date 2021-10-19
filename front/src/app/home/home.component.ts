@@ -342,12 +342,6 @@ export class HomeComponent implements AfterViewInit {
     this.line.drawChart(param, selectedParam);
   }
 
-  onHeatmatrixSelectChanged() {
-    const selectedParam = this.global.getGlobal('heatmatrix_param').value;
-    const selectedValue = this.global.getGlobal('heatmatrix_value').value;
-    console.log(selectedParam, selectedValue);
-  }
-
   /**
    * Atualiza o período de tempo ativo das visualizações
    */
@@ -526,7 +520,12 @@ export class HomeComponent implements AfterViewInit {
   }
 
   async updateHeatmatrix() {
-    const res = await this.api.requestHeatmatrix();
+    let tsT0 = this.global.getGlobal("t0_vis").value;
+    let tsT1 = this.global.getGlobal("t1_vis").value;
+    const selectedParam = parseInt(this.global.getGlobal('heatmatrix_param').value);
+    const selectedValue = this.global.getGlobal('heatmatrix_value').value;
+
+    const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1);
     console.log(res);
     const data = JSON.parse(res).result;
     this.net.drawChart(data);

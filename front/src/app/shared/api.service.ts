@@ -242,8 +242,12 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor a heatmatrix.
    */
-  async requestHeatmatrix() {
+  async requestHeatmatrix(metric: number, field: string, t0: number, t1: number) {
     let query = new MatrixRequest();
+    query['metric'] = metric;
+    query['field'] = field;
+    query['start'] = t0;
+    query['end'] = t1;
     this.utils.showTrace("requestHeatMatrix", query);
 
     // post header
