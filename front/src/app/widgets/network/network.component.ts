@@ -24,7 +24,7 @@ export class NetworkComponent implements OnInit {
     this.netChart = new Network(this.netDiv.nativeElement);
   }
 
-  drawChart(data: any, capitals: any) {
+  drawChart(data: any, capitals: any, isTime: boolean = false) {
     this.netChart.setData(data, capitals);
     this.netChart.render();
   }
@@ -47,4 +47,3 @@ export class NetworkComponent implements OnInit {
     this.heatMatrixParamChanged.emit();
   }
 }
- 
