@@ -29,7 +29,6 @@ export class ChartsBarComponent implements OnInit {
     const barDiv = document.querySelectorAll<HTMLElement>(".bar-chart-window")[0];
     const lineDiv = document.querySelectorAll<HTMLElement>(".line-chart-window")[0];
     const netDiv = document.querySelectorAll<HTMLElement>(".network-window")[0];
-    console.log(obj)
   }
 
   setAlertColor() {

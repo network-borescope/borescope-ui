@@ -14,8 +14,8 @@ export class LineChartComponent implements OnInit {
   @ViewChild("lineChart", { static: true }) private lineDiv!: ElementRef;
 
   @Output() chartTimeChanged = new EventEmitter<number>();
-  @Output() checkboxClicked = new EventEmitter<number>();
-  @Output() selectChanged = new EventEmitter<number>();
+  @Output() lineParamChanged = new EventEmitter<number>();
+  @Output() lineValueChanged = new EventEmitter<number>();
 
   private lineChart: any;
 
@@ -240,23 +240,23 @@ export class LineChartComponent implements OnInit {
     this.chartTimeChanged.emit(delta);
   }
 
-  onCheckboxClick(event: any) {
+  onParamChange(event: any) {
     const line_params_value = {
       key: "line_params_value",
       value: event.target.value
     };
     
     this.global.setGlobal(line_params_value);
-    this.checkboxClicked.emit();
+    this.lineParamChanged.emit();
   }
 
-  onSelectChange(event: any) {
+  onValueChange(event: any) {
     const line_selected_params_value = {
       key: "line_selected_params_value",
       value: event.target.value
     };
     this.global.setGlobal(line_selected_params_value);
-    this.selectChanged.emit();
+    this.lineValueChanged.emit();
   }
 
   refreshAvailable() {

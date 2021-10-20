@@ -65,7 +65,7 @@
   top: 180px;
   right: 10px;
   width: 516px;
-  height: 292px !important;
+  height: 294px !important;
   z-index: -10;
 }
 
@@ -74,7 +74,7 @@
   top: 480px;
   right: 10px;
   width: 516px; 
-  height: 344px !important;
+  height: 329px !important;
   z-index: -10;
 }
 
@@ -90,13 +90,13 @@
 @media screen and (min-width: 1024px) {
   .bar-chart-window {
     width: 600px;
-    height: 340px !important;
+    height: 342px !important;
   }
   
   .line-chart-window {
     width: 600px;
     top: 530px;
-    height: 400px !important;
+    height: 380px !important;
   }
   
   .network-window {

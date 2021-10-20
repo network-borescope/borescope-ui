@@ -15,7 +15,7 @@ export class BarChartComponent implements OnInit {
   // referência para o div do grafico
   @ViewChild("barChart", { static: true }) private barDiv!: ElementRef;
 
-  @Output() checkboxClicked = new EventEmitter<number>();
+  @Output() barParamChanged = new EventEmitter<number>();
 
   private barChart: any;
 
@@ -201,13 +201,13 @@ export class BarChartComponent implements OnInit {
     this.labels[from].sort((a: number, b: number) => a - b);
   }
 
-  onCheckboxClick(event: any) {
+  onParamChange(event: any) {
     const bar_params_value = {
       key: "bar_params_value",
       value: event.target.value
     };
 
     this.global.setGlobal(bar_params_value)
-    this.checkboxClicked.emit();
+    this.barParamChanged.emit();
   }
 }

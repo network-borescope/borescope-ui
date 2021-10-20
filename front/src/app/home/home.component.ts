@@ -322,7 +322,7 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Atualiza o critério de groupby do barchart
    */
-  onBarGroupByChanged() {
+  onBarSelectedChanged() {
     const param = this.global.getGlobal('bar_params_value').value;
     this.bar.drawChart(param);
   };
@@ -330,15 +330,9 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Atualiza o from de saída do linechart
    */
-  onLineVolumeChanged() {
+   onLineSelectedChanged(){
     const param = this.global.getGlobal('line_params_value').value;
     const selectedParam = this.global.getGlobal('line_selected_params_value').value;
-    this.line.drawChart(param, selectedParam);
-  }
-
-  onSelectedValueChanged(){
-    const selectedParam = this.global.getGlobal('line_selected_params_value').value;
-    const param = this.global.getGlobal('line_params_value').value;
     this.line.drawChart(param, selectedParam);
   }
 

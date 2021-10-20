@@ -19,7 +19,7 @@
   [style.z-index] = "this.isChartVisible('bar') ? this.chartZindex('bar') : '-10' "
   (started)="this.moving = 'bar'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'bar'">
     <app-bar-chart #appBarChart
-    (checkboxClicked) = "this.onBarGroupByChanged()"
+    (barParamChanged) = "this.onBarSelectedChanged()"
     ></app-bar-chart>
   </div>
 
@@ -28,8 +28,8 @@
   (started)="this.moving = 'line'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'line'">
     <app-line-chart #appLineChart
     (chartTimeChanged) = "this.onChartTimeChanged($event)"
-    (selectChanged) = "this.onSelectedValueChanged()"
-    (checkboxClicked) = "this.onLineVolumeChanged()"
+    (lineParamChanged) = "this.onLineSelectedChanged()"
+    (lineValueChanged) = "this.onLineSelectedChanged()"
     ></app-line-chart>
   </div>
 
@@ -37,8 +37,8 @@
   [style.z-index] = "this.isChartVisible('net') ? this.chartZindex('net') : '-10' "
   (started)="this.moving = 'net'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'net'">
     <app-network #appNetworkChart 
-    (valueChanged) = "this.updateHeatmatrix();"
-    (paramChanged) = "this.updateHeatmatrix();"
+    (heatMatrixValueChanged) = "this.updateHeatmatrix();"
+    (heatMatrixParamChanged) = "this.updateHeatmatrix();"
     ></app-network>
   </div>
 

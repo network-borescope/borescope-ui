@@ -13,8 +13,8 @@ export class NetworkComponent implements OnInit {
   // referência para o div do grafico
   @ViewChild("netChart", { static: true }) private netDiv!: ElementRef;
 
-  @Output() valueChanged = new EventEmitter<number>();
-  @Output() paramChanged = new EventEmitter<number>();
+  @Output() heatMatrixValueChanged = new EventEmitter<number>();
+  @Output() heatMatrixParamChanged = new EventEmitter<number>();
   // objeto do gráfico
   private netChart: any;
 
@@ -35,7 +35,7 @@ export class NetworkComponent implements OnInit {
       value: event.target.value
     };
     this.global.setGlobal(heatmatrix_value);
-    this.valueChanged.emit();
+    this.heatMatrixValueChanged.emit();
   }
 
   onParamChange(event: any) {
@@ -44,7 +44,7 @@ export class NetworkComponent implements OnInit {
       value: event.target.value
     };
     this.global.setGlobal(heatmatrix_param);
-    this.paramChanged.emit();
+    this.heatMatrixParamChanged.emit();
   }
 }
  

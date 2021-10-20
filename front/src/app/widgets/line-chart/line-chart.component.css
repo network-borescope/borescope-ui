@@ -1,7 +1,6 @@
 .handler-line-chart {
     position: absolute;
     background-color: #fff;
-    bottom: 2px;
     left: 5px;
 }
 
@@ -17,12 +16,18 @@
     color: black;
 }
 
-.param-selector {
+.value-selector {
     width: 71px;
     font-size: 9px;
-    left: 17px;
+    margin-left: 17px;
     height: 27px;
-    position: relative;
+}
+
+.param-selector {
+    width: 174px;
+    font-size: 9px;
+    margin-left: 17px;
+    height: 27px;
 }
 
 .line-time-icon {
@@ -31,6 +36,7 @@
 .handler-line-chart .btn {
     height: 24px;
     padding: 6px 21px;
+    margin-top: 2px;
 }
 
 @media screen and (min-width: 1024px) {
@@ -43,8 +49,13 @@
         padding: 6px 24px;
     }
 
-    .param-selector {
+    .value-selector {
         width: 79px;
+        font-size: 11px;
+    }
+    
+    .param-selector {
+        width: 204px;
         font-size: 11px;
     }
 }

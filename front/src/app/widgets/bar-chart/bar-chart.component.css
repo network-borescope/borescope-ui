@@ -1,0 +1,14 @@
+.param-selector {
+    width: 79px;
+    font-size: 9px;
+    margin-left: 17px;
+    height: 27px;
+    margin-top: 4px;
+}
+
+@media screen and (min-width: 1024px) {
+    .param-selector {
+        font-size: 11px;
+        margin-top: 7px;
+    }
+}
