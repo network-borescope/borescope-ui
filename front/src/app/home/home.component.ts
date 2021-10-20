@@ -213,8 +213,8 @@ export class HomeComponent implements AfterViewInit {
     this.updateLineChart('map', '#AAAAAA');
     this.updateBarChart('map', '#AAAAAA');
 
-
-
+    // TODO: atualizar a heat matrix com base no zoom
+    this.updateHeatmatrix();
   }
 
   /**
