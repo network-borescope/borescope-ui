@@ -120,7 +120,7 @@ export class MapComponent implements AfterViewInit {
     let capitalsMarkersLayers = new L.FeatureGroup().addTo(this.map);
     const capitals = this.global.getGlobal('state_capitals').value.default;
     for(let i = 0; i < capitals.length; i++) {
-      let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers() }).on("mouseup", this.capitalClick, false);
+      let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers(capitals[i].id) }).on("mouseup", this.capitalClick, false);
       capitalsMarkersLayers.addLayer(capitalMarker);
     }
     
@@ -387,10 +387,10 @@ export class MapComponent implements AfterViewInit {
   /**
    * Markers das capitais dos estados.
    */
-  capitalMarkers(){
+  capitalMarkers(capitalId: string){
     return L.divIcon({
       className: 'custom-div-icon',
-      html: `<div style='background-color:#000;' class='marker-pin'></div><i class='fa fa-circle awesome'>`,
+      html: `<div style='background-color:#000;' class='marker-pin' id='` + capitalId + `'></div><i class='fa fa-circle awesome'>`,
       iconSize: [30, 42],
       iconAnchor: [15, 42]
     });    

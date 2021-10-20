@@ -3,162 +3,216 @@
         "nome": "Aracaju",
         "estado": "Sergipe",
         "latitude": -10.9091,
-        "longitude": -37.0677
+        "longitude": -37.0677,
+        "cod": 25,
+        "id": "se"
     },
     {
         "nome": "Belém",
         "estado": "Pará",
         "latitude": -1.4554,
-        "longitude": -48.4898
+        "longitude": -48.4898,
+        "cod": 14,
+        "id": "pa"
     },
     {
         "nome": "Belo Horizonte",
         "estado": "Minas Gerais",
         "latitude": -19.9102,
-        "longitude": -43.9266
+        "longitude": -43.9266,
+        "cod": 11,
+        "id": "mg"
     },
     {
         "nome": "Boa Vista",
         "estado": "Roraima",
         "latitude": 2.82384,
-        "longitude": -60.6753
+        "longitude": -60.6753,
+        "cod": 22,
+        "id": "rr"
     },
     {
         "nome": "Brasília",
         "estado": "Distrito Federal",
         "latitude": -15.7795,
-        "longitude": -47.9297
+        "longitude": -47.9297,
+        "cod": 7,
+        "id": "df"
     },
     {
         "nome": "Campo Grande",
         "estado": "Mato Grosso do Sul",
         "latitude": -20.4486,
-        "longitude": -54.6295
+        "longitude": -54.6295,
+        "cod": 12,
+        "id": "ms"
     },
     {
         "nome": "Cuiabá",
         "estado": "Mato Grosso",
         "latitude": -15.601,
-        "longitude": -56.0974
+        "longitude": -56.0974,
+        "cod": 13,
+        "id": "mt"
     },
     {
         "nome": "Curitiba",
         "estado": "Paraná",
         "latitude": -25.4195,
-        "longitude": -49.2646
+        "longitude": -49.2646,
+        "cod": 18,
+        "id": "pr"
     },
     {
         "nome": "Florianópolis",
         "estado": "Santa Catarina",
         "latitude": -27.5945,
-        "longitude": -48.5477
+        "longitude": -48.5477,
+        "cod": 24,
+        "id": "sc"
     },
     {
         "nome": "Fortaleza",
         "estado": "Ceará",
         "latitude": -3.71664,
-        "longitude": -38.5423
+        "longitude": -38.5423,
+        "cod": 6,
+        "id": "ce"
     },
     {
         "nome": "Goiânia",
         "estado": "Goiás",
         "latitude": -16.6864,
-        "longitude": -49.2643
+        "longitude": -49.2643,
+        "cod": 9,
+        "id": "go"
     },
     {
         "nome": "João Pessoa",
         "estado": "Paraíba",
         "latitude": -7.11509,
-        "longitude": -34.8641
+        "longitude": -34.8641,
+        "cod": 15,
+        "id": "pb"
     },
     {
         "nome": "Macapá",
         "estado": "Amapá",
         "latitude": 0.034934,
-        "longitude": -51.0694
+        "longitude": -51.0694,
+        "cod": 4,
+        "id": "ap"
     },
     {
         "nome": "Maceió",
         "estado": "Alagoas",
         "latitude": -9.66599,
-        "longitude": -35.735
+        "longitude": -35.735,
+        "cod": 2,
+        "id": "al"
     },
     {
         "nome": "Manaus",
         "estado": "Amazonas",
         "latitude": -3.11866,
-        "longitude": -60.0212
+        "longitude": -60.0212,
+        "cod": 3,
+        "id": "am"
     },
     {
         "nome": "Natal",
         "estado": "Rio Grande do Norte",
         "latitude": -5.79357,
-        "longitude": -35.1986
+        "longitude": -35.1986,
+        "cod": 20,
+        "id": "rn"
     },
     {
         "nome": "Palmas",
         "estado": "Tocantins",
         "latitude": -10.24,
-        "longitude": -48.3558
+        "longitude": -48.3558,
+        "cod": 27,
+        "id": "to"
     },
     {
         "nome": "Porto Alegre",
         "estado": "Rio Grande do Sul",
         "latitude": -30.0318,
-        "longitude": -51.2065
+        "longitude": -51.2065,
+        "cod": 23,
+        "id": "rs"
     },
     {
         "nome": "Porto Velho",
         "estado": "Rondônia",
         "latitude": -8.76077,
-        "longitude": -63.8999
+        "longitude": -63.8999,
+        "cod": 21,
+        "id": "ro"
     },
     {
         "nome": "Vitória",
         "estado": "Espírito Santo",
         "latitude": -20.3155,
-        "longitude": -40.3128
+        "longitude": -40.3128,
+        "cod": 8,
+        "id": "es"
     },
     {
         "nome": "Recife",
         "estado": "Pernambuco",
         "latitude": -8.04666,
-        "longitude": -34.8771
+        "longitude": -34.8771,
+        "cod": 16,
+        "id": "pe"
     },
     {
         "nome": "Rio Branco",
         "estado": "Acre",
         "latitude": -9.97499,
-        "longitude": -67.8243
+        "longitude": -67.8243,
+        "cod": 1,
+        "id": "ac"
     },
     {
         "nome": "Rio de Janeiro",
         "estado": "Rio de Janeiro",
         "latitude": -22.9129,
-        "longitude": -43.2003
+        "longitude": -43.2003,
+        "cod": 19,
+        "id": "rj"
     },
     {
         "nome": "Salvador",
         "estado": "Bahia",
         "latitude": -12.9718,
-        "longitude": -38.5011
+        "longitude": -38.5011,
+        "cod": 5,
+        "id": "ba"
     },
     {
         "nome": "São Luís",
         "estado": "Maranhão",
         "latitude": -2.53874,
-        "longitude": -44.2825
+        "longitude": -44.2825,
+        "cod": 10,
+        "id": "ma"
     },
     {
         "nome": "São Paulo",
         "estado": "São Paulo",
         "latitude": -23.5329,
-        "longitude": -46.6395
+        "longitude": -46.6395,
+        "cod": 26,
+        "id": "sp"
     },
     {
         "nome": "Teresina",
         "estado": "Piauí",
         "latitude": -5.09194,
-        "longitude": -42.8034
+        "longitude": -42.8034,
+        "cod": 17,
+        "id": "pi"
     }
 ]
