@@ -242,8 +242,16 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor a heatmatrix.
    */
-  async requestHeatmatrix(metric: number, field: string, t0: number, t1: number) {
+  async requestHeatmatrix(metric: number, field: string, t0: number, t1: number, clicked: number) {
     let query = new MatrixRequest();
+
+    if ( clicked >= 0 ) {
+      query['what'] = "timecolumns";
+      // @ts-ignore
+      query['idpop'] = clicked;
+      // @ts-ignore
+      // query['ncols'] = 25;
+    }
     query['metric'] = metric;
     query['field'] = field;
     query['start'] = t0;
@@ -257,7 +265,7 @@ export class ApiService {
     };
 
     // Return a new promise.
-    const response = await fetch('http://gwrec.cloudnext.rnp.br:60085/tc/query', {
+    const response = await fetch('http://gwrec.cloudnext.rnp.br:60089/tc/query2', {
       method: 'POST',
       headers,
       body: JSON.stringify(query),

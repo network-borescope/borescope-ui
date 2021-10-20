@@ -7,7 +7,10 @@ export class Network {
 
   // capitals
   protected _capitals: any = null;
+
+  // params
   protected _isTime: boolean = false;
+  protected _invert: boolean = false;
 
   // Chart div
   protected _chartDiv: HTMLElement;
@@ -42,12 +45,11 @@ export class Network {
     window.addEventListener('resize', this.resize.bind(this));
   }
 
-  setData(data: any, capitals: any, isTime: boolean = false) {
+  setData(data: any, capitals: any, isTime: boolean = false, invert: boolean = false) {
     this._data = data;
     this._capitals = capitals;
     this._isTime = isTime;
-
-    console.log("=====>", capitals)
+    this._invert = invert;
   }
 
   render() {
@@ -95,7 +97,7 @@ export class Network {
   initScalesAndAxes() {
     this._xScale = d3.scaleBand().range([0, this._width]).paddingInner(0.1).paddingOuter(0.0);
     this._yScale = d3.scaleBand().range([this._height, 0]).paddingInner(0.1).paddingOuter(0.0);
-    this._cScale = d3.scaleDiverging(d3.interpolateRdBu);
+    this._cScale = d3.scaleSequential(d3.interpolateReds);
 
     // @ts-ignore
     this._xAxis = d3.axisBottom(this._xScale);
@@ -108,14 +110,23 @@ export class Network {
   }
 
   updateScales() {
-    const labelsX = Array.from(new Set(this._data.map( (d: any) => this.getCapitalId(d[0] ))));
+    const labelsX = Array.from(new Set(this._data.map( (d: any) => this.getCapitalId( d[0] ))));
     const labelsY = this._isTime ? Array.from(new Set(this._data.map((d: any) => d[1]))) : labelsX;
     // @ts-ignore
     this._xScale.domain(labelsX);
     // @ts-ignore
     this._yScale.domain(labelsY);
     // @ts-ignore
-    this._cScale.domain( d3.extent(this._data.map((d: any) => d[2])) );
+    const all = d3.extent(this._data.map((d: any) => d[2]).filter(e => e > 0) );
+
+    if (this._invert) {
+      this._cScale.domain( all.reverse() );
+    }
+    else {
+      this._cScale.domain( all );
+    }
+
+    console.log("Color Scale", all)
   }
 
   updateAxes() {
@@ -124,6 +135,7 @@ export class Network {
         .selectAll('text')
         .style('text-anchor', 'end')
         .style('pointer-events', 'auto')
+        .style('', 'default')
         .attr('dx', '-0.1em')
         .attr('dy', '+0.3em')
         .attr('transform', 'rotate(-25)');
@@ -132,6 +144,13 @@ export class Network {
     this._svgGroup.select('.axis--y').call(this._yAxis)
         .selectAll('text')
         .style('pointer-events', 'auto')
+  }
+
+  valToColor(d: any) {
+    if (d[2] === 0) {
+      return "#333";
+    }
+    return this._cScale(d[2])
   }
 
   updateRectangles() {
@@ -151,7 +170,7 @@ export class Network {
         .attr("y", (d: any) => this._yScale( this._isTime ? d[1] : this.getCapitalId(d[1])))
         .attr("width", this._xScale.bandwidth())
         .attr("height", this._yScale.bandwidth())
-        .attr("fill", (d: any) => this._cScale(d[2]))
+        .attr("fill", (d: any) => this.valToColor(d))
         .on('mouseover', (e: any, d: any) => tip.show(d, e.target))
         .on('mouseout' , (e: any, d: any) => tip.hide(d, e.target));
   }
