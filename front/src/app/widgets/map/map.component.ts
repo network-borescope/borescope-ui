@@ -121,7 +121,7 @@ export class MapComponent implements AfterViewInit {
     let capitalsMarkersLayers = new L.FeatureGroup().addTo(this.map);
     const capitals = this.global.getGlobal('state_capitals').value.default;
     for(let i = 0; i < capitals.length; i++) {
-      let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers(capitals[i].id) }).on("mouseup", this.capitalClick, false);
+      let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers(capitals[i].id) }).on("mouseup", this.capitalClick.bind(this), false);
       capitalsMarkersLayers.addLayer(capitalMarker);
     }
 
@@ -206,8 +206,15 @@ export class MapComponent implements AfterViewInit {
     this.map.on('moveend', () => {
       this.moveEndedEvent.emit();
     });
-
+    
+    const global = this.global;
     L.easyButton('fa-redo fa-lg', function(btn,map){
+      const clicked_element = {
+        key: 'clicked_element',
+        value: -1
+      }
+
+      global.setGlobal(clicked_element);
       map.setView([lat, lng], zoom);
     }).addTo(this.map);
   }
@@ -403,6 +410,10 @@ export class MapComponent implements AfterViewInit {
    */
 
   capitalClick(event: any) {
+    const clickedIcon = event.target.options.icon.html;
+    const html = new DOMParser().parseFromString(clickedIcon, "text/html");
+    //this.global.setGlobal()
+    console.log(html.firstChild);
     event.sourceTarget._map.setView([event.latlng.lat, event.latlng.lng], 12);
   }
 

@@ -231,6 +231,15 @@ export class GlobalService {
      this.setGlobal(state_capitals);
     
     /**
+     * Guarda se o click foi no botão de reset zoom ou algum pin de capital
+     */
+
+    const clicked_element = {
+      key: 'clicked_element',
+      value: -1
+    }
+    this.setGlobal(clicked_element);
+    /**
      * Guarda a cor do filtro.
      */
      const filter_color = {
