@@ -212,6 +212,9 @@ export class HomeComponent implements AfterViewInit {
     // redesenha o elemento map dos gráficos
     this.updateLineChart('map', '#AAAAAA');
     this.updateBarChart('map', '#AAAAAA');
+
+
+
   }
 
   /**
