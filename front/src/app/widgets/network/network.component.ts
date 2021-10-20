@@ -47,4 +47,3 @@ export class NetworkComponent implements OnInit {
     this.heatMatrixParamChanged.emit();
   }
 }
- 
