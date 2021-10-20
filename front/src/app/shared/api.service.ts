@@ -246,8 +246,8 @@ export class ApiService {
     let query = new MatrixRequest();
     query['metric'] = metric;
     query['field'] = field;
-    query['start'] = t0;
-    query['end'] = t1;
+    query['start'] = 1;
+    query['end'] = 2000000000;
     this.utils.showTrace("requestHeatMatrix", query);
 
     // post header
