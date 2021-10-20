@@ -96,8 +96,10 @@ export class MapComponent implements AfterViewInit {
       tileSize: 512,
       zoomOffset: -1
     }).addTo(this.map);
+
     // Inicialização do layer do outlier
     let outlierMarker = new L.FeatureGroup();
+
     // carregamento do dado dos clientes
     const clientes = this.global.getGlobal('list_clientes').value.items.map((d: any) => {
       // adciona um marcador extra
@@ -105,7 +107,6 @@ export class MapComponent implements AfterViewInit {
         const outColor = this.global.getGlobal('outlier_color').value;
         outlierMarker.addLayer(L.circle([d.lat,d.lon], 250, { color: outColor, fillColor: outColor, opacity: 1, fillOpacity: 1}));
       };
-
       return {
         "type": "Feature",
         "geometry": {
@@ -114,8 +115,8 @@ export class MapComponent implements AfterViewInit {
         },
         "properties": d
       }
-    })
-    let map = this.map;
+    });
+
     // adição dos layers clicáveis
     let capitalsMarkersLayers = new L.FeatureGroup().addTo(this.map);
     const capitals = this.global.getGlobal('state_capitals').value.default;
@@ -123,7 +124,7 @@ export class MapComponent implements AfterViewInit {
       let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers(capitals[i].id) }).on("mouseup", this.capitalClick, false);
       capitalsMarkersLayers.addLayer(capitalMarker);
     }
-    
+
     // Inicialização layers dos markers dos clientes
     let clientMarkersLayers = new L.FeatureGroup();
     this.geojson = L.geoJSON(clientes, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) });
@@ -132,19 +133,20 @@ export class MapComponent implements AfterViewInit {
     // Inicialização dos layers editaveis
     let editableLayers = new L.FeatureGroup();
     // adição e remoção dos layers baseado no
-    this.map.on('zoomend', function() {
-      if(map.getZoom() < 9) {
-        map.addLayer(capitalsMarkersLayers);
-        map.removeLayer(clientMarkersLayers);
-        map.removeLayer(editableLayers);
-        map.removeLayer(outlierMarker);
+    this.map.on('zoomend', () => {
+      if(this.map.getZoom() < 9) {
+        this.map.addLayer(capitalsMarkersLayers);
+        this.map.removeLayer(clientMarkersLayers);
+        this.map.removeLayer(editableLayers);
+        this.map.removeLayer(outlierMarker);
       } else {
-        map.removeLayer(capitalsMarkersLayers);
-        map.addLayer(clientMarkersLayers);
-        map.addLayer(editableLayers);  
-        map.addLayer(outlierMarker);      
+        this.map.removeLayer(capitalsMarkersLayers);
+        this.map.addLayer(clientMarkersLayers);
+        this.map.addLayer(editableLayers);
+        this.map.addLayer(outlierMarker);
       }
     });
+
     // Controles de desnho dos polígonos
     this.drawControl = new L.Control.Draw({
       position: 'topleft',
@@ -153,7 +155,7 @@ export class MapComponent implements AfterViewInit {
           allowIntersection: false, // Restricts shapes to simple polygons
           drawError: {
             color: '#e1e100', // Color the shape will turn when intersects
-            message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+            message: '<strong>Error!<strong> you can\'t draw that!' // Message that will show when intersect
           },
         },
         rectangle: {},
@@ -167,6 +169,7 @@ export class MapComponent implements AfterViewInit {
       }
     });
     this.map.addControl(this.drawControl);
+
     // Eventos do mapa: criação do polígono
     this.map.on(L.Draw.Event.CREATED, (e: any) => {
       this.listLayer.push(e.layer);
@@ -204,7 +207,7 @@ export class MapComponent implements AfterViewInit {
       this.moveEndedEvent.emit();
     });
 
-    L.easyButton('fa-crosshairs fa-lg', function(btn,map){
+    L.easyButton('fa-redo fa-lg', function(btn,map){
       map.setView([lat, lng], zoom);
     }).addTo(this.map);
   }
@@ -393,12 +396,12 @@ export class MapComponent implements AfterViewInit {
       html: `<div style='background-color:#000;' class='marker-pin' id='` + capitalId + `'></div><i class='fa fa-circle awesome'>`,
       iconSize: [30, 42],
       iconAnchor: [15, 42]
-    });    
+    });
   }
   /**
    * Ação de click no marker da capital.
    */
-  
+
   capitalClick(event: any) {
     event.sourceTarget._map.setView([event.latlng.lat, event.latlng.lng], 12);
   }
@@ -530,7 +533,7 @@ export class MapComponent implements AfterViewInit {
         if(map.getZoom() < 9) {
           map.removeLayer(currentHeatmapLayer);
         } else {
-          map.addLayer(currentHeatmapLayer);      
+          map.addLayer(currentHeatmapLayer);
         }
       });
     }
