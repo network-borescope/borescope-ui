@@ -123,7 +123,7 @@ export class MapComponent implements AfterViewInit {
       let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers() }).on("mouseup", this.capitalClick, false);
       capitalsMarkersLayers.addLayer(capitalMarker);
     }
-    
+
     // Inicialização layers dos markers dos clientes
     let clientMarkersLayers = new L.FeatureGroup();
     this.geojson = L.geoJSON(clientes, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) });
@@ -141,8 +141,8 @@ export class MapComponent implements AfterViewInit {
       } else {
         map.removeLayer(capitalsMarkersLayers);
         map.addLayer(clientMarkersLayers);
-        map.addLayer(editableLayers);  
-        map.addLayer(outlierMarker);      
+        map.addLayer(editableLayers);
+        map.addLayer(outlierMarker);
       }
     });
     // Controles de desnho dos polígonos
@@ -153,7 +153,7 @@ export class MapComponent implements AfterViewInit {
           allowIntersection: false, // Restricts shapes to simple polygons
           drawError: {
             color: '#e1e100', // Color the shape will turn when intersects
-            message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+            message: '<strong>Error!<strong> you can\'t draw that!' // Message that will show when intersect
           },
         },
         rectangle: {},
@@ -204,7 +204,7 @@ export class MapComponent implements AfterViewInit {
       this.moveEndedEvent.emit();
     });
 
-    L.easyButton('fa-crosshairs fa-lg', function(btn,map){
+    L.easyButton('fa-redo fa-lg', function(btn,map){
       map.setView([lat, lng], zoom);
     }).addTo(this.map);
   }
@@ -390,15 +390,15 @@ export class MapComponent implements AfterViewInit {
   capitalMarkers(){
     return L.divIcon({
       className: 'custom-div-icon',
-      html: `<div style='background-color:#000;' class='marker-pin'></div><i class='fa fa-circle awesome'>`,
+      html: `<div style='background-color:#333;' class='marker-pin'></div><i class='fa fa-circle awesome'>`,
       iconSize: [30, 42],
       iconAnchor: [15, 42]
-    });    
+    });
   }
   /**
    * Ação de click no marker da capital.
    */
-  
+
   capitalClick(event: any) {
     event.sourceTarget._map.setView([event.latlng.lat, event.latlng.lng], 12);
   }
@@ -530,7 +530,7 @@ export class MapComponent implements AfterViewInit {
         if(map.getZoom() < 9) {
           map.removeLayer(currentHeatmapLayer);
         } else {
-          map.addLayer(currentHeatmapLayer);      
+          map.addLayer(currentHeatmapLayer);
         }
       });
     }

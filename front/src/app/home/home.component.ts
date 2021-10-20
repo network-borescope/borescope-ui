@@ -91,6 +91,8 @@ export class HomeComponent implements AfterViewInit {
       this.updateLineChart(elem.dataId, elem.chartColor, elem.feature);
       this.updateBarChart(elem.dataId, elem.chartColor, elem.feature);
     }
+
+    this.updateHeatmatrix();
   }
 
   /**
@@ -520,7 +522,6 @@ export class HomeComponent implements AfterViewInit {
     const selectedValue = this.global.getGlobal('heatmatrix_value').value;
 
     const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1);
-    console.log(res);
     const data = JSON.parse(res).result;
     this.net.drawChart(data);
   }
