@@ -236,8 +236,7 @@ export class GlobalService {
 
     const clicked_element = {
       key: 'clicked_element',
-      value: -1,
-      id: ''
+      value: -1
     }
     this.setGlobal(clicked_element);
     /**

@@ -121,7 +121,7 @@ export class MapComponent implements AfterViewInit {
     let capitalsMarkersLayers = new L.FeatureGroup().addTo(this.map);
     const capitals = this.global.getGlobal('state_capitals').value.default;
     for(let i = 0; i < capitals.length; i++) {
-      let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers(capitals[i].id) }).on("mouseup", this.capitalClick.bind(this), false);
+      let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers(capitals[i].cod) }).on("mouseup", this.capitalClick.bind(this), false);
       capitalsMarkersLayers.addLayer(capitalMarker);
     }
 
@@ -211,8 +211,7 @@ export class MapComponent implements AfterViewInit {
     L.easyButton('fa-redo fa-lg', function(btn,map){
       const clicked_element = {
         key: 'clicked_element',
-        value: -1,
-        id: ''
+        value: -1
       }
 
       global.setGlobal(clicked_element);
@@ -398,10 +397,10 @@ export class MapComponent implements AfterViewInit {
   /**
    * Markers das capitais dos estados.
    */
-  capitalMarkers(capitalId: string){
+  capitalMarkers(capitalCod: string){
     return L.divIcon({
       className: 'custom-div-icon',
-      html: `<div style='background-color:#000;' class='marker-pin' id='captial-marker' data-capital=` + capitalId + `></div><i class='fa fa-circle awesome'>`,
+      html: `<div style='background-color:#000;' class='marker-pin' id='captial-marker' data-capital=` + capitalCod + `></div><i class='fa fa-circle awesome'>`,
       iconSize: [30, 42],
       iconAnchor: [15, 42]
     });
@@ -415,12 +414,13 @@ export class MapComponent implements AfterViewInit {
     const clickedIcon = event.target.options.icon.options.html;
     const html = new DOMParser().parseFromString(clickedIcon, "text/html");
     const element = html.getElementById('captial-marker');
-    const id = element?.getAttribute('data-capital');
-    
+    const capitalData = element?.getAttribute('data-capital');
+    let cod;
+    if (capitalData) cod = parseInt(capitalData);
+
     const clicked_element = {
       key: 'clicked_element',
-      value: 1,
-      id: id
+      value: cod
     }
     this.global.setGlobal(clicked_element);
     event.sourceTarget._map.setView([event.latlng.lat, event.latlng.lng], 12);
