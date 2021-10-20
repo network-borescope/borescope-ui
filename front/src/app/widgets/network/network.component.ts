@@ -24,8 +24,8 @@ export class NetworkComponent implements OnInit {
     this.netChart = new Network(this.netDiv.nativeElement);
   }
 
-  drawChart(data: any) {
-    this.netChart.setData(data);
+  drawChart(data: any, capitals: any) {
+    this.netChart.setData(data, capitals);
     this.netChart.render();
   }
 

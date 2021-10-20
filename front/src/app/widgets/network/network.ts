@@ -5,6 +5,9 @@ export class Network {
   // chart data
   protected _data: any = null;
 
+  // capitals
+  protected _capitals: any = null;
+
   // Chart div
   protected _chartDiv: HTMLElement;
   // Svg element
@@ -38,12 +41,13 @@ export class Network {
     window.addEventListener('resize', this.resize.bind(this));
   }
 
-  setData(data: any) {
-    this._data = data
+  setData(data: any, capitals: any) {
+    this._data = data;
+    this._capitals = capitals;
   }
 
   render() {
-    this.updateScales();
+    this.updateScales(this._capitals);
     this.updateAxes();
     this.updateRectangles();
   }
@@ -95,9 +99,8 @@ export class Network {
     this._yAxis = d3.axisLeft(this._yScale);
   }
 
-  updateScales() {
-    const labels = Array.from(new Set(this._data.map((d: any) =>  d[0])));
-
+  updateScales(capitals: any) {
+    const labels = Array.from(new Set(this._data.map((d: any) => d[0])));
     // @ts-ignore
     this._xScale.domain(labels);
     // @ts-ignore
