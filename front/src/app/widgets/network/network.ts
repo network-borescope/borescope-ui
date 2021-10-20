@@ -7,6 +7,7 @@ export class Network {
 
   // capitals
   protected _capitals: any = null;
+  protected _isTime: boolean = false;
 
   // Chart div
   protected _chartDiv: HTMLElement;
@@ -41,13 +42,16 @@ export class Network {
     window.addEventListener('resize', this.resize.bind(this));
   }
 
-  setData(data: any, capitals: any) {
+  setData(data: any, capitals: any, isTime: boolean = false) {
     this._data = data;
     this._capitals = capitals;
+    this._isTime = isTime;
+
+    console.log("=====>", capitals)
   }
 
   render() {
-    this.updateScales(this._capitals);
+    this.updateScales();
     this.updateAxes();
     this.updateRectangles();
   }
@@ -99,12 +103,17 @@ export class Network {
     this._yAxis = d3.axisLeft(this._yScale);
   }
 
-  updateScales(capitals: any) {
-    const labels = Array.from(new Set(this._data.map((d: any) => d[0])));
+  getCapitalId(id: number) {
+    return this._capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+  }
+
+  updateScales() {
+    const labelsX = Array.from(new Set(this._data.map( (d: any) => this.getCapitalId(d[0] ))));
+    const labelsY = this._isTime ? Array.from(new Set(this._data.map((d: any) => d[1]))) : labelsX;
     // @ts-ignore
-    this._xScale.domain(labels);
+    this._xScale.domain(labelsX);
     // @ts-ignore
-    this._yScale.domain(labels);
+    this._yScale.domain(labelsY);
     // @ts-ignore
     this._cScale.domain( d3.extent(this._data.map((d: any) => d[2])) );
   }
@@ -115,7 +124,6 @@ export class Network {
         .selectAll('text')
         .style('text-anchor', 'end')
         .style('pointer-events', 'auto')
-        .style('cursor', 'pointer')
         .attr('dx', '-0.1em')
         .attr('dy', '+0.3em')
         .attr('transform', 'rotate(-25)');
@@ -124,7 +132,6 @@ export class Network {
     this._svgGroup.select('.axis--y').call(this._yAxis)
         .selectAll('text')
         .style('pointer-events', 'auto')
-        .style('cursor', 'not-allowed');
   }
 
   updateRectangles() {
@@ -140,8 +147,8 @@ export class Network {
     rects.selectAll("rect")
         .data(this._data)
         .join("rect")
-        .attr("x", (d: any) => this._xScale(d[0]))
-        .attr("y", (d: any) => this._yScale(d[1]))
+        .attr("x", (d: any) => this._xScale(this.getCapitalId(d[0])))
+        .attr("y", (d: any) => this._yScale( this._isTime ? d[1] : this.getCapitalId(d[1])))
         .attr("width", this._xScale.bandwidth())
         .attr("height", this._yScale.bandwidth())
         .attr("fill", (d: any) => this._cScale(d[2]))
