@@ -4,11 +4,11 @@
         <div id="code-select-box" class="code-select">
             <select name="code" class="network-select" (change)="this.onParamChange($event)">
                 <optgroup label="Atraso e perda">
-                    <!---<option value="10">Failures</option>-->
+                    <option value="10">Failures</option>
                     <option value="11">Histogram-rtt (average)</option>
                     <option value="12">Histogram-rtt (min)</option>
                     <option value="13">Histogram-rtt (max)</option>
-                    <!---<option value="16">Histogram-ttl-reverse (average)</option>
+                    <option value="16">Histogram-ttl-reverse (average)</option>
                     <option value="17">Histogram-ttl-reverse (min)</option>
                     <option value="18">Histogram-ttl-reverse (max)</option>
                     <option value="21">Packet-count-lost-bidir</option>
@@ -16,9 +16,9 @@
                     <option value="23">Packet-duplicates-bidir</option>
                     <option value="24">Packet-loss-rate-bidir</option>
                     <option value="25">Packet-reorders-bidir</option>
-                    <option value="26">Pscheduler-run-href</option>--->
+                    <option value="26">Pscheduler-run-href</option>
                 </optgroup>
-                <!---<optgroup label="Atraso unidirecional">
+                <optgroup label="Atraso unidirecional">
                     <option value="40">Failures</option>
                     <option value="41">Histogram-owdelay (average)</option>
                     <option value="42">Histogram-owdelay (min)</option>
@@ -32,19 +32,19 @@
                     <option value="54">Packet-loss-rate</option>
                     <option value="55">Packet-reorders</option>
                     <option value="56">Time-error-estimates</option>
-                </optgroup>-->
+                </optgroup>
                 <optgroup label="BANDA (BBR)">
-                    <!--- <option value="70">Failures</option>
+                     <option value="70">Failures</option>
                     <option value="71">Packet-retransmits</option>
                     <option value="72">Packet-retransmits-subintervals (average)</option>
                     <option value="73">Packet-retransmits-subintervals (min)</option>
-                    <option value="74">Packet-retransmits-subintervals (max)</option>-->
+                    <option value="74">Packet-retransmits-subintervals (max)</option>
                     <option value="77">Throughput</option>
-                   <!--- <option value="78">Throughput-subintervals (average)</option>
+                    <option value="78">Throughput-subintervals (average)</option>
                     <option value="79">Throughput-subintervals (min)</option>
-                    <option value="80">Throughput-subintervals (max)</option>-->
+                    <option value="80">Throughput-subintervals (max)</option>
                 </optgroup>
-                <!---<optgroup label="BANDA (CUBIC)">
+                <optgroup label="BANDA (CUBIC)">
                     <option value="100">Failures</option>
                     <option value="101">Packet-retransmits</option>
                     <option value="102">Packet-retransmits-subintervals (average)</option>
@@ -60,7 +60,7 @@
                     <option value="131">Packet-trace (average)</option>
                     <option value="132">Packet-trace (min)</option>
                     <option value="133">Packet-trace (max)</option>
-                </optgroup>-->
+                </optgroup>
             </select>
         </div>
         <div id="codfield-select-box" class="codfield-select">
