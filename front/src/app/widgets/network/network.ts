@@ -20,7 +20,7 @@ export class Network {
   protected _svgGroup: any = null;
 
   // margin object
-  protected _margin = { top: 10, right: 10, bottom: 50, left: 30 };
+  protected _margin = { top: 10, right: 10, bottom: 50, left: 70 };
 
   // svg width
   protected _width: number = 800;
@@ -35,6 +35,10 @@ export class Network {
   // axis
   protected _xAxis: any = null;
   protected _yAxis: any = null;
+
+  // axis labels
+  protected _xAxisLabel: any = null;
+  protected _yAxisLabel: any = null; 
 
   constructor(chartDiv: HTMLElement) {
     this._chartDiv = chartDiv;
@@ -55,6 +59,7 @@ export class Network {
   render() {
     this.updateScales();
     this.updateAxes();
+    this.updateLabels()
     this.updateRectangles();
   }
 
@@ -76,6 +81,24 @@ export class Network {
         .append('svg')
         .attr('width', this._chartDiv.clientWidth)
         .attr('height', this._chartDiv.clientHeight);
+
+    // axis label groups
+    this._svgCanvas
+    .append('text')
+    .attr('class', 'axis axis--x--label')
+    .attr("transform", "translate(" + (this._width/1.6) + " ," + (this._height + this._margin.bottom) + ")")
+    .style("text-anchor", "middle")
+    .style('fill', '#8c8c8c');
+
+    this._svgCanvas
+    .append('text')
+    .attr('class', 'axis axis--y--label')
+    .attr("transform", "rotate(-90)")
+    .attr("y", 10)
+    .attr("x", 0 - (this._height / 1.9))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .style('fill', '#8c8c8c');
 
     // creates the group
     this._svgGroup = this._svgCanvas
@@ -170,6 +193,17 @@ export class Network {
         .attr("fill", (d: any) => this.valToColor(d))
         .on('mouseover', (e: any, d: any) => tip.show(d, e.target))
         .on('mouseout' , (e: any, d: any) => tip.hide(d, e.target));
+  }
+
+  updateLabels() {
+    this._yAxisLabel = 'Pop de chegada';
+    this._isTime ? this._xAxisLabel = 'Tempo' : this._xAxisLabel = 'Pop de saída';
+
+    this._svgCanvas.select('.axis--x--label')
+        .text(this._xAxisLabel)
+
+    this._svgCanvas.select('.axis--y--label')
+        .text(this._yAxisLabel)
   }
 
   getCapitalId(id: number) {
