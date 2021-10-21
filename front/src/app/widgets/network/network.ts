@@ -96,7 +96,7 @@ export class Network {
 
   initScalesAndAxes() {
     this._xScale = d3.scaleBand().range([0, this._width]).paddingInner(0.1).paddingOuter(0.0);
-    this._yScale = d3.scaleBand().range([this._height, 0]).paddingInner(0.1).paddingOuter(0.0);
+    this._yScale = d3.scaleBand().range([0, this._height]).paddingInner(0.1).paddingOuter(0.0);
     this._cScale = d3.scaleSequential(d3.interpolateReds);
 
     // @ts-ignore
