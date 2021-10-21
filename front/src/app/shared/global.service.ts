@@ -170,7 +170,7 @@ export class GlobalService {
      */       
       const heatmatrix_param = {
       key: "heatmatrix_param",
-      value: "10",
+      value: "11",
     };
     this.setGlobal(heatmatrix_param);
 
