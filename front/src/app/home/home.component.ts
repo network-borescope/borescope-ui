@@ -521,6 +521,7 @@ export class HomeComponent implements AfterViewInit {
   async updateHeatmatrix() {
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
+
     const selectedParam = parseInt(this.global.getGlobal('heatmatrix_param').value);
     const selectedValue = this.global.getGlobal('heatmatrix_value').value;
     const capitals = this.global.getGlobal('state_capitals').value.default;
@@ -529,8 +530,6 @@ export class HomeComponent implements AfterViewInit {
 
     const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
     const data = JSON.parse(res).result;
-
-    console.log(clicked, "=====>", selectedParam)
 
     this.net.drawChart(data, capitals, clicked, selectedParam != 77);
   }

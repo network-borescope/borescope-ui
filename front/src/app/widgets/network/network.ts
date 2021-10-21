@@ -20,7 +20,7 @@ export class Network {
   protected _svgGroup: any = null;
 
   // margin object
-  protected _margin = { top: 10, right: 10, bottom: 20, left: 30 };
+  protected _margin = { top: 10, right: 10, bottom: 50, left: 30 };
 
   // svg width
   protected _width: number = 800;
@@ -28,8 +28,8 @@ export class Network {
   protected _height: number = 600;
 
   // scales
-  protected _xScale: any = null;
-  protected _yScale: any = null;
+  protected _inScale: any = null;
+  protected _outScale: any = null;
   protected _cScale: any = null;
 
   // axis
@@ -95,27 +95,30 @@ export class Network {
   }
 
   initScalesAndAxes() {
-    this._xScale = d3.scaleBand().range([0, this._width]).paddingInner(0.1).paddingOuter(0.0);
-    this._yScale = d3.scaleBand().range([0, this._height]).paddingInner(0.1).paddingOuter(0.0);
+    this._inScale = d3.scaleBand().range([0, this._height]).paddingInner(0.1).paddingOuter(0.0);
+    this._outScale = d3.scaleBand().range([0, this._width]).paddingInner(0.1).paddingOuter(0.0);
     this._cScale = d3.scaleSequential(d3.interpolateReds);
 
     // @ts-ignore
-    this._xAxis = d3.axisBottom(this._xScale);
+    this._xAxis = d3.axisBottom(this._outScale);
     // @ts-ignore
-    this._yAxis = d3.axisLeft(this._yScale);
+    this._yAxis = d3.axisLeft(this._outScale);
   }
 
-  getCapitalId(id: number) {
-    return this._capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
-  }
+   updateScales() {
+    const ids = this._data.map( (d: any) => this.getCapitalId( d[0] ));
+    const labelsIn = Array.from(new Set(ids));
 
-  updateScales() {
-    const labelsX = Array.from(new Set(this._data.map( (d: any) => this.getCapitalId( d[0] ))));
-    const labelsY = this._isTime ? Array.from(new Set(this._data.map((d: any) => d[1]))) : labelsX;
+    let labelsOut = labelsIn;
+    if (this._isTime) {
+      const ts = this._data.map( (d: any) => this.valToDate(d[1]) );
+      labelsOut = Array.from(new Set(ts));
+    }
+
     // @ts-ignore
-    this._xScale.domain(labelsX);
+    this._inScale.domain(labelsIn);
     // @ts-ignore
-    this._yScale.domain(labelsY);
+    this._outScale.domain(labelsOut);
     // @ts-ignore
     const all = d3.extent(this._data.map((d: any) => d[2]).filter(e => e > 0) );
 
@@ -130,7 +133,7 @@ export class Network {
   }
 
   updateAxes() {
-    this._xAxis.scale(this._xScale).tickSizeOuter(0);
+    this._xAxis.scale(this._outScale).tickSizeOuter(0);
     this._svgGroup.select('.axis--x').call(this._xAxis)
         .selectAll('text')
         .style('text-anchor', 'end')
@@ -140,18 +143,12 @@ export class Network {
         .attr('dy', '+0.3em')
         .attr('transform', 'rotate(-25)');
 
-    this._yAxis.scale(this._yScale).tickSizeOuter(0);
+    this._yAxis.scale(this._inScale).tickSizeOuter(0);
     this._svgGroup.select('.axis--y').call(this._yAxis)
         .selectAll('text')
         .style('pointer-events', 'auto')
   }
 
-  valToColor(d: any) {
-    if (d[2] === 0) {
-      return "#333";
-    }
-    return this._cScale(d[2])
-  }
 
   updateRectangles() {
     // @ts-ignore
@@ -166,13 +163,30 @@ export class Network {
     rects.selectAll("rect")
         .data(this._data)
         .join("rect")
-        .attr("x", (d: any) => this._xScale(this.getCapitalId(d[0])))
-        .attr("y", (d: any) => this._yScale( this._isTime ? d[1] : this.getCapitalId(d[1])))
-        .attr("width", this._xScale.bandwidth())
-        .attr("height", this._yScale.bandwidth())
+        .attr("x", (d: any) => this._outScale( this._isTime ? this.valToDate( d[1] ) : this.getCapitalId(d[1])))
+        .attr("y", (d: any) => this._inScale(this.getCapitalId(d[0])))
+        .attr("width", this._outScale.bandwidth())
+        .attr("height", this._inScale.bandwidth())
         .attr("fill", (d: any) => this.valToColor(d))
         .on('mouseover', (e: any, d: any) => tip.show(d, e.target))
         .on('mouseout' , (e: any, d: any) => tip.hide(d, e.target));
+  }
+
+  getCapitalId(id: number) {
+    return this._capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+  }
+
+  valToColor(d: any) {
+    if (d[2] === 0) {
+      return "#333";
+    }
+    return this._cScale(d[2])
+  }
+
+  valToDate(d: any) {
+    const data = new Date(1000 * d)
+    //@ts-ignore
+    return data.toLocaleString('en-US', { dateStyle: 'short', timeZone: 'UTC' });
   }
 }
 
