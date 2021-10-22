@@ -11,7 +11,7 @@ export class Network {
   // params
   protected _isTime: boolean = false;
   protected _invert: boolean = false;
-  protected _capitalId: number = 0; 
+  protected _capitalId: number = 0;
 
   // Chart div
   protected _chartDiv: HTMLElement;
@@ -39,10 +39,10 @@ export class Network {
 
   // axis labels
   protected _xAxisLabel: any = null;
-  protected _yAxisLabel: any = null; 
+  protected _yAxisLabel: any = null;
 
   // title
-  protected _title: any = null; 
+  protected _title: any = null;
 
   constructor(chartDiv: HTMLElement) {
     this._chartDiv = chartDiv;
@@ -200,7 +200,7 @@ export class Network {
         .data(this._data)
         .join("rect")
         .attr("x", (d: any) => this._outScale( this._isTime ? this.valToDate( d[1] ) : this.getCapitalId(d[1])))
-        .attr("y", (d: any) => this._inScale(this.getCapitalId(d[0])))
+        .attr("y", (d: any) => this._inScale( this._isTime ? this.getCapitalId(d[0]) : this.getCapitalId(d[0])))
         .attr("width", this._outScale.bandwidth())
         .attr("height", this._inScale.bandwidth())
         .attr("fill", (d: any) => this.valToColor(d))
@@ -209,15 +209,16 @@ export class Network {
   }
 
   updateLabelsAndTitle() {
-    this._yAxisLabel = 'Pop de chegada';
-    
+
     if (this._isTime) {
       const popId = this.getCapitalId(this._capitalId);
       this._xAxisLabel = 'Tempo'
+      this._yAxisLabel = 'Pop de chegada';
       this._title = 'Medição do pop ' +  popId + ' para os demais pops ao longo do tempo'
     } else {
       this._capitalId = 0;
-      this._xAxisLabel = 'Pop de saída'
+      this._xAxisLabel = 'Pop de chegada'
+      this._yAxisLabel = 'Pop de saída';
       this._title = 'Medição entre pops'
     }
 
