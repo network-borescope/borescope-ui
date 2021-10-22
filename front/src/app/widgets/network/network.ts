@@ -11,6 +11,7 @@ export class Network {
   // params
   protected _isTime: boolean = false;
   protected _invert: boolean = false;
+  protected _capitalId: number = 0; 
 
   // Chart div
   protected _chartDiv: HTMLElement;
@@ -20,7 +21,7 @@ export class Network {
   protected _svgGroup: any = null;
 
   // margin object
-  protected _margin = { top: 10, right: 10, bottom: 50, left: 70 };
+  protected _margin = { top: 40, right: 10, bottom: 50, left: 70 };
 
   // svg width
   protected _width: number = 800;
@@ -40,6 +41,9 @@ export class Network {
   protected _xAxisLabel: any = null;
   protected _yAxisLabel: any = null; 
 
+  // title
+  protected _title: any = null; 
+
   constructor(chartDiv: HTMLElement) {
     this._chartDiv = chartDiv;
 
@@ -49,17 +53,18 @@ export class Network {
     window.addEventListener('resize', this.resize.bind(this));
   }
 
-  setData(data: any, capitals: any, isTime: boolean = false, invert: boolean = false) {
+  setData(data: any, capitals: any, isTime: boolean = false, invert: boolean = false, capitalId: number) {
     this._data = data;
     this._capitals = capitals;
     this._isTime = isTime;
     this._invert = invert;
+    this._capitalId = capitalId;
   }
 
   render() {
     this.updateScales();
     this.updateAxes();
-    this.updateLabels()
+    this.updateLabelsAndTitle()
     this.updateRectangles();
   }
 
@@ -82,11 +87,19 @@ export class Network {
         .attr('width', this._chartDiv.clientWidth)
         .attr('height', this._chartDiv.clientHeight);
 
+    // axis title
+    this._svgCanvas
+    .append('text')
+    .attr('class', 'chart chart-title')
+    .attr("transform", "translate(" + (this._width/1.6) + " ," + (this._margin.top  - 15) + ")")
+    .style("text-anchor", "middle")
+    .style('fill', '#8c8c8c');
+
     // axis label groups
     this._svgCanvas
     .append('text')
     .attr('class', 'axis axis--x--label')
-    .attr("transform", "translate(" + (this._width/1.6) + " ," + (this._height + this._margin.bottom) + ")")
+    .attr("transform", "translate(" + (this._width/1.6) + " ," + (this._height + this._margin.bottom + 30) + ")")
     .style("text-anchor", "middle")
     .style('fill', '#8c8c8c');
 
@@ -95,7 +108,7 @@ export class Network {
     .attr('class', 'axis axis--y--label')
     .attr("transform", "rotate(-90)")
     .attr("y", 10)
-    .attr("x", 0 - (this._height / 1.9))
+    .attr("x", 0 - (this._height / 1.5))
     .attr("dy", "1em")
     .style("text-anchor", "middle")
     .style('fill', '#8c8c8c');
@@ -195,15 +208,27 @@ export class Network {
         .on('mouseout' , (e: any, d: any) => tip.hide(d, e.target));
   }
 
-  updateLabels() {
+  updateLabelsAndTitle() {
     this._yAxisLabel = 'Pop de chegada';
-    this._isTime ? this._xAxisLabel = 'Tempo' : this._xAxisLabel = 'Pop de saída';
+    
+    if (this._isTime) {
+      const popId = this.getCapitalId(this._capitalId);
+      this._xAxisLabel = 'Tempo'
+      this._title = 'Medição do pop ' +  popId + ' para os demais pops ao longo do tempo'
+    } else {
+      this._capitalId = 0;
+      this._xAxisLabel = 'Pop de saída'
+      this._title = 'Medição entre pops'
+    }
 
     this._svgCanvas.select('.axis--x--label')
         .text(this._xAxisLabel)
 
     this._svgCanvas.select('.axis--y--label')
         .text(this._yAxisLabel)
+
+    this._svgCanvas.select('.chart-title')
+        .text(this._title)
   }
 
   getCapitalId(id: number) {
