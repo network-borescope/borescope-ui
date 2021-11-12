@@ -85,7 +85,7 @@ export class Network {
     this._svgCanvas = d3.select(this._chartDiv)
         .append('svg')
         .attr('width', this._chartDiv.clientWidth)
-        .attr('height', this._chartDiv.clientHeight);
+        .attr('height', this._chartDiv.clientHeight + 20);
 
     // axis title
     this._svgCanvas
@@ -113,6 +113,19 @@ export class Network {
     .style("text-anchor", "middle")
     .style('fill', '#8c8c8c');
 
+    // legend
+    this._svgCanvas
+    .append('defs')
+    .append('linearGradient')
+    .attr('id', 'linear-gradient')
+    
+    this._svgCanvas
+    .append('g')
+    .attr("transform", "translate(" + (this._width*0.05) + " ," + (this._height + this._margin.bottom + 40) + ")")
+    .append("rect")
+    .attr('transform', "translate(" + this._margin.left + " ," +  0 + ")")
+    .attr("width", this._width - this._margin.right - this._margin.left)
+    .attr("height", 12)
     // creates the group
     this._svgGroup = this._svgCanvas
         .append('g')
