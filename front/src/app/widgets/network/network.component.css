@@ -19,7 +19,7 @@
 }
 
 .chart-select {
-    width: 97px;
+    width: 81px;
     margin-top: 7px;
     margin-left: 17px;
 }
@@ -42,6 +42,6 @@
     }
 
     .chart-select {
-        width: 81px;
+        width: 97px;
     }
 }
