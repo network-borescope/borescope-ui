@@ -66,6 +66,7 @@ export class Network {
     this.updateAxes();
     this.updateLabelsAndTitle()
     this.updateRectangles();
+    this.updateLegend();
   }
 
   resize() {
@@ -85,7 +86,7 @@ export class Network {
     this._svgCanvas = d3.select(this._chartDiv)
         .append('svg')
         .attr('width', this._chartDiv.clientWidth)
-        .attr('height', this._chartDiv.clientHeight + 20);
+        .attr('height', this._chartDiv.clientHeight + 26);
 
     // axis title
     this._svgCanvas
@@ -112,20 +113,7 @@ export class Network {
     .attr("dy", "1em")
     .style("text-anchor", "middle")
     .style('fill', '#8c8c8c');
-
-    // legend
-    this._svgCanvas
-    .append('defs')
-    .append('linearGradient')
-    .attr('id', 'linear-gradient')
     
-    this._svgCanvas
-    .append('g')
-    .attr("transform", "translate(" + (this._width*0.05) + " ," + (this._height + this._margin.bottom + 40) + ")")
-    .append("rect")
-    .attr('transform', "translate(" + this._margin.left + " ," +  0 + ")")
-    .attr("width", this._width - this._margin.right - this._margin.left)
-    .attr("height", 12)
     // creates the group
     this._svgGroup = this._svgCanvas
         .append('g')
@@ -243,6 +231,55 @@ export class Network {
 
     this._svgCanvas.select('.chart-title')
         .text(this._title)
+  }
+
+  updateLegend() {
+    //remove antiga legenda e ticks
+    this._svgCanvas.select(".legend-scale").remove();
+    this._svgCanvas.select("defs").remove();
+    this._svgCanvas.select("#linear-gradient").remove();
+    this._svgCanvas.select("#legend").remove();
+
+    const defs =  this._svgCanvas
+                  .append('defs')
+
+    const linearGradient =  defs
+                            .append('linearGradient')
+                            .attr('id', 'linear-gradient')
+
+    linearGradient.selectAll('stop')
+    .data(this._cScale.ticks().map((t: any, i: any, n: any) => ({ offset: `${100*i/n.length}%`, color: this._cScale(t) })))
+    .enter().append('stop')
+    .attr('offset', (d: any) => d.offset)
+    .attr('stop-color', (d: any) => d.color); 
+
+    this._svgCanvas
+    .append('g')
+    .attr('id', 'legend')
+    .attr("transform", "translate(" + (this._width*0.05) + " ," + (this._height + this._margin.bottom + 42) + ")")
+    .append("rect")
+    .attr('transform', "translate(" + this._margin.left + " ," +  0 + ")")
+    .attr("width", this._width - this._margin.right - this._margin.left)
+    .attr("height", 12)
+    .style('fill', 'url(#linear-gradient)')
+
+    const legendScale = d3.scaleLinear()
+                        .domain(this._cScale.domain())
+                        .range([this._margin.left, this._width - this._margin.right])
+    
+    this._svgCanvas
+    .append('g')
+    .attr("class", "legend-scale")
+    .attr("transform", "translate(" + (this._width*0.05) + " ," + (this._height + this._margin.bottom + 42) + ")")
+    .call(d3.axisBottom(legendScale)
+    .ticks(this._width / 100)
+    .tickSize(12))
+
+    this._svgCanvas.selectAll(".legend-scale line")
+    .attr("stroke", "#fff");
+
+    this._svgCanvas.select(".legend-scale path")
+    .attr("stroke", "#fff");
   }
 
   getCapitalId(id: number) {
