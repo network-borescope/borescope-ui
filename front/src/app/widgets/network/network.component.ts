@@ -47,4 +47,12 @@ export class NetworkComponent implements OnInit {
     this.global.setGlobal(heatmatrix_param);
     this.heatMatrixParamChanged.emit();
   }
+
+  onChartChange(event: any) {
+    console.log((this.global.getGlobal("clicked_element").value > 0))
+  }
+
+  isCapitalSelected() {
+    return (this.global.getGlobal("clicked_element").value > 0)
+  }
 }

@@ -62,10 +62,16 @@
             </select>
         </div>
         <div id="codfield-select-box" class="codfield-select">
-            <select name="codefield" class="network-select" (change)="this.onValueChange($event)">
+            <select name="codfield" class="network-select" (change)="this.onValueChange($event)">
                 <option value="h_avg">Average</option>
                 <option value="h_max">Max</option>
                 <option value="h_min">Min</option>
+            </select>        
+        </div>
+        <div *ngIf="this.isCapitalSelected()" id="chart-select-box" class="chart-select">
+            <select name="chart-selector" class="network-select" (change)="this.onChartChange($event)">
+                <option value="heatmatrix">Heatmatrix</option>
+                <option value="timeseries">Time Series</option>
             </select>        
         </div>
     </div>

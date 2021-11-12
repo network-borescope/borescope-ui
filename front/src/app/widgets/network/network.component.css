@@ -18,6 +18,12 @@
     margin-left: 17px;
 }
 
+.chart-select {
+    width: 97px;
+    margin-top: 7px;
+    margin-left: 17px;
+}
+
 @media screen and (min-width: 1024px) {
     .network-chart {
         height: 380px;
@@ -33,5 +39,9 @@
     
     .codfield-select {
         width: 79px;
+    }
+
+    .chart-select {
+        width: 81px;
     }
 }
