@@ -1,5 +1,7 @@
 import * as d3 from 'd3';
 import d3Tip from "d3-tip";
+import { CategoryScale, Chart, Legend, LinearScale, LineController, LineElement, PointElement, Tooltip } from 'chart.js';
+
 
 export class Network {
   // chart data
@@ -300,3 +302,119 @@ export class Network {
   }
 }
 
+
+export class Timeseries {
+
+  private chart: any;
+  private canvas: HTMLCanvasElement;
+  // capitals
+  private capitals: any = null;
+  // labels 
+  private labels: any = null;
+  private data: any = null;
+  
+  constructor(canvas: HTMLCanvasElement) {
+    this.canvas = canvas;
+    this.init();
+  }
+
+  //Configuração do grafico
+  init() {
+    if (this.canvas === undefined) {
+      return;
+    }
+
+    //Registra os elementos utilizados pelo grafico
+    Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale, Legend, Tooltip);
+    Chart.defaults.animation = false;
+
+    this.chart = new Chart(this.canvas, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: []
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+          title: {
+            display: false,
+            text: 'Title'
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+          },
+        },
+        elements: {
+          point: {
+            radius: 0
+          }
+        },
+        responsive: true,
+        hover: {
+          mode: 'nearest',
+          intersect: true
+        },
+        scales: {
+          x: {
+            display: true,
+            time: {
+              parser: 'MM/DD/YYYY HH:mm',
+              tooltipFormat: 'll HH:mm'
+            },
+            title: {
+              display: true,
+              text: 'Tempo'
+            }
+          },
+          y: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Pop de chegada'
+            }
+          }
+        }
+      }
+    });
+  }
+
+
+  //Modifica as configurações globais para os títulos
+  setTitle(id: number) {
+    this.chart.options.plugins.title.text = this.getCapitalId(id);
+    this.chart.options.plugins.title.display = true;
+  }
+
+  setData(data: any, capitals: any) {
+      this.capitals = capitals;
+      let obj: any = {};
+      obj['data'] = [];
+      obj['label'] = '';
+      for(let i = 1; i < 28; i++) {
+          for(let j = 1; j < 8; j++) {
+              obj['data'].push(data[(i*j) - 1])
+          }
+      }
+      console.log(data);
+      console.log(this.data);
+  }
+
+  setLabels(labels: any) {
+      this.chart.config.data.labels = labels;
+  }
+
+  getCapitalId(id: number) {
+      return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+  }
+
+  clear() {
+    this.chart.data.labels = [];
+    this.chart.data.datasets = [];
+    this.chart.update();
+  }
+}

@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
 import { Network } from './network';
-import { Timeseries } from './timeseries';
+import { Timeseries } from './network';
 
 @Component({
   selector: 'app-network',
@@ -32,6 +32,16 @@ export class NetworkComponent implements OnInit {
     const capitalId = clicked;
     this.netChart.setData(data, capitals, clicked >= 0, invert, capitalId);
     this.netChart.render();
+    if(clicked >= 0) {
+      this.timeseriesChart.setData(data, capitals);
+      let labels = [];
+      for(let i = 0; i < 7; i++) {
+        let pointTime = data[i][1]
+        labels.push(this.util.secondsToDate(pointTime))
+      }
+      this.timeseriesChart.setLabels(labels);
+      //this.timeseriesChart.labels =
+    }
   }
 
   onValueChange(event: any) {
