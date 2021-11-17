@@ -2,6 +2,13 @@
     height: 327px;
 }
 
+.timeseries-chart {
+    height: 327px;
+    position: absolute;
+    width: 494px;
+    top: 10px;
+}
+
 .network-select {
     font-size: 9px;
 }
@@ -25,6 +32,12 @@
 }
 
 @media screen and (min-width: 1024px) {
+    .timeseries-chart {
+        height: 380px;
+        top: 10px;
+        width: 578px;
+    }
+
     .network-chart {
         height: 380px;
     }

@@ -213,7 +213,13 @@ export class MapComponent implements AfterViewInit {
         value: -1
       }
 
+      const network_param = {
+        key: 'network_param',
+        value: 1
+      }
+
       global.setGlobal(clicked_element);
+      global.setGlobal(network_param);
       map.setView([lat, lng], zoom);
     }).addTo(this.map);
   }

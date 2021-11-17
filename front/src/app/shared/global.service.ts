@@ -114,6 +114,14 @@ export class GlobalService {
     this.setGlobal(label_maps);
 
     /**
+     * Guarda o parametro selecionado no network chart quando mudado para heatmatrix ou timeseries
+     */
+     const network_param = {
+      key: "network_param",
+      value: 1
+    };
+    this.setGlobal(network_param);
+    /**
      * Guarda as opções de from do bar chart.
      */
     const bar_params = {

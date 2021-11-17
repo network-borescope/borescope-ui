@@ -1,5 +1,6 @@
 <div>
-    <div class="fill network-chart" #netChart></div>
+    <div class="fill network-chart" [style.opacity]="this.chartDisplay() ? 1 : 0" #netChart></div>
+    <div class="fill timeseries-chart" [style.opacity]="this.chartDisplay() ? 0 : 1" #timeseriesChart></div>
     <div style="display: flex; margin-top: 27px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
         <div id="code-select-box" class="code-select">
             <select name="code" class="network-select" (change)="this.onParamChange($event)">
