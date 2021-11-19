@@ -394,6 +394,7 @@ export class Timeseries {
   }
 
   setData(data: any, capitals: any) {
+    if(this.chart.data.datasets.length > 0) this.removeDataset();
     this.capitals = capitals;
     let obj: any = {};
 
@@ -401,10 +402,22 @@ export class Timeseries {
     while(data.length) dataMatrix.push(data.splice(0,7));
     for(let i = 0; i < dataMatrix.length; i++) {
       let capitalData: any = []
-      for(let j = 0; j < dataMatrix[i].length; j++) capitalData.push(dataMatrix[i][j][1])
+      for(let j = 0; j < dataMatrix[i].length; j++) capitalData.push(dataMatrix[i][j][2])
       obj[this.getCapitalId(dataMatrix[i][0][0])] = capitalData;
     }
-    console.log(obj);
+
+    const datasets = this.chart.config.data.datasets;
+    const keys = Object.keys(obj);
+    keys.forEach((key, index) => {
+      const newData = {
+        label: key,
+        data: obj[key],
+        backgroundColor: '#AAAAAA',
+        borderColor: '#AAAAAA',
+        fill: false
+      };
+      datasets.push(newData);
+    });
   }
 
   setLabels(labels: any) {
@@ -423,5 +436,12 @@ export class Timeseries {
 
   render() {
     this.chart.update();
+  }
+
+  removeDataset() {
+    this.chart.config.data.labels = [];
+    this.chart.config.data.datasets = [];
+    this.chart.update();
+    console.log(this.chart.data.datasets);
   }
 }
