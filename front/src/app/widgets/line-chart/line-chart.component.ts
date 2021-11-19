@@ -215,7 +215,6 @@ export class LineChartComponent implements OnInit {
         while (current <= tsT1.value) {
           let label = '';
           let date = new Date(current * 1000);
-
           if (interval < 1200) { // 20 min
             //@ts-ignore
             label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });

@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { point } from 'leaflet';
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
 import { Network } from './network';
@@ -29,19 +30,28 @@ export class NetworkComponent implements OnInit {
   }
 
   drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false) {
+    console.log('ALO HEATMATRIX')
     const capitalId = clicked;
     this.netChart.setData(data, capitals, clicked >= 0, invert, capitalId);
     this.netChart.render();
-    if(clicked >= 0) {
-      this.timeseriesChart.setData(data, capitals);
-      let labels = [];
-      for(let i = 0; i < 7; i++) {
-        let pointTime = data[i][1]
-        labels.push(this.util.secondsToDate(pointTime))
-      }
-      this.timeseriesChart.setLabels(labels);
-      //this.timeseriesChart.labels =
+  }
+
+  drawTimeseries(data: any, capitals: any, clicked: number) {
+    console.log('ALO TIMESERIES')
+    this.timeseriesChart.setData(data, capitals);
+    let labels = [];
+    for(let i = 0; i < 7; i++) {
+      let pointTime = data[i][1]
+      let label = '';
+      let date = new Date(pointTime * 1000);
+      //@ts-ignore
+      label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })
+      //let transformedTime = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
+      labels.push(label);
     }
+    this.timeseriesChart.setLabels(labels);
+    this.timeseriesChart.setTitle(clicked);
+    this.timeseriesChart.render();
   }
 
   onValueChange(event: any) {

@@ -532,5 +532,6 @@ export class HomeComponent implements AfterViewInit {
     const data = JSON.parse(res).result;
 
     this.net.drawChart(data, capitals, clicked, selectedParam != 77);
+    if(clicked >= 0)this.net.drawTimeseries(data, capitals, clicked);
   }
 }

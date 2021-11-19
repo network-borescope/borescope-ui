@@ -337,6 +337,10 @@ export class Timeseries {
       options: {
         plugins: {
           legend: {
+            title: {
+              display: true,
+              text: 'Legend'
+            },
             display: true,
             position: "top",
           },
@@ -386,8 +390,8 @@ export class Timeseries {
 
   //Modifica as configurações globais para os títulos
   setTitle(id: number) {
-    this.chart.options.plugins.title.text = this.getCapitalId(id);
-    this.chart.options.plugins.title.display = true;
+    this.chart.options.plugins.legend.title.text = this.getCapitalId(id);
+    console.log(this.chart.options.plugins.legend.title.text)
   }
 
   setData(data: any, capitals: any) {
@@ -415,6 +419,10 @@ export class Timeseries {
   clear() {
     this.chart.data.labels = [];
     this.chart.data.datasets = [];
+    this.chart.update();
+  }
+
+  render() {
     this.chart.update();
   }
 }
