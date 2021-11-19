@@ -30,15 +30,12 @@ export class NetworkComponent implements OnInit {
   }
 
   drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false) {
-    console.log('ALO HEATMATRIX')
     const capitalId = clicked;
     this.netChart.setData(data, capitals, clicked >= 0, invert, capitalId);
     this.netChart.render();
   }
 
   drawTimeseries(data: any, capitals: any, clicked: number) {
-    console.log('ALO TIMESERIES')
-    this.timeseriesChart.setData(data, capitals);
     let labels = [];
     for(let i = 0; i < 7; i++) {
       let pointTime = data[i][1]
@@ -49,6 +46,7 @@ export class NetworkComponent implements OnInit {
       //let transformedTime = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
       labels.push(label);
     }
+    this.timeseriesChart.setData(data, capitals);
     this.timeseriesChart.setLabels(labels);
     this.timeseriesChart.setTitle(clicked);
     this.timeseriesChart.render();

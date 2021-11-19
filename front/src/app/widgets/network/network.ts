@@ -391,21 +391,20 @@ export class Timeseries {
   //Modifica as configurações globais para os títulos
   setTitle(id: number) {
     this.chart.options.plugins.legend.title.text = this.getCapitalId(id);
-    console.log(this.chart.options.plugins.legend.title.text)
   }
 
   setData(data: any, capitals: any) {
-      this.capitals = capitals;
-      let obj: any = {};
-      obj['data'] = [];
-      obj['label'] = '';
-      for(let i = 1; i < 28; i++) {
-          for(let j = 1; j < 8; j++) {
-              obj['data'].push(data[(i*j) - 1])
-          }
-      }
-      console.log(data);
-      console.log(this.data);
+    this.capitals = capitals;
+    let obj: any = {};
+
+    const dataMatrix = [];
+    while(data.length) dataMatrix.push(data.splice(0,7));
+    for(let i = 0; i < dataMatrix.length; i++) {
+      let capitalData: any = []
+      for(let j = 0; j < dataMatrix[i].length; j++) capitalData.push(dataMatrix[i][j][1])
+      obj[this.getCapitalId(dataMatrix[i][0][0])] = capitalData;
+    }
+    console.log(obj);
   }
 
   setLabels(labels: any) {
