@@ -393,33 +393,25 @@ export class Timeseries {
     this.chart.options.plugins.legend.title.text = this.getCapitalId(id);
   }
 
-  setData(data: any, capitals: any) {
-    console.log(data)
-    console.log(capitals)
-    if(this.chart.data.datasets.length > 0) this.removeDataset();
+  setCapitals(capitals: any) {
     this.capitals = capitals;
-    let obj: any = {};
+  }
 
-    const dataMatrix = [];
-    while(data.length) dataMatrix.push(data.splice(0,7));
-    for(let i = 0; i < dataMatrix.length; i++) {
-      let capitalData: any = []
-      for(let j = 0; j < dataMatrix[i].length; j++) capitalData.push(dataMatrix[i][j][2])
-      obj[this.getCapitalId(dataMatrix[i][0][0])] = capitalData;
-    }
-
+  updateData(data: any) {
     const datasets = this.chart.config.data.datasets;
-    const keys = Object.keys(obj);
+    const keys = Object.keys(data);
     keys.forEach((key, index) => {
       const newData = {
-        label: key,
-        data: obj[key],
+        label: this.getCapitalId(parseInt(key)),
+        data: data[key],
         backgroundColor: '#AAAAAA',
         borderColor: '#AAAAAA',
         fill: false
       };
+      console.log(newData)
       datasets.push(newData);
     });
+    this.chart.update();
   }
 
   setLabels(labels: any) {
@@ -427,6 +419,7 @@ export class Timeseries {
   }
 
   getCapitalId(id: number) {
+      console.log(id)
       return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
   }
 
@@ -444,6 +437,5 @@ export class Timeseries {
     this.chart.config.data.labels = [];
     this.chart.config.data.datasets = [];
     this.chart.update();
-    console.log(this.chart.data.datasets);
   }
 }

@@ -531,11 +531,38 @@ export class HomeComponent implements AfterViewInit {
     const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
     const data = JSON.parse(res).result;
 
-    if(clicked >= 0)this.net.drawTimeseries(data, capitals, clicked);
     this.net.drawChart(data, capitals, clicked, selectedParam != 77);
   }
 
   async updateTimeseries(event: any) {
+    let tsT0 = this.global.getGlobal("t0_vis").value;
+    let tsT1 = this.global.getGlobal("t1_vis").value;
 
+    const selectedParam = parseInt(this.global.getGlobal('heatmatrix_param').value);
+    const selectedValue = this.global.getGlobal('heatmatrix_value').value;
+    const capitals = this.global.getGlobal('state_capitals').value.default;
+
+    const clicked = this.global.getGlobal("clicked_element").value;
+
+    const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
+    const data = JSON.parse(res).result;
+    const selectedData:any = {};
+    const datetimeArray:any = [];
+    for(let i = 0; i < event.length; i++) {
+      selectedData[event[i]] = [];
+      for(let j = 0; j < data.length; j++) {
+        if(data[j][0] == event[i]) selectedData[event[i]].push(data[j][2])
+      } 
+    }
+    console.log(selectedData)
+    for(let i = 0; i < 7; i++) {
+      let label = '';
+      let date = new Date(data[i][1] * 1000);
+      //@ts-ignore
+      label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })
+      datetimeArray.push(label);
+    }
+
+    this.net.updateTimeseriesData(selectedData, datetimeArray, capitals, clicked);
   }
 }

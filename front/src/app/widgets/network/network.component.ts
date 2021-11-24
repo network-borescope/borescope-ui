@@ -23,9 +23,12 @@ export class NetworkComponent implements OnInit {
   // objeto do gráfico
   private netChart: any;
   private timeseriesChart: any;
+  //capitals select list
+  private selectedCapitals: any = [];
   //multiselect
   public dropdownList: any = [];
   public dropdownSettings: any = {};
+
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
@@ -57,22 +60,16 @@ export class NetworkComponent implements OnInit {
     const capitalId = clicked;
     this.netChart.setData(data, capitals, clicked >= 0, invert, capitalId);
     this.netChart.render();
+    this.timeseriesChart.setCapitals(capitals);
   }
 
-  drawTimeseries(data: any, capitals: any, clicked: number) {
-    let labels = [];
-    for(let i = 0; i < 7; i++) {
-      let pointTime = data[i][1]
-      let label = '';
-      let date = new Date(pointTime * 1000);
-      //@ts-ignore
-      label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })
-      //let transformedTime = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
-      labels.push(label);
-    }
-    this.timeseriesChart.setLabels(labels);
+  updateTimeseriesData(data: any, dates: any, capitals: any, clicked: number) {
+    this.timeseriesChart.clear();
+    this.timeseriesChart.updateData(data);
+    this.timeseriesChart.setLabels(dates);
     this.timeseriesChart.setTitle(clicked);
     this.timeseriesChart.render();
+    
   }
 
   onValueChange(event: any) {
@@ -115,7 +112,13 @@ export class NetworkComponent implements OnInit {
   }
 
   onCapitalSelect(event: any) {
-    this.onCapitalSelected.emit(event);
+    if(this.selectedCapitals.includes(event.cod)) {
+      this.selectedCapitals = this.selectedCapitals.filter((e:any) => e !== event.cod);
+    } else {
+      this.selectedCapitals.push(event.cod);
+    };
+    console.log(this.selectedCapitals);
+    this.onCapitalSelected.emit(this.selectedCapitals);
   }
 
   chartDisplay() {
