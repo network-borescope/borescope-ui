@@ -22,7 +22,11 @@ export class NetworkComponent implements OnInit {
   private netChart: any;
   private timeseriesChart: any;
 
-  constructor(public global: GlobalService, public util: UtilService) { }
+  public capitals: any = [];
+  constructor(public global: GlobalService, public util: UtilService) { 
+    this.capitals = this.global.getGlobal("state_capitals").value.default;
+    console.log(this.capitals)
+  }
 
   ngOnInit(): void {
     this.netChart = new Network(this.netDiv.nativeElement);
@@ -30,6 +34,7 @@ export class NetworkComponent implements OnInit {
   }
 
   drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false) {
+    console.log(this.global.getGlobal("state_capitals"))
     const capitalId = clicked;
     this.netChart.setData(data, capitals, clicked >= 0, invert, capitalId);
     this.netChart.render();
@@ -84,6 +89,10 @@ export class NetworkComponent implements OnInit {
       };
       this.global.setGlobal(network_param);  
     }
+  }
+
+  onCapitalSelect(event: any) {
+    console.log(event.target.value)
   }
 
   chartDisplay() {

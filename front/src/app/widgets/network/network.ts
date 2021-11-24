@@ -394,6 +394,8 @@ export class Timeseries {
   }
 
   setData(data: any, capitals: any) {
+    console.log(data)
+    console.log(capitals)
     if(this.chart.data.datasets.length > 0) this.removeDataset();
     this.capitals = capitals;
     let obj: any = {};

@@ -26,10 +26,12 @@
 }
 
 .chart-select {
-    width: 81px;
+    width: 86px;
     margin-top: 7px;
     margin-left: 17px;
 }
+
+
 
 @media screen and (min-width: 1024px) {
     .timeseries-chart {

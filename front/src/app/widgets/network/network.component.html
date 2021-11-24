@@ -75,7 +75,12 @@
             <select name="chart-selector" class="network-select" (change)="this.onChartChange($event)">
                 <option value="heatmatrix">Heatmatrix</option>
                 <option value="timeseries">Time Series</option>
-            </select>        
+            </select>       
+        </div>
+        <div *ngIf="this.isCapitalSelected()" id="chart-select-box" class="chart-select">
+            <select name="chart-selector" class="network-select" (change)="this.onCapitalSelect($event)" multiple size="1">
+                <option *ngFor="let param of this.capitals; let idx = index" [value]="param.cod">{{param.id.toUpperCase()}}</option>
+            </select>  
         </div>
     </div>
 </div>
