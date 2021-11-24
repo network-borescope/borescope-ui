@@ -78,7 +78,7 @@
             </select>       
         </div>
         <div *ngIf="this.isTimeseriesSelected()" id="chart-select-box" class="chart-select">
-            <ng-multiselect-dropdown
+            <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [placeholder]="'Estados'"
             [settings]="this.dropdownSettings"
             [data]="this.dropdownList"

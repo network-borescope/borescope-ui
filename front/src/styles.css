@@ -176,8 +176,44 @@ html, body {
   line-height: 30px;
 }
 
+.custom-font-size .multiselect-dropdown .dropdown-btn {
+  font-size: 9px !important;
+}
+
+.custom-radius .multiselect-dropdown .dropdown-btn {
+  border-radius: 100px !important;
+}
+
+.custom-dropdown .multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret::before {
+  border-width: 4px 3px 0 !important;
+  color: #696969 !important;
+  border-color: #696969 transparent !important;
+
+}
+
+.selected-item{
+  background: grey !important;
+  border: 2px solid grey!important;
+ }
+ 
+.multiselect-item-checkbox input + div:before{
+  background: grey !important;
+  border: 2px solid grey!important;
+}
+
+.custom-dropdown-place .multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
+  line-height: 0px !important;
+}
+.custom-dropdown-rotation .multiselect-dropdown .dropdown-btn .dropdown-multiselect--active .dropdown-multiselect__caret {
+  transform: rotateZ(0deg) !important;
+}
+
 @media screen and (min-width: 1024px) {
   .chart-check {
     font-size: 11px;
+  }
+
+  .custom-font-size .multiselect-dropdown .dropdown-btn {
+    font-size: 11px !important;
   }
 }
