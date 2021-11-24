@@ -69,7 +69,6 @@ export class NetworkComponent implements OnInit {
     this.timeseriesChart.setLabels(dates);
     this.timeseriesChart.setTitle(clicked);
     this.timeseriesChart.render();
-    
   }
 
   onValueChange(event: any) {
@@ -79,6 +78,7 @@ export class NetworkComponent implements OnInit {
     };
     this.global.setGlobal(heatmatrix_value);
     this.heatMatrixValueChanged.emit();
+    this.onCapitalSelected.emit(this.selectedCapitals);
   }
 
   onParamChange(event: any) {
@@ -88,6 +88,7 @@ export class NetworkComponent implements OnInit {
     };
     this.global.setGlobal(heatmatrix_param);
     this.heatMatrixParamChanged.emit();
+    this.onCapitalSelected.emit(this.selectedCapitals);
   }
 
   onChartChange(event: any) {
@@ -108,7 +109,7 @@ export class NetworkComponent implements OnInit {
 
   isTimeseriesSelected() {
     const network_param = this.global.getGlobal("network_param");
-    return network_param.value == 0;
+    return network_param.value !== 0;
   }
 
   onCapitalSelect(event: any) {
@@ -117,7 +118,6 @@ export class NetworkComponent implements OnInit {
     } else {
       this.selectedCapitals.push(event.cod);
     };
-    console.log(this.selectedCapitals);
     this.onCapitalSelected.emit(this.selectedCapitals);
   }
 
