@@ -340,7 +340,12 @@ export class HomeComponent implements AfterViewInit {
     const selectedParam = this.global.getGlobal('line_selected_params_value').value;
     this.line.drawChart(param, selectedParam);
   }
-
+  /**
+   * reseta a timeseries quando o botão de reset do zoom é clicado
+   */
+  onTimeseriesReset() {
+    this.net.clearTimeseries();
+  }
   /**
    * Atualiza o período de tempo ativo das visualizações
    */

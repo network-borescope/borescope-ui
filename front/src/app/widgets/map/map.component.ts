@@ -38,6 +38,9 @@ export class MapComponent implements AfterViewInit {
   @Output() markerAddedEvent = new EventEmitter<any>();
   @Output() markerRemovedEvent = new EventEmitter<any>();
 
+  // evento para reset da timeseries
+  @Output() resetTimeseries = new EventEmitter();
+
   // objeto com o mapa do leaflet
   private map!: L.Map;
   // objeto com os clientes
@@ -207,6 +210,7 @@ export class MapComponent implements AfterViewInit {
     });
     
     const global = this.global;
+    const self = this;
     L.easyButton('fa-redo fa-lg', function(btn,map){
       const clicked_element = {
         key: 'clicked_element',
@@ -220,6 +224,7 @@ export class MapComponent implements AfterViewInit {
 
       global.setGlobal(clicked_element);
       global.setGlobal(network_param);
+      self.resetTimeseries.emit();
       map.setView([lat, lng], zoom);
     }).addTo(this.map);
   }

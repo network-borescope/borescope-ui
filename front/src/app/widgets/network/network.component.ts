@@ -128,4 +128,9 @@ export class NetworkComponent implements OnInit {
   isCapitalSelected() {
     return (this.global.getGlobal("clicked_element").value > 0)
   }
+  
+  clearTimeseries() {
+    this.selectedCapitals = [];
+    this.timeseriesChart.clear();
+  }
 }
