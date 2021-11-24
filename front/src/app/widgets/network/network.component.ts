@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { point } from 'leaflet';
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
@@ -18,23 +19,41 @@ export class NetworkComponent implements OnInit {
 
   @Output() heatMatrixValueChanged = new EventEmitter<number>();
   @Output() heatMatrixParamChanged = new EventEmitter<number>();
+  @Output() onCapitalSelected = new EventEmitter<any>();
   // objeto do gráfico
   private netChart: any;
   private timeseriesChart: any;
+  //multiselect
+  public dropdownList: any = [];
+  public dropdownSettings: any = {};
 
-  public capitals: any = [];
-  constructor(public global: GlobalService, public util: UtilService) { 
-    this.capitals = this.global.getGlobal("state_capitals").value.default;
-    console.log(this.capitals)
-  }
+  constructor(public global: GlobalService, public util: UtilService) { }
 
   ngOnInit(): void {
     this.netChart = new Network(this.netDiv.nativeElement);
     this.timeseriesChart = new Timeseries(this.timeseriesDiv.nativeElement);
+    //setando as configuracoes do multiselect
+    const capitals = this.global.getGlobal("state_capitals").value.default;
+    for(let i = 0; i < capitals.length; i++) {
+      let id = capitals[i].id.toUpperCase();
+      let cod = capitals[i].cod;
+      let obj:any = {};
+      obj['estado'] = id;
+      obj['cod'] = cod;
+      this.dropdownList.push(obj);
+    };
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'cod',
+      textField: 'estado',
+      enableCheckAll: false,
+      unSelectAll: false,
+      itemsShowLimit: 0,
+      allowSearchFilter: false
+    };
   }
 
   drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false) {
-    console.log(this.global.getGlobal("state_capitals"))
     const capitalId = clicked;
     this.netChart.setData(data, capitals, clicked >= 0, invert, capitalId);
     this.netChart.render();
@@ -51,7 +70,6 @@ export class NetworkComponent implements OnInit {
       //let transformedTime = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
       labels.push(label);
     }
-    this.timeseriesChart.setData(data, capitals);
     this.timeseriesChart.setLabels(labels);
     this.timeseriesChart.setTitle(clicked);
     this.timeseriesChart.render();
@@ -91,8 +109,13 @@ export class NetworkComponent implements OnInit {
     }
   }
 
+  isTimeseriesSelected() {
+    const network_param = this.global.getGlobal("network_param");
+    return network_param.value == 0;
+  }
+
   onCapitalSelect(event: any) {
-    console.log(event.target.value)
+    this.onCapitalSelected.emit(event);
   }
 
   chartDisplay() {

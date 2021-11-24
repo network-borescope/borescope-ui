@@ -77,10 +77,14 @@
                 <option value="timeseries">Time Series</option>
             </select>       
         </div>
-        <div *ngIf="this.isCapitalSelected()" id="chart-select-box" class="chart-select">
-            <select name="chart-selector" class="network-select" (change)="this.onCapitalSelect($event)" multiple size="1">
-                <option *ngFor="let param of this.capitals; let idx = index" [value]="param.cod">{{param.id.toUpperCase()}}</option>
-            </select>  
+        <div *ngIf="this.isTimeseriesSelected()" id="chart-select-box" class="chart-select">
+            <ng-multiselect-dropdown
+            [placeholder]="'Estados'"
+            [settings]="this.dropdownSettings"
+            [data]="this.dropdownList"
+            (onSelect)="this.onCapitalSelect($event)"
+            (onDeSelect)="this.onCapitalSelect($event)">
+            </ng-multiselect-dropdown>
         </div>
     </div>
 </div>

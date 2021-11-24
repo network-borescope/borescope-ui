@@ -531,7 +531,11 @@ export class HomeComponent implements AfterViewInit {
     const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
     const data = JSON.parse(res).result;
 
-    this.net.drawChart(data, capitals, clicked, selectedParam != 77);
     if(clicked >= 0)this.net.drawTimeseries(data, capitals, clicked);
+    this.net.drawChart(data, capitals, clicked, selectedParam != 77);
+  }
+
+  async updateTimeseries(event: any) {
+
   }
 }

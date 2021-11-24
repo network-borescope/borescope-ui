@@ -2,6 +2,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AngularDraggableModule } from 'angular2-draggable';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { AppComponent } from './app.component';
 import { AppInitService } from './app-init.service';
@@ -37,6 +38,7 @@ import { NetworkComponent } from './widgets/network/network.component';
   imports: [
     BrowserModule,
     AngularDraggableModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ],
   providers: [
     AppInitService,
