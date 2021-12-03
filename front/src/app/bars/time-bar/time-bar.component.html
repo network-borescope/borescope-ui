@@ -1,0 +1,31 @@
+<div class="row">
+    <button class="btn btn-custom" (click)='this.onClickTime(-3)'>
+        <i class="fas fa-fast-backward line-time-icon"></i>
+    </button>
+    <button class="btn btn-custom" (click)='this.onClickTime(-2)'>
+        <i class="fas fa-backward line-time-icon"></i>
+    </button>
+    <button class="btn btn-custom" (click)='this.onClickTime(-1)'>
+        <i class="fas fa-step-backward line-time-icon"></i>
+    </button>
+    <button class="btn btn-custom" (click)='this.onClickTime(1)'>
+        <i class="fas fa-step-forward line-time-icon"></i>
+    </button>
+    <button class="btn btn-custom" (click)='this.onClickTime(2)'>
+        <i class="fas fa-forward line-time-icon"></i>
+    </button>
+    <button class="btn btn-custom" (click)='this.onClickTime(3)'>
+        <i class="fas fa-fast-forward line-time-icon"></i>
+    </button>
+    <button class="btn btn-custom" (click)='this.onClickTime(4)'>
+        <i class="fas fa-search-plus line-time-icon"></i>
+    </button>
+    <button class="btn btn-custom" (click)='this.onClickTime(-4)'>
+        <i class="fas fa-search-minus line-time-icon"></i>
+    </button>
+    <button class="btn btn-custom" (click)='this.onClickTime(5)'>
+        <i class="fas fa-sync-alt line-time-icon"
+        [style.color]="this.refreshAvailable() ? '#F97432' : '#AAAAAA'"
+        ></i>
+    </button>
+</div>

@@ -1,6 +1,6 @@
 <div class="fill">
   <canvas class="fill" style="padding-bottom: 10px; border-bottom: 1px solid #eee;" #lineChart></canvas>
-  <div style="margin-top: 7px; padding-bottom: 7px; border-bottom: 1px solid #eee; display: flex;">
+  <div style="margin-top: 7px; padding-bottom: 7px; display: flex;">
     <select name="select" class="param-selector" (change)="this.onParamChange($event)">
       <option *ngFor="let param of this.ids; let idx = index" [value]="param.id">{{param.caption}}</option>
     </select>   
@@ -9,37 +9,6 @@
       <option value="max">Max</option>
       <option value="min">Min</option>
     </select>
-  </div>
-  <div class="handler-line-chart">
-    <button class="btn btn-line-chart" (click)='this.onClickTime(-3)'>
-      <i class="fas fa-fast-backward line-time-icon"></i>
-    </button>
-    <button class="btn btn-line-chart" (click)='this.onClickTime(-2)'>
-      <i class="fas fa-backward line-time-icon"></i>
-    </button>
-    <button class="btn btn-line-chart" (click)='this.onClickTime(-1)'>
-      <i class="fas fa-step-backward line-time-icon"></i>
-    </button>
-    <button class="btn btn-line-chart" (click)='this.onClickTime(1)'>
-      <i class="fas fa-step-forward line-time-icon"></i>
-    </button>
-    <button class="btn btn-line-chart" (click)='this.onClickTime(2)'>
-      <i class="fas fa-forward line-time-icon"></i>
-    </button>
-    <button class="btn btn-line-chart" (click)='this.onClickTime(3)'>
-      <i class="fas fa-fast-forward line-time-icon"></i>
-    </button>
-    <button class="btn btn-line-chart" (click)='this.onClickTime(4)'>
-      <i class="fas fa-search-plus line-time-icon"></i>
-    </button>
-    <button class="btn btn-line-chart" (click)='this.onClickTime(-4)'>
-      <i class="fas fa-search-minus line-time-icon"></i>
-    </button>
-    <button class="btn btn-line-chart" (click)='this.onClickTime(5)'>
-      <i class="fas fa-sync-alt line-time-icon"
-      [style.color]="this.refreshAvailable() ? '#F97432' : '#AAAAAA'"
-      ></i>
-    </button>
   </div>
 </div>
 

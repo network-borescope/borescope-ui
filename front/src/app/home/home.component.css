@@ -74,7 +74,7 @@
   top: 480px;
   right: 10px;
   width: 516px; 
-  height: 329px !important;
+  height: 294px !important;
   z-index: -10;
 }
 
@@ -96,7 +96,7 @@
   .line-chart-window {
     width: 600px;
     top: 530px;
-    height: 380px !important;
+    height: 342px !important;
   }
   
   .network-window {

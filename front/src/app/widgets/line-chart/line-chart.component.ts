@@ -13,7 +13,6 @@ export class LineChartComponent implements OnInit {
   // referência para o div do grafico
   @ViewChild("lineChart", { static: true }) private lineDiv!: ElementRef;
 
-  @Output() chartTimeChanged = new EventEmitter<number>();
   @Output() lineParamChanged = new EventEmitter<number>();
   @Output() lineValueChanged = new EventEmitter<number>();
 
@@ -235,10 +234,6 @@ export class LineChartComponent implements OnInit {
     }
   }
 
-  onClickTime(delta: number) {
-    this.chartTimeChanged.emit(delta);
-  }
-
   onParamChange(event: any) {
     const line_params_value = {
       key: "line_params_value",
@@ -256,14 +251,5 @@ export class LineChartComponent implements OnInit {
     };
     this.global.setGlobal(line_selected_params_value);
     this.lineValueChanged.emit();
-  }
-
-  refreshAvailable() {
-    const bnds = this.global.getGlobal("bounds_time");
-
-    const tsT0 = this.global.getGlobal("t0_vis");
-    const tsT1 = this.global.getGlobal("t1_vis");
-
-    return bnds.value[0] !== tsT0.value || bnds.value[1] !== tsT1.value;
   }
 }

@@ -28,7 +28,6 @@
   [style.z-index] = "this.isChartVisible('line') ? this.chartZindex('line') : '-10' "
   (started)="this.moving = 'line'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'line'">
     <app-line-chart #appLineChart
-    (chartTimeChanged) = "this.onChartTimeChanged($event)"
     (lineParamChanged) = "this.onLineSelectedChanged()"
     (lineValueChanged) = "this.onLineSelectedChanged()"
     ></app-line-chart>
@@ -57,4 +56,7 @@
     (filtersRemoved) = this.onFiltersRemoved()></app-filters>
   </div>
 
+  <app-time-bar 
+    (chartTimeChanged) = "this.onChartTimeChanged($event)">  
+  </app-time-bar> 
 </div>
