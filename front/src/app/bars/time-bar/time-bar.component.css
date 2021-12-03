@@ -1,0 +1,14 @@
+.btn-custom {
+    color: black;
+    background-color: #fff;
+    outline-color: #fff !important;
+    border-color: #fff !important;
+}
+  
+  
+  .btn-custom:hover {
+    background-color: #eee !important;
+    outline-color: #eee !important;
+    border-color: #eee !important;
+}
+  
