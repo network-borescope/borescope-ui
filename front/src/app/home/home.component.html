@@ -50,9 +50,7 @@
     <app-alerts #appAlerts></app-alerts>
   </div>
 
-  <app-config-bar class="configs-menu"></app-config-bar>
-
-  <div style="position: absolute; width: 400px; bottom: 65px; left: 10px; z-index: -10;"
+  <div style="position: absolute; width: 400px; bottom: 10px; left: 10px; z-index: -10;"
   [style.z-index] = "this.isConfigVisible('filters') ? this.chartZindex('filters') : '-10'">
     <app-filters #appFilters
     (filtersDefined) = this.onFiltersDefined($event)

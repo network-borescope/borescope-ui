@@ -41,4 +41,16 @@ export class ChartsBarComponent implements OnInit {
       else return '#000';
     } 
   }
+  
+  toggleConfigVisibility(configId: string) {
+    const obj = this.global.getGlobal('widgets_config');
+
+    obj.value[configId] = !obj.value[configId];
+    this.global.setGlobal(obj);
+  }
+
+  isConfigVisible(configId: string): boolean {
+    const obj = this.global.getGlobal('widgets_config');
+    return obj.value[configId];
+  }
 }

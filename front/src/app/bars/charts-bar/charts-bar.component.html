@@ -3,6 +3,10 @@
     <span class="fas fa-exclamation fa-lg" id="alerts"
     [style.color]="this.setAlertColor()"></span>
   </button>
+  <button class="btn btn-custom" type="button" (click)="this.toggleConfigVisibility('filters')">
+    <span class="fas fa-cog fa-lg"
+    [style.color]="this.isConfigVisible('filters') ? '#243d8f' : '#000' "></span>
+  </button>
   <button class="btn btn-custom" type="button" (click)="this.toggleChartVisibility('bar')">
     <span class="fas fa-chart-bar fa-lg"
     [style.color]="this.isChartVisible('bar') ? '#243d8f' : '#000' "></span>
