@@ -18,6 +18,7 @@ import 'leaflet-easybutton';
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
+import { createHostListener } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-map',
@@ -174,12 +175,16 @@ export class MapComponent implements AfterViewInit {
 
     // Eventos do mapa: criação do polígono
     this.map.on(L.Draw.Event.CREATED, (e: any) => {
-      this.listLayer.push(e.layer);
-
-      this.updateUsedColors(true, e.layer.options.color);
-
-      this.polyCreatedEvent.emit(e.layer);
-      editableLayers.addLayer(e.layer);
+      const usedColors = this.global.getGlobal("used_draw_colors");
+      if(usedColors.value.length < 10) {
+        this.listLayer.push(e.layer);
+        this.updateUsedColors(true, e.layer.options.color);
+  
+        this.polyCreatedEvent.emit(e.layer);
+        editableLayers.addLayer(e.layer);
+      } else {
+        console.log("LIMITE DE SELEÇÃO")
+      }
     });
 
     // Eventos do mapa: deleção do polígono
@@ -468,31 +473,37 @@ export class MapComponent implements AfterViewInit {
         return d.cod === feature.properties.cod;
       });
 
+      const usedColors = this.global.getGlobal("used_draw_colors");
+
       if (found >= 0) {
         layer.setIcon(this.clientIcon(color));
         const client = this.listClient.splice(found, 1);
         color = client[0].color;
 
         this.markerRemovedEvent.emit(client[0]);
+        this.updateUsedColors(found<0, color);
+      } else {
+        // libera criação de layer se tiver cor disponível
+        if(usedColors.value.length < 10) {
+          let drawColors = this.global.getGlobal("draw_colors");
+          let drawColorIndex = this.global.getGlobal("draw_color_index");
+
+          color = drawColors.value[drawColorIndex.value];
+          layer.setIcon(this.clientIcon(color));
+
+          const client = {
+            cod: feature.properties.cod,
+            nome: feature.properties.id,
+            color: color,
+          };
+          this.listClient.push(client);
+
+          this.markerAddedEvent.emit(client);
+          this.updateUsedColors(found<0, color);
+        } else {
+          console.log("LIMITE DE SELEÇÃO")
+        }
       }
-      else {
-        let drawColors = this.global.getGlobal("draw_colors");
-        let drawColorIndex = this.global.getGlobal("draw_color_index");
-
-        color = drawColors.value[drawColorIndex.value];
-        layer.setIcon(this.clientIcon(color));
-
-        const client = {
-          cod: feature.properties.cod,
-          nome: feature.properties.id,
-          color: color,
-        };
-        this.listClient.push(client);
-
-        this.markerAddedEvent.emit(client);
-      }
-
-      this.updateUsedColors(found<0, color);
     });
 
     // Evento de mouseout no marker.
