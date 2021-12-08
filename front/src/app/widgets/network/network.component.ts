@@ -25,6 +25,13 @@ export class NetworkComponent implements OnInit {
   private timeseriesChart: any;
   //capitals select list
   private selectedCapitals: any = [];
+  //lista de cores
+  private drawColors: any = [
+    '#1F77B4', '#2CA02C', '#9467BD', '#8C564B', '#E377C2',
+    '#AEC7E8', '#98DF8A', '#C5B0D5', '#C49C94', '#F7B6D2'
+  ];
+  //lista de cores já usadas
+  private usedColors: any = [];
   //multiselect
   public dropdownList: any = [];
   public dropdownSettings: any = {};
@@ -47,6 +54,7 @@ export class NetworkComponent implements OnInit {
     };
     this.dropdownSettings = {
       singleSelection: false,
+      limitSelection: 10,
       idField: 'cod',
       textField: 'estado',
       enableCheckAll: false,
@@ -64,8 +72,12 @@ export class NetworkComponent implements OnInit {
   }
 
   updateTimeseriesData(data: any, dates: any, capitals: any, clicked: number) {
+    for(let i = 0; i < data.length; i++) {
+       this.updateUsedColors(true,this.drawColors[i]);
+    }
+
     this.timeseriesChart.clear();
-    this.timeseriesChart.updateData(data);
+    this.timeseriesChart.updateData(data, this.drawColors);
     this.timeseriesChart.setLabels(dates);
     this.timeseriesChart.setTitle(clicked);
     this.timeseriesChart.render();
@@ -112,9 +124,11 @@ export class NetworkComponent implements OnInit {
     return network_param.value !== 0;
   }
 
-  onCapitalSelect(event: any) {
+  onCapitalSelect(event: any, added: boolean) {
     if(this.selectedCapitals.includes(event.cod)) {
+      const index = this.selectedCapitals.indexOf(event.cod);
       this.selectedCapitals = this.selectedCapitals.filter((e:any) => e !== event.cod);
+      this.updateUsedColors(false, this.usedColors[index]);
     } else {
       this.selectedCapitals.push(event.cod);
     };
@@ -132,5 +146,17 @@ export class NetworkComponent implements OnInit {
   clearTimeseries() {
     this.selectedCapitals = [];
     this.timeseriesChart.clear();
+  }
+
+  /**
+ * seta as cores já utilizadas
+ */
+  updateUsedColors(added: boolean, color: string) {
+    if (added) {
+      if(!this.usedColors.includes(color)) this.usedColors.push(color);
+    }
+    else {
+      this.usedColors = this.usedColors.filter( (d: string) => d !== color );
+    }
   }
 }

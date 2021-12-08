@@ -397,20 +397,18 @@ export class Timeseries {
     this.capitals = capitals;
   }
 
-  updateData(data: any) {
+  updateData(data: any, colorList: any) {
     const datasets = this.chart.config.data.datasets;
-    const keys = Object.keys(data);
-    keys.forEach((key, index) => {
+    for(let i = 0; i < data.length; i++) {
       const newData = {
-        label: this.getCapitalId(parseInt(key)),
-        data: data[key],
-        backgroundColor: '#AAAAAA',
-        borderColor: '#AAAAAA',
+        label: this.getCapitalId(data[i][0]),
+        data: data[i][1],
+        backgroundColor: colorList[i],
+        borderColor: colorList[i],
         fill: false
       };
-      console.log(newData)
       datasets.push(newData);
-    });
+    }
     this.chart.update();
   }
 
@@ -419,7 +417,6 @@ export class Timeseries {
   }
 
   getCapitalId(id: number) {
-      console.log(id)
       return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
   }
 

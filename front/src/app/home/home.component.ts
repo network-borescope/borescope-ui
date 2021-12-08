@@ -551,15 +551,16 @@ export class HomeComponent implements AfterViewInit {
 
     const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
     const data = JSON.parse(res).result;
-    const selectedData:any = {};
+    const selectedData:any = [];
     const datetimeArray:any = [];
     for(let i = 0; i < event.length; i++) {
-      selectedData[event[i]] = [];
+      selectedData[i] = [event[i],[]];
+
       for(let j = 0; j < data.length; j++) {
-        if(data[j][0] == event[i]) selectedData[event[i]].push(data[j][2])
+        if(data[j][0] == event[i]) selectedData[i][1].push(data[j][2])
       } 
     }
-    console.log(selectedData)
+    
     for(let i = 0; i < 7; i++) {
       let label = '';
       let date = new Date(data[i][1] * 1000);
@@ -567,7 +568,6 @@ export class HomeComponent implements AfterViewInit {
       label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })
       datetimeArray.push(label);
     }
-
     this.net.updateTimeseriesData(selectedData, datetimeArray, capitals, clicked);
   }
 }
