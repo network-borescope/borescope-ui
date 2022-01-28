@@ -25,4 +25,4 @@ Os dados consumidos pela aplicação são provenientes do backend, os quais são
 >http://gwrec.cloudnext.rnp.br:60089/tc/query2
 
 O path para o arquivo que indica de onde o dado é consumido é:
-**borescope-ui/front/src/app/shared/api.service.ts*
+**borescope-ui/front/src/app/shared/api.service.ts**
