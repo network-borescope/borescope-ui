@@ -14,9 +14,11 @@ Este projeto foi criado com [Angular CLI](https://github.com/angular/angular-cli
 
 ## Emulando localmente a aplicação:
 
-Dentro do diretório **borescope-ui/front** rodar `ng serve` 
-Navegue para `http://localhost:4200/`. 
-A aplicação atualizará automaticamente caso algum dos arquivos de codigo seja salvo.
+1. Dentro do diretório **borescope-ui/front** rodar `ng serve`;
+
+2. Navegue para `http://localhost:4200/`;
+
+3. A aplicação atualizará automaticamente caso algum dos arquivos de codigo seja salvo.
 
 ## Consumo de dados
 
