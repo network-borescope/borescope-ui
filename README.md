@@ -4,13 +4,13 @@ Este projeto foi criado com [Angular CLI](https://github.com/angular/angular-cli
 
 ## Pré-requisitos
 
-**Angular-cli**
+**1. Angular-cli**
 
   Para instalar o Angular:
   
     >npm install -g @angular/cli
   
-**LTS ativo ou em manutenção do Node.js**
+**2. LTS ativo ou em manutenção do Node.js**
 
 ## Emulando localmente a aplicação:
 
