@@ -1,4 +1,4 @@
-# borescope-ui
+# Interface Gráfica do Projeto Borescope da RNP
 
 Este projeto foi criado com [Angular CLI](https://github.com/angular/angular-cli) versão 11.2.1.
 
