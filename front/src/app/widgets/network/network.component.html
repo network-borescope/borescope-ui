@@ -5,7 +5,7 @@
     </div>
     <div style="display: flex; margin-top: 27px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
         <div id="code-select-box" class="code-select">
-            <select name="code" class="network-select" (change)="this.onParamChange($event)">
+            <select name="code" class="network-select" (change)="this.onParamChange($event)" [disabled]="this.networkChange">
                 <optgroup label="Atraso e perda">
                     <option value="10">Failures</option>
                     <option value="11">Atraso de ida e volta (RTT - average)</option>
@@ -69,6 +69,12 @@
                 <option value="h_avg">Average</option>
                 <option value="h_max">Max</option>
                 <option value="h_min">Min</option>
+            </select>        
+        </div>
+        <div *ngIf="!this.isCapitalSelected()" id="codfield-select-box" class="codfield-select">
+            <select name="codfield" class="network-select" (change)="this.networkToggle()">
+                <option value="network">Network</option>
+                <option value="umap">UMAP</option>
             </select>        
         </div>
         <div *ngIf="this.isCapitalSelected()" id="chart-select-box" class="chart-select">

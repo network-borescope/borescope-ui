@@ -30,6 +30,8 @@ export class NetworkComponent implements OnInit {
     '#1F77B4', '#2CA02C', '#9467BD', '#8C564B', '#E377C2',
     '#AEC7E8', '#98DF8A', '#C5B0D5', '#C49C94', '#F7B6D2'
   ];
+  //guarda se o chart a ser mostrado é o network ou umap
+  public networkChange: boolean = false;
   //lista de cores já usadas
   private usedColors: any = [];
   //multiselect
@@ -117,6 +119,10 @@ export class NetworkComponent implements OnInit {
       };
       this.global.setGlobal(network_param);  
     }
+  }
+
+  networkToggle() {
+    this.networkChange = !this.networkChange;
   }
 
   isTimeseriesSelected() {
