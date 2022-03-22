@@ -2,7 +2,7 @@
     height: 327px;
 }
 
-.timeseries-chart {
+.timeseries-chart, .umap-chart {
     height: 327px;
     position: absolute;
     width: 494px;

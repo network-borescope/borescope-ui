@@ -3,6 +3,9 @@
     <div class="fill timeseries-chart" [style.z-index]="this.chartDisplay() ? -1 : 99" [style.opacity]="this.chartDisplay() ? 0 : 1">
         <canvas style="padding-bottom: 10px; width: 100%; height: 100%;" #timeseriesChart></canvas>
     </div>
+    <div class="fill umap-chart" [style.z-index]="this.networkChange ? 99 : -1" [style.opacity]="this.networkChange ? 1 : 0">
+        <app-scattergl-chart></app-scattergl-chart>
+    </div>
     <div style="display: flex; margin-top: 27px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
         <div id="code-select-box" class="code-select">
             <select name="code" class="network-select" (change)="this.onParamChange($event)" [disabled]="this.networkChange">
@@ -71,16 +74,11 @@
                 <option value="h_min">Min</option>
             </select>        
         </div>
-        <div *ngIf="!this.isCapitalSelected()" id="codfield-select-box" class="codfield-select">
-            <select name="codfield" class="network-select" (change)="this.networkToggle()">
-                <option value="network">Network</option>
-                <option value="umap">UMAP</option>
-            </select>        
-        </div>
-        <div *ngIf="this.isCapitalSelected()" id="chart-select-box" class="chart-select">
+        <div id="chart-select-box" class="chart-select">
             <select name="chart-selector" class="network-select" (change)="this.onChartChange($event)">
                 <option value="heatmatrix">Heatmatrix</option>
-                <option value="timeseries">Time Series</option>
+                <option value="umap">UMAP</option>
+                <option value="timeseries" [disabled]="!this.isCapitalSelected()">Time Series</option>
             </select>       
         </div>
         <div *ngIf="this.isCapitalSelected()" id="chart-select-box" class="chart-select">

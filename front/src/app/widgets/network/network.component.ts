@@ -109,9 +109,15 @@ export class NetworkComponent implements OnInit {
     if(event.target.value == 'heatmatrix') {
       const network_param = {
         key: "network_param",
-        value: 1
+        value: 2
       };
       this.global.setGlobal(network_param);
+    } else if (event.target.value == 'umap') {
+      const network_param = {
+        key: "network_param",
+        value: 1
+      };
+      this.global.setGlobal(network_param);      
     } else {
       const network_param = {
         key: "network_param",
@@ -127,8 +133,10 @@ export class NetworkComponent implements OnInit {
 
   isTimeseriesSelected() {
     const network_param = this.global.getGlobal("network_param");
+    console.log(network_param)
     return network_param.value !== 0;
   }
+
 
   onCapitalSelect(event: any, added: boolean) {
     if(this.selectedCapitals.includes(event.cod)) {
