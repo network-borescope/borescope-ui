@@ -8,6 +8,7 @@ import { BarChartComponent } from 'src/app/widgets/bar-chart/bar-chart.component
 import { LineChartComponent } from 'src/app/widgets/line-chart/line-chart.component';
 import { NetworkComponent } from 'src/app/widgets/network/network.component';
 import { AlertsComponent } from '../widgets/alerts/alerts.component';
+import { ScatterglChartComponent } from '../widgets/scattergl-chart/scattergl-chart.component';
 
 import { FiltersComponent } from 'src/app/widgets/filters/filters.component';
 import { UtilService } from '../shared/util.service';
@@ -31,6 +32,8 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild("appAlerts", { static: true }) private alerts!: AlertsComponent;
   // referência para componente do mapa
   @ViewChild("appFilters", { static: true }) private filters!: FiltersComponent;
+  // referência para componente do scattergl
+  @ViewChild("appScattergl", { static: true }) private scattergl!: ScatterglChartComponent;
 
   public last: string = 'none';
   public moving: string = 'none';
@@ -569,5 +572,9 @@ export class HomeComponent implements AfterViewInit {
       datetimeArray.push(label);
     }
     this.net.updateTimeseriesData(selectedData, datetimeArray, capitals, clicked);
+  }
+
+  async updateScatterGl() {
+
   }
 }

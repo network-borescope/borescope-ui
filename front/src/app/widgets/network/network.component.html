@@ -1,9 +1,9 @@
 <div>
-    <div class="fill network-chart" [style.z-index]="this.chartDisplay() ? 99 : -1" [style.opacity]="this.chartDisplay() ? 1 : 0" #netChart></div>
-    <div class="fill timeseries-chart" [style.z-index]="this.chartDisplay() ? -1 : 99" [style.opacity]="this.chartDisplay() ? 0 : 1">
+    <div class="fill network-chart" [style.z-index]="this.chartDisplay()[0] ? 99 : -1" [style.opacity]="this.chartDisplay()[0] ? 1 : 0" #netChart></div>
+    <div class="fill timeseries-chart" [style.z-index]="this.chartDisplay()[1] ? 99 : -1" [style.opacity]="this.chartDisplay()[1] ? 1 : 0">
         <canvas style="padding-bottom: 10px; width: 100%; height: 100%;" #timeseriesChart></canvas>
     </div>
-    <div class="fill umap-chart" [style.z-index]="this.networkChange ? 99 : -1" [style.opacity]="this.networkChange ? 1 : 0">
+    <div class="fill umap-chart" [style.z-index]="this.chartDisplay()[2] ? 99 : -1" [style.opacity]="this.chartDisplay()[2] ? 1 : 0">
         <app-scattergl-chart></app-scattergl-chart>
     </div>
     <div style="display: flex; margin-top: 27px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">

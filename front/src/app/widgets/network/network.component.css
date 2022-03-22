@@ -32,7 +32,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .timeseries-chart {
+    .timeseries-chart, .umap-chart {
         height: 380px;
         top: 10px;
         width: 578px;

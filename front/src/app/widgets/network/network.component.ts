@@ -133,7 +133,6 @@ export class NetworkComponent implements OnInit {
 
   isTimeseriesSelected() {
     const network_param = this.global.getGlobal("network_param");
-    console.log(network_param)
     return network_param.value !== 0;
   }
 
@@ -150,7 +149,13 @@ export class NetworkComponent implements OnInit {
   }
 
   chartDisplay() {
-    return (this.global.getGlobal("network_param").value > 0);
+    const network_param = this.global.getGlobal("network_param").value;
+    //verdadeiro para heatmatrix
+    if(network_param == 2) return [true,false,false];
+    //verdadeiro para UMAP
+    else if(network_param == 1) return [false,false,true];
+    //verdadeiro para time series
+    else return [false,true,false];
   }
 
   isCapitalSelected() {

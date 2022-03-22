@@ -118,7 +118,7 @@ export class GlobalService {
      */
      const network_param = {
       key: "network_param",
-      value: 1
+      value: 2
     };
     this.setGlobal(network_param);
     /**
