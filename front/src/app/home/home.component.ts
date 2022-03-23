@@ -576,14 +576,28 @@ export class HomeComponent implements AfterViewInit {
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
 
-    const selectedParam = 11;
-    const selectedValue = this.global.getGlobal('heatmatrix_value').value;
-
+    let selectedParam = [11,12,13,16];
+    const selectedValue = ['h_avg','h_min', 'h_max']
+    const finalData = [];
     const clicked = this.global.getGlobal("clicked_element").value;
+    for(let i = 0; i < selectedParam.length; i++) {
+      for(let j = 0; j < selectedValue.length; j++) {
+        const res = await this.api.requestHeatmatrix(selectedParam[i], selectedValue[j], tsT0, tsT1, clicked);
+        const data = JSON.parse(res).result;
+        let dataList = []
+        for(let k = 0; k < data.length; k++) {
+          dataList.push(data[k][2])
+        }
+        finalData.push(dataList);
+      }
+    }
+    const statesIds = [];
+    for(let i = 1; i < 28; i++) {
+      for(let j = 1; j < 28; j++) {
+        statesIds.push([i, j])
+      }
+    }
 
-    const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
-    const data = JSON.parse(res).result;
-
-    this.net.updateScatterglData(data);
+    this.net.updateScatterglData(finalData, statesIds);
   }
 }

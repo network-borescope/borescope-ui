@@ -78,7 +78,7 @@ export class NetworkComponent implements OnInit {
 
     //start no scattergl
     this.scatterGl = new ScatterGL.ScatterGL(this.embeddingDiv.nativeElement, {
-      renderMode: ScatterGL.RenderMode.TEXT,
+      renderMode: ScatterGL.RenderMode.POINT,
       orbitControls: {
         zoomSpeed: 1.125,
       },
@@ -106,22 +106,39 @@ export class NetworkComponent implements OnInit {
     this.timeseriesChart.render();
   }
 
-  updateScatterglData(responseData: any) {
+  updateScatterglData(responseData: any, statesIds: any) {
+    console.log(responseData)
     //constrói as strings de pares de saída x entrada
     //constrói vetor de dado
     //isto não precisa ser executado todas as vezes que o dado atualizar
     //implementação provisória
     this.capitals = this.global.getGlobal('state_capitals').value.default;
+    let holder: any[] = [];
+
+    const data: any[][] = [];
     const statePairList = [];
-    const data = [];
-    for(let i = 0; i < responseData.length; i++) {
-      statePairList.push(this.getCapitalId(responseData[i][0]) + ' - ' + this.getCapitalId(responseData[i][1]))
-      data.push(responseData[i][2])
+    for(let i = 0; i < statesIds.length; i++) {
+      statePairList.push(this.getCapitalId(statesIds[i][0]) + ' - ' + this.getCapitalId(statesIds[i][1]))
+    }
+
+
+    for(let i = 0; i < responseData[0].length; i++){
+      data.push([responseData[0][i],
+                 responseData[1][i], 
+                 responseData[2][i],
+                 responseData[3][i], 
+                 responseData[4][i],
+                 responseData[5][i], 
+                 responseData[6][i],
+                 responseData[7][i], 
+                 responseData[8][i],
+                 responseData[9][i], 
+                 responseData[10][i],
+                 responseData[11][i]])
     }
     //reduzindo dimensionalidade do dado
     const umap = new UMAP();
     const embedding = umap.fit(data);
-
     const dataPoints: ScatterGL.Point2D[] = [];
     const metadata: ScatterGL.PointMetadata[] = [];
 
@@ -135,7 +152,6 @@ export class NetworkComponent implements OnInit {
       });
       
     }
-
     const dataset = new ScatterGL.Dataset(dataPoints, metadata);
     this.scatterGl.updateDataset(dataset);
     this.scatterGl.render(dataset);
