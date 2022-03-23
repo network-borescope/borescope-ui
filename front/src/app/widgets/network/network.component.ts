@@ -6,6 +6,9 @@ import { UtilService } from 'src/app/shared/util.service';
 import { Network } from './network';
 import { Timeseries } from './network';
 
+import * as THREE from 'three';
+import * as ScatterGL from 'scatter-gl';
+
 @Component({
   selector: 'app-network',
   templateUrl: './network.component.html',
@@ -16,10 +19,12 @@ export class NetworkComponent implements OnInit {
   // referência para o div do grafico
   @ViewChild("netChart", { static: true }) private netDiv!: ElementRef;
   @ViewChild("timeseriesChart", { static: true }) private timeseriesDiv!: ElementRef;
+  @ViewChild("embedding", { static: true }) private embeddingDiv!: ElementRef;
 
   @Output() heatMatrixValueChanged = new EventEmitter<number>();
   @Output() heatMatrixParamChanged = new EventEmitter<number>();
   @Output() onCapitalSelected = new EventEmitter<any>();
+  @Output() onScatterglValueChanged = new EventEmitter<any>();
   // objeto do gráfico
   private netChart: any;
   private timeseriesChart: any;
@@ -38,6 +43,13 @@ export class NetworkComponent implements OnInit {
   public dropdownList: any = [];
   public dropdownSettings: any = {};
 
+  //elementos para o scattergl chart
+  private capitals: any;
+  private embedding: any;
+  private scatterGl: any;
+  private dataPoints: ScatterGL.Point2D[] = [];
+  private metadata: ScatterGL.PointMetadata[] = [];
+  private dataset: any;
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
@@ -64,6 +76,14 @@ export class NetworkComponent implements OnInit {
       itemsShowLimit: 0,
       allowSearchFilter: false
     };
+
+    //start no scattergl
+    this.scatterGl = new ScatterGL.ScatterGL(this.embeddingDiv.nativeElement, {
+      renderMode: ScatterGL.RenderMode.TEXT,
+      orbitControls: {
+        zoomSpeed: 1.125,
+      },
+    });
   }
 
   drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false) {
@@ -85,6 +105,27 @@ export class NetworkComponent implements OnInit {
     this.timeseriesChart.render();
   }
 
+  updateScatterglData(responseData: any) {
+    //constrói as strings de pares de saída x entrada
+    //constrói vetor de dado
+    //isto não precisa ser executado todas as vezes que o dado atualizar
+    //implementação provisória
+    this.capitals = this.global.getGlobal('state_capitals').value.default;
+    const statePairList = [];
+    const data = [];
+    for(let i = 0; i < responseData.length; i++) {
+      statePairList.push(this.getCapitalId(responseData[i][0]) + ' - ' + this.getCapitalId(responseData[i][1]))
+      data.push(responseData[i][2])
+    }
+    console.log(statePairList);
+    console.log(data);
+  }
+
+  //constrói as strings de pares de saída x entrada 
+  getCapitalId(id: number) {
+    return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+  }
+
   onValueChange(event: any) {
     const heatmatrix_value = {
       key: "heatmatrix_value",
@@ -92,8 +133,10 @@ export class NetworkComponent implements OnInit {
     };
     this.global.setGlobal(heatmatrix_value);
     this.heatMatrixValueChanged.emit();
-    this.onCapitalSelected.emit(this.selectedCapitals);
-  }
+    if(!this.isTimeseriesSelected()) { 
+      this.onCapitalSelected.emit(this.selectedCapitals);
+    }
+    }
 
   onParamChange(event: any) {
     const heatmatrix_param = {
@@ -102,7 +145,9 @@ export class NetworkComponent implements OnInit {
     };
     this.global.setGlobal(heatmatrix_param);
     this.heatMatrixParamChanged.emit();
-    this.onCapitalSelected.emit(this.selectedCapitals);
+    if(!this.isTimeseriesSelected()) { 
+      this.onCapitalSelected.emit(this.selectedCapitals);
+    }
   }
 
   onChartChange(event: any) {
@@ -117,7 +162,8 @@ export class NetworkComponent implements OnInit {
         key: "network_param",
         value: 1
       };
-      this.global.setGlobal(network_param);      
+      this.global.setGlobal(network_param);
+      this.onScatterglValueChanged.emit();      
     } else {
       const network_param = {
         key: "network_param",

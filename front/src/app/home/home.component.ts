@@ -8,7 +8,6 @@ import { BarChartComponent } from 'src/app/widgets/bar-chart/bar-chart.component
 import { LineChartComponent } from 'src/app/widgets/line-chart/line-chart.component';
 import { NetworkComponent } from 'src/app/widgets/network/network.component';
 import { AlertsComponent } from '../widgets/alerts/alerts.component';
-import { ScatterglChartComponent } from '../widgets/scattergl-chart/scattergl-chart.component';
 
 import { FiltersComponent } from 'src/app/widgets/filters/filters.component';
 import { UtilService } from '../shared/util.service';
@@ -32,8 +31,6 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild("appAlerts", { static: true }) private alerts!: AlertsComponent;
   // referência para componente do mapa
   @ViewChild("appFilters", { static: true }) private filters!: FiltersComponent;
-  // referência para componente do scattergl
-  @ViewChild("appScattergl", { static: true }) private scattergl!: ScatterglChartComponent;
 
   public last: string = 'none';
   public moving: string = 'none';
@@ -574,7 +571,19 @@ export class HomeComponent implements AfterViewInit {
     this.net.updateTimeseriesData(selectedData, datetimeArray, capitals, clicked);
   }
 
-  async updateScatterGl() {
+  async updateScattergl() {
+    //usando a mesma query da heatmatrix
+    let tsT0 = this.global.getGlobal("t0_vis").value;
+    let tsT1 = this.global.getGlobal("t1_vis").value;
 
+    const selectedParam = parseInt(this.global.getGlobal('heatmatrix_param').value);
+    const selectedValue = this.global.getGlobal('heatmatrix_value').value;
+
+    const clicked = this.global.getGlobal("clicked_element").value;
+
+    const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
+    const data = JSON.parse(res).result;
+
+    this.net.updateScatterglData(data);
   }
 }
