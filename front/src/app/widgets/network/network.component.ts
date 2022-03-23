@@ -8,6 +8,7 @@ import { Timeseries } from './network';
 
 import * as THREE from 'three';
 import * as ScatterGL from 'scatter-gl';
+import { UMAP } from 'umap-js';
 
 @Component({
   selector: 'app-network',
@@ -47,8 +48,6 @@ export class NetworkComponent implements OnInit {
   private capitals: any;
   private embedding: any;
   private scatterGl: any;
-  private dataPoints: ScatterGL.Point2D[] = [];
-  private metadata: ScatterGL.PointMetadata[] = [];
   private dataset: any;
 
   constructor(public global: GlobalService, public util: UtilService) { }
@@ -84,6 +83,8 @@ export class NetworkComponent implements OnInit {
         zoomSpeed: 1.125,
       },
     });
+    //pega o dado pro scattergl
+    this.onScatterglValueChanged.emit();  
   }
 
   drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false) {
@@ -117,8 +118,28 @@ export class NetworkComponent implements OnInit {
       statePairList.push(this.getCapitalId(responseData[i][0]) + ' - ' + this.getCapitalId(responseData[i][1]))
       data.push(responseData[i][2])
     }
-    console.log(statePairList);
-    console.log(data);
+    //reduzindo dimensionalidade do dado
+    const umap = new UMAP();
+    const embedding = umap.fit(data);
+
+    const dataPoints: ScatterGL.Point2D[] = [];
+    const metadata: ScatterGL.PointMetadata[] = [];
+
+    for(let i = 0; i < embedding.length; i++) {
+      let labelIndex = [i].toString();
+      let label = statePairList[i]
+      dataPoints.push([embedding[i][0], embedding[i][1]])
+      metadata.push({
+        labelIndex,
+        label
+      });
+      
+    }
+
+    const dataset = new ScatterGL.Dataset(dataPoints, metadata);
+    this.scatterGl.updateDataset(dataset);
+    this.scatterGl.render(dataset);
+    console.log('CONSTRUIDO')
   }
 
   //constrói as strings de pares de saída x entrada 
@@ -136,7 +157,7 @@ export class NetworkComponent implements OnInit {
     if(!this.isTimeseriesSelected()) { 
       this.onCapitalSelected.emit(this.selectedCapitals);
     }
-    }
+  }
 
   onParamChange(event: any) {
     const heatmatrix_param = {
@@ -162,8 +183,7 @@ export class NetworkComponent implements OnInit {
         key: "network_param",
         value: 1
       };
-      this.global.setGlobal(network_param);
-      this.onScatterglValueChanged.emit();      
+      this.global.setGlobal(network_param);    
     } else {
       const network_param = {
         key: "network_param",

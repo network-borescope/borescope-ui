@@ -576,7 +576,7 @@ export class HomeComponent implements AfterViewInit {
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
 
-    const selectedParam = parseInt(this.global.getGlobal('heatmatrix_param').value);
+    const selectedParam = 11;
     const selectedValue = this.global.getGlobal('heatmatrix_value').value;
 
     const clicked = this.global.getGlobal("clicked_element").value;
