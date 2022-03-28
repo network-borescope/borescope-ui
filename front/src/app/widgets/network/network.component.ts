@@ -83,6 +83,11 @@ export class NetworkComponent implements OnInit {
         zoomSpeed: 1.125,
       },
     });
+    
+    //adding resize on screen resize to scattergl plot
+    window.addEventListener('resize', () => {
+      this.scatterGl.resize();
+    });
     //pega o dado pro scattergl
     this.onScatterglValueChanged.emit();  
   }
@@ -155,6 +160,7 @@ export class NetworkComponent implements OnInit {
     const dataset = new ScatterGL.Dataset(dataPoints, metadata);
     this.scatterGl.updateDataset(dataset);
     this.scatterGl.render(dataset);
+    this.scatterGl.resize();
     console.log('CONSTRUIDO')
   }
 
