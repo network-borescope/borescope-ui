@@ -73,7 +73,7 @@ export class ScatterglComponent implements OnInit {
                  responseData[11][i]])
     }
     
-    this.colorPoints(this.scatterglData[0], false)
+    this.colorPoints(this.global.getGlobal("scattergl_options"))
     //reduzindo dimensionalidade do dado
     const umap = new UMAP();
     const embedding = umap.fit(data);
@@ -104,11 +104,13 @@ export class ScatterglComponent implements OnInit {
     return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
   }
 
-  colorPoints(data: any[], invert: boolean) {
+  colorPoints(scatterglOptions: any) {
+    const data = this.selectData(scatterglOptions)
+    console.log(data)
     // @ts-ignore
     const all = d3.extent(data.map((d: any) => d).filter(e => e > 0) );
 
-    if (invert) {
+    if (scatterglOptions.invert) {
       this.colorScale.domain( all.reverse() );
     }
     else {
@@ -133,7 +135,21 @@ export class ScatterglComponent implements OnInit {
     return this.colorScale(d)
   }
 
-  onParamChange(event: any) {
-    console.log(event)
+  onOptionChange(event: any) {
+    const scattergl_options = this.global.getGlobal("scattergl_options")
+    if(event.target.name == 'code') {
+      scattergl_options.value = parseInt(event.target.value);
+      this.global.setGlobal(scattergl_options)      
+    } else {
+      scattergl_options.param = parseInt(event.target.value);
+      this.global.setGlobal(scattergl_options)
+    }
+    this.colorPoints(scattergl_options);
+  }
+
+  selectData(options: any) {
+    const dataIndex = options.value + options.param;
+    console.log(dataIndex)
+    return this.scatterglData[dataIndex];
   }
 }

@@ -191,6 +191,16 @@ export class GlobalService {
     };
     this.setGlobal(heatmatrix_value);
     /**
+    * Guarda a seleção dos valores para a heatmatrix
+    */       
+    const scattergl_options = {
+      key: "scattergl_options",
+      value: 0,
+      param: 0,
+      invert: false
+    };
+    this.setGlobal(scattergl_options);
+    /**
      * Estabelece uma lista de cores.
      */
      const draw_colors = {
