@@ -8,8 +8,9 @@ import { BarChartComponent } from 'src/app/widgets/bar-chart/bar-chart.component
 import { LineChartComponent } from 'src/app/widgets/line-chart/line-chart.component';
 import { NetworkComponent } from 'src/app/widgets/network/network.component';
 import { AlertsComponent } from '../widgets/alerts/alerts.component';
-
 import { FiltersComponent } from 'src/app/widgets/filters/filters.component';
+import { ScatterglComponent } from 'src/app/widgets/scattergl/scattergl.component';
+
 import { UtilService } from '../shared/util.service';
 
 @Component({
@@ -31,6 +32,8 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild("appAlerts", { static: true }) private alerts!: AlertsComponent;
   // referência para componente do mapa
   @ViewChild("appFilters", { static: true }) private filters!: FiltersComponent;
+  // referência para componente do scattergl
+  @ViewChild("appScatterglChart", { static: true }) private scattergl!: ScatterglComponent;
 
   public last: string = 'none';
   public moving: string = 'none';
@@ -62,6 +65,8 @@ export class HomeComponent implements AfterViewInit {
     // barchart e linechart do mapa
     this.updateLineChart('map', '#AAAAAA');
     this.updateBarChart('map', '#AAAAAA');
+    // inicializa scattergl
+    this.updateScattergl();
 
     // adiciona ao estado global
     this.addChartElementToGlobal('map', '#AAAAAA');
@@ -598,6 +603,6 @@ export class HomeComponent implements AfterViewInit {
       }
     }
 
-    this.net.updateScatterglData(finalData, statesIds);
+    this.scattergl.updateScatterglData(finalData, statesIds);
   }
 }

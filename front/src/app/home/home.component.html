@@ -44,6 +44,13 @@
     ></app-network>
   </div>
 
+  <div ngDraggable class="widget scattergl-window"
+  [style.z-index] = "this.isChartVisible('scattergl') ? this.chartZindex('scattergl') : '-10' "
+  (started)="this.moving = 'scattergl'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'scattergl'">
+    <app-scattergl #appScatterglChart
+    ></app-scattergl>
+  </div>
+
   <div ngDraggable style="position: absolute; top: 400px; left: 10px; width: 200px; z-index: 900;"
   [style.z-index] = "this.isChartVisible('alerts') ? this.chartZindex('alerts') : '-10' "
   (started)="this.moving = 'alerts'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'alerts'">

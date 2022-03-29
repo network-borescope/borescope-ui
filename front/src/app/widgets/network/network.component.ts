@@ -6,10 +6,6 @@ import { UtilService } from 'src/app/shared/util.service';
 import { Network } from './network';
 import { Timeseries } from './network';
 
-import * as THREE from 'three';
-import * as ScatterGL from 'scatter-gl';
-import { UMAP } from 'umap-js';
-
 @Component({
   selector: 'app-network',
   templateUrl: './network.component.html',
@@ -20,12 +16,11 @@ export class NetworkComponent implements OnInit {
   // referência para o div do grafico
   @ViewChild("netChart", { static: true }) private netDiv!: ElementRef;
   @ViewChild("timeseriesChart", { static: true }) private timeseriesDiv!: ElementRef;
-  @ViewChild("embedding", { static: true }) private embeddingDiv!: ElementRef;
 
   @Output() heatMatrixValueChanged = new EventEmitter<number>();
   @Output() heatMatrixParamChanged = new EventEmitter<number>();
   @Output() onCapitalSelected = new EventEmitter<any>();
-  @Output() onScatterglValueChanged = new EventEmitter<any>();
+  
   // objeto do gráfico
   private netChart: any;
   private timeseriesChart: any;
@@ -43,12 +38,6 @@ export class NetworkComponent implements OnInit {
   //multiselect
   public dropdownList: any = [];
   public dropdownSettings: any = {};
-
-  //elementos para o scattergl chart
-  private capitals: any;
-  private embedding: any;
-  private scatterGl: any;
-  private dataset: any;
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
@@ -75,21 +64,6 @@ export class NetworkComponent implements OnInit {
       itemsShowLimit: 0,
       allowSearchFilter: false
     };
-
-    //start no scattergl
-    this.scatterGl = new ScatterGL.ScatterGL(this.embeddingDiv.nativeElement, {
-      renderMode: ScatterGL.RenderMode.POINT,
-      orbitControls: {
-        zoomSpeed: 1.125,
-      },
-    });
-    
-    //adding resize on screen resize to scattergl plot
-    window.addEventListener('resize', () => {
-      this.scatterGl.resize();
-    });
-    //pega o dado pro scattergl
-    this.onScatterglValueChanged.emit();  
   }
 
   drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false) {
@@ -109,64 +83,6 @@ export class NetworkComponent implements OnInit {
     this.timeseriesChart.setLabels(dates);
     this.timeseriesChart.setTitle(clicked);
     this.timeseriesChart.render();
-  }
-
-  updateScatterglData(responseData: any, statesIds: any) {
-    console.log(responseData)
-    //constrói as strings de pares de saída x entrada
-    //constrói vetor de dado
-    //isto não precisa ser executado todas as vezes que o dado atualizar
-    //implementação provisória
-    this.capitals = this.global.getGlobal('state_capitals').value.default;
-    let holder: any[] = [];
-
-    const data: any[][] = [];
-    const statePairList = [];
-    for(let i = 0; i < statesIds.length; i++) {
-      statePairList.push(this.getCapitalId(statesIds[i][0]) + ' - ' + this.getCapitalId(statesIds[i][1]))
-    }
-
-
-    for(let i = 0; i < responseData[0].length; i++){
-      data.push([responseData[0][i],
-                 responseData[1][i], 
-                 responseData[2][i],
-                 responseData[3][i], 
-                 responseData[4][i],
-                 responseData[5][i], 
-                 responseData[6][i],
-                 responseData[7][i], 
-                 responseData[8][i],
-                 responseData[9][i], 
-                 responseData[10][i],
-                 responseData[11][i]])
-    }
-    //reduzindo dimensionalidade do dado
-    const umap = new UMAP();
-    const embedding = umap.fit(data);
-    const dataPoints: ScatterGL.Point2D[] = [];
-    const metadata: ScatterGL.PointMetadata[] = [];
-
-    for(let i = 0; i < embedding.length; i++) {
-      let labelIndex = [i].toString();
-      let label = statePairList[i]
-      dataPoints.push([embedding[i][0], embedding[i][1]])
-      metadata.push({
-        labelIndex,
-        label
-      });
-      
-    }
-    const dataset = new ScatterGL.Dataset(dataPoints, metadata);
-    this.scatterGl.updateDataset(dataset);
-    this.scatterGl.render(dataset);
-    this.scatterGl.resize();
-    console.log('CONSTRUIDO')
-  }
-
-  //constrói as strings de pares de saída x entrada 
-  getCapitalId(id: number) {
-    return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
   }
 
   onValueChange(event: any) {
@@ -197,15 +113,9 @@ export class NetworkComponent implements OnInit {
     if(event.target.value == 'heatmatrix') {
       const network_param = {
         key: "network_param",
-        value: 2
-      };
-      this.global.setGlobal(network_param);
-    } else if (event.target.value == 'umap') {
-      const network_param = {
-        key: "network_param",
         value: 1
       };
-      this.global.setGlobal(network_param);    
+      this.global.setGlobal(network_param);
     } else {
       const network_param = {
         key: "network_param",
@@ -239,11 +149,9 @@ export class NetworkComponent implements OnInit {
   chartDisplay() {
     const network_param = this.global.getGlobal("network_param").value;
     //verdadeiro para heatmatrix
-    if(network_param == 2) return [true,false,false];
-    //verdadeiro para UMAP
-    else if(network_param == 1) return [false,false,true];
+    if(network_param == 1) return [true,false];
     //verdadeiro para time series
-    else return [false,true,false];
+    else return [false,true];
   }
 
   isCapitalSelected() {

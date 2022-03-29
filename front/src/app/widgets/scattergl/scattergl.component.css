@@ -1,0 +1,15 @@
+.umap-chart {
+    height: 327px;
+    position: absolute;
+    width: 494px;
+    top: 10px;
+}
+
+
+@media screen and (min-width: 1024px) {
+    .umap-chart {
+        height: 380px;
+        top: 10px;
+        width: 578px;
+    }
+}
