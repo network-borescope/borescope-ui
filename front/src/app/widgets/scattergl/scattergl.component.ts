@@ -17,7 +17,8 @@ export class ScatterglComponent implements OnInit {
   @ViewChild("embedding", { static: true }) private embeddingDiv!: ElementRef;
 
   @Output() onScatterglValueChanged = new EventEmitter<any>();
-  
+  @Output() onPointHover = new EventEmitter<number>();
+  @Output() onHoverLeft = new EventEmitter();
   //elementos para o scattergl chart
   private capitals: any;
   private embedding: any;
@@ -31,6 +32,13 @@ export class ScatterglComponent implements OnInit {
   ngOnInit(): void {
     //start no scattergl
     this.scatterGl = new ScatterGL.ScatterGL(this.embeddingDiv.nativeElement, {
+      onHover: (point: number | null) => {
+        if(point !== null) {
+          this.onPointHover.emit(point);
+        } else {
+          this.onHoverLeft.emit();
+        };
+      },
       renderMode: ScatterGL.RenderMode.POINT,
       orbitControls: {
         zoomSpeed: 1.125,
@@ -52,6 +60,7 @@ export class ScatterglComponent implements OnInit {
     this.capitals = this.global.getGlobal('state_capitals').value.default;
 
     const statePairList = [];
+    const stateIdPairList = [];
     for(let i = 0; i < statesIds.length; i++) {
       statePairList.push(this.getCapitalId(statesIds[i][0]) + ' - ' + this.getCapitalId(statesIds[i][1]))
     }
@@ -82,12 +91,13 @@ export class ScatterglComponent implements OnInit {
 
     for(let i = 0; i < embedding.length; i++) {
       let labelIndex = [i].toString();
-      let label = statePairList[i]
+      let label = statePairList[i];
       dataPoints.push([embedding[i][0], embedding[i][1]])
       metadata.push({
         labelIndex,
         label
       });
+      
     }
 
     this.dataset = new ScatterGL.Dataset(dataPoints, metadata);
@@ -106,7 +116,6 @@ export class ScatterglComponent implements OnInit {
 
   colorPoints(scatterglOptions: any) {
     const data = this.selectData(scatterglOptions)
-    console.log(data)
     // @ts-ignore
     const all = d3.extent(data.map((d: any) => d).filter(e => e > 0) );
 

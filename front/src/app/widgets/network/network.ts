@@ -46,6 +46,9 @@ export class Network {
   // title
   protected _title: any = null;
 
+  // last rectangle stroke added
+  protected _lastIndex: number = -1;
+
   constructor(chartDiv: HTMLElement) {
     this._chartDiv = chartDiv;
 
@@ -206,8 +209,26 @@ export class Network {
         .attr("width", this._outScale.bandwidth())
         .attr("height", this._inScale.bandwidth())
         .attr("fill", (d: any) => this.valToColor(d))
+        .attr("id", (d: any, i: number) => i )
         .on('mouseover', (e: any, d: any) => tip.show(d, e.target))
         .on('mouseout' , (e: any, d: any) => tip.hide(d, e.target));
+  }
+
+  highlightRectangle(index: number) {
+    if(this._lastIndex > -1) {
+      this._svgGroup.select('[id="' + this._lastIndex + '"]')
+                  .attr("stroke", "none");
+    }
+    this._svgGroup.select('[id="' + index + '"]')
+                  .attr("stroke", "#333")
+                  .attr('stroke-width', '2')
+    this._lastIndex = index;      
+  }
+
+  removeRectangleHighlight() {
+    this._svgGroup.select('[id="' + this._lastIndex + '"]')
+                  .attr("stroke", "none");
+    this._lastIndex = -1;  
   }
 
   updateLabelsAndTitle() {

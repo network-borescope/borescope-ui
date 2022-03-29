@@ -173,4 +173,12 @@ export class NetworkComponent implements OnInit {
       this.usedColors = this.usedColors.filter( (d: string) => d !== color );
     }
   }
+
+  highlightHeatmatrix(index: number) {
+    this.netChart.highlightRectangle(index);
+  }
+  
+  removeHighlightHeatmatrix() {
+    this.netChart.removeRectangleHighlight();
+  }
 }
