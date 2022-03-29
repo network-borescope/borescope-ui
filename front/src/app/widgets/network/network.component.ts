@@ -20,7 +20,6 @@ export class NetworkComponent implements OnInit {
   @Output() heatMatrixValueChanged = new EventEmitter<number>();
   @Output() heatMatrixParamChanged = new EventEmitter<number>();
   @Output() onCapitalSelected = new EventEmitter<any>();
-  
   // objeto do gráfico
   private netChart: any;
   private timeseriesChart: any;

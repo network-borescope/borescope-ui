@@ -167,7 +167,6 @@ export class Network {
     else {
       this._cScale.domain( all );
     }
-
     console.log("Color Scale", all)
   }
 
@@ -292,6 +291,7 @@ export class Network {
     if (d[2] === 0) {
       return "#333";
     }
+    
     return this._cScale(d[2])
   }
 

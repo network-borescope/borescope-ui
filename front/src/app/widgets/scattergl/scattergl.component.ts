@@ -5,6 +5,7 @@ import { GlobalService } from 'src/app/shared/global.service';
 import * as THREE from 'three';
 import * as ScatterGL from 'scatter-gl';
 import { UMAP } from 'umap-js';
+import * as d3 from 'd3'
 
 @Component({
   selector: 'app-scattergl',
@@ -21,7 +22,9 @@ export class ScatterglComponent implements OnInit {
   private capitals: any;
   private embedding: any;
   private scatterGl: any;
+  private scatterglData: any = [];
   private dataset: any;
+  private colorScale: any = d3.scaleSequential(d3.interpolateReds);
 
   constructor(public global: GlobalService) { }
 
@@ -41,23 +44,22 @@ export class ScatterglComponent implements OnInit {
   }
 
   updateScatterglData(responseData: any, statesIds: any) {
-    console.log(responseData)
+    this.scatterglData = responseData;
     //constrói as strings de pares de saída x entrada
     //constrói vetor de dado
     //isto não precisa ser executado todas as vezes que o dado atualizar
     //implementação provisória
     this.capitals = this.global.getGlobal('state_capitals').value.default;
-    let holder: any[] = [];
 
-    const data: any[][] = [];
     const statePairList = [];
     for(let i = 0; i < statesIds.length; i++) {
       statePairList.push(this.getCapitalId(statesIds[i][0]) + ' - ' + this.getCapitalId(statesIds[i][1]))
     }
 
-
+    const data = [];
+    
     for(let i = 0; i < responseData[0].length; i++){
-      data.push([responseData[0][i],
+     data.push([responseData[0][i],
                  responseData[1][i], 
                  responseData[2][i],
                  responseData[3][i], 
@@ -70,6 +72,8 @@ export class ScatterglComponent implements OnInit {
                  responseData[10][i],
                  responseData[11][i]])
     }
+    
+    this.colorPoints(this.scatterglData[0], false)
     //reduzindo dimensionalidade do dado
     const umap = new UMAP();
     const embedding = umap.fit(data);
@@ -84,11 +88,13 @@ export class ScatterglComponent implements OnInit {
         labelIndex,
         label
       });
-      
     }
-    const dataset = new ScatterGL.Dataset(dataPoints, metadata);
-    this.scatterGl.updateDataset(dataset);
-    this.scatterGl.render(dataset);
+
+    this.dataset = new ScatterGL.Dataset(dataPoints, metadata);
+    
+    this.scatterGl.updateDataset(this.dataset);
+    
+    this.scatterGl.render(this.dataset);
     this.scatterGl.resize();
     console.log('CONSTRUIDO')
   }
@@ -96,5 +102,36 @@ export class ScatterglComponent implements OnInit {
   //constrói as strings de pares de saída x entrada 
   getCapitalId(id: number) {
     return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+  }
+
+  colorPoints(data: any[], invert: boolean) {
+    // @ts-ignore
+    const all = d3.extent(data.map((d: any) => d).filter(e => e > 0) );
+
+    if (invert) {
+      this.colorScale.domain( all.reverse() );
+    }
+    else {
+      this.colorScale.domain( all );
+    }
+
+    console.log(all)
+
+    this.scatterGl.setPointColorer((i: any, selectedIndices: any, hoverIndex: any) => {
+      const labelIndex = this.dataset.metadata![i]['labelIndex'] as number;
+      const color = this.valToColor(data[labelIndex])
+      if (hoverIndex === i) {
+        return 'red';
+      } else {
+        return color
+      }
+    });
+  }
+
+  valToColor(d: any) {
+    if (d === 0) {
+      return "#333";
+    }
+    return this.colorScale(d)
   }
 }
