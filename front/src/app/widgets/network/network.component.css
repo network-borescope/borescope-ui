@@ -2,7 +2,7 @@
     height: 327px;
 }
 
-.timeseries-chart, .umap-chart {
+.timeseries-chart {
     height: 327px;
     position: absolute;
     width: 494px;
@@ -32,7 +32,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .timeseries-chart, .umap-chart {
+    .timeseries-chart {
         height: 380px;
         top: 10px;
         width: 578px;

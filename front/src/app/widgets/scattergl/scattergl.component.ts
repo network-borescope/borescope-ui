@@ -115,8 +115,6 @@ export class ScatterglComponent implements OnInit {
       this.colorScale.domain( all );
     }
 
-    console.log(all)
-
     this.scatterGl.setPointColorer((i: any, selectedIndices: any, hoverIndex: any) => {
       const labelIndex = this.dataset.metadata![i]['labelIndex'] as number;
       const color = this.valToColor(data[labelIndex])
@@ -133,5 +131,9 @@ export class ScatterglComponent implements OnInit {
       return "#333";
     }
     return this.colorScale(d)
+  }
+
+  onParamChange(event: any) {
+    console.log(event)
   }
 }
