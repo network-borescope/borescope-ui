@@ -18,7 +18,15 @@ export class ApiService {
   // xhttp urls
   xhttp_url: string = `${environment.backend}/tc/query`;
 
-  constructor(public global: GlobalService, public utils: UtilService) { }
+  constructor(public global: GlobalService, public utils: UtilService) {}
+
+  updateConfig() {
+    this.server_url = environment.backend;
+    // static files
+    this.files_url = `${environment.backend}/extra`
+    // xhttp urls
+    this.xhttp_url = `${environment.backend}/tc/query`;
+  }
 
 
   getQueryId() {

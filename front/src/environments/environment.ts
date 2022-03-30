@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  backendDev: 'http://localhost:4200',
-  backend: 'http://gwrec.cloudnext.rnp.br:60089'
+  backend: ''
 };
 
 /*

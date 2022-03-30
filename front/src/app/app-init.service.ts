@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { SchemaRequest } from './shared/api.models';
 import { ApiService } from './shared/api.service';
 import { GlobalService } from './shared/global.service';
 import { UtilService } from './shared/util.service';
 
+import * as config from '../assets/config.json';
+import { environment } from 'src/environments/environment';
 @Injectable()
 export class AppInitService {
 
@@ -90,6 +91,11 @@ export class AppInitService {
     this.global.setGlobal(list_ips);
   }
 
+  async loadEnvIp() {
+    environment.backend = config.backend;
+    this.api.updateConfig();
+  }
+
   loadClients() {
     const schema = this.global.getGlobal('schema_info').value;
 
@@ -113,8 +119,11 @@ export class AppInitService {
     this.global.setGlobal(data);
   }
 
+
   init() {
     return new Promise<void>(async (resolve) => {
+      await this.loadEnvIp();
+      console.log(environment)
 
       await this.loadSchema();
       await this.loadTimeBounds();
