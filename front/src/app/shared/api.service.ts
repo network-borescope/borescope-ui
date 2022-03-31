@@ -270,7 +270,7 @@ export class ApiService {
     };
 
     // Return a new promise.
-    const response = await fetch('http://gwrec.cloudnext.rnp.br:60089/tc/query2', {
+    const response = await fetch(this.xhttp_url + '2', {
       method: 'POST',
       headers,
       body: JSON.stringify(query),
