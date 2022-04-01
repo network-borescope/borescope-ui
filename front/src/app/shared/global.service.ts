@@ -197,7 +197,7 @@ export class GlobalService {
       key: "scattergl_options",
       value: 0,
       param: 0,
-      invert: false
+      invert: true
     };
     this.setGlobal(scattergl_options);
     /**
