@@ -47,7 +47,7 @@ export class Network {
   protected _title: any = null;
 
   // last rectangle stroke added
-  protected _lastIndex: number = -1;
+  protected _lastIndices: number[] = [];
 
   constructor(chartDiv: HTMLElement) {
     this._chartDiv = chartDiv;
@@ -214,21 +214,31 @@ export class Network {
         .on('mouseout' , (e: any, d: any) => tip.hide(d, e.target));
   }
 
-  highlightRectangle(index: number) {
-    if(this._lastIndex > -1) {
-      this._svgGroup.select('[id="' + this._lastIndex + '"]')
-                  .attr("stroke", "none");
+  highlightRectangle(indices: number[]) {
+    if(this._lastIndices.length > 0) {
+      for(let i = 0; i < this._lastIndices.length; i++) {
+        this._svgGroup.select('[id="' + this._lastIndices[i] + '"]')
+        .attr("stroke", "none");
+      }
     }
-    this._svgGroup.select('[id="' + index + '"]')
+
+    for(let i = 0; i < indices.length; i++) {
+    this._svgGroup.select('[id="' + indices[i] + '"]')
                   .attr("stroke", "#333")
                   .attr('stroke-width', '2')
-    this._lastIndex = index;      
+    }
+
+    this._lastIndices = indices;      
   }
 
   removeRectangleHighlight() {
-    this._svgGroup.select('[id="' + this._lastIndex + '"]')
-                  .attr("stroke", "none");
-    this._lastIndex = -1;  
+    if(this._lastIndices.length > 0) {
+      for(let i = 0; i < this._lastIndices.length; i++) {
+        this._svgGroup.select('[id="' + this._lastIndices[i] + '"]')
+        .attr("stroke", "none");
+      }
+    }
+    this._lastIndices = [];  
   }
 
   updateLabelsAndTitle() {

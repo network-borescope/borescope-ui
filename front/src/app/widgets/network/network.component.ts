@@ -174,8 +174,8 @@ export class NetworkComponent implements OnInit {
     }
   }
 
-  highlightHeatmatrix(index: number) {
-    this.netChart.highlightRectangle(index);
+  highlightHeatmatrix(indices: number[]) {
+    this.netChart.highlightRectangle(indices);
   }
   
   removeHighlightHeatmatrix() {

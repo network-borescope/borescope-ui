@@ -606,11 +606,15 @@ export class HomeComponent implements AfterViewInit {
     this.scattergl.updateScatterglData(finalData, statesIds);
   }
 
-  onPointHovered(index: number) {
-    this.net.highlightHeatmatrix(index);
+  onAreaSelected(indices: number[]) {
+    if(indices.length > 0) {
+        this.net.highlightHeatmatrix(indices);
+    } else {
+      this.net.removeHighlightHeatmatrix();
+    }
   }
 
-  onPointHoverLeft() {
+  onHighlightRemoved() {
     this.net.removeHighlightHeatmatrix();
   }
 }

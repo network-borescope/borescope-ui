@@ -47,8 +47,8 @@
   [style.z-index] = "this.isChartVisible('scattergl') ? this.chartZindex('scattergl') : '-10' "
   (started)="this.moving = 'scattergl'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'scattergl'">
     <app-scattergl #appScatterglChart
-    (onPointHover) = "this.onPointHovered($event)"
-    (onHoverLeft) = "this.onPointHoverLeft()"
+    (onAreaSelect) = "this.onAreaSelected($event)"
+    (removeAreaSelection) = "this.onHighlightRemoved()"
     ></app-scattergl>
   </div>
 

@@ -1,4 +1,4 @@
-<div class="fill scattergl-chart">
+<div class="fill scattergl-chart" (mousedown)="$event.stopPropagation()">
     <div class="fill" #embedding></div>
     <div style="display: flex; margin-top: 27px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
         <div id="code-select-box" class="code-select">
@@ -20,8 +20,8 @@
         </div>
         <div id="codfield-select-box" class="codfield-select">
             <select name="codfield" class="scattergl-select" (change)="this.onSelectionModeChange($event)">
-                <option value="0">Pan</option>
-                <option value="1">Area</option>
+                <option value="pan">Pan</option>
+                <option value="selectio">Area</option>
             </select>        
         </div>
     </div>

@@ -17,8 +17,8 @@ export class ScatterglComponent implements OnInit {
   @ViewChild("embedding", { static: true }) private embeddingDiv!: ElementRef;
 
   @Output() onScatterglValueChanged = new EventEmitter<any>();
-  @Output() onPointHover = new EventEmitter<number>();
-  @Output() onHoverLeft = new EventEmitter();
+  @Output() onAreaSelect = new EventEmitter<any>();
+  @Output() removeAreaSelection = new EventEmitter();
   //elementos para o scattergl chart
   private capitals: any;
   private embedding: any;
@@ -32,19 +32,19 @@ export class ScatterglComponent implements OnInit {
   ngOnInit(): void {
     //start no scattergl
     this.scatterGl = new ScatterGL.ScatterGL(this.embeddingDiv.nativeElement, {
-      onHover: (point: number | null) => {
-        if(point !== null) {
-          this.onPointHover.emit(point);
+      onSelect: (points: number[]) => {
+        if (points.length === 0) {
+          console.log('nothing selected');
+          this.onAreaSelect.emit([]);
         } else {
-          this.onHoverLeft.emit();
-        };
+          this.onAreaSelect.emit(points);
+        }
       },
       renderMode: ScatterGL.RenderMode.POINT,
       orbitControls: {
         zoomSpeed: 1.125,
       },
     });
-    
     //adding resize on screen resize to scattergl plot
     window.addEventListener('resize', () => {
       this.scatterGl.resize();
@@ -127,13 +127,12 @@ export class ScatterglComponent implements OnInit {
     }
 
     this.scatterGl.setPointColorer((i: any, selectedIndices: any, hoverIndex: any) => {
+      const isSelected = selectedIndices.has(i);
       const labelIndex = this.dataset.metadata![i]['labelIndex'] as number;
       const color = this.valToColor(data[labelIndex])
-      if (hoverIndex === i) {
-        return 'red';
-      } else {
-        return color
-      }
+      if (hoverIndex === i) return 'red';
+      else if(isSelected) return "hsla(240,100%,25%,0.5)";
+      else return color;
     });
   }
 
@@ -157,7 +156,13 @@ export class ScatterglComponent implements OnInit {
   }
 
   onSelectionModeChange(event: any) {
-    (event.target.value == "pan") ? this.scatterGl.setPanMode() : this.scatterGl.setSelectMode()
+    if(event.target.value == "pan") { 
+      this.removeAreaSelection.emit();
+      this.scatterGl.setPanMode();
+    } else {
+      this.removeAreaSelection.emit();
+      this.scatterGl.setSelectMode();
+    }
   }
 
   selectData(options: any) {
