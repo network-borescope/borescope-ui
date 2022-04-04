@@ -18,5 +18,11 @@
                 <option value="1">Min</option>
             </select>        
         </div>
+        <div id="codfield-select-box" class="codfield-select">
+            <select name="codfield" class="scattergl-select" (change)="this.onSelectionModeChange($event)">
+                <option value="0">Pan</option>
+                <option value="1">Area</option>
+            </select>        
+        </div>
     </div>
 </div>

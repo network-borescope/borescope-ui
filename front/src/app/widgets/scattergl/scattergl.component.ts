@@ -156,6 +156,10 @@ export class ScatterglComponent implements OnInit {
     this.colorPoints(scattergl_options);
   }
 
+  onSelectionModeChange(event: any) {
+    (event.target.value == "pan") ? this.scatterGl.setPanMode() : this.scatterGl.setSelectMode()
+  }
+
   selectData(options: any) {
     const dataIndex = options.value + options.param;
     console.log(dataIndex)
