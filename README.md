@@ -23,6 +23,7 @@ Este projeto foi criado com [Angular CLI](https://github.com/angular/angular-cli
 ## Fazendo o deploy da aplicação:
 
 1. Dentro do diretório **borescope-ui/front** rodar `npm install` e depois `ng build`;
+2. O resultado do build será salvo no diretório **borescope-ui/build**.
 
 ## Consumo de dados
 
