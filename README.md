@@ -20,7 +20,7 @@ Este projeto foi criado com [Angular CLI](https://github.com/angular/angular-cli
 
 3. A aplicação atualizará automaticamente caso algum dos arquivos de codigo seja salvo.
 
-## Deploy da aplicação:
+## Fazendo o deploy da aplicação:
 
 1. Dentro do diretório **borescope-ui/front** rodar `npm install` e depois `ng build`;
 
@@ -31,4 +31,4 @@ Os dados consumidos pela aplicação são provenientes do backend, os quais são
 >http://gwrec.cloudnext.rnp.br:60089/tc/query2
 
 O path para o arquivo que indica de onde o dado é consumido é:
-**borescope-ui/front/src/app/shared/api.service.ts**
+**borescope-ui/front/src/assets/config.json**
