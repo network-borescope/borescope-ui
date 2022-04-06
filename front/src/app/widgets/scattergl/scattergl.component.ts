@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 
 import { GlobalService } from 'src/app/shared/global.service';
 
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as THREE from 'three';
 import * as ScatterGL from 'scatter-gl';
 import { UMAP } from 'umap-js';
@@ -27,9 +28,14 @@ export class ScatterglComponent implements OnInit {
   private dataset: any;
   private colorScale: any = d3.scaleSequential(d3.interpolateReds);
 
+  //configurações do multiselect
+  public dropdownList: any = this.global.getGlobal("scattergl_params").value.default;
+  public dropdownSettings: any = {};
+
   constructor(public global: GlobalService) { }
 
   ngOnInit(): void {
+    console.log(this.dropdownList)
     //start no scattergl
     this.scatterGl = new ScatterGL.ScatterGL(this.embeddingDiv.nativeElement, {
       onSelect: (points: number[]) => {
@@ -49,6 +55,18 @@ export class ScatterglComponent implements OnInit {
     window.addEventListener('resize', () => {
       this.scatterGl.resize();
     }); 
+
+    //configurando multiselect
+    this.dropdownSettings = {
+      singleSelection: false,
+      limitSelection: 10,
+      idField: 'value',
+      textField: 'param',
+      enableCheckAll: false,
+      unSelectAll: false,
+      itemsShowLimit: 0,
+      allowSearchFilter: false
+    };
   }
 
   updateScatterglData(responseData: any, statesIds: any) {
@@ -106,7 +124,6 @@ export class ScatterglComponent implements OnInit {
     
     this.scatterGl.render(this.dataset);
     this.scatterGl.resize();
-    console.log('CONSTRUIDO')
   }
 
   //constrói as strings de pares de saída x entrada 
@@ -153,6 +170,10 @@ export class ScatterglComponent implements OnInit {
       this.global.setGlobal(scattergl_options)
     }
     this.colorPoints(scattergl_options);
+  }
+
+  onParamAdd(event: any, added: boolean) {
+
   }
 
   onSelectionModeChange(event: any) {

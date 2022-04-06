@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as capitals from '../../assets/capitais.json';
+import * as scatterglParams from '../../assets/parameters.json';
 
 @Injectable({
   providedIn: 'root'
@@ -247,7 +248,14 @@ export class GlobalService {
        value: capitals
      }
      this.setGlobal(state_capitals);
-    
+     /**
+      * Guarda os parâmetros a serem utilizados para o scattergl no multiselect
+      */
+     const scattergl_params =  {
+      key: 'scattergl_params',
+      value: scatterglParams
+    }
+    this.setGlobal(scattergl_params);    
     /**
      * Guarda se o click foi no botão de reset zoom ou algum pin de capital
      */

@@ -188,7 +188,10 @@ html, body {
   border-width: 4px 3px 0 !important;
   color: #696969 !important;
   border-color: #696969 transparent !important;
+}
 
+#scattergl-dropdown .dropdown-list {
+  width: 250px !important;
 }
 
 .selected-item{
