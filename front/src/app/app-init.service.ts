@@ -3,7 +3,6 @@ import { ApiService } from './shared/api.service';
 import { GlobalService } from './shared/global.service';
 import { UtilService } from './shared/util.service';
 
-import * as config from '../assets/config.json';
 import { environment } from 'src/environments/environment';
 @Injectable()
 export class AppInitService {
@@ -92,6 +91,7 @@ export class AppInitService {
   }
 
   async loadEnvIp() {
+    const config = await this.api.getConfig();
     environment.backend = config.backend;
     this.api.updateConfig();
   }

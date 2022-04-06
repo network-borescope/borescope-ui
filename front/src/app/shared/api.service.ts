@@ -17,6 +17,8 @@ export class ApiService {
   files_url: string = `${environment.backend}/extra`
   // xhttp urls
   xhttp_url: string = `${environment.backend}/tc/query`;
+  // config path
+  config_url: string = '../assets/config.json'
 
   constructor(public global: GlobalService, public utils: UtilService) {}
 
@@ -47,6 +49,14 @@ export class ApiService {
 
     // Return a new promise.
     const response = await fetch(address, {
+      method: 'GET',
+    });
+
+    return await response.json();
+  }
+
+  async getConfig() {
+    const response = await fetch(this.config_url, {
       method: 'GET',
     });
 
