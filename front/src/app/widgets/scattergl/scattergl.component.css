@@ -1,0 +1,47 @@
+.scattergl-chart {
+    height: 327px;
+}
+
+.scattergl-select {
+    font-size: 9px;
+}
+
+.code-select {
+    width: 188px;
+    margin-top: 7px;
+    margin-left: 17px;
+}
+
+.codfield-select {
+    width: 71px;
+    margin-top: 7px;
+    margin-left: 17px;
+}
+
+.chart-select {
+    width: 86px;
+    margin-top: 7px;
+    margin-left: 17px;
+}
+
+@media screen and (min-width: 1024px) {
+    .scattergl-chart {
+        height: 380px;
+    }
+
+    .scattergl-select {
+        font-size: 11px;
+    }
+    
+    .code-select {
+        width: 220px;
+    }
+    
+    .codfield-select {
+        width: 79px;
+    }
+
+    .chart-select {
+        width: 97px;
+    }
+}

@@ -9,6 +9,7 @@ import { LineChartComponent } from 'src/app/widgets/line-chart/line-chart.compon
 import { NetworkComponent } from 'src/app/widgets/network/network.component';
 import { AlertsComponent } from '../widgets/alerts/alerts.component';
 import { FiltersComponent } from 'src/app/widgets/filters/filters.component';
+import { ScatterglComponent } from 'src/app/widgets/scattergl/scattergl.component';
 
 import { UtilService } from '../shared/util.service';
 
@@ -31,6 +32,8 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild("appAlerts", { static: true }) private alerts!: AlertsComponent;
   // referência para componente do mapa
   @ViewChild("appFilters", { static: true }) private filters!: FiltersComponent;
+  // referência para componente do scattergl
+  @ViewChild("appScatterglChart", { static: true }) private scattergl!: ScatterglComponent;
 
   public last: string = 'none';
   public moving: string = 'none';
@@ -62,6 +65,8 @@ export class HomeComponent implements AfterViewInit {
     // barchart e linechart do mapa
     this.updateLineChart('map', '#AAAAAA');
     this.updateBarChart('map', '#AAAAAA');
+    // inicializa scattergl
+    this.updateScattergl();
 
     // adiciona ao estado global
     this.addChartElementToGlobal('map', '#AAAAAA');
@@ -569,5 +574,47 @@ export class HomeComponent implements AfterViewInit {
       datetimeArray.push(label);
     }
     this.net.updateTimeseriesData(selectedData, datetimeArray, capitals, clicked);
+  }
+
+  async updateScattergl() {
+    //usando a mesma query da heatmatrix
+    let tsT0 = this.global.getGlobal("t0_vis").value;
+    let tsT1 = this.global.getGlobal("t1_vis").value;
+
+    let selectedParam = [11,12,13,16];
+    const selectedValue = ['h_avg','h_min', 'h_max']
+    const finalData = [];
+    const clicked = this.global.getGlobal("clicked_element").value;
+    for(let i = 0; i < selectedParam.length; i++) {
+      for(let j = 0; j < selectedValue.length; j++) {
+        const res = await this.api.requestHeatmatrix(selectedParam[i], selectedValue[j], tsT0, tsT1, clicked);
+        const data = JSON.parse(res).result;
+        let dataList = []
+        for(let k = 0; k < data.length; k++) {
+          dataList.push(data[k][2])
+        }
+        finalData.push(dataList);
+      }
+    }
+    const statesIds = [];
+    for(let i = 1; i < 28; i++) {
+      for(let j = 1; j < 28; j++) {
+        statesIds.push([i, j])
+      }
+    }
+
+    this.scattergl.updateScatterglData(finalData, statesIds);
+  }
+
+  onAreaSelected(indices: number[]) {
+    if(indices.length > 0) {
+        this.net.highlightHeatmatrix(indices);
+    } else {
+      this.net.removeHighlightHeatmatrix();
+    }
+  }
+
+  onHighlightRemoved() {
+    this.net.removeHighlightHeatmatrix();
   }
 }
