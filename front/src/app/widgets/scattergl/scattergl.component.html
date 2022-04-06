@@ -7,8 +7,8 @@
             [placeholder]="'Params'"
             [settings]="this.dropdownSettings"
             [data]="this.dropdownList"
-            (onSelect)="this.onParamAdd($event, true)"
-            (onDeSelect)="this.onParamAdd($event, false)">
+            (onSelect)="this.onParamChange($event, true)"
+            (onDeSelect)="this.onParamChange($event, false)">
             </ng-multiselect-dropdown>
         </div>
         <div id="codfield-select-box" class="codfield-select">
