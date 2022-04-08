@@ -144,6 +144,7 @@ export class NetworkComponent implements OnInit {
     };
     this.onCapitalSelected.emit(this.selectedCapitals);
   }
+  
 
   chartDisplay() {
     const network_param = this.global.getGlobal("network_param").value;

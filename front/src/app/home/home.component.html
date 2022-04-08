@@ -49,6 +49,7 @@
     <app-scattergl #appScatterglChart
     (onAreaSelect) = "this.onAreaSelected($event)"
     (removeAreaSelection) = "this.onHighlightRemoved()"
+    (onParamSelected) = "this.updateScattergl($event);"
     ></app-scattergl>
   </div>
 

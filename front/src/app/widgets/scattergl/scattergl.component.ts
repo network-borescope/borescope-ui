@@ -18,6 +18,7 @@ export class ScatterglComponent implements OnInit {
   @ViewChild("embedding", { static: true }) private embeddingDiv!: ElementRef;
 
   @Output() onScatterglValueChanged = new EventEmitter<any>();
+  @Output() onParamSelected = new EventEmitter<any>();
   @Output() onAreaSelect = new EventEmitter<any>();
   @Output() removeAreaSelection = new EventEmitter();
   //elementos para o scattergl chart
@@ -30,7 +31,17 @@ export class ScatterglComponent implements OnInit {
 
   //configurações do multiselect
   public dropdownList: any = this.global.getGlobal("scattergl_params").value.default;
-  public dropdownSettings: any = {};
+  public dropdownSettings: any = {
+    singleSelection: false,
+    limitSelection: 10,
+    idField: 'value',
+    textField: 'param',
+    enableCheckAll: false,
+    unSelectAll: false,
+    itemsShowLimit: 0,
+    allowSearchFilter: false
+  };
+  private selectedParams: number[] = [];
 
   constructor(public global: GlobalService) { }
 
@@ -55,22 +66,10 @@ export class ScatterglComponent implements OnInit {
     window.addEventListener('resize', () => {
       this.scatterGl.resize();
     }); 
-
-    //configurando multiselect
-    this.dropdownSettings = {
-      singleSelection: false,
-      limitSelection: 10,
-      idField: 'value',
-      textField: 'param',
-      enableCheckAll: false,
-      unSelectAll: false,
-      itemsShowLimit: 0,
-      allowSearchFilter: false
-    };
   }
 
-  updateScatterglData(responseData: any, statesIds: any) {
-    this.scatterglData = responseData;
+  updateScatterglData(id: number,responseData: any, statesIds: any) {
+    this.scatterglData.push({'id': id, 'data': responseData});
     //constrói as strings de pares de saída x entrada
     //constrói vetor de dado
     //isto não precisa ser executado todas as vezes que o dado atualizar
@@ -172,8 +171,8 @@ export class ScatterglComponent implements OnInit {
     this.colorPoints(scattergl_options);
   }
 
-  onParamAdd(event: any, added: boolean) {
-
+  onParamChange(event: any, added: boolean) {
+    this.onParamSelected.emit({"value": event.value, "added": added});
   }
 
   onSelectionModeChange(event: any) {
