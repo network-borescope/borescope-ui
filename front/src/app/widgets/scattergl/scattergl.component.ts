@@ -22,12 +22,13 @@ export class ScatterglComponent implements OnInit {
   @Output() onAreaSelect = new EventEmitter<any>();
   @Output() removeAreaSelection = new EventEmitter();
   //elementos para o scattergl chart
-  private capitals: any;
+  private capitals: any = this.global.getGlobal('state_capitals').value.default;
   private embedding: any;
   private scatterGl: any;
   private scatterglData: any = [];
   private dataset: any;
   private colorScale: any = d3.scaleSequential(d3.interpolateReds);
+  private statePairList: any[] = [];
 
   //configurações do multiselect
   public selectDisabler: string = "disabled";
@@ -47,7 +48,17 @@ export class ScatterglComponent implements OnInit {
   constructor(public global: GlobalService) { }
 
   ngOnInit(): void {
-    console.log(this.dropdownList)
+    //constrói a lista com os pares de estados
+    const statesIds = [];
+    for(let i = 1; i < 28; i++) {
+      for(let j = 1; j < 28; j++) {
+        statesIds.push([i, j])
+      }
+    }
+
+    for(let i = 0; i < statesIds.length; i++) {
+      this.statePairList.push(this.getCapitalId(statesIds[i][0]) + ' - ' + this.getCapitalId(statesIds[i][1]))
+    }
     //start no scattergl
     this.scatterGl = new ScatterGL.ScatterGL(this.embeddingDiv.nativeElement, {
       onSelect: (points: number[]) => {
@@ -69,38 +80,25 @@ export class ScatterglComponent implements OnInit {
     }); 
   }
 
-  updateScatterglData(id: number,responseData: any, statesIds: any) {
-    this.scatterglData.push({'id': id, 'data': responseData});
-    //constrói as strings de pares de saída x entrada
-    //constrói vetor de dado
-    //isto não precisa ser executado todas as vezes que o dado atualizar
-    //implementação provisória
-    this.capitals = this.global.getGlobal('state_capitals').value.default;
-
-    const statePairList = [];
-    const stateIdPairList = [];
-    for(let i = 0; i < statesIds.length; i++) {
-      statePairList.push(this.getCapitalId(statesIds[i][0]) + ' - ' + this.getCapitalId(statesIds[i][1]))
+  updateScatterglData(id: number, added: boolean ,responseData: any) {
+   
+    if(added) {
+      this.scatterglData.push({'id': id, 'data': responseData});
+    } else {
+      const newScatterglData = [];
+      for(let i = 0; i < this.scatterglData.length; i++) {
+        if(this.scatterglData[i].id !== id) { 
+          newScatterglData.push(this.scatterglData[i]);
+        }
+      }
+      this.scatterGl.setPointColorer(() => {
+        return "hsla(240,100%,25%,0.5)";
+      });
+      this.scatterglData = newScatterglData;
     }
 
-    const data = [];
+    const data = this.buildData(this.scatterglData);
     
-    for(let i = 0; i < responseData[0].length; i++){
-     data.push([responseData[0][i],
-                 responseData[1][i], 
-                 responseData[2][i],
-                 responseData[3][i], 
-                 responseData[4][i],
-                 responseData[5][i], 
-                 responseData[6][i],
-                 responseData[7][i], 
-                 responseData[8][i],
-                 responseData[9][i], 
-                 responseData[10][i],
-                 responseData[11][i]])
-    }
-    
-    this.colorPoints(this.global.getGlobal("scattergl_options"))
     //reduzindo dimensionalidade do dado
     const umap = new UMAP();
     const embedding = umap.fit(data);
@@ -109,7 +107,7 @@ export class ScatterglComponent implements OnInit {
 
     for(let i = 0; i < embedding.length; i++) {
       let labelIndex = [i].toString();
-      let label = statePairList[i];
+      let label = this.statePairList[i];
       dataPoints.push([embedding[i][0], embedding[i][1]])
       metadata.push({
         labelIndex,
@@ -179,7 +177,6 @@ export class ScatterglComponent implements OnInit {
     } else {
       for(let i = 0; i < this.selectedParams.length; i++) {
         if(this.selectedParams[i].value == event.value) {
-          console.log
           this.selectedParams.splice(i, 1);
         }
       }
@@ -199,8 +196,21 @@ export class ScatterglComponent implements OnInit {
   }
 
   selectData(options: any) {
-    const dataIndex = options.value + options.param;
-    console.log(dataIndex)
-    return this.scatterglData[dataIndex];
+    for(let i = 0; i < this.scatterglData.length; i++) {
+      if(this.scatterglData[i].id == options.value) return this.scatterglData[i].data[options.param];
+    }
+  }
+
+  buildData(data: any) {
+    const structuredData: any[] = [];
+    for(let i = 0; i < data[0].data[0].length; i++) structuredData.push([]);
+    for(let i = 0; i < data.length; i++) {
+      for(let j = 0; j < structuredData.length; j++) {
+        structuredData[j].push(data[i].data[0][j])
+        structuredData[j].push(data[i].data[1][j])
+        structuredData[j].push(data[i].data[2][j])
+      }
+    }
+    return structuredData;
   }
 }

@@ -575,33 +575,28 @@ export class HomeComponent implements AfterViewInit {
   }
 
   async updateScattergl(event: any) {
-    //usando a mesma query da heatmatrix
-    let tsT0 = this.global.getGlobal("t0_vis").value;
-    let tsT1 = this.global.getGlobal("t1_vis").value;
-
     let selectedParam = event.value;
-    const selectedValue = ['h_avg','h_min', 'h_max']
-    const finalData = [];
-    const clicked = this.global.getGlobal("clicked_element").value;
-
-    for(let i = 0; i < selectedValue.length; i++) {
-      const res = await this.api.requestHeatmatrix(selectedParam, selectedValue[i], tsT0, tsT1, clicked);
-      const data = JSON.parse(res).result;
-      let dataList = []
-      for(let k = 0; k < data.length; k++) {
-        dataList.push(data[k][2])
-      }
-      finalData.push(dataList);
-    }
-
+    const added = event.added;
     const statesIds = [];
-    for(let i = 1; i < 28; i++) {
-      for(let j = 1; j < 28; j++) {
-        statesIds.push([i, j])
+    const finalData = [];
+    const selectedValue = ['h_avg','h_min', 'h_max']
+    if(event.added) {
+      //usando a mesma query da heatmatrix
+      let tsT0 = this.global.getGlobal("t0_vis").value;
+      let tsT1 = this.global.getGlobal("t1_vis").value;
+      const clicked = this.global.getGlobal("clicked_element").value;
+
+      for(let i = 0; i < selectedValue.length; i++) {
+        const res = await this.api.requestHeatmatrix(selectedParam, selectedValue[i], tsT0, tsT1, clicked);
+        const data = JSON.parse(res).result;
+        let dataList = []
+        for(let k = 0; k < data.length; k++) {
+          dataList.push(data[k][2])
+        }
+        finalData.push(dataList);
       }
     }
-
-    this.scattergl.updateScatterglData(selectedParam, finalData, statesIds);
+    this.scattergl.updateScatterglData(selectedParam, added, finalData);
   }
 
   onAreaSelected(indices: number[]) {
