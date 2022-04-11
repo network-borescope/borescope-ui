@@ -30,6 +30,7 @@ export class ScatterglComponent implements OnInit {
   private colorScale: any = d3.scaleSequential(d3.interpolateReds);
 
   //configurações do multiselect
+  public selectDisabler: string = "disabled";
   public dropdownList: any = this.global.getGlobal("scattergl_params").value.default;
   public dropdownSettings: any = {
     singleSelection: false,
@@ -41,7 +42,7 @@ export class ScatterglComponent implements OnInit {
     itemsShowLimit: 0,
     allowSearchFilter: false
   };
-  private selectedParams: number[] = [];
+  public selectedParams: any[] = [];
 
   constructor(public global: GlobalService) { }
 
@@ -172,6 +173,18 @@ export class ScatterglComponent implements OnInit {
   }
 
   onParamChange(event: any, added: boolean) {
+    if(added) {
+      this.selectDisabler = "";
+      this.selectedParams.push(event)
+    } else {
+      for(let i = 0; i < this.selectedParams.length; i++) {
+        if(this.selectedParams[i].value == event.value) {
+          console.log
+          this.selectedParams.splice(i, 1);
+        }
+      }
+      (this.selectedParams.length > 0) ? this.selectDisabler = "" : this.selectDisabler = "disabled"
+    }
     this.onParamSelected.emit({"value": event.value, "added": added});
   }
 
