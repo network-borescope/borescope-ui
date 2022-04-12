@@ -49,10 +49,10 @@ export class ScatterglComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildStatePairList();
-    this.startScatterGl();
+    this.startScattergl();
   }
 
-  startScatterGl() {
+  startScattergl() {
     //start no scattergl
     this.scatterGl = new ScatterGL.ScatterGL(this.embeddingDiv.nativeElement, {
       onSelect: (points: number[]) => {
@@ -89,34 +89,39 @@ export class ScatterglComponent implements OnInit {
         return "hsla(240,100%,25%,0.5)";
       });
       this.scatterglData = newScatterglData;
-      console.log(this.scatterglData)
     }
-
-    const data = this.buildData(this.scatterglData);
+    if(this.scatterglData.length == 0) {
+      //restart no scattergl caso nenhum dado selecionado
+      const scatterGlDiv = document.querySelector('#scattergl-embedding')!;
+      scatterGlDiv.innerHTML = "";
+      this.startScattergl();
+    } else {
+      const data = this.buildData(this.scatterglData);
   
-    //reduzindo dimensionalidade do dado
-    const umap = new UMAP();
-    const embedding = umap.fit(data);
-    const dataPoints: ScatterGL.Point2D[] = [];
-    const metadata: ScatterGL.PointMetadata[] = [];
-
-    for(let i = 0; i < embedding.length; i++) {
-      let labelIndex = [i].toString();
-      let label = this.statePairList[i];
-      dataPoints.push([embedding[i][0], embedding[i][1]])
-      metadata.push({
-        labelIndex,
-        label
-      });
+      //reduzindo dimensionalidade do dado
+      const umap = new UMAP();
+      const embedding = umap.fit(data);
+      const dataPoints: ScatterGL.Point2D[] = [];
+      const metadata: ScatterGL.PointMetadata[] = [];
+  
+      for(let i = 0; i < embedding.length; i++) {
+        let labelIndex = [i].toString();
+        let label = this.statePairList[i];
+        dataPoints.push([embedding[i][0], embedding[i][1]])
+        metadata.push({
+          labelIndex,
+          label
+        });
+        
+      }
+  
+      this.dataset = new ScatterGL.Dataset(dataPoints, metadata);
       
+      this.scatterGl.updateDataset(this.dataset);
+      
+      this.scatterGl.render(this.dataset);
+      this.scatterGl.resize();
     }
-
-    this.dataset = new ScatterGL.Dataset(dataPoints, metadata);
-    
-    this.scatterGl.updateDataset(this.dataset);
-    
-    this.scatterGl.render(this.dataset);
-    this.scatterGl.resize();
   }
 
   //constrói as strings de pares de saída x entrada 
