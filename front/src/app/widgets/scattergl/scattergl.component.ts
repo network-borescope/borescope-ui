@@ -48,17 +48,11 @@ export class ScatterglComponent implements OnInit {
   constructor(public global: GlobalService) { }
 
   ngOnInit(): void {
-    //constrói a lista com os pares de estados
-    const statesIds = [];
-    for(let i = 1; i < 28; i++) {
-      for(let j = 1; j < 28; j++) {
-        statesIds.push([i, j])
-      }
-    }
+    this.buildStatePairList();
+    this.startScatterGl();
+  }
 
-    for(let i = 0; i < statesIds.length; i++) {
-      this.statePairList.push(this.getCapitalId(statesIds[i][0]) + ' - ' + this.getCapitalId(statesIds[i][1]))
-    }
+  startScatterGl() {
     //start no scattergl
     this.scatterGl = new ScatterGL.ScatterGL(this.embeddingDiv.nativeElement, {
       onSelect: (points: number[]) => {
@@ -80,11 +74,11 @@ export class ScatterglComponent implements OnInit {
     }); 
   }
 
-  updateScatterglData(id: number, added: boolean ,responseData: any) {
-   
+  async updateScatterglData(id: number, added: boolean ,responseData: any) {
     if(added) {
       this.scatterglData.push({'id': id, 'data': responseData});
     } else {
+      console.log(this.scatterglData)
       const newScatterglData = [];
       for(let i = 0; i < this.scatterglData.length; i++) {
         if(this.scatterglData[i].id !== id) { 
@@ -95,10 +89,11 @@ export class ScatterglComponent implements OnInit {
         return "hsla(240,100%,25%,0.5)";
       });
       this.scatterglData = newScatterglData;
+      console.log(this.scatterglData)
     }
 
     const data = this.buildData(this.scatterglData);
-    
+  
     //reduzindo dimensionalidade do dado
     const umap = new UMAP();
     const embedding = umap.fit(data);
@@ -212,5 +207,19 @@ export class ScatterglComponent implements OnInit {
       }
     }
     return structuredData;
+  }
+
+  buildStatePairList() {
+    //constrói a lista com os pares de estados
+    const statesIds = [];
+    for(let i = 1; i < 28; i++) {
+      for(let j = 1; j < 28; j++) {
+        statesIds.push([i, j])
+      }
+    }
+
+    for(let i = 0; i < statesIds.length; i++) {
+      this.statePairList.push(this.getCapitalId(statesIds[i][0]) + ' - ' + this.getCapitalId(statesIds[i][1]))
+    }
   }
 }

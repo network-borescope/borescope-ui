@@ -1,8 +1,10 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { AngularDraggableModule } from 'angular2-draggable';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import { AppComponent } from './app.component';
 import { AppInitService } from './app-init.service';
@@ -40,6 +42,8 @@ import { ScatterglComponent } from './widgets/scattergl/scattergl.component';
   imports: [
     BrowserModule,
     AngularDraggableModule,
+    BrowserAnimationsModule,
+    NgxSpinnerModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
   providers: [

@@ -11,6 +11,8 @@ import { AlertsComponent } from '../widgets/alerts/alerts.component';
 import { FiltersComponent } from 'src/app/widgets/filters/filters.component';
 import { ScatterglComponent } from 'src/app/widgets/scattergl/scattergl.component';
 
+import { NgxSpinnerService } from "ngx-spinner";
+
 import { UtilService } from '../shared/util.service';
 
 @Component({
@@ -40,7 +42,7 @@ export class HomeComponent implements AfterViewInit {
 
   private timeBoundsRefreshFnc: any = undefined;
 
-  constructor(public global: GlobalService, public api: ApiService, public util: UtilService) {
+  constructor(public global: GlobalService, public api: ApiService, public util: UtilService, private spinner: NgxSpinnerService) {
     this.timeBoundsRefreshFnc = setInterval(async () => {
       await this.timeBoundsRefresh();
       await this.listIpsRefresh();
@@ -575,16 +577,19 @@ export class HomeComponent implements AfterViewInit {
   }
 
   async updateScattergl(event: any) {
+    this.spinner.show();
     let selectedParam = event.value;
     const added = event.added;
     const statesIds = [];
     const finalData = [];
     const selectedValue = ['h_avg','h_min', 'h_max']
+          //usando a mesma query da heatmatrix
+          let tsT0 = this.global.getGlobal("t0_vis").value;
+          let tsT1 = this.global.getGlobal("t1_vis").value;
+          const clicked = this.global.getGlobal("clicked_element").value;
     if(event.added) {
-      //usando a mesma query da heatmatrix
-      let tsT0 = this.global.getGlobal("t0_vis").value;
-      let tsT1 = this.global.getGlobal("t1_vis").value;
-      const clicked = this.global.getGlobal("clicked_element").value;
+      
+
 
       for(let i = 0; i < selectedValue.length; i++) {
         const res = await this.api.requestHeatmatrix(selectedParam, selectedValue[i], tsT0, tsT1, clicked);
@@ -595,8 +600,12 @@ export class HomeComponent implements AfterViewInit {
         }
         finalData.push(dataList);
       }
+    } else {
+      //dummy request para o spinner funcionar
+      const res = await this.api.getConfig();
     }
     this.scattergl.updateScatterglData(selectedParam, added, finalData);
+    this.spinner.hide();
   }
 
   onAreaSelected(indices: number[]) {
