@@ -603,6 +603,7 @@ export class HomeComponent implements AfterViewInit {
     } else {
       //dummy request para o spinner funcionar
       const res = await this.api.getConfig();
+      console.log(res)
     }
     this.scattergl.updateScatterglData(selectedParam, added, finalData);
     this.spinner.hide();
