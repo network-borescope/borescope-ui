@@ -24,6 +24,9 @@ export class LineChartComponent implements OnInit {
 
   private unity: any = {};
 
+  private t0: number = 0;
+  private t1:number = 0;
+
   public ids: any = [];
 
   constructor(public global: GlobalService, public util: UtilService) {
@@ -53,6 +56,9 @@ export class LineChartComponent implements OnInit {
         const pointMinValue = responseData[paramId].result[i].v[3];        
         this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointAverageValue, z: pointMaxValue, k: pointMinValue});
       }
+      // seta o intervalo de tempo
+      this.t0 = responseData['packet_rate']['result'][0].k[0];
+      this.t1 = responseData['packet_rate']['result'].slice(-1)[0].k[0];
       // computes the unity
       this.computeUnity(paramId);
 
@@ -182,10 +188,10 @@ export class LineChartComponent implements OnInit {
     // result array
     this.labels[from] = [];
 
-    const tsT0 = this.global.getGlobal("t0_vis");
-    const tsT1 = this.global.getGlobal("t1_vis");
+    const tsT0 = this.t0;
+    const tsT1 = this.t1;
 
-    const interval = tsT1.value - tsT0.value;
+    const interval = tsT1 - tsT0;
 
     const data = this.rawData[from];
 
@@ -210,8 +216,8 @@ export class LineChartComponent implements OnInit {
         // result array
         this.labels[from] = [];
 
-        let current = tsT0.value;
-        while (current <= tsT1.value) {
+        let current = tsT0;
+        while (current <= tsT1) {
           let label = '';
           let date = new Date(current * 1000);
           if (interval < 1200) { // 20 min

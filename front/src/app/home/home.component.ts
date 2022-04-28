@@ -521,6 +521,7 @@ export class HomeComponent implements AfterViewInit {
       const res = await this.api.requestLineChart(location, time, client, param);
       data[param.id] = res;
     }
+
     this.line.updateData(data, dataId, chartColor);
 
     const param = this.global.getGlobal('line_params_value').value;
@@ -547,6 +548,7 @@ export class HomeComponent implements AfterViewInit {
   async updateTimeseries(event: any) {
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
+
 
     const selectedParam = parseInt(this.global.getGlobal('heatmatrix_param').value);
     const selectedValue = this.global.getGlobal('heatmatrix_value').value;
