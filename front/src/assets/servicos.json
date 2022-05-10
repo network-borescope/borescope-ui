@@ -1,0 +1,125 @@
+[
+    {
+        "nome": "airbnb",
+        "imagePath": "assets/servicos/airbnb.png"
+    },{
+        "nome": "alibaba",
+        "imagePath": "assets/servicos/alibaba.png"
+    },
+    {
+        "nome": "aliexpress",
+        "imagePath": "assets/servicos/aliexpress.png"
+    },
+    {
+        "nome": "amazon",
+        "imagePath": "assets/servicos/amazon.png"
+    },
+    {
+        "nome": "apple",
+        "imagePath": "assets/servicos/apple.png"
+    },
+    {
+        "nome": "aws",
+        "imagePath": "assets/servicos/aws.png"
+    },
+    {
+        "nome": "azure",
+        "imagePath": "assets/servicos/azure.png"
+    },
+    {
+        "nome": "bing",
+        "imagePath": "assets/servicos/bing.png"
+    },
+    {
+        "nome": "rnp integra",
+        "imagePath": "assets/servicos/cafe.png"
+    },
+    {
+        "nome": "discord",
+        "imagePath": "assets/servicos/discord.png"
+    },
+    {
+        "nome": "disney",
+        "imagePath": "assets/servicos/disney.png"
+    },
+    {
+        "nome": "dropbox",
+        "imagePath": "assets/servicos/dropbox.png"
+    },
+    {
+        "nome": "eduplay",
+        "imagePath": "assets/servicos/eduplay.png"
+    },
+    {
+        "nome": "facebook",
+        "imagePath": "assets/servicos/facebook.png"
+    },
+    {
+        "nome": "globoplay",
+        "imagePath": "assets/servicos/globoplay.png"
+    },
+    {
+        "nome": "google",
+        "imagePath": "assets/servicos/google.png"
+    },
+    {
+        "nome": "govbr",
+        "imagePath": "assets/servicos/govbr.png"
+    },
+    {
+        "nome": "itau",
+        "imagePath": "assets/servicos/itau.png"
+    },
+    {
+        "nome": "mercado livre",
+        "imagePath": "assets/servicos/mercadolivre.png"
+    },
+    {
+        "nome": "microsoft",
+        "imagePath": "assets/servicos/microsoft.png"
+    },
+    {
+        "nome": "netflix",
+        "imagePath": "assets/servicos/netflix.png"
+    },
+    {
+        "nome": "office",
+        "imagePath": "assets/servicos/office.png"
+    },
+    {
+        "nome": "rnp",
+        "imagePath": "assets/servicos/rnp.png"
+    },
+    {
+        "nome": "spotify",
+        "imagePath": "assets/servicos/spotify.png"
+    },
+    {
+        "nome": "tiktok",
+        "imagePath": "assets/servicos/tiktok.png"
+    },
+    {
+        "nome": "trivago",
+        "imagePath": "assets/servicos/trivago.png"
+    },
+    {
+        "nome": "twitter",
+        "imagePath": "assets/servicos/twitter.png"
+    },
+    {
+        "nome": "vivo",
+        "imagePath": "assets/servicos/vivo.png"
+    },
+    {
+        "nome": "whatsapp",
+        "imagePath": "assets/servicos/whatsapp.png"
+    },
+    {
+        "nome": "windows",
+        "imagePath": "assets/servicos/windows.png"
+    },
+    {
+        "nome": "youtube",
+        "imagePath": "assets/servicos/youtube.png"
+    }
+]
