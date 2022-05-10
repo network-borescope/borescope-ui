@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as capitals from '../../assets/capitais.json';
 import * as scatterglParams from '../../assets/parameters.json';
+import * as services from '../../assets/servicos.json';
 
 @Injectable({
   providedIn: 'root'
@@ -248,6 +249,14 @@ export class GlobalService {
        value: capitals
      }
      this.setGlobal(state_capitals);
+    /**
+     * Guarda os serviços e seus nomes.
+     */
+    const companies_services =  {
+      key: 'services',
+      value: services
+    }
+    this.setGlobal(companies_services);
      /**
       * Guarda os parâmetros a serem utilizados para o scattergl no multiselect
       */
