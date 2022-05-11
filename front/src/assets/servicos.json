@@ -2,155 +2,186 @@
     {
         "id": "airbnb",
         "cod": 1,
+        "imageDim": [32, 32],
         "imagePath": "assets/servicos/airbnb.png"
     },{
         "id": "alibaba",
         "cod": 2,
+        "imageDim": [32, 23],
         "imagePath": "assets/servicos/alibaba.png"
     },
     {
         "id": "aliexpress",
         "cod": 3,
+        "imageDim": [26, 32],
         "imagePath": "assets/servicos/aliexpress.png"
     },
     {
         "id": "amazon",
         "cod": 4,
+        "imageDim": [13, 32],
         "imagePath": "assets/servicos/amazon.png"
     },
     {
         "id": "apple",
         "cod": 5,
+        "imageDim": [32, 32],
         "imagePath": "assets/servicos/apple.png"
     },
     {
         "id": "aws",
         "cod": 6,
+        "imageDim": [32, 32],
         "imagePath": "assets/servicos/aws.png"
     },
     {
         "id": "azure",
         "cod": 7,
+        "imageDim": [29, 32],
         "imagePath": "assets/servicos/azure.png"
     },
     {
         "id": "bing",
         "cod": 8,
+        "imageDim": [32, 32],
         "imagePath": "assets/servicos/bing.png"
     },
     {
         "id": "rnp integra",
         "cod": 9,
+        "imageDim": [22, 32],
         "imagePath": "assets/servicos/cafe.png"
     },
     {
         "id": "discord",
         "cod": 10,
+        "imageDim": [32, 32],
         "imagePath": "assets/servicos/discord.png"
     },
     {
         "id": "disney",
         "cod": 11,
+        "imageDim": [32, 24],
         "imagePath": "assets/servicos/disney.png"
     },
     {
         "id": "dropbox",
         "cod": 12,
+        "imageDim": [32, 32],
         "imagePath": "assets/servicos/dropbox.png"
     },
     {
         "id": "eduplay",
         "cod": 13,
+        "imageDim": [19, 32],
         "imagePath": "assets/servicos/eduplay.png"
     },
     {
         "id": "facebook",
         "cod": 14,
+        "imageDim": [24, 32],
         "imagePath": "assets/servicos/facebook.png"
     },
     {
         "id": "globoplay",
         "cod": 15,
+        "imageDim": [32, 26],
         "imagePath": "assets/servicos/globoplay.png"
     },
     {
         "id": "google",
         "cod": 16,
+        "imageDim": [32, 31],
         "imagePath": "assets/servicos/google.png"
     },
     {
         "id": "govbr",
         "cod": 17,
+        "imageDim": [32, 32],
         "imagePath": "assets/servicos/govbr.png"
     },
     {
         "id": "itau",
         "cod": 18,
+        "imageDim": [32, 32],
         "imagePath": "assets/servicos/itau.png"
     },
     {
         "id": "mercado livre",
         "cod": 19,
+        "imageDim": [31, 32],
         "imagePath": "assets/servicos/mercadolivre.png"
     },
     {
         "id": "microsoft",
         "cod": 20,
+        "imageDim": [32, 32],
         "imagePath": "assets/servicos/microsoft.png"
     },
     {
         "id": "netflix",
         "cod": 21,
+        "imageDim": [32, 32],
         "imagePath": "assets/servicos/netflix.png"
     },
     {
         "id": "office",
         "cod": 22,
+        "imageDim":[6, 32],
         "imagePath": "assets/servicos/office.png"
     },
     {
         "id": "rnp",
         "cod": 23,
+        "imageDim": [22, 32],
         "imagePath": "assets/servicos/rnp.png"
     },
     {
         "id": "spotify",
         "cod": 24,
+        "imageDim": [16, 32],
         "imagePath": "assets/servicos/spotify.png"
     },
     {
         "id": "tiktok",
         "cod": 25,
+        "imageDim": [32, 32],
         "imagePath": "assets/servicos/tiktok.png"
     },
     {
         "id": "trivago",
         "cod": 26,
+        "imageDim": [32, 27],
         "imagePath": "assets/servicos/trivago.png"
     },
     {
         "id": "twitter",
         "cod": 27,
+        "imageDim": [32, 31],
         "imagePath": "assets/servicos/twitter.png"
     },
     {
         "id": "vivo",
         "cod": 28,
+        "imageDim": [32, 26],
         "imagePath": "assets/servicos/vivo.png"
     },
     {
         "id": "whatsapp",
         "cod": 29,
+        "imageDim":[9, 32],
         "imagePath": "assets/servicos/whatsapp.png"
     },
     {
         "id": "windows",
         "cod": 30,
+        "imageDim": [11, 32],
         "imagePath": "assets/servicos/windows.png"
     },
     {
         "id": "youtube",
         "cod": 31,
+        "imageDim": [26, 32],
         "imagePath": "assets/servicos/youtube.png"
     }
 ]

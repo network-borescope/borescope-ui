@@ -220,8 +220,10 @@ export class Network {
             .data(this._services)
             .append("svg:image")
             .attr("xlink:href", (d: any) => d["imagePath"])
-            .attr("x", -120)
-            .attr("y", -50)
+            .attr("width", (d: any) => d["imageDim"][0]/2)
+            .attr("height", (d: any) => d["imageDim"][1]/2)
+            .attr("x", -26)
+            .attr("y", -12)
     }
   }
 

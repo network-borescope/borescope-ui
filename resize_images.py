@@ -6,11 +6,11 @@ import glob
 
 paths = glob.glob("./front/src/assets/servicos/*")
 
-def image_resize(image, width = None, height = None):
+def image_resize(image, path, width = None, height = None):
     # initialize the dimensions of the image to be resized and
     # grab the image size
     dim = None
-    (h, w) = image.shape[:2]
+    (h, w) = image.size
 
     # if both the width and height are None, then return the
     # original image
@@ -31,23 +31,19 @@ def image_resize(image, width = None, height = None):
         r = width / float(w)
         dim = (width, int(h * r))
 
-    # resize the image
-    resized = cv2.resize(image, dim)
-
-    # return the resized image
-    return resized
+    print(dim)
+    return 
 
 print(paths)
 for path in paths:
-    image = cv2.imread(path)
-    h, w = image.shape[:2]
+    image = Image.open(path)
+    h, w = image.size
     width = None
     height = None
     if w >= h:
-        width = 64
+        width = 32
     else:
-        height = 64
+        height = 32
 
-    resized_image = image_resize(image, width, height)
-    img_BGRA = Image.fromarray(resized_image)
-    img_BGRA.save(path)
+    image_resize(image, path, width, height)
+    
