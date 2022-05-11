@@ -163,19 +163,19 @@ export class Network {
 
    updateScales() {
     const ids = this._data.map( (d: any) => this.getId( d[0], 'pop' ));
-    const labelsIn = Array.from(new Set(ids));
-    console.log(this._data)
-    let labelsOut;
+    const labelsOut = Array.from(new Set(ids));
+
+    let labelsIn;
     if(this._services == null) {
-      labelsOut = labelsIn;
+      labelsIn = labelsOut;
     } else {
       const services = this._data.map( (d: any) => this.getId( d[1], 'services' ));
-      labelsOut = Array.from(new Set(services));
+      labelsIn = Array.from(new Set(services));
     }
 
     if (this._isTime) {
       const ts = this._data.map( (d: any) => this.valToDate(d[1]) );
-      labelsOut = Array.from(new Set(ts));
+      labelsIn = Array.from(new Set(ts));
     }
 
     // @ts-ignore
@@ -227,7 +227,7 @@ export class Network {
            .data(this._data)
            .join("rect")
            .attr("x", (d: any) => this._outScale( this._isTime ? this.valToDate( d[1] ) : this.getId(d[1], 'pop')))
-           .attr("y", (d: any) => this._inScale( this.getId(d[0], 'pop')))
+           .attr("y", (d: any) => this._inScale( this.getId(d[0], 'pop')) )
            .attr("width", this._outScale.bandwidth())
            .attr("height", this._inScale.bandwidth())
            .attr("fill", (d: any) => this.valToColor(d))
@@ -238,8 +238,8 @@ export class Network {
       rects.selectAll("rect")
            .data(this._data)
            .join("rect")
-           .attr("x", (d: any) => this._outScale( this._isTime ? this.valToDate( d[1] ) : this.getId(d[1], 'services')))
-           .attr("y", (d: any) => this._inScale( this.getId(d[0], 'pop')))
+           .attr("x", (d: any) => this._outScale(this.getId(d[0], 'pop')))
+           .attr("y", (d: any) => this._inScale(this._isTime ? this.valToDate( d[1] ) : this.getId(d[1], 'services')))
            .attr("width", this._outScale.bandwidth())
            .attr("height", this._inScale.bandwidth())
            .attr("fill", (d: any) => this.valToColor(d))
@@ -277,8 +277,6 @@ export class Network {
   }
 
   updateLabelsAndTitle() {
-    console.log(this._services)
-
     if (this._isTime) {
       const popId = this.getId(this._capitalId, 'pop');
       this._xAxisLabel = 'Tempo'
@@ -286,7 +284,7 @@ export class Network {
         this._yAxisLabel = 'Pop de chegada';
         this._title = 'Medição do pop ' +  popId + ' para os demais pops ao longo do tempo'        
       } else {
-        this._yAxisLabel = 'Serviços';
+        this._yAxisLabel = 'Serviço';
         this._title = 'Medição do pop ' +  popId + ' para os demais serviços ao longo do tempo'
       }
     } else {
@@ -296,8 +294,8 @@ export class Network {
         this._yAxisLabel = 'Pop de saída';
         this._title = 'Medição entre pops'        
       } else {
-        this._xAxisLabel = 'Serviço'
-        this._yAxisLabel = 'Pop';
+        this._xAxisLabel = 'Pop'
+        this._yAxisLabel = 'Serviço';
         this._title = 'Medição de pops e serviços'  
       }
     }
