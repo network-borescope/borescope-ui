@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as capitals from '../../assets/capitais.json';
 import * as scatterglParams from '../../assets/parameters.json';
 import * as services from '../../assets/servicos.json';
+import * as dummyData from '../../assets/dummy_data.json';
 
 @Injectable({
   providedIn: 'root'
@@ -257,6 +258,14 @@ export class GlobalService {
       value: services
     }
     this.setGlobal(companies_services);
+    /**
+     * Guarda dummy data para heatmatrix pop x servicos
+     */
+    const dummy_data =  {
+      key: 'dummy_data',
+      value: dummyData["dummyData"]
+    }
+    this.setGlobal(dummy_data);
      /**
       * Guarda os parâmetros a serem utilizados para o scattergl no multiselect
       */

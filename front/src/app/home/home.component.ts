@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ɵɵtrustConstantResourceUrl } from '@angular/core';
 
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
@@ -536,12 +536,12 @@ export class HomeComponent implements AfterViewInit {
     const selectedParam = parseInt(this.global.getGlobal('heatmatrix_param').value);
     const selectedValue = this.global.getGlobal('heatmatrix_value').value;
     const capitals = this.global.getGlobal('state_capitals').value.default;
-
+    const services = this.global.getGlobal('dummy_data').value;
     const clicked = this.global.getGlobal("clicked_element").value;
 
     const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
     const data = JSON.parse(res).result;
-
+    
     this.net.drawChart(data, capitals, clicked, selectedParam != 77);
   }
 
