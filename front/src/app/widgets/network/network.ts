@@ -195,6 +195,7 @@ export class Network {
   }
 
   updateAxes() {
+
     this._xAxis.scale(this._outScale).tickSizeOuter(0);
     this._svgGroup.select('.axis--x').call(this._xAxis)
         .selectAll('text')
@@ -206,9 +207,22 @@ export class Network {
         .attr('transform', 'rotate(-25)');
 
     this._yAxis.scale(this._inScale).tickSizeOuter(0);
+    if(this._services == null) {
     this._svgGroup.select('.axis--y').call(this._yAxis)
         .selectAll('text')
         .style('pointer-events', 'auto')
+    } else {
+      this._svgGroup.select('.axis--y').call(this._yAxis)
+                    .selectAll("text")
+                    .remove();
+      this._svgGroup.select('.axis--y').call(this._yAxis)
+            .selectAll('.tick')
+            .data(this._services)
+            .append("svg:image")
+            .attr("xlink:href", (d: any) => d["imagePath"])
+            .attr("x", -120)
+            .attr("y", -50)
+    }
   }
 
 
