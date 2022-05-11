@@ -162,10 +162,17 @@ export class Network {
   }
 
    updateScales() {
-    const ids = this._data.map( (d: any) => this.getCapitalId( d[0] ));
+    const ids = this._data.map( (d: any) => this.getId( d[0], 'pop' ));
     const labelsIn = Array.from(new Set(ids));
+    console.log(this._data)
+    let labelsOut;
+    if(this._services == null) {
+      labelsOut = labelsIn;
+    } else {
+      const services = this._data.map( (d: any) => this.getId( d[1], 'services' ));
+      labelsOut = Array.from(new Set(services));
+    }
 
-    let labelsOut = labelsIn;
     if (this._isTime) {
       const ts = this._data.map( (d: any) => this.valToDate(d[1]) );
       labelsOut = Array.from(new Set(ts));
@@ -215,17 +222,31 @@ export class Network {
 
     const rects = this._svgGroup.selectAll(".rect_group").data([null]).join('g').attr('class', 'rect_group');
 
-    rects.selectAll("rect")
-        .data(this._data)
-        .join("rect")
-        .attr("x", (d: any) => this._outScale( this._isTime ? this.valToDate( d[1] ) : this.getCapitalId(d[1])))
-        .attr("y", (d: any) => this._inScale( this._isTime ? this.getCapitalId(d[0]) : this.getCapitalId(d[0])))
-        .attr("width", this._outScale.bandwidth())
-        .attr("height", this._inScale.bandwidth())
-        .attr("fill", (d: any) => this.valToColor(d))
-        .attr("id", (d: any, i: number) => i )
-        .on('mouseover', (e: any, d: any) => tip.show(d, e.target))
-        .on('mouseout' , (e: any, d: any) => tip.hide(d, e.target));
+    if(this._services == null) {
+      rects.selectAll("rect")
+           .data(this._data)
+           .join("rect")
+           .attr("x", (d: any) => this._outScale( this._isTime ? this.valToDate( d[1] ) : this.getId(d[1], 'pop')))
+           .attr("y", (d: any) => this._inScale( this.getId(d[0], 'pop')))
+           .attr("width", this._outScale.bandwidth())
+           .attr("height", this._inScale.bandwidth())
+           .attr("fill", (d: any) => this.valToColor(d))
+           .attr("id", (d: any, i: number) => i )
+           .on('mouseover', (e: any, d: any) => tip.show(d, e.target))
+           .on('mouseout' , (e: any, d: any) => tip.hide(d, e.target));
+    } else {
+      rects.selectAll("rect")
+           .data(this._data)
+           .join("rect")
+           .attr("x", (d: any) => this._outScale( this._isTime ? this.valToDate( d[1] ) : this.getId(d[1], 'services')))
+           .attr("y", (d: any) => this._inScale( this.getId(d[0], 'pop')))
+           .attr("width", this._outScale.bandwidth())
+           .attr("height", this._inScale.bandwidth())
+           .attr("fill", (d: any) => this.valToColor(d))
+           .attr("id", (d: any, i: number) => i )
+           .on('mouseover', (e: any, d: any) => tip.show(d, e.target))
+           .on('mouseout' , (e: any, d: any) => tip.hide(d, e.target));
+    }
   }
 
   highlightRectangle(indices: number[]) {
@@ -259,7 +280,7 @@ export class Network {
     console.log(this._services)
 
     if (this._isTime) {
-      const popId = this.getCapitalId(this._capitalId);
+      const popId = this.getId(this._capitalId, 'pop');
       this._xAxisLabel = 'Tempo'
       if(this._services == null) {
         this._yAxisLabel = 'Pop de chegada';
@@ -340,8 +361,12 @@ export class Network {
     .attr("stroke", "#fff");
   }
 
-  getCapitalId(id: number) {
-    return this._capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+  getId(id: number, type: string) {
+    if(type == 'pop') {
+      return this._capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+    } else {
+      return this._services.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+    }
   }
 
   valToColor(d: any) {
@@ -447,7 +472,7 @@ export class Timeseries {
 
   //Modifica as configurações globais para os títulos
   setTitle(id: number) {
-    this.chart.options.plugins.legend.title.text = this.getCapitalId(id);
+    this.chart.options.plugins.legend.title.text = this.getId(id);
   }
 
   setCapitals(capitals: any) {
@@ -458,7 +483,7 @@ export class Timeseries {
     const datasets = this.chart.config.data.datasets;
     for(let i = 0; i < data.length; i++) {
       const newData = {
-        label: this.getCapitalId(data[i][0]),
+        label: this.getId(data[i][0]),
         data: data[i][1],
         backgroundColor: colorList[i],
         borderColor: colorList[i],
@@ -473,7 +498,7 @@ export class Timeseries {
       this.chart.config.data.labels = labels;
   }
 
-  getCapitalId(id: number) {
+  getId(id: number) {
       return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
   }
 
