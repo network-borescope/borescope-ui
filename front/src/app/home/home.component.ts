@@ -536,13 +536,19 @@ export class HomeComponent implements AfterViewInit {
     const selectedParam = parseInt(this.global.getGlobal('heatmatrix_param').value);
     const selectedValue = this.global.getGlobal('heatmatrix_value').value;
     const capitals = this.global.getGlobal('state_capitals').value.default;
-    const services = this.global.getGlobal('dummy_data').value;
     const clicked = this.global.getGlobal("clicked_element").value;
 
-    const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
-    const data = JSON.parse(res).result;
-    
-    this.net.drawChart(data, capitals, clicked, selectedParam != 77);
+    const dataType = this.global.getGlobal("data_type").value;
+    if(dataType == "popxpop") {
+      const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
+      const data = JSON.parse(res).result;
+      
+      this.net.drawChart(data, capitals, clicked, selectedParam != 77);
+    } else {
+      const services = this.global.getGlobal("services").value["default"];
+      const dummyData = this.global.getGlobal("dummy_data").value;
+      console.log(dummyData)
+    }
   }
 
   async updateTimeseries(event: any) {

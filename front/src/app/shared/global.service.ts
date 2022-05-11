@@ -266,6 +266,14 @@ export class GlobalService {
       value: dummyData["dummyData"]
     }
     this.setGlobal(dummy_data);
+    /**
+     * Guarda tipo selecionado popxpop ou popxservices
+     */
+    const data_type =  {
+      key: 'data_type',
+      value: 'popxpop'
+    }
+    this.setGlobal(data_type);
      /**
       * Guarda os parâmetros a serem utilizados para o scattergl no multiselect
       */

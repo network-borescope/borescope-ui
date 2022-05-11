@@ -5,6 +5,12 @@
     </div>
     <div style="display: flex; margin-top: 27px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
         <div id="code-select-box" class="code-select">
+            <select name="type" class="network-select" (change)="this.onChartDataTypeChange($event)">
+                <option value="popxpop">Pop x Pop</option>
+                <option value="popxservice">Pop x Serviços</option>
+            </select>
+        </div>
+        <div id="code-select-box" class="code-select">
             <select name="code" class="network-select" (change)="this.onParamChange($event)" [disabled]="this.networkChange">
                 <optgroup label="Atraso e perda">
                     <option value="10">Failures</option>

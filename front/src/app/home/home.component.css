@@ -91,11 +91,20 @@
   z-index: -10;
 }
 
-.scattergl-window, .network-window {
+.scattergl-window {
   position: absolute;
   top: 180px;
   right: 532px;
   width: 516px;
+  height: 410px !important;
+  z-index: -10;
+}
+
+.network-window {
+  position: absolute;
+  top: 180px;
+  right: 532px;
+  width: 622px;
   height: 410px !important;
   z-index: -10;
 }
@@ -112,8 +121,14 @@
     height: 342px !important;
   }
   
-  .scattergl-window, .network-window {
+  .scattergl-window {
     width: 600px;
+    top: 180px;
+    right: 620px;
+    height: 463px !important;
+  }
+  .network-window {
+    width: 740px;
     top: 180px;
     right: 620px;
     height: 463px !important;

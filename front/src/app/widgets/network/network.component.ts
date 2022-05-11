@@ -108,6 +108,18 @@ export class NetworkComponent implements OnInit {
     }
   }
 
+  onChartDataTypeChange(event: any) {
+    const data_type = {
+      key: "data_type",
+      value: event.target.value
+    };
+    this.global.setGlobal(data_type);
+    this.heatMatrixParamChanged.emit();
+    if(!this.isTimeseriesSelected()) { 
+      this.onCapitalSelected.emit(this.selectedCapitals);
+    }
+  }
+
   onChartChange(event: any) {
     if(event.target.value == 'heatmatrix') {
       const network_param = {
