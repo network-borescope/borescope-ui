@@ -10,6 +10,9 @@ export class Network {
   // capitals
   protected _capitals: any = null;
 
+  // services
+  protected _services: any = null;
+
   // params
   protected _isTime: boolean = false;
   protected _invert: boolean = false;
@@ -58,12 +61,13 @@ export class Network {
     window.addEventListener('resize', this.resize.bind(this));
   }
 
-  setData(data: any, capitals: any, isTime: boolean = false, invert: boolean = false, capitalId: number) {
+  setData(data: any, capitals: any, isTime: boolean = false, invert: boolean = false, capitalId: number, services: any) {
     this._data = data;
     this._capitals = capitals;
     this._isTime = isTime;
     this._invert = invert;
     this._capitalId = capitalId;
+    this._services = services;
   }
 
   render() {
@@ -242,17 +246,29 @@ export class Network {
   }
 
   updateLabelsAndTitle() {
+    console.log(this._services)
 
     if (this._isTime) {
       const popId = this.getCapitalId(this._capitalId);
       this._xAxisLabel = 'Tempo'
-      this._yAxisLabel = 'Pop de chegada';
-      this._title = 'Medição do pop ' +  popId + ' para os demais pops ao longo do tempo'
+      if(this._services == null) {
+        this._yAxisLabel = 'Pop de chegada';
+        this._title = 'Medição do pop ' +  popId + ' para os demais pops ao longo do tempo'        
+      } else {
+        this._yAxisLabel = 'Serviços';
+        this._title = 'Medição do pop ' +  popId + ' para os demais serviços ao longo do tempo'
+      }
     } else {
       this._capitalId = 0;
-      this._xAxisLabel = 'Pop de chegada'
-      this._yAxisLabel = 'Pop de saída';
-      this._title = 'Medição entre pops'
+      if(this._services == null) {
+        this._xAxisLabel = 'Pop de chegada'
+        this._yAxisLabel = 'Pop de saída';
+        this._title = 'Medição entre pops'        
+      } else {
+        this._xAxisLabel = 'Serviço'
+        this._yAxisLabel = 'Pop';
+        this._title = 'Medição de pops e serviços'  
+      }
     }
 
     this._svgCanvas.select('.axis--x--label')

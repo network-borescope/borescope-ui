@@ -543,11 +543,12 @@ export class HomeComponent implements AfterViewInit {
       const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
       const data = JSON.parse(res).result;
       
-      this.net.drawChart(data, capitals, clicked, selectedParam != 77);
+      this.net.drawChart(data, capitals, clicked, selectedParam != 77, dataType);
     } else {
       const services = this.global.getGlobal("services").value["default"];
-      const dummyData = this.global.getGlobal("dummy_data").value;
-      console.log(dummyData)
+      const data = this.global.getGlobal("dummy_data").value;
+
+      this.net.drawChart(data, capitals, clicked, selectedParam != 77, dataType, services);
     }
   }
 

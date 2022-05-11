@@ -65,9 +65,9 @@ export class NetworkComponent implements OnInit {
     };
   }
 
-  drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false) {
+  drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false, dataType: string, services: any = null) {
     const capitalId = clicked;
-    this.netChart.setData(data, capitals, clicked >= 0, invert, capitalId);
+    this.netChart.setData(data, capitals, clicked >= 0, invert, capitalId, services);
     this.netChart.render();
     this.timeseriesChart.setCapitals(capitals);
   }
