@@ -71,6 +71,16 @@ export class Network {
   }
 
   render() {
+    this._svgCanvas.remove();
+
+    const tips = document.querySelectorAll('.d3-tip');
+
+    tips.forEach(tip => {
+      tip.remove();
+    });
+
+    this.initSvgAndGroups();
+    this.initScalesAndAxes();
     this.updateScales();
     this.updateAxes();
     this.updateLabelsAndTitle()
