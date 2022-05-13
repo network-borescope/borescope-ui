@@ -76,7 +76,6 @@ export class NetworkComponent implements OnInit {
     for(let i = 0; i < data.length; i++) {
        this.updateUsedColors(true,this.drawColors[i]);
     }
-    console.log(dates)
     this.timeseriesChart.clear();
     this.timeseriesChart.updateData(data, this.drawColors);
     this.timeseriesChart.setLabels(dates);

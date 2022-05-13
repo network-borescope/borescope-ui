@@ -3,7 +3,7 @@ import * as capitals from '../../assets/capitais.json';
 import * as scatterglParams from '../../assets/parameters.json';
 import * as services from '../../assets/servicos.json';
 import * as dummyData from '../../assets/dummy_data.json';
-
+import * as dummyTime from '../../assets/dummy_time.json';
 @Injectable({
   providedIn: 'root'
 })
@@ -266,6 +266,14 @@ export class GlobalService {
       value: dummyData["dummyData"]
     }
     this.setGlobal(dummy_data);
+    /**
+     * Guarda dummy data para heatmatrix pop x servicos
+     */
+         const dummy_time =  {
+          key: 'dummy_time',
+          value: dummyTime["dummyTime"]
+        }
+        this.setGlobal(dummy_time);
     /**
      * Guarda tipo selecionado popxpop ou popxservices
      */

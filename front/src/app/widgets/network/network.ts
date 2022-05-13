@@ -26,7 +26,7 @@ export class Network {
   protected _svgGroup: any = null;
 
   // margin object
-  protected _margin = { top: 40, right: 10, bottom: 50, left: 70 };
+  protected _margin = { top: 40, right: 10, bottom: 50, left: 120 };
 
   // svg width
   protected _width: number = 800;
@@ -162,20 +162,20 @@ export class Network {
   }
 
    updateScales() {
-    const ids = this._data.map( (d: any) => this.getId( d[0], 'pop' ));
-    const labelsOut = Array.from(new Set(ids));
+    const ids = this._data.map( (d: any) => (this._isTime && this._services != null) ? this.getId( d[0], 'services' ) : this.getId( d[0], 'pop' ));
+    let labelsOut = Array.from(new Set(ids));
 
     let labelsIn;
     if(this._services == null) {
       labelsIn = labelsOut;
     } else {
-      const services = this._data.map( (d: any) => this.getId( d[1], 'services' ));
+      const services = this._data.map( (d: any) => this.getId( d[0], 'services' ));
       labelsIn = Array.from(new Set(services));
     }
 
     if (this._isTime) {
       const ts = this._data.map( (d: any) => this.valToDate(d[1]) );
-      labelsIn = Array.from(new Set(ts));
+      labelsOut = Array.from(new Set(ts));
     }
 
     // @ts-ignore
@@ -222,8 +222,8 @@ export class Network {
             .attr("xlink:href", (d: any) => d["imagePath"])
             .attr("width", (d: any) => d["imageDim"][0]/2)
             .attr("height", (d: any) => d["imageDim"][1]/2)
-            .attr("x", -26)
-            .attr("y", -12)
+            .attr("x", (d: any) => -d["imageDim"][0]/2 - 15)
+            .attr("y", -8)
     }
   }
 
@@ -237,7 +237,7 @@ export class Network {
     this._svgCanvas.call(tip);
 
     const rects = this._svgGroup.selectAll(".rect_group").data([null]).join('g').attr('class', 'rect_group');
-
+    console.log(this._data)
     if(this._services == null) {
       rects.selectAll("rect")
            .data(this._data)
@@ -254,8 +254,8 @@ export class Network {
       rects.selectAll("rect")
            .data(this._data)
            .join("rect")
-           .attr("x", (d: any) => this._outScale(this.getId(d[0], 'pop')))
-           .attr("y", (d: any) => this._inScale(this._isTime ? this.valToDate( d[1] ) : this.getId(d[1], 'services')))
+           .attr("x", (d: any) => this._outScale(this._isTime ? this.valToDate( d[1]) : this.getId(d[0], 'pop')))
+           .attr("y", (d: any) => this._inScale(this._isTime ? this.getId(d[0], 'services' ) : this.getId(d[1], 'services')))
            .attr("width", this._outScale.bandwidth())
            .attr("height", this._inScale.bandwidth())
            .attr("fill", (d: any) => this.valToColor(d))
@@ -376,6 +376,7 @@ export class Network {
   }
 
   getId(id: number, type: string) {
+    console.log(id)
     if(type == 'pop') {
       return this._capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
     } else {

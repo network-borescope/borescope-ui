@@ -539,6 +539,7 @@ export class HomeComponent implements AfterViewInit {
     const clicked = this.global.getGlobal("clicked_element").value;
 
     const dataType = this.global.getGlobal("data_type").value;
+
     if(dataType == "popxpop") {
       const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
       const data = JSON.parse(res).result;
@@ -546,8 +547,12 @@ export class HomeComponent implements AfterViewInit {
       this.net.drawChart(data, capitals, clicked, selectedParam != 77, dataType);
     } else {
       const services = this.global.getGlobal("services").value["default"];
-      const data = this.global.getGlobal("dummy_data").value;
-
+      let data;
+      if(clicked == -1)  {
+        data = this.global.getGlobal("dummy_data").value;
+      } else {
+        data = this.global.getGlobal("dummy_time").value;
+      }
       this.net.drawChart(data, capitals, clicked, selectedParam != 77, dataType, services);
     }
   }
