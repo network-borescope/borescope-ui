@@ -93,7 +93,7 @@
 
 .scattergl-window {
   position: absolute;
-  top: 180px;
+  top: 129px;
   right: 532px;
   width: 516px;
   height: 410px !important;
@@ -102,7 +102,7 @@
 
 .network-window {
   position: absolute;
-  top: 180px;
+  top: 129px;
   right: 532px;
   width: 622px;
   height: 842px ​!important;
@@ -123,13 +123,11 @@
   
   .scattergl-window {
     width: 600px;
-    top: 180px;
     right: 620px;
     height: 463px !important;
   }
   .network-window {
     width: 740px;
-    top: 180px;
     right: 620px;
   }
 }
