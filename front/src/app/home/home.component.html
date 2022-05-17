@@ -35,7 +35,8 @@
     ></app-line-chart>
   </div>
 
-  <div ngDraggable class="widget network-window"
+  <div ngDraggable class="widget"
+  [class]="this.isHeatmatrixSelected() ? 'network-heatmatrix-window' : 'network-timeseries-window'"
   [style.z-index] = "this.isChartVisible('net') ? this.chartZindex('net') : '-10' "
   (started)="this.moving = 'net'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'net'">
     <app-network #appNetworkChart 

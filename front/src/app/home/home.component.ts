@@ -634,4 +634,8 @@ export class HomeComponent implements AfterViewInit {
   onHighlightRemoved() {
     this.net.removeHighlightHeatmatrix();
   }
+
+  isHeatmatrixSelected() {
+    return this.global.getGlobal("network_param").value > 0;
+  }
 }

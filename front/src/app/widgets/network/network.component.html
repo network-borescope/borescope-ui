@@ -1,6 +1,13 @@
 <div>
-    <div class="fill network-chart" [style.z-index]="this.chartDisplay()[0] ? 99 : -1" [style.opacity]="this.chartDisplay()[0] ? 1 : 0" #netChart></div>
-    <div class="fill timeseries-chart" [style.z-index]="this.chartDisplay()[1] ? 99 : -1" [style.opacity]="this.chartDisplay()[1] ? 1 : 0">
+    <div class="fill network-chart" 
+    [style.z-index]="this.chartDisplay()[0] ? 99 : -1" 
+    [style.opacity]="this.chartDisplay()[0] ? 1 : 0"
+    [style.display]="this.chartDisplay()[0] ? 'inline-block' : 'none'" #netChart>
+    </div>
+    <div class="fill timeseries-chart" 
+    [style.z-index]="this.chartDisplay()[1] ? 99 : -1"
+    [style.opacity]="this.chartDisplay()[1] ? 1 : 0"
+    [style.display]="this.chartDisplay()[1] ? 'inline-block' : 'none'">
         <canvas style="padding-bottom: 10px; width: 100%; height: 100%;" #timeseriesChart></canvas>
     </div>
     <div style="display: flex; margin-top: 27px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
