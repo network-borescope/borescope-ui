@@ -237,7 +237,6 @@ export class Network {
     this._svgCanvas.call(tip);
 
     const rects = this._svgGroup.selectAll(".rect_group").data([null]).join('g').attr('class', 'rect_group');
-    console.log(this._data)
     if(this._services == null) {
       rects.selectAll("rect")
            .data(this._data)
@@ -376,7 +375,6 @@ export class Network {
   }
 
   getId(id: number, type: string) {
-    console.log(id)
     if(type == 'pop') {
       return this._capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
     } else {
