@@ -190,7 +190,6 @@ export class NetworkComponent implements OnInit {
     } else {
       this.selectedItems.push(event.cod);
     };
-    console.log(this.selectedItems)
     this.onItemSelected.emit(this.selectedItems);
   }
   

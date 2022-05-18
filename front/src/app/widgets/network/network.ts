@@ -518,7 +518,6 @@ export class Timeseries {
   }
 
   getId(id: number, type: string) {
-    console.log(id)
     if(type == 'pop') {
       return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
     } else {
