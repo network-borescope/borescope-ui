@@ -36,7 +36,7 @@
               "./node_modules/leaflet-draw/dist/leaflet.draw.css",
               "./node_modules/angular2-draggable/css/resizable.min.css",
               "./node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "./node_modules/ng-multiselect-dropdown/themes/ng-multiselect-dropdown.theme.scss",
+              "./src/ng-multiselect-dropdown.theme.scss",
               "src/rnp/vendors-1.1.1.css",
               "src/rnp/guideline-1.1.1.css",
               "src/styles.css"

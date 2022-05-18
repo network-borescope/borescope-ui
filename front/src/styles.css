@@ -206,7 +206,9 @@ html, body {
 
 .custom-dropdown-place .multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
   line-height: 0px !important;
+  padding: 13px 8px !important;
 }
+
 .custom-dropdown-rotation .multiselect-dropdown .dropdown-btn .dropdown-multiselect--active .dropdown-multiselect__caret {
   transform: rotateZ(0deg) !important;
 }
@@ -218,5 +220,10 @@ html, body {
 
   .custom-font-size .multiselect-dropdown .dropdown-btn {
     font-size: 11px !important;
+  }
+
+  .custom-dropdown-place .multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
+    line-height: 0px !important;
+    padding: 4px 8px !important;
   }
 }
