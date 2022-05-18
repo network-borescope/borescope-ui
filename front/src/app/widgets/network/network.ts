@@ -404,6 +404,8 @@ export class Timeseries {
   private canvas: HTMLCanvasElement;
   // capitals
   private capitals: any = null;
+  // services
+  private services: any = null;
   // labels 
   private labels: any = null;
   private data: any = null;
@@ -485,18 +487,22 @@ export class Timeseries {
 
   //Modifica as configurações globais para os títulos
   setTitle(id: number) {
-    this.chart.options.plugins.legend.title.text = this.getId(id);
+    this.chart.options.plugins.legend.title.text = this.getId(id, 'pop');
   }
 
   setCapitals(capitals: any) {
     this.capitals = capitals;
   }
 
-  updateData(data: any, colorList: any) {
+  setServices(services: any) {
+    this.services = services;
+  }
+
+  updateData(data: any, colorList: any, type: string) {
     const datasets = this.chart.config.data.datasets;
     for(let i = 0; i < data.length; i++) {
       const newData = {
-        label: this.getId(data[i][0]),
+        label: this.getId(data[i][0], type),
         data: data[i][1],
         backgroundColor: colorList[i],
         borderColor: colorList[i],
@@ -511,8 +517,12 @@ export class Timeseries {
       this.chart.config.data.labels = labels;
   }
 
-  getId(id: number) {
+  getId(id: number, type: string) {
+    if(type == 'pop') {
       return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+    } else {
+      return this.services.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+    }
   }
 
   clear() {

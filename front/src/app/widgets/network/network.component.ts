@@ -51,15 +51,18 @@ export class NetworkComponent implements OnInit {
     const capitalId = clicked;
     this.netChart.setData(data, capitals, clicked >= 0, invert, capitalId, services);
     this.netChart.render();
-    this.timeseriesChart.setCapitals(capitals);
   }
 
-  updateTimeseriesData(data: any, dates: any, capitals: any, clicked: number) {
+  updateTimeseriesData(data: any, dates: any, clicked: number, services: any) {
+    this.timeseriesChart.setCapitals(this.global.getGlobal('state_capitals').value.default);
+    this.timeseriesChart.setServices(this.global.getGlobal("services").value.default);
     for(let i = 0; i < data.length; i++) {
        this.updateUsedColors(true,this.drawColors[i]);
     }
     this.timeseriesChart.clear();
-    this.timeseriesChart.updateData(data, this.drawColors);
+    let type;
+    this.isPopSelected() ? type = 'pop' : 'service'
+    this.timeseriesChart.updateData(data, this.drawColors, type);
     this.timeseriesChart.setLabels(dates);
     this.timeseriesChart.setTitle(clicked);
     this.timeseriesChart.render();
@@ -200,6 +203,11 @@ export class NetworkComponent implements OnInit {
 
   isCapitalSelected() {
     return (this.global.getGlobal("clicked_element").value > 0)
+  }
+
+
+  isPopSelected() {
+    return (this.global.getGlobal("data_type").value == 'popxpop')
   }
   
   clearTimeseries() {

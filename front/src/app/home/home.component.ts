@@ -546,7 +546,7 @@ export class HomeComponent implements AfterViewInit {
       
       this.net.drawChart(data, capitals, clicked, selectedParam != 77, dataType);
     } else {
-      const services = this.global.getGlobal("services").value["default"];
+      const services = this.global.getGlobal("services").value.default;
       let data;
       if(clicked == -1)  {
         data = this.global.getGlobal("dummy_data").value;
@@ -561,15 +561,21 @@ export class HomeComponent implements AfterViewInit {
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
 
-
     const selectedParam = parseInt(this.global.getGlobal('heatmatrix_param').value);
     const selectedValue = this.global.getGlobal('heatmatrix_value').value;
-    const capitals = this.global.getGlobal('state_capitals').value.default;
-
     const clicked = this.global.getGlobal("clicked_element").value;
 
-    const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
-    const data = JSON.parse(res).result;
+    const dataType = this.global.getGlobal("data_type").value;
+
+    let data;
+    let services;
+    if(dataType == "popxpop") {
+      const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
+      data = JSON.parse(res).result;
+    } else {
+      data = this.global.getGlobal("dummy_time").value;
+    }
+
     const selectedData:any = [];
     const datetimeArray:any = [];
     for(let i = 0; i < event.length; i++) {
@@ -587,7 +593,7 @@ export class HomeComponent implements AfterViewInit {
       label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })
       datetimeArray.push(label);
     }
-    this.net.updateTimeseriesData(selectedData, datetimeArray, capitals, clicked);
+    this.net.updateTimeseriesData(selectedData, datetimeArray, clicked, services);
   }
 
   async updateScattergl(event: any) {
