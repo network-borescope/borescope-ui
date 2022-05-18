@@ -93,7 +93,7 @@
         <div *ngIf="this.isCapitalSelected()" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="this.isTimeseriesSelected()"
-            [placeholder]="'Estados'"
+            [placeholder]="this.multiSelectPlaceholder"
             [settings]="this.dropdownSettings"
             [data]="this.dropdownList"
             (onSelect)="this.onCapitalSelect($event, true)"

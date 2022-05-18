@@ -37,32 +37,14 @@ export class NetworkComponent implements OnInit {
   //multiselect
   public dropdownList: any = [];
   public dropdownSettings: any = {};
+  public multiSelectPlaceholder = 'Estados';
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
   ngOnInit(): void {
     this.netChart = new Network(this.netDiv.nativeElement);
     this.timeseriesChart = new Timeseries(this.timeseriesDiv.nativeElement);
-    //setando as configuracoes do multiselect
-    const capitals = this.global.getGlobal("state_capitals").value.default;
-    for(let i = 0; i < capitals.length; i++) {
-      let id = capitals[i].id.toUpperCase();
-      let cod = capitals[i].cod;
-      let obj:any = {};
-      obj['estado'] = id;
-      obj['cod'] = cod;
-      this.dropdownList.push(obj);
-    };
-    this.dropdownSettings = {
-      singleSelection: false,
-      limitSelection: 10,
-      idField: 'cod',
-      textField: 'estado',
-      enableCheckAll: false,
-      unSelectAll: false,
-      itemsShowLimit: 0,
-      allowSearchFilter: false
-    };
+    this.setMultipleSelectConfiguration('popxpop');
   }
 
   drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false, dataType: string, services: any = null) {
@@ -113,6 +95,7 @@ export class NetworkComponent implements OnInit {
       value: event.target.value
     };
     this.global.setGlobal(data_type);
+    this.setMultipleSelectConfiguration(event.target.value);
     this.heatMatrixParamChanged.emit();
     if(!this.isTimeseriesSelected()) { 
       this.onCapitalSelected.emit(this.selectedCapitals);
@@ -132,6 +115,56 @@ export class NetworkComponent implements OnInit {
         value: 0
       };
       this.global.setGlobal(network_param);  
+    }
+  }
+
+  setMultipleSelectConfiguration(type: string) {
+    //multiselect
+    this.dropdownList = [];
+    this.dropdownSettings = {};
+    //setando as configuracoes do multiselect
+    if(type == 'popxpop') {
+      const capitals = this.global.getGlobal("state_capitals").value.default;
+      this.multiSelectPlaceholder = 'Estados';
+      for(let i = 0; i < capitals.length; i++) {
+        let id = capitals[i].id.toUpperCase();
+        let cod = capitals[i].cod;
+        let obj:any = {};
+        obj['estado'] = id;
+        obj['cod'] = cod;
+        this.dropdownList.push(obj);
+      };
+      this.dropdownSettings = {
+        singleSelection: false,
+        limitSelection: 10,
+        idField: 'cod',
+        textField: 'estado',
+        enableCheckAll: false,
+        unSelectAll: false,
+        itemsShowLimit: 0,
+        allowSearchFilter: false
+      };
+    } else {
+      const services = this.global.getGlobal("services").value.default;
+      this.multiSelectPlaceholder = 'Serviços';
+      for(let i = 0; i < services.length; i++) {
+        let id = services[i].id.toUpperCase();
+        let cod = services[i].cod;
+        let obj:any = {};
+        obj['estado'] = id;
+        obj['cod'] = cod;
+        this.dropdownList.push(obj);
+      };  
+      this.dropdownSettings = {
+        singleSelection: false,
+        limitSelection: 10,
+        idField: 'cod',
+        textField: 'estado',
+        enableCheckAll: false,
+        unSelectAll: false,
+        itemsShowLimit: 0,
+        allowSearchFilter: false
+      };    
     }
   }
 
