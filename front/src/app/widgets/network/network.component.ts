@@ -62,9 +62,9 @@ export class NetworkComponent implements OnInit {
     }
     this.timeseriesChart.clear();
     let type;
-    this.isPopSelected() ? type = 'pop' : 'service'
+    this.isPopSelected() ? type = 'Pop de chegada' : type = 'Serviço';
     this.timeseriesChart.updateData(data, this.drawColors, type);
-    this.timeseriesChart.setLabels(dates);
+    this.timeseriesChart.setLabels(dates, type);
     this.timeseriesChart.setTitle(clicked);
     this.timeseriesChart.render();
   }

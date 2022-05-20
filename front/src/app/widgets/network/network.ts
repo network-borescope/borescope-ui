@@ -475,8 +475,7 @@ export class Timeseries {
           y: {
             display: true,
             title: {
-              display: true,
-              text: 'Pop de chegada'
+              display: true
             }
           }
         }
@@ -487,7 +486,7 @@ export class Timeseries {
 
   //Modifica as configurações globais para os títulos
   setTitle(id: number) {
-    this.chart.options.plugins.legend.title.text = this.getId(id, 'pop');
+    this.chart.options.plugins.legend.title.text = this.getId(id, 'Pop de chegada');
   }
 
   setCapitals(capitals: any) {
@@ -513,12 +512,13 @@ export class Timeseries {
     this.chart.update();
   }
 
-  setLabels(labels: any) {
+  setLabels(labels: any, type: string) {
       this.chart.config.data.labels = labels;
+      this.chart.config.options.scales.y.title.text = type;
   }
 
   getId(id: number, type: string) {
-    if(type == 'pop') {
+    if(type == 'Pop de chegada') {
       return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
     } else {
       return this.services.filter((c: any) => c.cod === id)[0].id.toUpperCase();
@@ -528,6 +528,7 @@ export class Timeseries {
   clear() {
     this.chart.data.labels = [];
     this.chart.data.datasets = [];
+    this.chart.config.options.scales.y.title.text = '';
     this.chart.update();
   }
 
