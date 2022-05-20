@@ -54,7 +54,7 @@ export class Network {
 
   constructor(chartDiv: HTMLElement) {
     this._chartDiv = chartDiv;
-    console.log(this._chartDiv)
+
     this.initSvgAndGroups();
     this.initScalesAndAxes();
 
@@ -71,15 +71,12 @@ export class Network {
   }
 
   render() {
-    this._svgCanvas.remove();
     const tips = document.querySelectorAll('.d3-tip');
 
     tips.forEach(tip => {
       tip.remove();
     });
 
-    this.initSvgAndGroups();
-    this.initScalesAndAxes();
     this.updateScales();
     this.updateAxes();
     this.updateLabelsAndTitle()
