@@ -103,7 +103,7 @@ export class NetworkComponent implements OnInit {
     this.selectedItems = [];
     this.selectedItemsRoot = [];
     this.timeseriesChart.clear();
-    this.heatMatrixParamChanged.emit();
+    this.heatMatrixValueChanged.emit();
   }
 
   onChartChange(event: any) {
@@ -120,7 +120,6 @@ export class NetworkComponent implements OnInit {
       };
       this.global.setGlobal(network_param);  
     }
-    this.heatMatrixValueChanged.emit();
   }
 
   setMultipleSelectConfiguration(type: string) {
