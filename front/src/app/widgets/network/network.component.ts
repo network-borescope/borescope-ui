@@ -120,6 +120,7 @@ export class NetworkComponent implements OnInit {
       };
       this.global.setGlobal(network_param);  
     }
+    this.heatMatrixValueChanged.emit();
   }
 
   setMultipleSelectConfiguration(type: string) {
