@@ -46,13 +46,16 @@ export class ApiService {
     // IPs address
     const address = this.files_url + '/dynamic_ips.js'
     this.utils.showTrace("getIPs", {});
-
-    // Return a new promise.
-    const response = await fetch(address, {
-      method: 'GET',
-    });
-
-    return await response.json();
+    
+    try {
+      // Return a new promise.
+      const response = await fetch(address, {
+        method: 'GET',
+      });
+      return await response.json();
+    } catch (e) {
+       return [];
+    }
   }
 
   async getConfig() {

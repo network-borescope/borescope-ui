@@ -96,7 +96,6 @@ export class Network {
     // dimensions using margins convention
     this._width = this._chartDiv.clientWidth - this._margin.left - this._margin.right;
     this._height = this._chartDiv.clientHeight - this._margin.top - this._margin.bottom;
-    console.log(this._chartDiv)
     // creates the new canvas element
     this._svgCanvas = d3.select(this._chartDiv)
         .append('svg')
