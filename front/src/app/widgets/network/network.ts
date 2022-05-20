@@ -54,7 +54,7 @@ export class Network {
 
   constructor(chartDiv: HTMLElement) {
     this._chartDiv = chartDiv;
-
+    console.log(this._chartDiv)
     this.initSvgAndGroups();
     this.initScalesAndAxes();
 
@@ -72,7 +72,6 @@ export class Network {
 
   render() {
     this._svgCanvas.remove();
-
     const tips = document.querySelectorAll('.d3-tip');
 
     tips.forEach(tip => {
@@ -100,7 +99,7 @@ export class Network {
     // dimensions using margins convention
     this._width = this._chartDiv.clientWidth - this._margin.left - this._margin.right;
     this._height = this._chartDiv.clientHeight - this._margin.top - this._margin.bottom;
-
+    console.log(this._chartDiv)
     // creates the new canvas element
     this._svgCanvas = d3.select(this._chartDiv)
         .append('svg')

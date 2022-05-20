@@ -85,7 +85,7 @@
             </select>        
         </div>
         <div id="chart-select-box" class="chart-select">
-            <select name="chart-selector" class="network-select" (change)="this.onChartChange($event)">
+            <select name="chart-selector" id="chart-select-options" class="network-select" (change)="this.onChartChange($event)">
                 <option value="heatmatrix">Heatmatrix</option>
                 <option value="timeseries" [disabled]="!this.isCapitalSelected()">Time Series</option>
             </select>       

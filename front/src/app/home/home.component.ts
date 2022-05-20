@@ -349,6 +349,7 @@ export class HomeComponent implements AfterViewInit {
    * reseta a timeseries quando o botão de reset do zoom é clicado
    */
   onTimeseriesReset() {
+    (document.getElementById('chart-select-options') as HTMLInputElement).value = "heatmatrix";
     this.net.clearTimeseries();
   }
   /**
@@ -539,7 +540,6 @@ export class HomeComponent implements AfterViewInit {
     const clicked = this.global.getGlobal("clicked_element").value;
 
     const dataType = this.global.getGlobal("data_type").value;
-
     if(dataType == "popxpop") {
       const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
       const data = JSON.parse(res).result;

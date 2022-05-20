@@ -100,9 +100,7 @@ export class NetworkComponent implements OnInit {
     };
     this.global.setGlobal(data_type);
     this.setMultipleSelectConfiguration(event.target.value);
-    this.selectedItems = [];
-    this.selectedItemsRoot = [];
-    this.timeseriesChart.clear();
+    this.clearTimeseries();
     this.heatMatrixValueChanged.emit();
   }
 
@@ -113,6 +111,7 @@ export class NetworkComponent implements OnInit {
         value: 1
       };
       this.global.setGlobal(network_param);
+      this.heatMatrixValueChanged.emit();
     } else {
       const network_param = {
         key: "network_param",
@@ -213,6 +212,7 @@ export class NetworkComponent implements OnInit {
   
   clearTimeseries() {
     this.selectedItems = [];
+    this.selectedItemsRoot = [];
     this.timeseriesChart.clear();
   }
 
