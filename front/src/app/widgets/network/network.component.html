@@ -17,7 +17,7 @@
                 <option value="popxservice">Pop x Serviços</option>
             </select>
         </div>
-        <div id="code-select-box" class="code-select">
+        <div *ngIf="this.isPopSelected()" id="code-select-box" class="code-select">
             <select name="code" class="network-select" (change)="this.onParamChange($event)" [disabled]="this.networkChange">
                 <optgroup label="Atraso e perda">
                     <option value="10">Failures</option>
@@ -77,7 +77,7 @@
                 </optgroup>
             </select>
         </div>
-        <div id="codfield-select-box" class="codfield-select">
+        <div *ngIf="this.isPopSelected()" id="codfield-select-box" class="codfield-select">
             <select name="codfield" class="network-select" (change)="this.onValueChange($event)">
                 <option value="h_avg">Average</option>
                 <option value="h_max">Max</option>
