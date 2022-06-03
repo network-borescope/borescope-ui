@@ -571,7 +571,8 @@ export class HomeComponent implements AfterViewInit {
         const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
         data = JSON.parse(res).result;
       } else {
-        data = this.global.getGlobal("dummy_time").value;
+        const res = await this.api.requestHeatmatrix('rnp_services', 'havg', 1647388800, 1652227080, clicked);
+        data = JSON.parse(res).result;
       }
   
       const selectedData:any = [];
