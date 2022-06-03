@@ -59,7 +59,7 @@ export class QueryRequest {
 
 export class MatrixRequest {
   'what': string;
-  'metric': number;
+  'metric': any;
   'field': string;
   'start': number;
   'end': number;

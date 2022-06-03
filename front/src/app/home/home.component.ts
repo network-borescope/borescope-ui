@@ -547,12 +547,9 @@ export class HomeComponent implements AfterViewInit {
       this.net.drawChart(data, capitals, clicked, selectedParam != 77, dataType);
     } else {
       const services = this.global.getGlobal("services").value.default;
-      let data;
-      if(clicked == -1)  {
-        data = this.global.getGlobal("dummy_data").value;
-      } else {
-        data = this.global.getGlobal("dummy_time").value;
-      }
+      const res = await this.api.requestHeatmatrix('rnp_services', 'havg', 1647388800, 1652227080, clicked);
+      const data = JSON.parse(res).result;
+
       this.net.drawChart(data, capitals, clicked, selectedParam != 77, dataType, services);
     }
   }

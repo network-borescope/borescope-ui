@@ -260,9 +260,9 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor a heatmatrix.
    */
-  async requestHeatmatrix(metric: number, field: string, t0: number, t1: number, clicked: number) {
+  async requestHeatmatrix(metric: any, field: string, t0: number, t1: number, clicked: number) {
     let query = new MatrixRequest();
-
+    
     if ( clicked >= 0 ) {
       query['what'] = "timecolumns";
       // @ts-ignore
@@ -270,7 +270,14 @@ export class ApiService {
       // @ts-ignore
       // query['ncols'] = 25;
     }
-    query['metric'] = metric;
+
+    if(metric === 'rnp_services') {
+      // @ts-ignore
+      query['from'] = metric;
+    } else {
+      query['metric'] = metric;
+    }
+
     query['field'] = field;
     query['start'] = t0;
     query['end'] = t1;
