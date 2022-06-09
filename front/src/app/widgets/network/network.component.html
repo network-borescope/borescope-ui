@@ -87,7 +87,7 @@
         <div id="chart-select-box" class="chart-select">
             <select name="chart-selector" id="chart-select-options" class="network-select" (change)="this.onChartChange($event)">
                 <option value="heatmatrix">Heatmatrix</option>
-                <option value="timeseries" [disabled]="!this.isCapitalSelected()">Time Series</option>
+                <option *ngIf="this.isCapitalSelected()" value="timeseries">Time Series</option>
             </select>       
         </div>
         <div *ngIf="this.isCapitalSelected()" id="chart-select-box" class="chart-select">

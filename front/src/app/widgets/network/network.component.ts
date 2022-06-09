@@ -205,7 +205,6 @@ export class NetworkComponent implements OnInit {
     return (this.global.getGlobal("clicked_element").value > 0)
   }
 
-
   isPopSelected() {
     return (this.global.getGlobal("data_type").value == 'popxpop')
   }

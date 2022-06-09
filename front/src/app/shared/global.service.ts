@@ -175,7 +175,23 @@ export class GlobalService {
       value: 'average'
     };
     this.setGlobal(line_selected_params_value);
-
+    /**
+     * Guarda a seleção de from do functions chart.
+     */
+     const functions_value = {
+      key: "functions_value",
+      value: "functions_params.value[0].id"
+    };
+    this.setGlobal(functions_value);
+    
+    /**
+     * Guarda a seleção de average, max, min selecionado no functions chart.
+     */   
+    const functions_param = {
+      key: "functions_param",
+      value: 'cdf'
+    };
+    this.setGlobal(functions_param);
     /**
      * Guarda a seleção dos parametros para a heatmatrix
      */       
