@@ -103,13 +103,13 @@
 .network-heatmatrix-window {
   position: absolute;
   top: 129px;
-  right: 532px;
+  right: 546px;
   width: 622px;
   height: 778px;
   z-index: -10;
 }
 
-.network-timeseries-window {
+.network-timeseries-window, .functions-chart-window {
   position: absolute;
   top: 129px;
   right: 532px;
@@ -117,6 +117,12 @@
   height: 470px;
   z-index: -10;
 }
+
+.functions-chart-window {
+  right: 10px !important;
+  top: 174px !important;
+}
+
 
 @media screen and (min-width: 1024px) {
   .bar-chart-window {
@@ -137,6 +143,6 @@
   }
   .network-heatmatrix-window {
     width: 740px;
-    right: 620px;
+    right: 636px;
   }
 }

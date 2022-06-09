@@ -22,6 +22,7 @@ import { AlertsComponent } from './widgets/alerts/alerts.component';
 import { NetworkComponent } from './widgets/network/network.component';
 import { TimeBarComponent } from './bars/time-bar/time-bar.component';
 import { ScatterglComponent } from './widgets/scattergl/scattergl.component';
+import { FunctionsChartComponent } from './functions-chart/functions-chart.component';
 
 
 
@@ -38,7 +39,8 @@ import { ScatterglComponent } from './widgets/scattergl/scattergl.component';
     AlertsComponent,
     NetworkComponent,
     TimeBarComponent,
-    ScatterglComponent
+    ScatterglComponent,
+    FunctionsChartComponent
   ],
   imports: [
     BrowserModule,
