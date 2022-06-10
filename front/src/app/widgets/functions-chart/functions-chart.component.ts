@@ -49,7 +49,6 @@ export class FunctionsChartComponent implements OnInit {
     for(let i = 0; i < data.length; i++) {
        this.updateUsedColors(true,this.drawColors[i]);
     }
-    this.functionsChart.clear();
     const selectedParam = this.global.getGlobal('functions_param').value;
     this.functionsChart.updateData(data, this.drawColors, selectedParam);
     this.functionsChart.setTitle(clicked);
@@ -62,7 +61,7 @@ export class FunctionsChartComponent implements OnInit {
       key: "functions_param",
       value: event.target.value
     };
-    
+    this.functionsChart.clear();
     this.global.setGlobal(functions_param);
     this.functionsParamChanged.emit([]);
   }
@@ -72,6 +71,7 @@ export class FunctionsChartComponent implements OnInit {
       key: "functions_value",
       value: event.target.value,
     };
+    this.functionsChart.clear();
     this.global.setGlobal(functions_value);
     this.functionsValueChanged.emit([]);
   }
@@ -84,6 +84,7 @@ export class FunctionsChartComponent implements OnInit {
     } else {
       this.selectedItems.push(event.cod);
     };
+    console.log(this.selectedItems)
     this.onItemSelected.emit(this.selectedItems);
   }
   
@@ -116,6 +117,10 @@ export class FunctionsChartComponent implements OnInit {
     
   isCapitalSelected() {
     return (this.global.getGlobal("clicked_element").value > 0)
+  }
+
+  clear() {
+    this.functionsChart.clear();
   }
 
   clearSeries() {
