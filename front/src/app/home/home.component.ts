@@ -358,6 +358,11 @@ export class HomeComponent implements AfterViewInit {
     (document.getElementById('chart-select-options') as HTMLInputElement).value = "heatmatrix";
     this.net.clearTimeseries();
   }
+
+  onFunctionsChartReset() {
+    (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value = "all";
+    this.func.clearSeries();
+  }
   /**
    * Atualiza o período de tempo ativo das visualizações
    */

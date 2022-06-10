@@ -180,7 +180,8 @@ export class GlobalService {
      */
      const functions_value = {
       key: "functions_value",
-      service: ""
+      service: 0,
+      value: "all"
     };
     this.setGlobal(functions_value);
     

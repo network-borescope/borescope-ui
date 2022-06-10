@@ -70,7 +70,7 @@ export class FunctionsChartComponent implements OnInit {
   onValueChange(event: any) {
     const functions_value = {
       key: "functions_value",
-      pop: !this.isCapitalSelected() ? "" : this.global.getGlobal("clicked_element").value,
+      value: event.target.value,
       services: this.selectedServices
     };
     this.global.setGlobal(functions_value);
@@ -135,6 +135,12 @@ export class FunctionsChartComponent implements OnInit {
     else {
       this.usedColors = this.usedColors.filter( (d: string) => d !== color );
     }
+  }
+
+  shouldShowServices() {
+    const dataType = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
+    if(dataType == "single" || dataType == "allpops") return true;
+    else return false;
   }
 
 }
