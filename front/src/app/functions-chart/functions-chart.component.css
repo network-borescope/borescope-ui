@@ -8,11 +8,19 @@
     width: 215px;
     margin-top: 7px;
     margin-left: 17px;
+    font-size: 9px;
 }
 
 .model-select {
     width: 72px;
     margin-top: 7px;
     margin-left: 17px;
+    font-size: 9px;
 }
 
+.chart-select {
+    width: 97px;
+    margin-top: 7px;
+    margin-left: 17px;
+    font-size: 9px;
+}

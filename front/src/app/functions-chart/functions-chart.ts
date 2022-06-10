@@ -22,7 +22,7 @@ export class Functionschart {
       if (this.canvas === undefined) {
         return;
       }
-  
+      
       //Registra os elementos utilizados pelo grafico
       Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale, Legend, Tooltip);
       Chart.defaults.animation = false;
