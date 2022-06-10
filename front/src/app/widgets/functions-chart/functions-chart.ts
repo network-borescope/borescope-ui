@@ -96,7 +96,7 @@ export class Functionschart {
     setServices(services: any) {
       this.services = services;
     }
-  
+
     updateData(data: any, colorList: any, param: string) {
       const datasets = this.chart.config.data.datasets;
       for(let i = 0; i < data.length; i++) {
@@ -124,7 +124,6 @@ export class Functionschart {
     clear() {
       this.chart.data.labels = [];
       this.chart.data.datasets = [];
-      this.chart.config.options.scales.y.title.text = '';
       this.chart.update();
     }
   
