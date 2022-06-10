@@ -14,8 +14,8 @@ export class FunctionsChartComponent implements OnInit {
   // referência para o div do grafico
   @ViewChild("functionsChart", { static: true }) private functionsDiv!: ElementRef;
 
-  @Output() functionsParamChanged = new EventEmitter<number>();
-  @Output() functionsValueChanged = new EventEmitter<number>();
+  @Output() functionsParamChanged = new EventEmitter<any>();
+  @Output() functionsValueChanged = new EventEmitter<any>();
   @Output() onItemSelected = new EventEmitter<any>();
 
   constructor(public global: GlobalService, public util: UtilService) { }
@@ -50,8 +50,8 @@ export class FunctionsChartComponent implements OnInit {
        this.updateUsedColors(true,this.drawColors[i]);
     }
     this.functionsChart.clear();
-    this.functionsChart.updateData(data, this.drawColors);
-    this.functionsChart.setLabels();
+    const selectedParam = this.global.getGlobal('functions_param').value;
+    this.functionsChart.updateData(data, this.drawColors, selectedParam);
     this.functionsChart.setTitle(clicked);
     this.functionsChart.render();
   }
@@ -64,17 +64,16 @@ export class FunctionsChartComponent implements OnInit {
     };
     
     this.global.setGlobal(functions_param);
-    this.functionsParamChanged.emit();
+    this.functionsParamChanged.emit([]);
   }
 
   onValueChange(event: any) {
     const functions_value = {
       key: "functions_value",
       value: event.target.value,
-      services: this.selectedServices
     };
     this.global.setGlobal(functions_value);
-    this.functionsValueChanged.emit();
+    this.functionsValueChanged.emit([]);
   }
 
   onItemSelect(event: any, added: boolean) {

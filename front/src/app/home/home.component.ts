@@ -104,6 +104,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     this.updateHeatmatrix();
+    this.updateFunctionsChart([]);
   }
 
   /**
@@ -603,6 +604,7 @@ export class HomeComponent implements AfterViewInit {
         label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })
         datetimeArray.push(label);
       }
+      console.log(selectedData)
       this.net.updateTimeseriesData(selectedData, datetimeArray, clicked);
     }
   }
@@ -612,17 +614,14 @@ export class HomeComponent implements AfterViewInit {
     const tsT1 = 1652227080;
 
     const selectedParam = this.global.getGlobal('functions_param').value;
-    const selectedValue = this.global.getGlobal('functions_value').service;
     const clicked = this.global.getGlobal("clicked_element").value;
-
-    const res = await this.api.requestFunctions(10, 'cdf',  tsT0, tsT1, clicked);
-    
-    console.log(res)
 
     if(event.length > 0) {
   
       const selectedData:any = [];
       for(let i = 0; i < event.length; i++) {
+        const res = await this.api.requestFunctions(event[i], selectedParam,  tsT0, tsT1, clicked);
+
         selectedData[i] = [event[i],[]];
   
         for(let j = 0; j < res.length; j++) {
@@ -631,8 +630,26 @@ export class HomeComponent implements AfterViewInit {
       }
       this.func.updateFunctionsChartData(selectedData, clicked);
     } else {
-      this.func.updateFunctionsChartData(res, clicked);
+      const res = await this.api.requestFunctions(0, selectedParam,  tsT0, tsT1, clicked);
+      const data = res.result['0']['0'];
+      const adaptedData = this.adaptData(data);
+      console.log(adaptedData)
+      this.func.updateFunctionsChartData(adaptedData, clicked);
     }
+  }
+  //DELETAR QUANDO DANIEL ARRUMAR O PROBLEMA
+  adaptData(data: any) {
+    const adaptedMs:any[] = [];
+    const adaptedValues: any[] = [];
+    for(let i = 0; i < data.length; i++) {
+      if (!adaptedMs.includes(data[i][0])) {
+        adaptedMs.push(data[i][0]);
+        adaptedValues.push({x: data[i][0], y: data[i][1]})
+      }
+    }
+
+    const totalData = [adaptedValues];
+    return totalData;
   }
 
   async updateScattergl(event: any) {

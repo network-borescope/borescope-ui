@@ -38,7 +38,7 @@ export class Functionschart {
             legend: {
               title: {
                 display: true,
-                text: 'Legend'
+                text: ''
               },
               display: true,
               position: "top",
@@ -64,6 +64,7 @@ export class Functionschart {
           },
           scales: {
             x: {
+              type: 'linear',
               display: true,
               title: {
                 display: true,
@@ -85,7 +86,7 @@ export class Functionschart {
   
     //Modifica as configurações globais para os títulos
     setTitle(id: number) {
-      this.chart.options.plugins.legend.title.text = this.getId(id, 'pop');
+      if(id >= 0 ) this.chart.options.plugins.legend.title.text = this.getId(id, 'pop');
     }
   
     setCapitals(capitals: any) {
@@ -96,12 +97,13 @@ export class Functionschart {
       this.services = services;
     }
   
-    updateData(data: any, colorList: any, type: string) {
+    updateData(data: any, colorList: any, param: string) {
       const datasets = this.chart.config.data.datasets;
       for(let i = 0; i < data.length; i++) {
+        console.log(data[i])
         const newData = {
-          label: this.getId(data[i][0], type),
-          data: data[i][1],
+          label: param.toUpperCase(),
+          data: data[i],
           backgroundColor: colorList[i],
           borderColor: colorList[i],
           fill: false
@@ -109,10 +111,6 @@ export class Functionschart {
         datasets.push(newData);
       }
       this.chart.update();
-    }
-  
-    setLabels(labels: any, type: string) {
-        this.chart.config.data.labels = labels;
     }
   
     getId(id: number, type: string) {

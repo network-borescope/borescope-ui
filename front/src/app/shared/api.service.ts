@@ -309,10 +309,12 @@ export class ApiService {
     if ( clicked >= 0 ) {
       query['pop'] = clicked;
     }
-    query['service'] = 30;
-    query['pop'] = 8;  
-    query['from'] = 'rnp_services'
-    query['what'] = 'statistics'
+
+    if ( service > 0) {
+      query['service'] = service;
+    }
+    query['from'] = 'rnp_services';
+    query['what'] = 'statistics';
     query['field'] = 'havg';
     query['model'] = model;
     query['start'] = t0;
