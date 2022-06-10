@@ -227,6 +227,8 @@ export class HomeComponent implements AfterViewInit {
 
     // TODO: atualizar a heat matrix com base no zoom
     this.updateHeatmatrix();
+
+    this.updateFunctionsChart([]);
   }
 
   /**
@@ -631,7 +633,9 @@ export class HomeComponent implements AfterViewInit {
       this.func.updateFunctionsChartData(selectedData, clicked);
     } else {
       const res = await this.api.requestFunctions(0, selectedParam,  tsT0, tsT1, clicked);
-      const data = res.result['0']['0'];
+      console.log(res)
+      let data;
+      (clicked >= 0) ? data = res.result[`${clicked}`]['0'] : data = res.result['0']['0'];
       const adaptedData = this.adaptData(data);
       console.log(adaptedData)
       this.func.updateFunctionsChartData(adaptedData, clicked);
