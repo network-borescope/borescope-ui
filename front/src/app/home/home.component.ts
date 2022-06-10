@@ -10,6 +10,7 @@ import { NetworkComponent } from 'src/app/widgets/network/network.component';
 import { AlertsComponent } from '../widgets/alerts/alerts.component';
 import { FiltersComponent } from 'src/app/widgets/filters/filters.component';
 import { ScatterglComponent } from 'src/app/widgets/scattergl/scattergl.component';
+import { FunctionsChartComponent } from 'src/app/widgets/functions-chart/functions-chart.component';
 
 import { NgxSpinnerService } from "ngx-spinner";
 
@@ -36,6 +37,8 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild("appFilters", { static: true }) private filters!: FiltersComponent;
   // referência para componente do scattergl
   @ViewChild("appScatterglChart", { static: true }) private scattergl!: ScatterglComponent;
+  // referência para o componente das functions
+  @ViewChild("appFunctionsChart", { static: true }) private func!: FunctionsChartComponent;
 
   public last: string = 'none';
   public moving: string = 'none';
@@ -73,6 +76,9 @@ export class HomeComponent implements AfterViewInit {
 
     // heat matrix
     this.updateHeatmatrix();
+
+    //functions chart
+    this.updateFunctionsChart([]);
   }
 
   /**
@@ -592,7 +598,35 @@ export class HomeComponent implements AfterViewInit {
         label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })
         datetimeArray.push(label);
       }
-      this.net.updateTimeseriesData(selectedData, datetimeArray, clicked, services);
+      this.net.updateTimeseriesData(selectedData, datetimeArray, clicked);
+    }
+  }
+
+  async updateFunctionsChart(event: any) {
+    const tsT0 = 1647388800;
+    const tsT1 = 1652227080;
+
+    const selectedParam = this.global.getGlobal('functions_param').value;
+    const selectedValue = this.global.getGlobal('functions_value').service;
+    const clicked = this.global.getGlobal("clicked_element").value;
+
+    const res = await this.api.requestFunctions(10, 'cdf',  tsT0, tsT1, clicked);
+    
+    console.log(res)
+
+    if(event.length > 0) {
+  
+      const selectedData:any = [];
+      for(let i = 0; i < event.length; i++) {
+        selectedData[i] = [event[i],[]];
+  
+        for(let j = 0; j < res.length; j++) {
+          if(res[j][0] == event[i]) selectedData[i][1].push(res[j][2])
+        }
+      }
+      this.func.updateFunctionsChartData(selectedData, clicked);
+    } else {
+      this.func.updateFunctionsChartData(res, clicked);
     }
   }
 

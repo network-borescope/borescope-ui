@@ -56,7 +56,7 @@ export class NetworkComponent implements OnInit {
     this.netChart.render();
   }
 
-  updateTimeseriesData(data: any, dates: any, clicked: number, services: any) {
+  updateTimeseriesData(data: any, dates: any, clicked: number) {
     for(let i = 0; i < data.length; i++) {
        this.updateUsedColors(true,this.drawColors[i]);
     }

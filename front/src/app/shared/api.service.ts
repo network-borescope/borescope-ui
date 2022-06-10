@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 import { GlobalService } from './global.service';
 import { UtilService } from './util.service';
 
-import { BoundsRequest, QueryRequest, SchemaRequest, MatrixRequest } from 'src/app/shared/api.models';
+import { BoundsRequest, QueryRequest, SchemaRequest, MatrixRequest, FunctionsRequest } from 'src/app/shared/api.models';
 
 @Injectable({
   providedIn: 'root'
@@ -298,5 +298,38 @@ export class ApiService {
 
     return await response.json();
 
+  }
+
+  /**
+   * Solicita os dados do mapa para compor a heatmatrix.
+   */
+   async requestFunctions(service: any, model: string, t0: number, t1: number, clicked: number) {
+    let query = new FunctionsRequest();
+
+    if ( clicked >= 0 ) {
+      query['pop'] = clicked;
+    }
+
+    query['from'] = 'rnp_services'
+    query['what'] = 'statistics'
+    query['field'] = 'havg';
+    query['model'] = model;
+    query['start'] = t0;
+    query['end'] = t1;
+    this.utils.showTrace("requestFunctions", query);
+
+    // post header
+    const headers = {
+      'Content-Type': 'application/json',
+      'dataType': 'json'
+    };
+
+    // Return a new promise.
+    const response = await fetch(this.xhttp_url + '2', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(query),
+    });
+    return await response.json();
   }
 }

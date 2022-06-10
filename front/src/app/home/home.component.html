@@ -49,8 +49,11 @@
   <div ngDraggable class="widget functions-chart-window"
     [style.z-index] = "this.isChartVisible('net') ? this.chartZindex('net') : '-10' "
     (started)="this.moving = 'net'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'net'">
-    <app-functions-chart #appFunctionsChart>
-    </app-functions-chart>
+    <app-functions-chart #appFunctionsChart
+      (functionsParamChanged) = "this.updateFunctionsChart($event);"
+      (functionsValueChanged) = "this.updateFunctionsChart($event);"
+      (onItemSelected) = "this.updateFunctionsChart($event);"
+    ></app-functions-chart>
   </div>
   <div ngDraggable class="widget scattergl-window"
   [style.z-index] = "this.isChartVisible('scattergl') ? this.chartZindex('scattergl') : '-10' "

@@ -81,7 +81,6 @@ export class AppInitService {
 
   async loadIPs() {
     const data = await this.api.getIPs();
-    console.log(data);
 
     const list_ips = {
       key: 'list_ips',

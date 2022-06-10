@@ -57,6 +57,9 @@ export class QueryRequest {
   }
 }
 
+/**
+ * Matrix Request Class
+ */
 export class MatrixRequest {
   'what': string;
   'metric': any;
@@ -72,3 +75,27 @@ export class MatrixRequest {
     this['end'] = 1634149785;
   }
 }
+
+/**
+ * Functions Request Class
+ */
+ export class FunctionsRequest {
+  'from': string
+  'what': string;
+  'field': string;
+  'pop': any;
+  'service': any;
+  'start': number;
+  'end': number;
+  "model": string;
+
+  constructor() {
+    this['from'] = "rnp_services";
+    this['what'] = "statistics";
+    this['field'] = "havg";
+    this['start'] = 1647388800;
+    this['end'] = 1652227080;
+    this['model'] = "cdf";
+  }
+}
+
