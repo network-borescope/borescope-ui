@@ -5,7 +5,7 @@
     <div style="display: flex; margin-top: 33px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
         <div class="code-select">
             <select *ngIf="!this.isCapitalSelected()" name="select" class="value-selector" (change)="this.onValueChange($event)">
-                <option value="all" selected>Todos os pop x todos os serviços</option>
+                <option value="all" selected>Todos os pops x todos os serviços</option>
                 <option value="allpops">Todos os pops x serviço</option>
             </select>
             <select *ngIf="this.isCapitalSelected()" name="select" class="value-selector" (change)="this.onValueChange($event)">

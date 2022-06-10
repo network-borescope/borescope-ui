@@ -309,7 +309,8 @@ export class ApiService {
     if ( clicked >= 0 ) {
       query['pop'] = clicked;
     }
-
+    query['service'] = 30;
+    query['pop'] = 8;  
     query['from'] = 'rnp_services'
     query['what'] = 'statistics'
     query['field'] = 'havg';
