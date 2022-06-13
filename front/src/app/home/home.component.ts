@@ -623,7 +623,7 @@ export class HomeComponent implements AfterViewInit {
     let data;
     (clicked >= 0) ? data = res.result[`${clicked}`]['0'] : data = res.result['0']['0'];
     const adaptedData = this.adaptData(data);
-    const selectedData:any = [-1,[adaptedData]];
+    const selectedData:any = [[-1,[adaptedData]]];
     this.func.updateFunctionsChartData(selectedData, clicked);
   }
 
@@ -639,8 +639,8 @@ export class HomeComponent implements AfterViewInit {
       (clicked >= 0) ? data = res.result[`${clicked}`][`${event[i]}`] : data = res.result['0'][`${event[i]}`];
       const adaptedData = this.adaptData(data);
       selectedData[i] = [event[i],[adaptedData]];
-      this.func.updateFunctionsChartData(selectedData, clicked);
     }  
+    this.func.updateFunctionsChartData(selectedData, clicked);
   }
   //DELETAR QUANDO DANIEL ARRUMAR O PROBLEMA
   adaptData(data: any) {

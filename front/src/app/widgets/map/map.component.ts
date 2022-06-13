@@ -440,6 +440,7 @@ export class MapComponent implements AfterViewInit {
     }
     this.global.setGlobal(clicked_element);
     event.sourceTarget._map.setView([event.latlng.lat, event.latlng.lng], 12);
+    this.resetFunctionsChart.emit();
   }
 
   /**

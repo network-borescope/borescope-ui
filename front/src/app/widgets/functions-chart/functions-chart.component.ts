@@ -50,6 +50,7 @@ export class FunctionsChartComponent implements OnInit {
        this.updateUsedColors(true,this.drawColors[i]);
     }
     const selectedParam = this.global.getGlobal('functions_param').value;
+    this.functionsChart.clear();
     this.functionsChart.updateData(data, this.drawColors, selectedParam);
     this.functionsChart.setTitle(selectedParam, clicked);
     this.functionsChart.render();
