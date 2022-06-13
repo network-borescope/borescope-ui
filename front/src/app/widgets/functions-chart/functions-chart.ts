@@ -44,8 +44,8 @@ export class Functionschart {
               position: "top",
             },
             title: {
-              display: false,
-              text: 'Title'
+              display: true,
+              text: 'CDF'
             },
             tooltip: {
               mode: 'index',
@@ -85,8 +85,9 @@ export class Functionschart {
   
   
     //Modifica as configurações globais para os títulos
-    setTitle(id: number) {
-      if(id >= 0 ) this.chart.options.plugins.legend.title.text = this.getId(id, 'pop');
+    setTitle(param: string, id: number) {
+      if(id >= 0 ) this.chart.options.plugins.legend.title.text = `${param.toUpperCase()} ${this.getId(id, 'pop')}`; 
+      else this.chart.options.plugins.legend.title.text = `${param.toUpperCase()}`;
     }
   
     setCapitals(capitals: any) {
@@ -124,6 +125,7 @@ export class Functionschart {
     clear() {
       this.chart.data.labels = [];
       this.chart.data.datasets = [];
+      this.chart.options.plugins.legend.title.text = '';
       this.chart.update();
     }
   

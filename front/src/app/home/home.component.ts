@@ -78,7 +78,7 @@ export class HomeComponent implements AfterViewInit {
     this.updateHeatmatrix();
 
     //functions chart
-    this.updateFunctionsChart([]);
+    this.updateFunctionsChart();
   }
 
   /**
@@ -104,7 +104,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     this.updateHeatmatrix();
-    this.updateFunctionsChart([]);
+    this.updateFunctionsChart();
   }
 
   /**
@@ -228,7 +228,7 @@ export class HomeComponent implements AfterViewInit {
     // TODO: atualizar a heat matrix com base no zoom
     this.updateHeatmatrix();
     this.func.clear();
-    this.updateFunctionsChart([]);
+    this.updateFunctionsChart();
   }
 
   /**
@@ -611,31 +611,36 @@ export class HomeComponent implements AfterViewInit {
     }
   }
 
-  async updateFunctionsChart(event: any) {
+  async updateFunctionsChart() {
     const tsT0 = 1647388800;
     const tsT1 = 1652227080;
     const selectedParam = this.global.getGlobal('functions_param').value;
     const clicked = this.global.getGlobal("clicked_element").value;
-    
-    if(event.length > 0) {
-      const selectedData:any = [];
-      for(let i = 0; i < event.length; i++) {
-        const res = await this.api.requestFunctions(event[i], selectedParam,  tsT0, tsT1, clicked);
-        let data;
-        (clicked >= 0) ? data = res.result[`${clicked}`][`${event[i]}`] : data = res.result['0'][`${event[i]}`];
-        const adaptedData = this.adaptData(data);
-        this.func.updateFunctionsChartData(adaptedData, clicked);
-      }
-      this.func.updateFunctionsChartData(selectedData, clicked);
-    } else {
-      const res = await this.api.requestFunctions(0, selectedParam,  tsT0, tsT1, clicked);
-      console.log(res)
+
+
+    const res = await this.api.requestFunctions(0, selectedParam,  tsT0, tsT1, clicked);
+    console.log(res)
+    let data;
+    (clicked >= 0) ? data = res.result[`${clicked}`]['0'] : data = res.result['0']['0'];
+    const adaptedData = this.adaptData(data);
+    const selectedData:any = [-1,[adaptedData]];
+    this.func.updateFunctionsChartData(selectedData, clicked);
+  }
+
+  async updateFunctionsChartService(event: any) {
+    const tsT0 = 1647388800;
+    const tsT1 = 1652227080;
+    const selectedParam = this.global.getGlobal('functions_param').value;
+    const clicked = this.global.getGlobal("clicked_element").value;
+    const selectedData:any = [];
+    for(let i = 0; i < event.length; i++) {
+      const res = await this.api.requestFunctions(event[i], selectedParam,  tsT0, tsT1, clicked);
       let data;
-      (clicked >= 0) ? data = res.result[`${clicked}`]['0'] : data = res.result['0']['0'];
+      (clicked >= 0) ? data = res.result[`${clicked}`][`${event[i]}`] : data = res.result['0'][`${event[i]}`];
       const adaptedData = this.adaptData(data);
-      console.log(adaptedData)
-      this.func.updateFunctionsChartData(adaptedData, clicked);
-    }
+      selectedData[i] = [event[i],[adaptedData]];
+      this.func.updateFunctionsChartData(selectedData, clicked);
+    }  
   }
   //DELETAR QUANDO DANIEL ARRUMAR O PROBLEMA
   adaptData(data: any) {
