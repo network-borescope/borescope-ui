@@ -22,6 +22,7 @@
         </div>
         <div *ngIf="this.shouldShowServices()" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
+            [disabled]="false"
             [placeholder]="this.multiSelectPlaceholder"
             [settings]="this.dropdownSettings"
             [data]="this.dropdownList"
@@ -32,7 +33,3 @@
         </div>
     </div>
 </div>
-
-
-  
-  

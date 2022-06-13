@@ -112,7 +112,7 @@ export class FunctionsChartComponent implements OnInit {
       unSelectAll: false,
       itemsShowLimit: 0,
       allowSearchFilter: false
-    };    
+    };      
   }
     
   isCapitalSelected() {

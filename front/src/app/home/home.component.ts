@@ -104,7 +104,6 @@ export class HomeComponent implements AfterViewInit {
     }
 
     this.updateHeatmatrix();
-    this.updateFunctionsChart();
   }
 
   /**
@@ -227,8 +226,6 @@ export class HomeComponent implements AfterViewInit {
 
     // TODO: atualizar a heat matrix com base no zoom
     this.updateHeatmatrix();
-    this.func.clear();
-    this.updateFunctionsChart();
   }
 
   /**
@@ -365,6 +362,7 @@ export class HomeComponent implements AfterViewInit {
   onFunctionsChartReset() {
     (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value = "all";
     this.func.clearSeries();
+    this.updateFunctionsChart();
   }
   /**
    * Atualiza o período de tempo ativo das visualizações

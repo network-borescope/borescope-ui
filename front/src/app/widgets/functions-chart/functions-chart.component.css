@@ -22,5 +22,19 @@
     width: 97px;
     margin-top: 7px;
     margin-left: 17px;
-    font-size: 9px;
+}
+
+.param-selector, .value-selector {
+ font-size: 9px;
+}
+
+@media screen and (min-width: 1024px) {
+
+    .chart-select {
+        width: 97px;
+    }
+
+    .param-selector, .value-selector {
+        font-size: 11px;
+    }    
 }
