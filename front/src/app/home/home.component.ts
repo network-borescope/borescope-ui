@@ -633,6 +633,7 @@ export class HomeComponent implements AfterViewInit {
     const selectedData:any = [];
     for(let i = 0; i < event.length; i++) {
       const res = await this.api.requestFunctions(event[i], selectedParam,  tsT0, tsT1, clicked);
+      console.log(res.result)
       let data;
       (clicked >= 0) ? data = res.result[`${clicked}`][`${event[i]}`] : data = res.result['0'][`${event[i]}`];
       const adaptedData = this.adaptData(data);
@@ -645,10 +646,8 @@ export class HomeComponent implements AfterViewInit {
     const adaptedMs:any[] = [];
     const adaptedValues: any[] = [];
     for(let i = 0; i < data.length; i++) {
-      if (!adaptedMs.includes(data[i][0])) {
-        adaptedMs.push(data[i][0]);
-        adaptedValues.push({x: data[i][0], y: data[i][1]})
-      }
+      adaptedMs.push(data[i][0]);
+      adaptedValues.push({x: data[i][0], y: data[i][1]})
     }
 
     const totalData = [adaptedValues];
