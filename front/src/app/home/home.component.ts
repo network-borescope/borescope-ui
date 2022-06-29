@@ -559,9 +559,9 @@ export class HomeComponent implements AfterViewInit {
       this.net.drawChart(data, capitals, clicked, selectedParam != 77, dataType);
     } else {
       const services = this.global.getGlobal("services").value.default;
-      const res = await this.api.requestHeatmatrix('rnp_services', 'havg', 1647388800, 1652227080, clicked);
+      const res = await this.api.requestHeatmatrix('rnp_services', 'havg', tsT0, tsT1, clicked);
       const data = JSON.parse(res).result;
-
+      
       this.net.drawChart(data, capitals, clicked, selectedParam != 77, dataType, services);
     }
   }
@@ -583,7 +583,7 @@ export class HomeComponent implements AfterViewInit {
         const res = await this.api.requestHeatmatrix(selectedParam, selectedValue, tsT0, tsT1, clicked);
         data = JSON.parse(res).result;
       } else {
-        const res = await this.api.requestHeatmatrix('rnp_services', 'havg', 1647388800, 1652227080, clicked);
+        const res = await this.api.requestHeatmatrix('rnp_services', 'havg', tsT0, tsT1, clicked);
         data = JSON.parse(res).result;
       }
   
@@ -604,20 +604,17 @@ export class HomeComponent implements AfterViewInit {
         label = date.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })
         datetimeArray.push(label);
       }
-      console.log(selectedData)
       this.net.updateTimeseriesData(selectedData, datetimeArray, clicked);
     }
   }
 
   async updateFunctionsChart() {
-    const tsT0 = 1647388800;
-    const tsT1 = 1652227080;
+    let tsT0 = this.global.getGlobal("t0_vis").value;
+    let tsT1 = this.global.getGlobal("t1_vis").value;
     const selectedParam = this.global.getGlobal('functions_param').value;
     const clicked = this.global.getGlobal("clicked_element").value;
 
-
     const res = await this.api.requestFunctions(0, selectedParam,  tsT0, tsT1, clicked);
-    console.log(res)
     let data;
     (clicked >= 0) ? data = res.result[`${clicked}`]['0'] : data = res.result['0']['0'];
     const adaptedData = this.adaptData(data);
@@ -626,14 +623,13 @@ export class HomeComponent implements AfterViewInit {
   }
 
   async updateFunctionsChartService(event: any) {
-    const tsT0 = 1647388800;
-    const tsT1 = 1652227080;
+    let tsT0 = this.global.getGlobal("t0_vis").value;
+    let tsT1 = this.global.getGlobal("t1_vis").value;
     const selectedParam = this.global.getGlobal('functions_param').value;
     const clicked = this.global.getGlobal("clicked_element").value;
     const selectedData:any = [];
     for(let i = 0; i < event.length; i++) {
       const res = await this.api.requestFunctions(event[i], selectedParam,  tsT0, tsT1, clicked);
-      console.log(res.result)
       let data;
       (clicked >= 0) ? data = res.result[`${clicked}`][`${event[i]}`] : data = res.result['0'][`${event[i]}`];
       const adaptedData = this.adaptData(data);
