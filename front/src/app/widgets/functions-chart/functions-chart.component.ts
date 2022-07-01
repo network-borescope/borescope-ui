@@ -87,6 +87,10 @@ export class FunctionsChartComponent implements OnInit {
     };
     this.onItemSelected.emit(this.selectedItems);
   }
+
+  onTimeBoundsChange() {
+    (!this.shouldShowServices()) ? this.functionsValueChanged.emit() : this.onItemSelected.emit(this.selectedItems);
+  }
   
   setMultipleSelectConfiguration() {
     //multiselect

@@ -185,6 +185,9 @@ export class ScatterglComponent implements OnInit {
     this.onParamSelected.emit({"value": event.value, "added": added});
   }
 
+  onTimeBoundsChange()  {
+  }
+
   onSelectionModeChange(event: any) {
     if(event.target.value == "pan") { 
       this.removeAreaSelection.emit();

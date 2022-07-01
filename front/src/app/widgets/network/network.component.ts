@@ -121,6 +121,10 @@ export class NetworkComponent implements OnInit {
     }
   }
 
+  onTimeBoundsChange() {
+    !this.isTimeseriesSelected() ? this.onItemSelected.emit(this.selectedItems) : this.heatMatrixValueChanged.emit();
+  }
+
   setMultipleSelectConfiguration(type: string) {
     //multiselect
     this.dropdownList = [];

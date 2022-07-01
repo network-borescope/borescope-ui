@@ -103,7 +103,8 @@ export class HomeComponent implements AfterViewInit {
       this.updateBarChart(elem.dataId, elem.chartColor, elem.feature);
     }
 
-    this.updateHeatmatrix();
+    this.net.onTimeBoundsChange();
+    this.func.onTimeBoundsChange();
   }
 
   /**

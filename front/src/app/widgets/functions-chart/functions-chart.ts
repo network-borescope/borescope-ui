@@ -102,7 +102,6 @@ export class Functionschart {
       const datasets = this.chart.config.data.datasets;
 
       for(let i = 0; i < data.length; i++) {
-        console.log(data[i][1][0][0])
         const newData = {
           label: (data[i][0] >= 0) ? this.getId(data[i][0], 'service') : param.toUpperCase(),
           data: data[i][1][0][0],
