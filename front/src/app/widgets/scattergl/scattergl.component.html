@@ -12,8 +12,8 @@
             </ng-multiselect-dropdown>
         </div>
         <div id="scattergl-select-box" class="chart-select">
-            <select [disabled]="this.selectDisabler" placeholder="Color by" name="code" class="scattergl-select" (change)="this.onOptionChange($event)">
-                <option value="" disabled selected hidden>Color by</option>
+            <select [disabled]="this.selectDisabler" id="scattergl-select-options" placeholder="Color by" name="code" class="scattergl-select" (change)="this.onOptionChange($event)">
+                <option value="-1" disabled selected hidden>Color by</option>
                 <option *ngFor="let param of selectedParams" 
                     [value]="param.value">
                     {{param.param}}

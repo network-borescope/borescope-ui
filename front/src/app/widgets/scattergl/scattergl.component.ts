@@ -20,6 +20,7 @@ export class ScatterglComponent implements OnInit {
   @Output() onScatterglValueChanged = new EventEmitter<any>();
   @Output() onParamSelected = new EventEmitter<any>();
   @Output() onAreaSelect = new EventEmitter<any>();
+  @Output() onTimeBoundsChanged = new EventEmitter<any>();
   @Output() removeAreaSelection = new EventEmitter();
   //elementos para o scattergl chart
   private capitals: any = this.global.getGlobal('state_capitals').value.default;
@@ -78,7 +79,6 @@ export class ScatterglComponent implements OnInit {
     if(added) {
       this.scatterglData.push({'id': id, 'data': responseData});
     } else {
-      console.log(this.scatterglData)
       const newScatterglData = [];
       for(let i = 0; i < this.scatterglData.length; i++) {
         if(this.scatterglData[i].id !== id) { 
@@ -160,6 +160,8 @@ export class ScatterglComponent implements OnInit {
 
   onOptionChange(event: any) {
     const scattergl_options = this.global.getGlobal("scattergl_options")
+    console.log(scattergl_options)
+
     if(event.target.name == 'code') {
       scattergl_options.value = parseInt(event.target.value);
       this.global.setGlobal(scattergl_options)      
@@ -167,6 +169,7 @@ export class ScatterglComponent implements OnInit {
       scattergl_options.param = parseInt(event.target.value);
       this.global.setGlobal(scattergl_options)
     }
+    
     this.colorPoints(scattergl_options);
   }
 
@@ -180,12 +183,20 @@ export class ScatterglComponent implements OnInit {
           this.selectedParams.splice(i, 1);
         }
       }
-      (this.selectedParams.length > 0) ? this.selectDisabler = "" : this.selectDisabler = "disabled"
+      if(this.selectedParams.length > 0) {
+        this.selectDisabler = "";
+      } else {
+        (document.getElementById('scattergl-select-options') as HTMLInputElement).value = "-1";
+        this.selectDisabler = "disabled";
+      }
     }
     this.onParamSelected.emit({"value": event.value, "added": added});
   }
 
   onTimeBoundsChange()  {
+    for(let  i = 0; i < this.scatterglData.length; i++) {
+      this.onTimeBoundsChanged.emit({value: this.scatterglData[i].id, added: true})
+    }
   }
 
   onSelectionModeChange(event: any) {

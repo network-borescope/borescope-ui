@@ -105,6 +105,7 @@ export class HomeComponent implements AfterViewInit {
 
     this.net.onTimeBoundsChange();
     this.func.onTimeBoundsChange();
+    this.scattergl.onTimeBoundsChange();
   }
 
   /**
@@ -663,9 +664,6 @@ export class HomeComponent implements AfterViewInit {
           let tsT1 = this.global.getGlobal("t1_vis").value;
           const clicked = this.global.getGlobal("clicked_element").value;
     if(event.added) {
-      
-
-
       for(let i = 0; i < selectedValue.length; i++) {
         const res = await this.api.requestHeatmatrix(selectedParam, selectedValue[i], tsT0, tsT1, clicked);
         const data = JSON.parse(res).result;
