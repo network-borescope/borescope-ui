@@ -80,7 +80,15 @@
     (filtersRemoved) = this.onFiltersRemoved()></app-filters>
   </div>
 
+  <div class="dates">
+    <div class="date" style="border-style: solid; border-width: 0px 2px 0px 0px; border-color: #bfbfbf;">
+      {{t0}}
+    </div>
+    <div class="date">
+      {{t1}}
+    </div>
+  </div>
   <app-time-bar class="time-menu"
-    (chartTimeChanged) = "this.onChartTimeChanged($event)">  
+    (chartTimeChanged) = "this.onChartTimeChanged($event)">
   </app-time-bar> 
 </div>

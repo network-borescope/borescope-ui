@@ -42,7 +42,8 @@ export class HomeComponent implements AfterViewInit {
 
   public last: string = 'none';
   public moving: string = 'none';
-
+  public t0: string = 'none';
+  public t1: string = 'none';
   private timeBoundsRefreshFnc: any = undefined;
 
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService, private spinner: NgxSpinnerService) {
@@ -66,6 +67,8 @@ export class HomeComponent implements AfterViewInit {
    * Inicializa os gráficos usando os dados do mapa
    */
   initCharts() {
+    this.setDates();
+
     this.updateHeatmap();
     // barchart e linechart do mapa
     this.updateLineChart('map', '#AAAAAA');
@@ -80,6 +83,15 @@ export class HomeComponent implements AfterViewInit {
     //functions chart
     this.updateFunctionsChart();
   }
+
+  setDates() {
+    const date0 = new Date(this.global.getGlobal("t0_vis").value * 1000);
+    const date1 = new Date(this.global.getGlobal("t1_vis").value * 1000);
+    //@ts-ignore
+    this.t0 = date0.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
+    //@ts-ignore
+    this.t1 = date1.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
+  };
 
   /**
    * Redesenha todos os gráficos
@@ -102,6 +114,8 @@ export class HomeComponent implements AfterViewInit {
       this.updateLineChart(elem.dataId, elem.chartColor, elem.feature);
       this.updateBarChart(elem.dataId, elem.chartColor, elem.feature);
     }
+
+    this.setDates();
 
     this.net.onTimeBoundsChange();
     this.func.onTimeBoundsChange();
