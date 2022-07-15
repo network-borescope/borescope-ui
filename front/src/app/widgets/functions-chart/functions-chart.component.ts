@@ -30,6 +30,7 @@ export class FunctionsChartComponent implements OnInit {
     pops: [],
     services: []
   }
+  private selectionLimit: number = 10;
   //lista de cores
   private drawColors: any = [
     '#1F77B4', '#2CA02C', '#9467BD', '#8C564B', '#E377C2',
@@ -79,11 +80,12 @@ export class FunctionsChartComponent implements OnInit {
       key: "functions_value",
       value: event.target.value,
     };
-    this.functionsChart.clear();
+    this.clearSeries();
     this.global.setGlobal(functions_value);
+    this.shouldShowMultiSelectors() ? this.selectionLimit = 30 : this.selectionLimit = 10;
+    this.setMultipleSelectConfiguration();
     if(!this.shouldShowServices() && !this.shouldShowMultiSelectors()) {
       this.functionsValueChanged.emit();
-      this.combinedSelection = {pops: [], services:[]};
     }
   }
 
@@ -137,7 +139,7 @@ export class FunctionsChartComponent implements OnInit {
     };  
     this.dropdownSettingsServices = {
       singleSelection: false,
-      limitSelection: 10,
+      limitSelection: this.selectionLimit,
       idField: 'cod',
       textField: 'estado',
       enableCheckAll: false,
@@ -158,7 +160,7 @@ export class FunctionsChartComponent implements OnInit {
     };
     this.dropdownSettingsPops = {
       singleSelection: false,
-      limitSelection: 10,
+      limitSelection: this.selectionLimit,
       idField: 'cod',
       textField: 'estado',
       enableCheckAll: false,
@@ -180,6 +182,10 @@ export class FunctionsChartComponent implements OnInit {
     this.selectedItems = [];
     this.selectedItemsRoot = [];
     this.functionsChart.clear();
+    this.combinedSelection = {
+      pops: [],
+      services: []
+    }
   }
 
   /**
