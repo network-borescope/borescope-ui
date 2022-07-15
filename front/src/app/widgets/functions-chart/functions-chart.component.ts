@@ -26,6 +26,10 @@ export class FunctionsChartComponent implements OnInit {
   //capitals select list
   private selectedItems: any = [];
   public selectedItemsRoot: any = [];
+  private combinedSelection: any = {
+    pops: [],
+    services: []
+  }
   //lista de cores
   private drawColors: any = [
     '#1F77B4', '#2CA02C', '#9467BD', '#8C564B', '#E377C2',
@@ -34,9 +38,12 @@ export class FunctionsChartComponent implements OnInit {
   //lista de cores já usadas
   private usedColors: any = [];
   //multiselect
-  public dropdownList: any = [];
-  public dropdownSettings: any = {};
-  public multiSelectPlaceholder = 'Estados'
+  public dropdownListServices: any = [];
+  public dropdownSettingsServices: any = {};
+  public dropdownListPops: any = [];
+  public dropdownSettingsPops: any = {};
+  public multiSelectServicesPlaceholder = 'Estados'
+  public multiSelectPopsPlaceholder = 'Estados'
 
   ngOnInit(): void {
     this.functionsChart = new Functionschart(this.functionsDiv.nativeElement);
@@ -74,7 +81,10 @@ export class FunctionsChartComponent implements OnInit {
     };
     this.functionsChart.clear();
     this.global.setGlobal(functions_value);
-    if(!this.shouldShowServices()) this.functionsValueChanged.emit();
+    if(!this.shouldShowServices() && !this.shouldShowMultiSelectors()) {
+      this.functionsValueChanged.emit();
+      this.combinedSelection = {pops: [], services:[]};
+    }
   }
 
   onItemSelect(event: any, added: boolean) {
@@ -88,26 +98,44 @@ export class FunctionsChartComponent implements OnInit {
     this.onItemSelected.emit(this.selectedItems);
   }
 
+  onCombinedSelect(event: any, from: string, added: boolean) {
+    if(from == 'pop') {
+      if (added) {
+        this.combinedSelection.pops.push(event.cod);
+      } else {
+        const index = this.combinedSelection.pops.indexOf(event.cod);
+        this.combinedSelection.pops.splice(index, 1);
+      }  
+    } else {
+      if (added) {
+        this.combinedSelection.services.push(event.cod);
+      } else {
+        const index = this.combinedSelection.services.indexOf(event.cod);
+        this.combinedSelection.services.splice(index, 1);
+      }  
+    }
+  }
+
   onTimeBoundsChange() {
     (!this.shouldShowServices()) ? this.functionsValueChanged.emit() : this.onItemSelected.emit(this.selectedItems);
   }
   
   setMultipleSelectConfiguration() {
     //multiselect
-    this.dropdownList = [];
-    this.dropdownSettings = {};
-    //setando as configuracoes do multiselect
+    this.dropdownListServices = [];
+    this.dropdownSettingsServices = {};
+    //setando as configuracoes do multiselect p servicos
     const services = this.global.getGlobal("services").value.default;
-    this.multiSelectPlaceholder = 'Serviços';
+    this.multiSelectServicesPlaceholder = 'Serviços';
     for(let i = 0; i < services.length; i++) {
       let id = services[i].id.toUpperCase();
       let cod = services[i].cod;
       let obj:any = {};
       obj['estado'] = id;
       obj['cod'] = cod;
-      this.dropdownList.push(obj);
+      this.dropdownListServices.push(obj);
     };  
-    this.dropdownSettings = {
+    this.dropdownSettingsServices = {
       singleSelection: false,
       limitSelection: 10,
       idField: 'cod',
@@ -116,7 +144,28 @@ export class FunctionsChartComponent implements OnInit {
       unSelectAll: false,
       itemsShowLimit: 0,
       allowSearchFilter: false
-    };      
+    };
+    //setando as configuracoes do multiselect p servicos
+    const capitals = this.global.getGlobal("state_capitals").value.default;
+    this.multiSelectPopsPlaceholder = 'Estados';
+    for(let i = 0; i < capitals.length; i++) {
+      let id = capitals[i].id.toUpperCase();
+      let cod = capitals[i].cod;
+      let obj:any = {};
+      obj['estado'] = id;
+      obj['cod'] = cod;
+      this.dropdownListPops.push(obj);
+    };
+    this.dropdownSettingsPops = {
+      singleSelection: false,
+      limitSelection: 10,
+      idField: 'cod',
+      textField: 'estado',
+      enableCheckAll: false,
+      unSelectAll: false,
+      itemsShowLimit: 0,
+      allowSearchFilter: false
+    };    
   }
     
   isCapitalSelected() {
@@ -151,4 +200,9 @@ export class FunctionsChartComponent implements OnInit {
     else return false;
   }
 
+  shouldShowMultiSelectors() {
+    const dataType = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
+    if(dataType == 'nxn') return true;
+    else return false
+  }
 }
