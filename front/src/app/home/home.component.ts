@@ -87,10 +87,12 @@ export class HomeComponent implements AfterViewInit {
   setDates() {
     const date0 = new Date(this.global.getGlobal("t0_vis").value * 1000);
     const date1 = new Date(this.global.getGlobal("t1_vis").value * 1000);
+    console.log(date0)
     //@ts-ignore
-    this.t0 = date0.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
+    this.t0 = date0.toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' }).replace(', ', ' - ');
+    console.log(this.t0)
     //@ts-ignore
-    this.t1 = date1.toLocaleString('en-US', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' });
+    this.t1 = date1.toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' }).replace(', ', ' - ');
   };
 
   /**
