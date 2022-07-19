@@ -18,6 +18,7 @@ export class FunctionsChartComponent implements OnInit {
   @Output() functionsParamChanged = new EventEmitter<any>();
   @Output() functionsValueChanged = new EventEmitter<any>();
   @Output() onItemSelected = new EventEmitter<any>();
+  @Output() onCombinedChange = new EventEmitter<any>();
 
   constructor(public global: GlobalService, public util: UtilService) { }
 
@@ -51,8 +52,10 @@ export class FunctionsChartComponent implements OnInit {
   //configuração do multiselect para as combinacoes de servicos + pops adicionados ao grafico
   public dropdownListCombined: any = [];
   public dropdownSettingsCombined: any = {};
+  public multiSelectCombinedPlaceholder = 'Select';
   public hasData = false;
   private combinedData: any = [];
+  public combinedSelections: any = [];
 
 
   ngOnInit(): void {
@@ -73,6 +76,12 @@ export class FunctionsChartComponent implements OnInit {
     this.functionsChart.render();
   }
 
+  updateFunctionsCombinationsData(data: any) {
+    this.functionsChart.clear();
+    this.functionsChart.updateCombinations(data);
+    this.functionsChart.render();
+  }
+
 
   onParamChange(event: any) {
     const functions_param = {
@@ -89,10 +98,19 @@ export class FunctionsChartComponent implements OnInit {
       key: "functions_value",
       value: event.target.value,
     };
+
     this.clearSeries();
     this.global.setGlobal(functions_value);
     this.shouldShowMultiSelectors() ? this.selectionLimit = 30 : this.selectionLimit = 10;
     this.setMultipleSelectConfiguration();
+
+    //cleaning combined selections
+    this.hasData = false; 
+    this.combinedData = [];
+    this.combinedSelection = {pops:[], services:[]};
+    this.combinedSelections = [];
+    this.setCombinedMultipleSelectConfiguration();
+
     if(!this.shouldShowServices() && !this.shouldShowMultiSelectors()) {
       this.functionsValueChanged.emit();
     }
@@ -110,7 +128,6 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   onCombinedSelect(event: any, from: string, added: boolean) {
-    console.log(event)
     if(from == 'pop') {
       if (added) {
         this.combinedSelection.pops.push(event.cod);
@@ -132,21 +149,42 @@ export class FunctionsChartComponent implements OnInit {
     if(this.combinedSelection.pops.length > 0 && this.combinedSelection.services.length > 0) {
       const services = this.global.getGlobal("services").value.default;
       const capitals = this.global.getGlobal("state_capitals").value.default;
+      this.combinedData = [];
       for(let i = 0; i < this.combinedSelection.pops.length; i++) {
         for(let j = 0; j < this.combinedSelection.services.length; j++) {
-          this.combinedData.push({idPop: this.functionsChart.getId(this.combinedSelection.pops[i], 'pop'),
+          const obj = {idPop: this.functionsChart.getId(this.combinedSelection.pops[i], 'pop'),
                                   codPop: this.combinedSelection.pops[i],
                                   idService: this.functionsChart.getId(this.combinedSelection.services[j], 'service'),
-                                  codService: this.combinedSelection.services[j]})
+                                  codService: this.combinedSelection.services[j]}
+          this.combinedData.push(obj);
         }
       }
       this.setCombinedMultipleSelectConfiguration();
       this.hasData = true;
+      this.functionsChart.clear();
+      this.onCombinedChange.emit(this.combinedData);
     }
+    
   }
 
   removeDataCombinations() {
-    
+    console.log(this.combinedData)
+    console.log(this.combinedSelections)
+    for(let i = 0; i < this.combinedSelections.length; i++) {
+      for(let  j = 0; j < this.combinedData.length; j++) {
+        if(this.combinedSelections[i].cods[0] ==  this.combinedData[j].codPop && this.combinedSelections[i].cods[1] ==  this.combinedData[j].codService) {
+          this.combinedData.splice(j, 1);
+        }
+      }
+    }
+    console.log(this.combinedData)
+    this.functionsChart.clear();
+    if(this.combinedData.length == 0) { 
+      this.hasData = false;
+    } else {
+      this.onCombinedChange.emit(this.combinedData);
+    }
+    this.setCombinedMultipleSelectConfiguration();
   }
 
   onTimeBoundsChange() {
@@ -202,6 +240,10 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   setCombinedMultipleSelectConfiguration() {
+    this.dropdownListCombined = [];
+    this.dropdownSettingsCombined =  {};
+    this.multiSelectCombinedPlaceholder = 'Select';
+    console.log(this.combinedData)
     for(let i = 0; i < this.combinedData.length; i++) {
       let id = this.combinedData[i].idPop.toUpperCase() + ' - '  + this.combinedData[i].idService.toUpperCase();
       let cod = [this.combinedData[i].codPop, this.combinedData[i].codService];

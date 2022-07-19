@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, ɵɵtrustConstantResourceUrl } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ViewChild, ɵɵtrustConstantResourceUrl } from '@angular/core';
 
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
@@ -655,6 +655,24 @@ export class HomeComponent implements AfterViewInit {
     }  
     this.func.updateFunctionsChartData(selectedData, clicked);
   }
+
+  async updateFunctionsCombinations(event: any) {
+    console.log(event)
+    const tsT0 = this.global.getGlobal("t0_vis").value;
+    const tsT1 = this.global.getGlobal("t1_vis").value;
+    const selectedParam = this.global.getGlobal('functions_param').value;
+    const selectedData:any = [];
+    for(let i  = 0; i < event.length; i++) {
+      const pop = event[i].codPop;
+      const service = event[i].codService;
+      const res = await this.api.requestFunctions(service, selectedParam,  tsT0, tsT1, pop);
+      console.log(res)
+      const data = res.result[`${pop}`][`${service}`];
+      const adaptedData = this.adaptData(data);
+      selectedData[i] = [event[i],[adaptedData]];
+    }
+    this.func.updateFunctionsCombinationsData(selectedData);
+  }
   //DELETAR QUANDO DANIEL ARRUMAR O PROBLEMA
   adaptData(data: any) {
     const adaptedMs:any[] = [];
@@ -675,10 +693,10 @@ export class HomeComponent implements AfterViewInit {
     const statesIds = [];
     const finalData = [];
     const selectedValue = ['h_avg','h_min', 'h_max']
-          //usando a mesma query da heatmatrix
-          let tsT0 = this.global.getGlobal("t0_vis").value;
-          let tsT1 = this.global.getGlobal("t1_vis").value;
-          const clicked = this.global.getGlobal("clicked_element").value;
+    //usando a mesma query da heatmatrix
+    let tsT0 = this.global.getGlobal("t0_vis").value;
+    let tsT1 = this.global.getGlobal("t1_vis").value;
+    const clicked = this.global.getGlobal("clicked_element").value;
     if(event.added) {
       for(let i = 0; i < selectedValue.length; i++) {
         const res = await this.api.requestHeatmatrix(selectedParam, selectedValue[i], tsT0, tsT1, clicked);

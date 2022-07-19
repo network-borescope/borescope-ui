@@ -114,6 +114,22 @@ export class Functionschart {
       this.chart.update();
     }
   
+    updateCombinations(data: any) {
+      const datasets = this.chart.config.data.datasets;
+      for(let i = 0; i < data.length; i++) {
+        const color = '#'+Math.floor(Math.random()*16777215).toString(16);
+        const newData = {
+          label: `${data[i][0].idPop} - ${data[i][0].idService}`,
+          data: data[i][1][0][0],
+          backgroundColor: color,
+          borderColor: color,
+          fill: false
+        };
+        datasets.push(newData);
+      }
+      this.chart.update();
+    }
+
     getId(id: number, type: string) {
       if(type == 'pop') {
         return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();

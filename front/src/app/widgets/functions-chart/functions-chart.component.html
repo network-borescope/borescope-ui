@@ -55,8 +55,10 @@
         <div *ngIf="this.hasData" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
+            [placeholder]="this.multiSelectCombinedPlaceholder"
             [settings]="this.dropdownSettingsCombined"
-            [data]="this.dropdownListCombined">
+            [data]="this.dropdownListCombined"
+            [(ngModel)]="this.combinedSelections">
             </ng-multiselect-dropdown>
         </div>
         <div *ngIf="this.shouldShowMultiSelectors()" class="combined-control">
