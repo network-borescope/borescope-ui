@@ -156,15 +156,18 @@ export class FunctionsChartComponent implements OnInit {
       const services = this.global.getGlobal("services").value.default;
       const capitals = this.global.getGlobal("state_capitals").value.default;
       this.combinedData = [];
+
+      console.log(this.combinedSelection)
       for(let i = 0; i < this.combinedSelection.pops.length; i++) {
         for(let j = 0; j < this.combinedSelection.services.length; j++) {
-          const obj = {idPop: this.functionsChart.getId(this.combinedSelection.pops[i], 'pop'),
+          const obj = {idPop: (this.combinedSelection.pops[i] >= 0) ? this.functionsChart.getId(this.combinedSelection.pops[i], 'pop') : 'TODOS POPS',
                                   codPop: this.combinedSelection.pops[i],
-                                  idService: this.functionsChart.getId(this.combinedSelection.services[j], 'service'),
+                                  idService: (this.combinedSelection.services[j] >= 0) ? this.functionsChart.getId(this.combinedSelection.services[j], 'service') : 'TODOS SERVIÇOS',
                                   codService: this.combinedSelection.services[j]}
           this.combinedData.push(obj);
         }
       }
+      console.log(this.combinedData)
       this.setCombinedMultipleSelectConfiguration();
       this.hasData = true;
       this.functionsChart.clear();
@@ -174,25 +177,33 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   removeDataCombinations() {
-    for(let i = 0; i < this.combinedSelections.length; i++) {
-      for(let  j = 0; j < this.combinedData.length; j++) {
-        if(this.combinedSelections[i].cods[0] ==  this.combinedData[j].codPop && this.combinedSelections[i].cods[1] ==  this.combinedData[j].codService) {
-          this.combinedData.splice(j, 1);
+    if(this.combinedSelections.length > 0) {
+      for(let i = 0; i < this.combinedSelections.length; i++) {
+        for(let  j = 0; j < this.combinedData.length; j++) {
+          if(this.combinedSelections[i].cods[0] ==  this.combinedData[j].codPop && this.combinedSelections[i].cods[1] ==  this.combinedData[j].codService) {
+            this.combinedData.splice(j, 1);
+          }
         }
       }
+      this.functionsChart.clear();
+      if(this.combinedData.length == 0) { 
+        this.hasData = false;
+      } else {
+        this.onCombinedChange.emit(this.combinedData);
+      }
+      this.combinedSelections = [];
+      this.setCombinedMultipleSelectConfiguration();
     }
-    this.functionsChart.clear();
-    if(this.combinedData.length == 0) { 
-      this.hasData = false;
-    } else {
-      this.onCombinedChange.emit(this.combinedData);
-    }
-    this.combinedSelections = [];
-    this.setCombinedMultipleSelectConfiguration();
   }
 
   onTimeBoundsChange() {
-    (!this.shouldShowServices()) ? this.functionsValueChanged.emit() : this.onItemSelected.emit(this.selectedItems);
+    if(this.shouldShowServices()) {
+      this.onItemSelected.emit(this.selectedItems)
+    } else if(!this.shouldShowServices() && this.hasData) {
+      this.onCombinedChange.emit(this.combinedData);
+    } else {
+      this.functionsValueChanged.emit();
+    }
   }
   
   setMultipleSelectConfiguration() {
@@ -202,6 +213,7 @@ export class FunctionsChartComponent implements OnInit {
     //setando as configuracoes do multiselect p servicos
     const services = this.global.getGlobal("services").value.default;
     this.multiSelectServicesPlaceholder = 'Serviços';
+    this.dropdownListServices.push({estado:'TODOS SERVIÇOS', cod:-1})
     for(let i = 0; i < services.length; i++) {
       let id = services[i].id.toUpperCase();
       let cod = services[i].cod;
@@ -223,6 +235,7 @@ export class FunctionsChartComponent implements OnInit {
     //setando as configuracoes do multiselect p servicos
     const capitals = this.global.getGlobal("state_capitals").value.default;
     this.multiSelectPopsPlaceholder = 'Estados';
+    this.dropdownListPops.push({estado:'TODOS POPS', cod:-1})
     for(let i = 0; i < capitals.length; i++) {
       let id = capitals[i].id.toUpperCase();
       let cod = capitals[i].cod;

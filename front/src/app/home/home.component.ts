@@ -663,11 +663,21 @@ export class HomeComponent implements AfterViewInit {
     const selectedParam = this.global.getGlobal('functions_param').value;
     const selectedData:any = [];
     for(let i  = 0; i < event.length; i++) {
-      const pop = event[i].codPop;
-      const service = event[i].codService;
+      let pop = event[i].codPop;
+      let service = event[i].codService;
+      let data;
       const res = await this.api.requestFunctions(service, selectedParam,  tsT0, tsT1, pop);
-      console.log(res)
-      const data = res.result[`${pop}`][`${service}`];
+      console.log(res.result)
+      console.log(pop, service)
+      if(pop >= 0 && service >= 0) {
+        data = res.result[`${pop}`][`${service}`];
+      } else if(pop == -1 && service >= 0) {
+        data = res.result['0'][`${service}`];
+      } else if(pop >= 0 && service == -1) {
+        data = res.result[`${pop}`]['0'];
+      } else {
+        data = res.result['0']['0'];
+      }
       const adaptedData = this.adaptData(data);
       selectedData[i] = [event[i],[adaptedData]];
     }
