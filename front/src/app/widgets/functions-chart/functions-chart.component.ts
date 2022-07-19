@@ -77,8 +77,10 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   updateFunctionsCombinationsData(data: any) {
+    const selectedParam = this.global.getGlobal('functions_param').value;
     this.functionsChart.clear();
     this.functionsChart.updateCombinations(data);
+    this.functionsChart.setTitle(selectedParam, -1);
     this.functionsChart.render();
   }
 
@@ -157,7 +159,6 @@ export class FunctionsChartComponent implements OnInit {
       const capitals = this.global.getGlobal("state_capitals").value.default;
       this.combinedData = [];
 
-      console.log(this.combinedSelection)
       for(let i = 0; i < this.combinedSelection.pops.length; i++) {
         for(let j = 0; j < this.combinedSelection.services.length; j++) {
           const obj = {idPop: (this.combinedSelection.pops[i] >= 0) ? this.functionsChart.getId(this.combinedSelection.pops[i], 'pop') : 'TODOS POPS',
@@ -167,7 +168,6 @@ export class FunctionsChartComponent implements OnInit {
           this.combinedData.push(obj);
         }
       }
-      console.log(this.combinedData)
       this.setCombinedMultipleSelectConfiguration();
       this.hasData = true;
       this.functionsChart.clear();

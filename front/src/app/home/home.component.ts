@@ -657,7 +657,6 @@ export class HomeComponent implements AfterViewInit {
   }
 
   async updateFunctionsCombinations(event: any) {
-    console.log(event)
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
     const selectedParam = this.global.getGlobal('functions_param').value;
@@ -667,8 +666,6 @@ export class HomeComponent implements AfterViewInit {
       let service = event[i].codService;
       let data;
       const res = await this.api.requestFunctions(service, selectedParam,  tsT0, tsT1, pop);
-      console.log(res.result)
-      console.log(pop, service)
       if(pop >= 0 && service >= 0) {
         data = res.result[`${pop}`][`${service}`];
       } else if(pop == -1 && service >= 0) {
