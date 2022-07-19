@@ -181,6 +181,7 @@ export class FunctionsChartComponent implements OnInit {
     this.functionsChart.clear();
     if(this.combinedData.length == 0) { 
       this.hasData = false;
+      this.combinedSelections = [];
     } else {
       this.onCombinedChange.emit(this.combinedData);
     }
