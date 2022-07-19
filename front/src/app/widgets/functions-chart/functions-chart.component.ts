@@ -90,7 +90,13 @@ export class FunctionsChartComponent implements OnInit {
     };
     this.functionsChart.clear();
     this.global.setGlobal(functions_param);
-    (!this.shouldShowServices()) ? this.functionsValueChanged.emit() : this.onItemSelected.emit(this.selectedItems);
+    if(this.shouldShowServices()) {
+      this.onItemSelected.emit(this.selectedItems)
+    } else if(!this.shouldShowServices() && this.hasData) {
+      this.onCombinedChange.emit(this.combinedData);
+    } else {
+      this.functionsValueChanged.emit();
+    }
   }
 
   onValueChange(event: any) {
@@ -168,8 +174,6 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   removeDataCombinations() {
-    console.log(this.combinedData)
-    console.log(this.combinedSelections)
     for(let i = 0; i < this.combinedSelections.length; i++) {
       for(let  j = 0; j < this.combinedData.length; j++) {
         if(this.combinedSelections[i].cods[0] ==  this.combinedData[j].codPop && this.combinedSelections[i].cods[1] ==  this.combinedData[j].codService) {
@@ -177,14 +181,13 @@ export class FunctionsChartComponent implements OnInit {
         }
       }
     }
-    console.log(this.combinedData)
     this.functionsChart.clear();
     if(this.combinedData.length == 0) { 
       this.hasData = false;
-      this.combinedSelections = [];
     } else {
       this.onCombinedChange.emit(this.combinedData);
     }
+    this.combinedSelections = [];
     this.setCombinedMultipleSelectConfiguration();
   }
 
@@ -244,7 +247,6 @@ export class FunctionsChartComponent implements OnInit {
     this.dropdownListCombined = [];
     this.dropdownSettingsCombined =  {};
     this.multiSelectCombinedPlaceholder = 'Select';
-    console.log(this.combinedData)
     for(let i = 0; i < this.combinedData.length; i++) {
       let id = this.combinedData[i].idPop.toUpperCase() + ' - '  + this.combinedData[i].idService.toUpperCase();
       let cod = [this.combinedData[i].codPop, this.combinedData[i].codService];
