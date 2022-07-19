@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { thresholdFreedmanDiaconis } from 'd3';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { GlobalService } from 'src/app/shared/global.service';
@@ -39,12 +40,20 @@ export class FunctionsChartComponent implements OnInit {
   //lista de cores já usadas
   private usedColors: any = [];
   //multiselect
+  //configuração do multiselect para os servicos
   public dropdownListServices: any = [];
   public dropdownSettingsServices: any = {};
+  public multiSelectServicesPlaceholder = 'Estados';
+  //configuração do multiselect para os pops
   public dropdownListPops: any = [];
   public dropdownSettingsPops: any = {};
-  public multiSelectServicesPlaceholder = 'Estados'
-  public multiSelectPopsPlaceholder = 'Estados'
+  public multiSelectPopsPlaceholder = 'Estados';
+  //configuração do multiselect para as combinacoes de servicos + pops adicionados ao grafico
+  public dropdownListCombined: any = [];
+  public dropdownSettingsCombined: any = {};
+  public hasData = false;
+  private combinedData: any = [];
+
 
   ngOnInit(): void {
     this.functionsChart = new Functionschart(this.functionsDiv.nativeElement);
@@ -101,6 +110,7 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   onCombinedSelect(event: any, from: string, added: boolean) {
+    console.log(event)
     if(from == 'pop') {
       if (added) {
         this.combinedSelection.pops.push(event.cod);
@@ -116,6 +126,27 @@ export class FunctionsChartComponent implements OnInit {
         this.combinedSelection.services.splice(index, 1);
       }  
     }
+  }
+
+  addDataCombinations() {
+    if(this.combinedSelection.pops.length > 0 && this.combinedSelection.services.length > 0) {
+      const services = this.global.getGlobal("services").value.default;
+      const capitals = this.global.getGlobal("state_capitals").value.default;
+      for(let i = 0; i < this.combinedSelection.pops.length; i++) {
+        for(let j = 0; j < this.combinedSelection.services.length; j++) {
+          this.combinedData.push({idPop: this.functionsChart.getId(this.combinedSelection.pops[i], 'pop'),
+                                  codPop: this.combinedSelection.pops[i],
+                                  idService: this.functionsChart.getId(this.combinedSelection.services[j], 'service'),
+                                  codService: this.combinedSelection.services[j]})
+        }
+      }
+      this.setCombinedMultipleSelectConfiguration();
+      this.hasData = true;
+    }
+  }
+
+  removeDataCombinations() {
+    
   }
 
   onTimeBoundsChange() {
@@ -168,6 +199,25 @@ export class FunctionsChartComponent implements OnInit {
       itemsShowLimit: 0,
       allowSearchFilter: false
     };    
+  }
+
+  setCombinedMultipleSelectConfiguration() {
+    for(let i = 0; i < this.combinedData.length; i++) {
+      let id = this.combinedData[i].idPop.toUpperCase() + ' - '  + this.combinedData[i].idService.toUpperCase();
+      let cod = [this.combinedData[i].codPop, this.combinedData[i].codService];
+      let obj:any = {};
+      obj['estado+pop'] = id;
+      obj['cods'] = cod;
+      this.dropdownListCombined.push(obj);
+    }
+    this.dropdownSettingsCombined = {
+      singleSelection: false,
+      idField: 'cods',
+      textField: 'estado+pop',
+      enableCheckAll: true,
+      itemsShowLimit: 0,
+      allowSearchFilter: false
+    }; 
   }
     
   isCapitalSelected() {

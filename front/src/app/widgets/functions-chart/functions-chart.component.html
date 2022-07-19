@@ -2,7 +2,7 @@
     <div class="fill functions-chart">
         <canvas style="padding-bottom: 10px; width: 100%; height: 100% !important;" #functionsChart></canvas>
     </div>
-    <div style="display: flex; margin-top: 33px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
+    <div style="display: flex; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
         <div class="code-select">
             <select *ngIf="!this.isCapitalSelected()" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onValueChange($event)">
                 <option value="all" selected>Todos os pops x todos os serviços</option>
@@ -51,6 +51,23 @@
             (onSelect)="this.onCombinedSelect($event, 'service', true)"
             (onDeSelect)="this.onCombinedSelect($event, 'service', false)">
             </ng-multiselect-dropdown>
+        </div>
+        <div *ngIf="this.hasData" id="chart-select-box" class="chart-select">
+            <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
+            [disabled]="false"
+            [settings]="this.dropdownSettingsCombined"
+            [data]="this.dropdownListCombined">
+            </ng-multiselect-dropdown>
+        </div>
+        <div *ngIf="this.shouldShowMultiSelectors()" class="combined-control">
+            <button class="btn btn-custom" type="button" (click)="this.addDataCombinations()">
+                <span class="fas fa-plus"
+                [style.color]="'#243d8f'"></span>
+            </button>
+            <button class="btn btn-custom" type="button" (click)="this.removeDataCombinations()">
+                <span class="fas fa-trash"
+                [style.color]="'#F51720'"></span>
+            </button>
         </div>
     </div>
 </div>
