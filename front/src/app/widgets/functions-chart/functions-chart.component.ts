@@ -84,7 +84,6 @@ export class FunctionsChartComponent implements OnInit {
     this.functionsChart.render();
   }
 
-
   onParamChange(event: any) {
     const functions_param = {
       key: "functions_param",
@@ -123,17 +122,6 @@ export class FunctionsChartComponent implements OnInit {
       this.functionsValueChanged.emit();
     }
   }
-
-  onChartDataTypeChange(event: any) {
-    //cleaning combined selections
-    this.hasData = false; 
-    this.combinedData = [];
-    this.combinedSelection = {pops:[], services:[]};
-    this.combinedSelections = [];
-    this.setCombinedMultipleSelectConfiguration();
-    this.setMultipleSelectConfiguration();
-  }
-
 
   onItemSelect(event: any, added: boolean) {
     if(this.selectedItems.includes(event.cod)) {

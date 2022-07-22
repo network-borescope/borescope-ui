@@ -625,7 +625,12 @@ export class HomeComponent implements AfterViewInit {
     let tsT1 = this.global.getGlobal("t1_vis").value;
     const selectedParam = this.global.getGlobal('functions_param').value;
     const clicked = this.global.getGlobal("clicked_element").value;
+    if(selectedParam == "timeseries") {
+      console.log('requesting heatmatrix timeseries')
+      const res1 = await this.api.requestHeatmatrix('rnp_services', 'havg', tsT0, tsT1, clicked);
+      console.log(JSON.parse(res1).result)
 
+    }
     const res = await this.api.requestFunctions(0, selectedParam,  tsT0, tsT1, clicked);
     let data;
     (clicked >= 0) ? data = res.result[`${clicked}`]['0'] : data = res.result['0']['0'];
