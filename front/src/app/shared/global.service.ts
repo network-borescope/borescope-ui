@@ -286,19 +286,18 @@ export class GlobalService {
     /**
      * Guarda dummy data para heatmatrix pop x servicos
      */
-         const dummy_time =  {
-          key: 'dummy_time',
-          value: dummyTime["dummyTime"]
-        }
-        this.setGlobal(dummy_time);
+    const dummy_time =  {
+      key: 'dummy_time',
+      value: dummyTime["dummyTime"]
+    }
+    this.setGlobal(dummy_time);
     /**
-     * Guarda tipo selecionado popxpop ou popxservices
+     * Guarda tipo selecionado popxpop ou popxservices p heatmatrix
      */
     const data_type =  {
       key: 'data_type',
       value: 'popxpop'
     }
-    this.setGlobal(data_type);
      /**
       * Guarda os parâmetros a serem utilizados para o scattergl no multiselect
       */

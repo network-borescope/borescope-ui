@@ -369,13 +369,6 @@ export class HomeComponent implements AfterViewInit {
     const selectedParam = this.global.getGlobal('line_selected_params_value').value;
     this.line.drawChart(param, selectedParam);
   }
-  /**
-   * reseta a timeseries quando o botão de reset do zoom é clicado
-   */
-  onTimeseriesReset() {
-    (document.getElementById('chart-select-options') as HTMLInputElement).value = "heatmatrix";
-    this.net.clearTimeseries();
-  }
 
   onFunctionsChartReset() {
     (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value = "all";
@@ -626,6 +619,7 @@ export class HomeComponent implements AfterViewInit {
     }
   }
 
+  //atualiza quando selecionado agregado
   async updateFunctionsChart() {
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
@@ -640,6 +634,7 @@ export class HomeComponent implements AfterViewInit {
     this.func.updateFunctionsChartData(selectedData, clicked);
   }
 
+  //atualiza quando selecionado um servico individualmente
   async updateFunctionsChartService(event: any) {
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
@@ -656,6 +651,7 @@ export class HomeComponent implements AfterViewInit {
     this.func.updateFunctionsChartData(selectedData, clicked);
   }
 
+  //atualiza quando esta selecionada a opcao de n pops x n servicos
   async updateFunctionsCombinations(event: any) {
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;

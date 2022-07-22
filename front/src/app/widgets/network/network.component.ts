@@ -44,10 +44,7 @@ export class NetworkComponent implements OnInit {
 
   ngOnInit(): void {
     this.netChart = new Network(this.netDiv.nativeElement);
-    this.timeseriesChart = new Timeseries(this.timeseriesDiv.nativeElement);
     this.setMultipleSelectConfiguration('popxpop');
-    this.timeseriesChart.setCapitals(this.global.getGlobal('state_capitals').value.default);
-    this.timeseriesChart.setServices(this.global.getGlobal("services").value.default);
   }
 
   drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false, dataType: string, services: any = null) {
@@ -76,9 +73,6 @@ export class NetworkComponent implements OnInit {
     };
     this.global.setGlobal(heatmatrix_value);
     this.heatMatrixValueChanged.emit();
-    if(!this.isTimeseriesSelected()) { 
-      this.onItemSelected.emit(this.selectedItems);
-    }
   }
 
   onParamChange(event: any) {
@@ -88,9 +82,6 @@ export class NetworkComponent implements OnInit {
     };
     this.global.setGlobal(heatmatrix_param);
     this.heatMatrixParamChanged.emit();
-    if(!this.isTimeseriesSelected()) { 
-      this.onItemSelected.emit(this.selectedItems);
-    }
   }
 
   onChartDataTypeChange(event: any) {
@@ -100,29 +91,11 @@ export class NetworkComponent implements OnInit {
     };
     this.global.setGlobal(data_type);
     this.setMultipleSelectConfiguration(event.target.value);
-    this.clearTimeseries();
     this.heatMatrixValueChanged.emit();
   }
 
-  onChartChange(event: any) {
-    if(event.target.value == 'heatmatrix') {
-      const network_param = {
-        key: "network_param",
-        value: 1
-      };
-      this.global.setGlobal(network_param);
-      this.heatMatrixValueChanged.emit();
-    } else {
-      const network_param = {
-        key: "network_param",
-        value: 0
-      };
-      this.global.setGlobal(network_param);  
-    }
-  }
-
   onTimeBoundsChange() {
-    !this.isTimeseriesSelected() ? this.onItemSelected.emit(this.selectedItems) : this.heatMatrixValueChanged.emit();
+    this.heatMatrixValueChanged.emit();
   }
 
   setMultipleSelectConfiguration(type: string) {
@@ -179,12 +152,6 @@ export class NetworkComponent implements OnInit {
     this.networkChange = !this.networkChange;
   }
 
-  isTimeseriesSelected() {
-    const network_param = this.global.getGlobal("network_param");
-    return network_param.value !== 0;
-  }
-
-
   onItemSelect(event: any, added: boolean) {
     if(this.selectedItems.includes(event.cod)) {
       const index = this.selectedItems.indexOf(event.cod);
@@ -196,15 +163,6 @@ export class NetworkComponent implements OnInit {
     this.onItemSelected.emit(this.selectedItems);
   }
   
-
-  chartDisplay() {
-    const network_param = this.global.getGlobal("network_param").value;
-    //verdadeiro para heatmatrix
-    if(network_param == 1) return [true,false];
-    //verdadeiro para time series
-    else return [false,true];
-  }
-
   isCapitalSelected() {
     return (this.global.getGlobal("clicked_element").value > 0)
   }
@@ -213,12 +171,6 @@ export class NetworkComponent implements OnInit {
     return (this.global.getGlobal("data_type").value == 'popxpop')
   }
   
-  clearTimeseries() {
-    this.selectedItems = [];
-    this.selectedItemsRoot = [];
-    this.timeseriesChart.clear();
-  }
-
   /**
  * seta as cores já utilizadas
  */

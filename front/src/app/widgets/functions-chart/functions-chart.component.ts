@@ -109,7 +109,7 @@ export class FunctionsChartComponent implements OnInit {
 
     this.clearSeries();
     this.global.setGlobal(functions_value);
-    this.shouldShowMultiSelectors() ? this.selectionLimit = 30 : this.selectionLimit = 10;
+    this.shouldShowMultiSelectors() || this.isTimeSeriesSelected() ? this.selectionLimit = 30 : this.selectionLimit = 10;
     this.setMultipleSelectConfiguration();
 
     //cleaning combined selections
@@ -123,6 +123,17 @@ export class FunctionsChartComponent implements OnInit {
       this.functionsValueChanged.emit();
     }
   }
+
+  onChartDataTypeChange(event: any) {
+    //cleaning combined selections
+    this.hasData = false; 
+    this.combinedData = [];
+    this.combinedSelection = {pops:[], services:[]};
+    this.combinedSelections = [];
+    this.setCombinedMultipleSelectConfiguration();
+    this.setMultipleSelectConfiguration();
+  }
+
 
   onItemSelect(event: any, added: boolean) {
     if(this.selectedItems.includes(event.cod)) {
@@ -282,6 +293,10 @@ export class FunctionsChartComponent implements OnInit {
     return (this.global.getGlobal("clicked_element").value > 0)
   }
 
+  isTimeSeriesSelected() {
+    return (this.global.getGlobal('functions_param').value == 'timeseries');
+  }
+
   clear() {
     this.functionsChart.clear();
   }
@@ -316,7 +331,7 @@ export class FunctionsChartComponent implements OnInit {
 
   shouldShowMultiSelectors() {
     const dataType = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
-    if(dataType == 'nxn') return true;
+    if(dataType == 'nxn' || dataType == 'timeseries') return true;
     else return false
   }
 }

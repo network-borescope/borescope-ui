@@ -1,15 +1,5 @@
 <div>
-    <div class="fill network-chart" 
-    [style.z-index]="this.chartDisplay()[0] ? 99 : -1" 
-    [style.opacity]="this.chartDisplay()[0] ? 1 : 0"
-    [style.display]="this.chartDisplay()[0] ? 'inline-block' : 'none'" #netChart>
-    </div>
-    <div class="fill timeseries-chart" 
-    [style.z-index]="this.chartDisplay()[1] ? 99 : -1"
-    [style.opacity]="this.chartDisplay()[1] ? 1 : 0"
-    [style.display]="this.chartDisplay()[1] ? 'inline-block' : 'none'">
-        <canvas style="padding-bottom: 10px; width: 100%; height: 100%;" #timeseriesChart></canvas>
-    </div>
+    <div class="fill network-chart" style="z-index: 99;  opacity: 1; display: inline-block;" #netChart></div>
     <div style="display: flex; margin-top: 27px; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
         <div id="code-select-box" class="code-select">
             <select name="type" class="network-select" (change)="this.onChartDataTypeChange($event)">
@@ -83,23 +73,6 @@
                 <option value="h_max">Max</option>
                 <option value="h_min">Min</option>
             </select>        
-        </div>
-        <div id="chart-select-box" class="chart-select">
-            <select name="chart-selector" id="chart-select-options" class="network-select" (change)="this.onChartChange($event)">
-                <option value="heatmatrix">Heatmatrix</option>
-                <option *ngIf="this.isCapitalSelected()" value="timeseries">Time Series</option>
-            </select>       
-        </div>
-        <div *ngIf="this.isCapitalSelected()" id="chart-select-box" class="chart-select">
-            <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
-            [disabled]="this.isTimeseriesSelected()"
-            [placeholder]="this.multiSelectPlaceholder"
-            [settings]="this.dropdownSettings"
-            [data]="this.dropdownList"
-            [(ngModel)] = "this.selectedItemsRoot"
-            (onSelect)="this.onItemSelect($event, true)"
-            (onDeSelect)="this.onItemSelect($event, false)">
-            </ng-multiselect-dropdown>
         </div>
     </div>
 </div>
