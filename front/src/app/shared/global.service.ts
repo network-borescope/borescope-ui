@@ -298,6 +298,7 @@ export class GlobalService {
       key: 'data_type',
       value: 'popxpop'
     }
+    this.setGlobal(data_type);
      /**
       * Guarda os parâmetros a serem utilizados para o scattergl no multiselect
       */

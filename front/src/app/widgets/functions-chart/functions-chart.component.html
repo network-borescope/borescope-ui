@@ -3,17 +3,6 @@
         <canvas style="padding-bottom: 10px; width: 100%; height: 100% !important;" #functionsChart></canvas>
     </div>
     <div style="display: flex; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
-        <div class="code-select">
-            <select *ngIf="!this.isCapitalSelected()" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onValueChange($event)">
-                <option value="all" selected>Todos os pops x todos os serviços</option>
-                <option value="allpops">Todos os pops x serviço</option>
-                <option value="nxn">N pops x N serviços</option>
-            </select>
-            <select *ngIf="this.isCapitalSelected()" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onValueChange($event)">
-                <option value="allservices" selected>Pop x todos os serviços</option>
-                <option value="single">Pop x serviço</option>
-            </select>  
-        </div>
         <div class="model-select">
             <select name="select" class="param-selector" (change)="this.onParamChange($event)">
                 <option value="cdf" selected>CDF</option>
@@ -21,6 +10,21 @@
                 <option value="ccdf">CCDF</option>
                 <option value="timeseries">Time series</option>
             </select>
+        </div>
+        <div class="code-select">
+            <select *ngIf="this.isTimeSeriesSelected()" name="type" class="network-select" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onValueChange($event)">
+                <option value="popxpop">Pop x Pop</option>
+                <option value="popxservice">Pop x Serviços</option>
+            </select>
+            <select *ngIf="!this.isCapitalSelected() && !this.isTimeSeriesSelected()" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onValueChange($event)">
+                <option value="all" selected>Todos os pops x todos os serviços</option>
+                <option value="allpops">Todos os pops x serviço</option>
+                <option value="nxn">N pops x N serviços</option>
+            </select>
+            <select *ngIf="this.isCapitalSelected()  && !this.isTimeSeriesSelected()" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onValueChange($event)">
+                <option value="allservices" selected>Pop x todos os serviços</option>
+                <option value="single">Pop x serviço</option>
+            </select>  
         </div>
         <div *ngIf="this.shouldShowServices()" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "

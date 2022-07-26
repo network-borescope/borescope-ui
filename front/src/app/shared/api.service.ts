@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 import { GlobalService } from './global.service';
 import { UtilService } from './util.service';
 
-import { BoundsRequest, QueryRequest, SchemaRequest, MatrixRequest, FunctionsRequest } from 'src/app/shared/api.models';
+import { BoundsRequest, QueryRequest, SchemaRequest, MatrixRequest, FunctionsRequest, TimeseriesRequest } from 'src/app/shared/api.models';
 
 @Injectable({
   providedIn: 'root'
@@ -300,6 +300,39 @@ export class ApiService {
 
   }
 
+  /** 
+   * Solicita os dados para timeseries
+  */
+  async requestTimeseries(metric: any, field: string, t0: number, t1: number, idpop: number, from: string) {
+    let query = new TimeseriesRequest();
+  //{"what":"timecolumns","metric":10,"field":"h_avg","start":1648771200,"end":1656633300,"idpop":19}
+  //{"what":"timecolumns","metric":10,"field":"havg","start":1648771200,"end":1656633300,"idpop":8,"from":"rnp_services"}
+
+    query['metric'] = metric;
+    query['field'] = field;
+    query['start'] = t0;
+    query['end'] = t1;
+    query['idpop'] = idpop;
+    if(from == 'rnp_services') {
+      query['from'] = 'rnp_services'
+    }
+    this.utils.showTrace("requestTimeseries", query);
+
+    // post header
+    const headers = {
+      'Content-Type': 'application/json',
+      'dataType': 'json'
+    };
+
+    // Return a new promise.
+    const response = await fetch(this.xhttp_url + '2', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(query),
+    });
+
+    return await response.json();
+  }
   /**
    * Solicita os dados do mapa para compor a heatmatrix.
    */

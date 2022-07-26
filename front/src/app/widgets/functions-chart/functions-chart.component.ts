@@ -312,14 +312,18 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   shouldShowServices() {
-    const dataType = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
-    if(dataType == "single" || dataType == "allpops") return true;
-    else return false;
+    if(!this.isTimeSeriesSelected()) {
+      const dataType = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
+      if(dataType == "single" || dataType == "allpops") return true;
+      else return false;
+    } else return false;
   }
 
   shouldShowMultiSelectors() {
-    const dataType = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
-    if(dataType == 'nxn' || dataType == 'timeseries') return true;
-    else return false
+    if(!this.isTimeSeriesSelected()) {
+      const dataType = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
+    if(dataType == 'nxn') return true;
+    else return false;
+    } else return true;
   }
 }

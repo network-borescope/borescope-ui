@@ -77,6 +77,32 @@ export class MatrixRequest {
 }
 
 /**
+ * Timeseries Request Class
+ */
+export class TimeseriesRequest {
+  'what': string;
+  'metric': any;
+  'field': string;
+  'start': number;
+  'end': number;
+  'idpop': number;
+  'from': string;
+  //{"what":"timecolumns","metric":10,"field":"h_avg","start":1648771200,"end":1656633300,"idpop":19}
+
+  //{"what":"timecolumns","metric":10,"field":"havg","start":1648771200,"end":1656633300,"idpop":8,"from":"rnp_services"}
+
+  constructor() {
+    this['what'] = "timecolumns";
+    this['metric'] = 0;
+    this['field']= "h_avg";
+    this['start'] = 1;
+    this['end'] = 2;
+    this['idpop'] = -1;
+    this['from'] = "";
+  }  
+}
+
+/**
  * Functions Request Class
  */
  export class FunctionsRequest {

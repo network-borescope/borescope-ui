@@ -15,14 +15,11 @@ export class NetworkComponent implements OnInit {
 
   // referência para o div do grafico
   @ViewChild("netChart", { static: true }) private netDiv!: ElementRef;
-  @ViewChild("timeseriesChart", { static: true }) private timeseriesDiv!: ElementRef;
 
   @Output() heatMatrixValueChanged = new EventEmitter<number>();
   @Output() heatMatrixParamChanged = new EventEmitter<number>();
-  @Output() onItemSelected = new EventEmitter<any>();
   // objeto do gráfico
   private netChart: any;
-  private timeseriesChart: any;
   //capitals select list
   private selectedItems: any = [];
   public selectedItemsRoot: any = [];
@@ -51,19 +48,6 @@ export class NetworkComponent implements OnInit {
     const capitalId = clicked;
     this.netChart.setData(data, capitals, clicked >= 0, invert, capitalId, services);
     this.netChart.render();
-  }
-
-  updateTimeseriesData(data: any, dates: any, clicked: number) {
-    for(let i = 0; i < data.length; i++) {
-       this.updateUsedColors(true,this.drawColors[i]);
-    }
-    this.timeseriesChart.clear();
-    let type;
-    this.isPopSelected() ? type = 'Pop de chegada' : type = 'Serviço';
-    this.timeseriesChart.updateData(data, this.drawColors, type);
-    this.timeseriesChart.setLabels(dates, type);
-    this.timeseriesChart.setTitle(clicked);
-    this.timeseriesChart.render();
   }
 
   onValueChange(event: any) {
@@ -152,17 +136,6 @@ export class NetworkComponent implements OnInit {
     this.networkChange = !this.networkChange;
   }
 
-  onItemSelect(event: any, added: boolean) {
-    if(this.selectedItems.includes(event.cod)) {
-      const index = this.selectedItems.indexOf(event.cod);
-      this.selectedItems = this.selectedItems.filter((e:any) => e !== event.cod);
-      this.updateUsedColors(false, this.usedColors[index]);
-    } else {
-      this.selectedItems.push(event.cod);
-    };
-    this.onItemSelected.emit(this.selectedItems);
-  }
-  
   isCapitalSelected() {
     return (this.global.getGlobal("clicked_element").value > 0)
   }
