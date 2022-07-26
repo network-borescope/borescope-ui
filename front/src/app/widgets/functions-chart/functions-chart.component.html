@@ -54,9 +54,9 @@
             [placeholder]="this.multiSelectPopsPlaceholder"
             [settings]="this.dropdownSettingsPops"
             [data]="this.dropdownListPops"
-            [(ngModel)] = "this.selectedItemsRoot"
-            (onSelect)="this.onCombinedSelect($event, 'pop', true)"
-            (onDeSelect)="this.onCombinedSelect($event, 'pop', false)">
+            [(ngModel)] = "this.selectedItemsRootSecondary"
+            (onSelect)="this.onCombinedSelect($event, 'secondarypop', true)"
+            (onDeSelect)="this.onCombinedSelect($event, 'secondarypop', false)">
             </ng-multiselect-dropdown>
         </div>
         <div *ngIf="(this.shouldShowMultiSelectors() && !this.isTimeSeriesSelected()) || this.isServiceSelected()" id="chart-select-box" class="chart-select">

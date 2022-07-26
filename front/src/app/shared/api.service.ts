@@ -303,17 +303,17 @@ export class ApiService {
   /** 
    * Solicita os dados para timeseries
   */
-  async requestTimeseries(metric: any, field: string, t0: number, t1: number, idpop: number, from: string) {
+  async requestTimeseries(metric: any, field: string, t0: number, t1: number, idpop: number, from: string = "") {
     let query = new TimeseriesRequest();
-  //{"what":"timecolumns","metric":10,"field":"h_avg","start":1648771200,"end":1656633300,"idpop":19}
-  //{"what":"timecolumns","metric":10,"field":"havg","start":1648771200,"end":1656633300,"idpop":8,"from":"rnp_services"}
-
+    //{"what":"timecolumns","metric":10,"field":"h_avg","start":1648771200,"end":1656633300,"idpop":19}
+    //{"what":"timecolumns","metric":10,"field":"havg","start":1648771200,"end":1656633300,"idpop":8,"from":"rnp_services"}
     query['metric'] = metric;
     query['field'] = field;
     query['start'] = t0;
     query['end'] = t1;
     query['idpop'] = idpop;
     if(from == 'rnp_services') {
+      // @ts-ignore
       query['from'] = 'rnp_services'
     }
     this.utils.showTrace("requestTimeseries", query);

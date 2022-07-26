@@ -586,7 +586,7 @@ export class HomeComponent implements AfterViewInit {
     const res = await this.api.requestFunctions(0, selectedParam,  tsT0, tsT1, clicked);
     let data;
     (clicked >= 0) ? data = res.result[`${clicked}`]['0'] : data = res.result['0']['0'];
-    const adaptedData = this.adaptData(data);
+    const adaptedData = this.adaptData(data, "functions");
     const selectedData:any = [[-1,[adaptedData]]];
     this.func.updateFunctionsChartData(selectedData, clicked);
   }
@@ -605,7 +605,7 @@ export class HomeComponent implements AfterViewInit {
       event[i] == -1 ? id = 0 : id = event[i];
       (clicked >= 0) ? data = res.result[`${clicked}`][`${id}`] : data = res.result['0'][`${id}`];
 
-      const adaptedData = this.adaptData(data);
+      const adaptedData = this.adaptData(data, "functions");
       selectedData[i] = [event[i],[adaptedData]];
     }  
     this.func.updateFunctionsChartData(selectedData, clicked);
@@ -621,30 +621,50 @@ export class HomeComponent implements AfterViewInit {
       let pop = event[i].codPop;
       let service = event[i].codService;
       let data;
-      const res = await this.api.requestFunctions(service, selectedParam,  tsT0, tsT1, pop);
-      if(pop >= 0 && service >= 0) {
-        data = res.result[`${pop}`][`${service}`];
-      } else if(pop == -1 && service >= 0) {
-        data = res.result['0'][`${service}`];
-      } else if(pop >= 0 && service == -1) {
-        data = res.result[`${pop}`]['0'];
-      } else {
-        data = res.result['0']['0'];
+      let res;
+      if(selectedParam !== "timeseries") {
+        res = await this.api.requestFunctions(service, selectedParam,  tsT0, tsT1, pop);
+        if(pop >= 0 && service >= 0) {
+          data = res.result[`${pop}`][`${service}`];
+        } else if(pop == -1 && service >= 0) {
+          data = res.result['0'][`${service}`];
+        } else if(pop >= 0 && service == -1) {
+          data = res.result[`${pop}`]['0'];
+        } else {
+          data = res.result['0']['0'];
+        }
+        const adaptedData = this.adaptData(data, "functions");
+        selectedData[i] = [event[i],[adaptedData]];
       }
-      const adaptedData = this.adaptData(data);
-      selectedData[i] = [event[i],[adaptedData]];
+      else {
+        let selectedValue: number;
+        this.func.isPopSelected() ? selectedValue = 10 : selectedValue = 10;
+        res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, pop)
+        data = JSON.parse(res).result
+        const adaptedData = this.adaptData(data, "timeseries", pop);
+        selectedData[i] = [event[i],[adaptedData]];
+      }
     }
     this.func.updateFunctionsCombinationsData(selectedData);
   }
   //DELETAR QUANDO DANIEL ARRUMAR O PROBLEMA
-  adaptData(data: any) {
-    const adaptedMs:any[] = [];
+  adaptData(data: any, from: string, secondParam: number = 0) {
     const adaptedValues: any[] = [];
-    for(let i = 0; i < data.length; i++) {
-      adaptedMs.push(data[i][0]);
-      adaptedValues.push({x: data[i][0], y: data[i][1]})
+    if(from == "functions") {
+      for(let i = 0; i < data.length; i++) {
+        adaptedValues.push({x: data[i][0], y: data[i][1]})
+      }
+    } else {
+      for(let i = 0; i < data.length; i++) {
+        let label = '';
+        let date = new Date(data[i][1] * 1000);
+        //@ts-ignore
+        label = date.toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' }).split(' ')[0];
+        if(secondParam == data[i][0]) {
+          adaptedValues.push({x: label, y: data[i][2]});
+        }
+      }
     }
-
     const totalData = [adaptedValues];
     return totalData;
   }

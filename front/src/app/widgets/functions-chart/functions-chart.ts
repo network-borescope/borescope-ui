@@ -100,7 +100,7 @@ export class Functionschart {
 
     updateData(data: any, colorList: any, param: string) {
       const datasets = this.chart.config.data.datasets;
-
+      console.log(data)
       for(let i = 0; i < data.length; i++) {
         const newData = {
           label: (data[i][0] >= 0) ? this.getId(data[i][0], 'service') : param.toUpperCase(),
@@ -114,20 +114,28 @@ export class Functionschart {
       this.chart.update();
     }
   
-    updateCombinations(data: any) {
+    updateCombinations(data: any, selectedParam: string) {
       const datasets = this.chart.config.data.datasets;
-      for(let i = 0; i < data.length; i++) {
-        const color = '#'+Math.floor(Math.random()*16777215).toString(16);
-        const newData = {
-          label: `${data[i][0].idPop} - ${data[i][0].idService}`,
-          data: data[i][1][0][0],
-          backgroundColor: color,
-          borderColor: color,
-          fill: false
-        };
-        datasets.push(newData);
+      console.log(data)
+ 
+      if(selectedParam !== "timeseries") {
+        for(let i = 0; i < data.length; i++) {
+          const color = this.getRandomColor();
+          const newData = {
+            label: `${data[i][0].idPop} - ${data[i][0].idService}`,
+            data: data[i][1][0][0],
+            backgroundColor: color,
+            borderColor: color,
+            fill: false
+          };
+          datasets.push(newData);
+        }
       }
       this.chart.update();
+    }
+
+    getRandomColor() {
+      return '#'+Math.floor(Math.random()*16777215).toString(16);
     }
 
     getId(id: number, type: string) {
@@ -145,7 +153,18 @@ export class Functionschart {
       this.chart.config.options.scales.y.title.text = '';
       this.chart.update();
     }
-  
+
+    setConfig(selectedParam: string) {
+      if(selectedParam == "timeseries") {
+        this.chart.config.options.scales.x.title.text = 'Date';
+        this.chart.config.options.scales.x.type = 'category';
+      } else {
+        this.chart.config.options.scales.x.title.text = 'Tempo (ms)';
+        this.chart.config.options.scales.x.type = 'linear';
+      }
+      this.chart.update();
+    }
+
     render() {
       this.chart.update();
     }
@@ -154,5 +173,11 @@ export class Functionschart {
       this.chart.config.data.labels = [];
       this.chart.config.data.datasets = [];
       this.chart.update();
+    }
+
+    valToDate(d: any) {
+      const data = new Date(1000 * d)
+      //@ts-ignore
+      return data.toLocaleString('en-US', { dateStyle: 'short', timeZone: 'UTC' });
     }
   }

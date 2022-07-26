@@ -28,6 +28,7 @@ export class FunctionsChartComponent implements OnInit {
   //capitals select list
   private selectedItems: any = [];
   public selectedItemsRoot: any = [];
+  public selectedItemsRootSecondary: any = [];
   private combinedSelection: any = {
     pops: [],
     services: []
@@ -48,6 +49,8 @@ export class FunctionsChartComponent implements OnInit {
   //configuração do multiselect para os pops
   public dropdownListPops: any = [];
   public dropdownSettingsPops: any = {};
+  public dropdownListPopsSecondary: any = [];
+  public dropdownSettingsPopsSecondary: any = {};
   public multiSelectPopsPlaceholder = 'Estados';
   //configuração do multiselect para as combinacoes de servicos + pops adicionados ao grafico
   public dropdownListCombined: any = [];
@@ -85,11 +88,13 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   onParamChange(event: any) {
+    const selectedParam = this.global.getGlobal('functions_param').value;
+    this.functionsChart.setConfig(event.target.value);
     const functions_param = {
       key: "functions_param",
       value: event.target.value
     };
-    this.functionsChart.clear();
+    (selectedParam == "timeseries") ? this.clearSeries() : this.functionsChart.clear();
     this.global.setGlobal(functions_param);
     this.isTimeSeriesSelected() ? this.selectionLimit = 30 : this.selectionLimit = 10;
     if(this.shouldShowServices() && !this.isTimeSeriesSelected()) {
@@ -97,14 +102,8 @@ export class FunctionsChartComponent implements OnInit {
     } else if(!this.shouldShowServices() && this.hasData && !this.isTimeSeriesSelected()) {
       this.onCombinedChange.emit(this.combinedData);
     } else if(this.isTimeSeriesSelected()) {
-      console.log('setting configs')
-      this.clearSeries();
+      this.clearSeries()
       this.setMultipleSelectConfiguration();
-      //cleaning combined selections
-      this.hasData = false; 
-      this.combinedData = [];
-      this.combinedSelection = {pops:[], services:[]};
-      this.combinedSelections = [];
       this.setCombinedMultipleSelectConfiguration();
     } else {
       this.functionsValueChanged.emit();
@@ -116,19 +115,11 @@ export class FunctionsChartComponent implements OnInit {
       key: "functions_value",
       value: event.target.value,
     };
-
     this.clearSeries();
     this.global.setGlobal(functions_value);
     this.shouldShowMultiSelectors() ? this.selectionLimit = 30 : this.selectionLimit = 10;
     this.setMultipleSelectConfiguration();
-
-    //cleaning combined selections
-    this.hasData = false; 
-    this.combinedData = [];
-    this.combinedSelection = {pops:[], services:[]};
-    this.combinedSelections = [];
     this.setCombinedMultipleSelectConfiguration();
-
     if(!this.shouldShowServices() && !this.shouldShowMultiSelectors()) {
       this.functionsValueChanged.emit();
     }
@@ -164,18 +155,30 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   addDataCombinations() {
+    //adiciona data para quando não é a timeseries selecionada
     if(this.combinedSelection.pops.length > 0 && this.combinedSelection.services.length > 0) {
       const services = this.global.getGlobal("services").value.default;
       const capitals = this.global.getGlobal("state_capitals").value.default;
       this.combinedData = [];
-
-      for(let i = 0; i < this.combinedSelection.pops.length; i++) {
-        for(let j = 0; j < this.combinedSelection.services.length; j++) {
-          const obj = {idPop: (this.combinedSelection.pops[i] >= 0) ? this.functionsChart.getId(this.combinedSelection.pops[i], 'pop') : 'TODOS POPS',
-                                  codPop: this.combinedSelection.pops[i],
-                                  idService: (this.combinedSelection.services[j] >= 0) ? this.functionsChart.getId(this.combinedSelection.services[j], 'service') : 'TODOS SERVIÇOS',
-                                  codService: this.combinedSelection.services[j]}
-          this.combinedData.push(obj);
+      if(!this.isTimeSeriesSelected()) {
+        for(let i = 0; i < this.combinedSelection.pops.length; i++) {
+          for(let j = 0; j < this.combinedSelection.services.length; j++) {
+            const obj = {idPop: (this.combinedSelection.pops[i] >= 0) ? this.functionsChart.getId(this.combinedSelection.pops[i], 'pop') : 'TODOS POPS',
+                          codPop: this.combinedSelection.pops[i],
+                          idService: (this.combinedSelection.services[j] >= 0) ? this.functionsChart.getId(this.combinedSelection.services[j], 'service') : 'TODOS SERVIÇOS',
+                          codService: this.combinedSelection.services[j]}
+            this.combinedData.push(obj);
+          }
+        }
+      } else {
+        for(let i = 0; i < this.combinedSelection.pops.length; i++) {
+          for(let j = 0; j < this.combinedSelection.services.length; j++) {
+            const obj = { idPop: this.functionsChart.getId(this.combinedSelection.pops[i], 'pop'),
+                          codPop: this.combinedSelection.pops[i],
+                          idService: this.functionsChart.getId(this.combinedSelection.services[j], this.isPopSelected() ? 'pop' : 'service'),
+                          codService: this.combinedSelection.services[j]}
+            this.combinedData.push(obj);
+          }
         }
       }
       this.setCombinedMultipleSelectConfiguration();
@@ -183,7 +186,6 @@ export class FunctionsChartComponent implements OnInit {
       this.functionsChart.clear();
       this.onCombinedChange.emit(this.combinedData);
     }
-    
   }
 
   removeDataCombinations() {
@@ -222,10 +224,12 @@ export class FunctionsChartComponent implements OnInit {
     this.dropdownSettingsServices = {};
     this.dropdownListPops = [];
     this.dropdownSettingsPops = {};
+    this.dropdownListPopsSecondary = [];
+    this.dropdownSettingsPopsSecondary = {};
     //setando as configuracoes do multiselect p servicos
     const services = this.global.getGlobal("services").value.default;
     this.multiSelectServicesPlaceholder = 'Serviços';
-    this.dropdownListServices.push({estado:'TODOS SERVIÇOS', cod:-1})
+    if(!this.isTimeSeriesSelected()) this.dropdownListServices.push({estado:'TODOS SERVIÇOS', cod:-1})
     for(let i = 0; i < services.length; i++) {
       let id = services[i].id.toUpperCase();
       let cod = services[i].cod;
@@ -244,10 +248,10 @@ export class FunctionsChartComponent implements OnInit {
       itemsShowLimit: 0,
       allowSearchFilter: false
     };
-    //setando as configuracoes do multiselect p servicos
+    //setando as configuracoes do multiselect p pops
     const capitals = this.global.getGlobal("state_capitals").value.default;
     this.multiSelectPopsPlaceholder = 'Estados';
-    this.dropdownListPops.push({estado:'TODOS POPS', cod:-1})
+    if(!this.isTimeSeriesSelected()) this.dropdownListPops.push({estado:'TODOS POPS', cod:-1})
     for(let i = 0; i < capitals.length; i++) {
       let id = capitals[i].id.toUpperCase();
       let cod = capitals[i].cod;
@@ -265,7 +269,7 @@ export class FunctionsChartComponent implements OnInit {
       unSelectAll: false,
       itemsShowLimit: 0,
       allowSearchFilter: false
-    };    
+    };   
   }
 
   setCombinedMultipleSelectConfiguration() {
@@ -315,11 +319,16 @@ export class FunctionsChartComponent implements OnInit {
   clearSeries() {
     this.selectedItems = [];
     this.selectedItemsRoot = [];
+    this.selectedItemsRootSecondary = [];
+    //cleaning combined selections
+    this.hasData = false; 
+    this.combinedData = [];
     this.functionsChart.clear();
     this.combinedSelection = {
       pops: [],
       services: []
     }
+    this.combinedSelections = [];
   }
 
   /**

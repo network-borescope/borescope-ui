@@ -86,7 +86,6 @@ export class TimeseriesRequest {
   'start': number;
   'end': number;
   'idpop': number;
-  'from': string;
   //{"what":"timecolumns","metric":10,"field":"h_avg","start":1648771200,"end":1656633300,"idpop":19}
 
   //{"what":"timecolumns","metric":10,"field":"havg","start":1648771200,"end":1656633300,"idpop":8,"from":"rnp_services"}
@@ -98,7 +97,6 @@ export class TimeseriesRequest {
     this['start'] = 1;
     this['end'] = 2;
     this['idpop'] = -1;
-    this['from'] = "";
   }  
 }
 
