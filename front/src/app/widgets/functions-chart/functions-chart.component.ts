@@ -91,10 +91,21 @@ export class FunctionsChartComponent implements OnInit {
     };
     this.functionsChart.clear();
     this.global.setGlobal(functions_param);
-    if(this.shouldShowServices()) {
+    this.isTimeSeriesSelected() ? this.selectionLimit = 30 : this.selectionLimit = 10;
+    if(this.shouldShowServices() && !this.isTimeSeriesSelected()) {
       this.onItemSelected.emit(this.selectedItems)
-    } else if(!this.shouldShowServices() && this.hasData) {
+    } else if(!this.shouldShowServices() && this.hasData && !this.isTimeSeriesSelected()) {
       this.onCombinedChange.emit(this.combinedData);
+    } else if(this.isTimeSeriesSelected()) {
+      console.log('setting configs')
+      this.clearSeries();
+      this.setMultipleSelectConfiguration();
+      //cleaning combined selections
+      this.hasData = false; 
+      this.combinedData = [];
+      this.combinedSelection = {pops:[], services:[]};
+      this.combinedSelections = [];
+      this.setCombinedMultipleSelectConfiguration();
     } else {
       this.functionsValueChanged.emit();
     }
@@ -108,7 +119,7 @@ export class FunctionsChartComponent implements OnInit {
 
     this.clearSeries();
     this.global.setGlobal(functions_value);
-    this.shouldShowMultiSelectors() || this.isTimeSeriesSelected() ? this.selectionLimit = 30 : this.selectionLimit = 10;
+    this.shouldShowMultiSelectors() ? this.selectionLimit = 30 : this.selectionLimit = 10;
     this.setMultipleSelectConfiguration();
 
     //cleaning combined selections
@@ -209,6 +220,8 @@ export class FunctionsChartComponent implements OnInit {
     //multiselect
     this.dropdownListServices = [];
     this.dropdownSettingsServices = {};
+    this.dropdownListPops = [];
+    this.dropdownSettingsPops = {};
     //setando as configuracoes do multiselect p servicos
     const services = this.global.getGlobal("services").value.default;
     this.multiSelectServicesPlaceholder = 'Serviços';
@@ -283,6 +296,16 @@ export class FunctionsChartComponent implements OnInit {
 
   isTimeSeriesSelected() {
     return (this.global.getGlobal('functions_param').value == 'timeseries');
+  }
+
+  isPopSelected() {
+    const dataType = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
+    return dataType == 'popxpop';
+  }
+
+  isServiceSelected() {
+    const dataType = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
+    return dataType == 'popxservice';
   }
 
   clear() {
