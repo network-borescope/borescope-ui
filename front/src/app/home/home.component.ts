@@ -593,7 +593,6 @@ export class HomeComponent implements AfterViewInit {
 
   //atualiza quando selecionado um servico individualmente
   async updateFunctionsChartService(event: any) {
-    console.log(event);
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
     const selectedParam = this.global.getGlobal('functions_param').value;
@@ -604,8 +603,7 @@ export class HomeComponent implements AfterViewInit {
       let data;
       let id;
       event[i] == -1 ? id = 0 : id = event[i];
-      (clicked >= 0) ? data = res.result[`${clicked}`][`${event[i]}`] : data = res.result['0'][`${id}`];
-      console.log(data);
+      (clicked >= 0) ? data = res.result[`${clicked}`][`${id}`] : data = res.result['0'][`${id}`];
 
       const adaptedData = this.adaptData(data);
       selectedData[i] = [event[i],[adaptedData]];
