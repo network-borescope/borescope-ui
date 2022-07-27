@@ -599,17 +599,20 @@ export class HomeComponent implements AfterViewInit {
     const selectedParam = this.global.getGlobal('functions_param').value;
     const clicked = this.global.getGlobal("clicked_element").value;
     const selectedData:any = [];
-    for(let i = 0; i < event.length; i++) {
-      const res = await this.api.requestFunctions(event[i], selectedParam,  tsT0, tsT1, clicked);
-      let data;
-      let id;
-      event[i] == -1 ? id = 0 : id = event[i];
-      (clicked >= 0) ? data = res.result[`${clicked}`][`${id}`] : data = res.result['0'][`${id}`];
-
-      const adaptedData = this.adaptData(data, "functions");
-      selectedData[i] = [event[i],[adaptedData]];
-    }  
-    this.func.updateFunctionsChartData(selectedData, clicked);
+    if(selectedParam !== 'timeseries') {
+      for(let i = 0; i < event.length; i++) {
+        const res = await this.api.requestFunctions(event[i], selectedParam,  tsT0, tsT1, clicked);
+        let data;
+        let id;
+        event[i] == -1 ? id = 0 : id = event[i];
+        (clicked >= 0) ? data = res.result[`${clicked}`][`${id}`] : data = res.result['0'][`${id}`];
+        console.log(data)
+        const adaptedData = this.adaptData(data, "functions");
+        console.log(adaptedData)
+        selectedData[i] = [event[i],[adaptedData]];
+      }  
+      this.func.updateFunctionsChartData(selectedData, clicked);
+    }
   }
 
   //atualiza quando esta selecionada a opcao de n pops x n servicos
@@ -701,7 +704,6 @@ export class HomeComponent implements AfterViewInit {
     } else {
       //dummy request para o spinner funcionar
       const res = await this.api.getConfig();
-      console.log(res)
     }
     this.scattergl.updateScatterglData(selectedParam, added, finalData);
     this.spinner.hide();

@@ -13,6 +13,8 @@ export class Functionschart {
     private labels: any = null;
     private data: any = null;
     
+    public isTimeSeries: any = false;
+    
     constructor(canvas: HTMLCanvasElement) {
       this.canvas = canvas;
       this.init();
@@ -73,11 +75,14 @@ export class Functionschart {
               },
               ticks: {
                 callback: function(value, index, ticks) {
-                  if(ticks.length === 7) {
+                  //@ts-ignore
+                  if(this.chart.config.data.datasets[0].data[value]) {
                     //@ts-ignore
-                    return this.chart.config.data.datasets[0].data[value].x;
-                  }
-                  else return value;
+                    if(ticks.length === 7 && (typeof(this.chart.config.data.datasets[0].data[value].x)) == "string") {
+                      //@ts-ignore
+                      return this.chart.config.data.datasets[0].data[value].x;
+                    }
+                  } else return value;
                 }
               }
             },
@@ -110,7 +115,6 @@ export class Functionschart {
 
     updateData(data: any, colorList: any, param: string) {
       const datasets = this.chart.config.data.datasets;
-      console.log(data)
       for(let i = 0; i < data.length; i++) {
         const newData = {
           label: (data[i][0] >= 0) ? this.getId(data[i][0], 'service') : param.toUpperCase(),
@@ -126,7 +130,6 @@ export class Functionschart {
   
     updateCombinations(data: any, selectedParam: string) {
       const datasets = this.chart.config.data.datasets;
-      data[0][1][0][0]
 
       for(let i = 0; i < data.length; i++) {
         const color = this.getRandomColor();

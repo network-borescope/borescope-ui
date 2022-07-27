@@ -94,7 +94,13 @@ export class FunctionsChartComponent implements OnInit {
       key: "functions_param",
       value: event.target.value
     };
-    (selectedParam == "timeseries") ? this.clearSeries() : this.functionsChart.clear();
+    if (selectedParam == "timeseries") {
+      this.functionsChart.isTimeSeries = true;
+      this.clearSeries()
+    } else {
+      this.functionsChart.isTimeSeries = false;
+      this.functionsChart.clear();
+    }
     this.global.setGlobal(functions_param);
     this.isTimeSeriesSelected() ? this.selectionLimit = 30 : this.selectionLimit = 10;
     if(this.shouldShowServices() && !this.isTimeSeriesSelected()) {
@@ -351,6 +357,7 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   shouldShowServices() {
+    if(this.isTimeSeriesSelected() && this.isCapitalSelected && !this.isPopSelected()) return true;
     if(!this.isTimeSeriesSelected()) {
       const dataType = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
       if(dataType == "single" || dataType == "allpops") return true;
