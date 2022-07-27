@@ -494,7 +494,6 @@ export class Timeseries {
 
   updateData(data: any, colorList: any, type: string) {
     const datasets = this.chart.config.data.datasets;
-    console.log(data)
     for(let i = 0; i < data.length; i++) {
       const newData = {
         label: this.getId(data[i][0], type),

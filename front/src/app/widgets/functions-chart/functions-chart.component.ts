@@ -154,6 +154,13 @@ export class FunctionsChartComponent implements OnInit {
     }
   }
 
+  onPopValueChange() {
+    if(this.hasData) {
+      this.functionsChart.clear();
+      this.onCombinedChange.emit(this.combinedData);
+    }
+  }
+
   addDataCombinations() {
     //adiciona data para quando não é a timeseries selecionada
     if(this.combinedSelection.pops.length > 0 && this.combinedSelection.services.length > 0) {
@@ -177,7 +184,7 @@ export class FunctionsChartComponent implements OnInit {
                           codPop: this.combinedSelection.pops[i],
                           idService: this.functionsChart.getId(this.combinedSelection.services[j], this.isPopSelected() ? 'pop' : 'service'),
                           codService: this.combinedSelection.services[j]}
-            this.combinedData.push(obj);
+            if(obj.idPop !== obj.idService) this.combinedData.push(obj);
           }
         }
       }

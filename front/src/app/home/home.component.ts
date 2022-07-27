@@ -638,9 +638,9 @@ export class HomeComponent implements AfterViewInit {
         selectedData[i] = [event[i],[adaptedData]];
       }
       else {
-        let selectedValue: number;
+        let selectedValue;
         if(this.func.isPopSelected()) {
-          selectedValue = 10;
+          selectedValue = (document.getElementById('functions-chart-select-timeseries-popxpop-value-options') as HTMLInputElement).value;
           res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, pop)
           data = JSON.parse(res).result
         } else {
@@ -654,7 +654,7 @@ export class HomeComponent implements AfterViewInit {
     }
     this.func.updateFunctionsCombinationsData(selectedData);
   }
-  //DELETAR QUANDO DANIEL ARRUMAR O PROBLEMA
+
   adaptData(data: any, from: string, secondParam: number = 0) {
     const adaptedValues: any[] = [];
     if(from == "functions") {
