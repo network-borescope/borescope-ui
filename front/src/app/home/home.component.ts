@@ -659,7 +659,7 @@ export class HomeComponent implements AfterViewInit {
         let label = '';
         let date = new Date(data[i][1] * 1000);
         //@ts-ignore
-        label = date.toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' }).split(' ')[0];
+        label = date.toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' }).split(', ')[0];
         if(secondParam == data[i][0]) {
           adaptedValues.push({x: label, y: data[i][2]});
         }

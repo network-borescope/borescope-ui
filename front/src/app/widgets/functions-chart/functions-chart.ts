@@ -1,4 +1,5 @@
 import { CategoryScale, Chart, Legend, LinearScale, LineController, LineElement, PointElement, Tooltip } from 'chart.js';
+import { ticks } from 'd3';
 
 export class Functionschart {
 
@@ -69,6 +70,15 @@ export class Functionschart {
               title: {
                 display: true,
                 text: 'Tempo (ms)'
+              },
+              ticks: {
+                callback: function(value, index, ticks) {
+                  if(ticks.length === 7) {
+                    //@ts-ignore
+                    return this.chart.config.data.datasets[0].data[value].x;
+                  }
+                  else return value;
+                }
               }
             },
             y: {
@@ -116,20 +126,19 @@ export class Functionschart {
   
     updateCombinations(data: any, selectedParam: string) {
       const datasets = this.chart.config.data.datasets;
-      console.log(data)
- 
-      if(selectedParam !== "timeseries") {
-        for(let i = 0; i < data.length; i++) {
-          const color = this.getRandomColor();
-          const newData = {
-            label: `${data[i][0].idPop} - ${data[i][0].idService}`,
-            data: data[i][1][0][0],
-            backgroundColor: color,
-            borderColor: color,
-            fill: false
-          };
-          datasets.push(newData);
-        }
+      data[0][1][0][0]
+
+      for(let i = 0; i < data.length; i++) {
+        const color = this.getRandomColor();
+        const newData = {
+          label: `${data[i][0].idPop} - ${data[i][0].idService}`,
+          data: data[i][1][0][0],
+          backgroundColor: color,
+          borderColor: color,
+          fill: false
+        };
+        datasets.push(newData);
+        
       }
       this.chart.update();
     }
