@@ -26,7 +26,7 @@
                 <option value="single">Pop x serviço</option>
             </select>  
         </div>
-        <div *ngIf="this.isTimeSeriesSelected() && this.isPopSelected()" id="code-select-box" class="code-select" style="margin-left: -64px;">
+        <div *ngIf="this.isTimeSeriesSelected() && this.isPopSelected()" id="code-select-box" class="code-select" [style.margin-left]="!this.hasData ? '-64px' : '-42px'">
             <select name="code" class="value-selector" id='functions-chart-select-timeseries-popxpop-value-options' (change)="this.onPopValueChange()">
                 <optgroup label="Atraso e perda">
                     <option value="10">Failures</option>
@@ -129,7 +129,7 @@
             (onDeSelect)="this.onCombinedSelect($event, 'service', false)">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="this.hasData && this.shouldShowMultiSelectors() && !this.isTimeSeriesSelected()" id="chart-select-box" class="chart-select">
+        <div *ngIf="this.hasData && this.shouldShowMultiSelectors()" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectCombinedPlaceholder"
