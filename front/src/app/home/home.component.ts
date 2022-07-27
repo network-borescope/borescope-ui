@@ -606,13 +606,19 @@ export class HomeComponent implements AfterViewInit {
         let id;
         event[i] == -1 ? id = 0 : id = event[i];
         (clicked >= 0) ? data = res.result[`${clicked}`][`${id}`] : data = res.result['0'][`${id}`];
-        console.log(data)
         const adaptedData = this.adaptData(data, "functions");
         console.log(adaptedData)
         selectedData[i] = [event[i],[adaptedData]];
       }  
-      this.func.updateFunctionsChartData(selectedData, clicked);
+    } else {
+      for(let i = 0; i < event.length; i++) {
+        const res = await this.api.requestTimeseries(10, "havg", tsT0, tsT1, clicked, "rnp_services");
+        const data = JSON.parse(res).result;
+        const adaptedData = this.adaptData(data, "timeseries", event[i]);
+        selectedData[i] = [event[i],[adaptedData]];
+      }
     }
+    this.func.updateFunctionsChartData(selectedData, clicked);
   }
 
   //atualiza quando esta selecionada a opcao de n pops x n servicos
