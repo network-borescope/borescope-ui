@@ -616,6 +616,7 @@ export class HomeComponent implements AfterViewInit {
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
     const selectedParam = this.global.getGlobal('functions_param').value;
+    
     const selectedData:any = [];
     for(let i  = 0; i < event.length; i++) {
       let pop = event[i].codPop;
@@ -638,10 +639,16 @@ export class HomeComponent implements AfterViewInit {
       }
       else {
         let selectedValue: number;
-        this.func.isPopSelected() ? selectedValue = 10 : selectedValue = 10;
-        res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, pop)
-        data = JSON.parse(res).result
-        const adaptedData = this.adaptData(data, "timeseries", pop);
+        if(this.func.isPopSelected()) {
+          selectedValue = 10;
+          res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, pop)
+          data = JSON.parse(res).result
+        } else {
+          selectedValue = 10;
+          res = await this.api.requestTimeseries(selectedValue, "havg", tsT0, tsT1, pop, "rnp_services")
+          data = JSON.parse(res).result
+        }
+        const adaptedData = this.adaptData(data, "timeseries", service);
         selectedData[i] = [event[i],[adaptedData]];
       }
     }
