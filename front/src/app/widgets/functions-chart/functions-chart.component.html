@@ -97,6 +97,17 @@
             (onDeSelect)="this.onItemSelect($event, false)">
             </ng-multiselect-dropdown>
         </div>
+        <div *ngIf="(this.isCapitalSelected() && this.isTimeSeriesSelected() && this.isPopSelected())" id="chart-select-box" class="chart-select">
+            <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
+            [disabled]="false"
+            [placeholder]="this.multiSelectPopsPlaceholder"
+            [settings]="this.dropdownSettingsPops"
+            [data]="this.dropdownListPops"
+            [(ngModel)] = "this.selectedItemsRoot"
+            (onSelect)="this.onItemSelect($event, true)"
+            (onDeSelect)="this.onItemSelect($event, false)">
+            </ng-multiselect-dropdown>
+        </div>
         <div *ngIf="this.shouldShowMultiSelectors() && !this.isCapitalSelected()" [style.margin-left]="this.isPopSelected() ? '17px' : '64px'"  id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"

@@ -111,11 +111,13 @@ export class Functionschart {
     }
 
     updateData(data: any, colorList: any, param: string) {
-      console.log(this.chart)
+      const selectedValue = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
+      let popOrService;
+      (selectedValue == "popxpop") ? popOrService = 'pop' : popOrService = 'service'
       const datasets = this.chart.config.data.datasets;
       for(let i = 0; i < data.length; i++) {
         const newData = {
-          label: (data[i][0] >= 0) ? this.getId(data[i][0], 'service') : param.toUpperCase(),
+          label: (data[i][0] >= 0) ? this.getId(data[i][0], popOrService) : param.toUpperCase(),
           data: data[i][1][0][0],
           backgroundColor: colorList[i],
           borderColor: colorList[i],

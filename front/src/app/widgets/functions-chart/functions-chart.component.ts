@@ -155,10 +155,9 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   onPopValueChange() {
-    if(this.hasData) {
-      this.functionsChart.clear();
-      this.onCombinedChange.emit(this.combinedData);
-    }
+    this.functionsChart.clear();
+    if(this.hasData) this.onCombinedChange.emit(this.combinedData);
+    if(this.isPopSelected() && this.isTimeSeriesSelected && this.isCapitalSelected) this.onItemSelected.emit(this.selectedItems);
   }
 
   addDataCombinations() {

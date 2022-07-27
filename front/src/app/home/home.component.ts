@@ -612,10 +612,18 @@ export class HomeComponent implements AfterViewInit {
       }  
     } else {
       for(let i = 0; i < event.length; i++) {
-        const res = await this.api.requestTimeseries(10, "havg", tsT0, tsT1, clicked, "rnp_services");
-        const data = JSON.parse(res).result;
-        const adaptedData = this.adaptData(data, "timeseries", event[i]);
-        selectedData[i] = [event[i],[adaptedData]];
+        if(this.func.isPopSelected()) {
+          const selectedValue = (document.getElementById('functions-chart-select-timeseries-popxpop-value-options') as HTMLInputElement).value;
+          const res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, clicked);
+          const data = JSON.parse(res).result;
+          const adaptedData = this.adaptData(data, "timeseries", event[i]);
+          selectedData[i] = [event[i],[adaptedData]];
+        } else {
+          const res = await this.api.requestTimeseries(10, "havg", tsT0, tsT1, clicked, "rnp_services");
+          const data = JSON.parse(res).result;
+          const adaptedData = this.adaptData(data, "timeseries", event[i]);
+          selectedData[i] = [event[i],[adaptedData]];
+        }
       }
     }
     this.func.updateFunctionsChartData(selectedData, clicked);
