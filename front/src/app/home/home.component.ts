@@ -371,7 +371,8 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onFunctionsChartReset() {
-    (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value = "all";
+    if(this.func.isTimeSeriesSelected()) (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value = "popxpop";
+    else (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value = "all"
     this.func.clearSeries();
     this.updateFunctionsChart();
   }

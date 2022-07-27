@@ -11,7 +11,7 @@
                 <option value="timeseries">Time series</option>
             </select>
         </div>
-        <div class="code-select">
+        <div class="code-select" [style.margin-right]="this.isCapitalSelected() ? '-30px' : '0px'">
             <select *ngIf="this.isTimeSeriesSelected()" name="type" style="width: 111px;" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onValueChange($event)">
                 <option value="popxpop">Pop x Pop</option>
                 <option value="popxservice">Pop x Serviços</option>
@@ -97,7 +97,7 @@
             (onDeSelect)="this.onItemSelect($event, false)">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="this.shouldShowMultiSelectors()" [style.margin-left]="this.isPopSelected() ? '17px' : '144px'"  id="chart-select-box" class="chart-select">
+        <div *ngIf="this.shouldShowMultiSelectors() && !this.isCapitalSelected()" [style.margin-left]="this.isPopSelected() ? '17px' : '144px'"  id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectPopsPlaceholder"
@@ -108,7 +108,7 @@
             (onDeSelect)="this.onCombinedSelect($event, 'pop', false)">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="this.isPopSelected()" id="chart-select-box" class="chart-select">
+        <div *ngIf="this.isPopSelected() && !this.isCapitalSelected()" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectPopsPlaceholder"
@@ -119,7 +119,7 @@
             (onDeSelect)="this.onCombinedSelect($event, 'secondarypop', false)">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="(this.shouldShowMultiSelectors() && !this.isTimeSeriesSelected()) || this.isServiceSelected()" id="chart-select-box" class="chart-select">
+        <div *ngIf="(this.shouldShowMultiSelectors() && !this.isTimeSeriesSelected()) || (this.isServiceSelected() && !this.isCapitalSelected())" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectServicesPlaceholder"
@@ -138,7 +138,7 @@
             [(ngModel)]="this.combinedSelections">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="this.shouldShowMultiSelectors()  || this.isTimeSeriesSelected()" class="combined-control">
+        <div *ngIf="(this.shouldShowMultiSelectors()  || this.isTimeSeriesSelected()) && !this.isCapitalSelected()" class="combined-control">
             <button class="btn btn-custom" type="button" (click)="this.addDataCombinations()">
                 <span class="fas fa-plus"
                 [style.color]="'#243d8f'"></span>
