@@ -86,7 +86,7 @@
                 </optgroup>
             </select>
         </div>
-        <div *ngIf="this.shouldShowServices()" id="chart-select-box" class="chart-select">
+        <div *ngIf="(this.shouldShowServices() && !this.isTimeSeriesSelected()) || (!this.isPopSelected() && this.isCapitalSelected() && this.isTimeSeriesSelected())" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectServicesPlaceholder"
@@ -97,7 +97,7 @@
             (onDeSelect)="this.onItemSelect($event, false)">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="this.shouldShowMultiSelectors() && !this.isCapitalSelected()" [style.margin-left]="this.isPopSelected() ? '17px' : '144px'"  id="chart-select-box" class="chart-select">
+        <div *ngIf="this.shouldShowMultiSelectors() && !this.isCapitalSelected() && this.isTimeSeriesSelected()" [style.margin-left]="this.isPopSelected() ? '17px' : '144px'"  id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectPopsPlaceholder"

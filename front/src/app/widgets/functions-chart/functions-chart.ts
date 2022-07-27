@@ -12,9 +12,8 @@ export class Functionschart {
     // labels 
     private labels: any = null;
     private data: any = null;
-    
-    public isTimeSeries: any = false;
-    
+    public isTimeSeries: boolean = false;
+
     constructor(canvas: HTMLCanvasElement) {
       this.canvas = canvas;
       this.init();
@@ -22,6 +21,8 @@ export class Functionschart {
   
     //Configuração do grafico
     init() {
+      const self = this;
+
       if (this.canvas === undefined) {
         return;
       }
@@ -75,13 +76,9 @@ export class Functionschart {
               },
               ticks: {
                 callback: function(value, index, ticks) {
-                  //@ts-ignore
-                  if(this.chart.config.data.datasets[0].data[value]) {
-                    //@ts-ignore
-                    if(ticks.length === 7 && (typeof(this.chart.config.data.datasets[0].data[value].x)) == "string") {
+                    if(self.isTimeSeries) {
                       //@ts-ignore
                       return this.chart.config.data.datasets[0].data[value].x;
-                    }
                   } else return value;
                 }
               }
@@ -114,6 +111,7 @@ export class Functionschart {
     }
 
     updateData(data: any, colorList: any, param: string) {
+      console.log(this.chart)
       const datasets = this.chart.config.data.datasets;
       for(let i = 0; i < data.length; i++) {
         const newData = {
@@ -168,9 +166,11 @@ export class Functionschart {
 
     setConfig(selectedParam: string) {
       if(selectedParam == "timeseries") {
+        this.isTimeSeries = true;
         this.chart.config.options.scales.x.title.text = 'Date';
         this.chart.config.options.scales.x.type = 'category';
       } else {
+        this.isTimeSeries = false;
         this.chart.config.options.scales.x.title.text = 'Tempo (ms)';
         this.chart.config.options.scales.x.type = 'linear';
       }
