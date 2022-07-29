@@ -215,7 +215,8 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   onTimeBoundsChange() {
-    if(this.shouldShowServices()) {
+    if(this.shouldShowServices() && !this.isTimeSeriesSelected()) {
+      console.log('alo')
       this.onItemSelected.emit(this.selectedItems)
     } else if(!this.shouldShowServices() && this.hasData) {
       this.onCombinedChange.emit(this.combinedData);
@@ -223,7 +224,7 @@ export class FunctionsChartComponent implements OnInit {
       if(this.isCapitalSelected()) {
         (this.isTimeSeriesSelected()) ? this.onItemSelected.emit(this.selectedItems) : this.functionsValueChanged.emit();
       } else  {
-        this.functionsValueChanged.emit();
+        (this.shouldShowServices()) ? this.onCombinedChange.emit(this.combinedData) : this.functionsValueChanged.emit();
       }
     }
   }
