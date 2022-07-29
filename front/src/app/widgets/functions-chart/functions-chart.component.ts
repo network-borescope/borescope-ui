@@ -220,7 +220,11 @@ export class FunctionsChartComponent implements OnInit {
     } else if(!this.shouldShowServices() && this.hasData) {
       this.onCombinedChange.emit(this.combinedData);
     } else {
-      (this.isCapitalSelected()) ? this.onItemSelected.emit(this.selectedItems) : this.functionsValueChanged.emit();
+      if(this.isCapitalSelected()) {
+        (this.isTimeSeriesSelected()) ? this.onItemSelected.emit(this.selectedItems) : this.functionsValueChanged.emit();
+      } else  {
+        this.functionsValueChanged.emit();
+      }
     }
   }
   
