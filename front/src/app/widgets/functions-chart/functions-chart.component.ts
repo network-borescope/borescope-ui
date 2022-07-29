@@ -24,7 +24,7 @@ export class FunctionsChartComponent implements OnInit {
 
   private selectedServices: any[] = [];
   // objeto do gráfico
-  private functionsChart: any;
+  public functionsChart: any;
   //capitals select list
   private selectedItems: any = [];
   public selectedItemsRoot: any = [];
@@ -220,7 +220,7 @@ export class FunctionsChartComponent implements OnInit {
     } else if(!this.shouldShowServices() && this.hasData) {
       this.onCombinedChange.emit(this.combinedData);
     } else {
-      this.functionsValueChanged.emit();
+      (this.isCapitalSelected()) ? this.onItemSelected.emit(this.selectedItems) : this.functionsValueChanged.emit();
     }
   }
   

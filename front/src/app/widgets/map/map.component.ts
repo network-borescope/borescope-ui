@@ -39,8 +39,6 @@ export class MapComponent implements AfterViewInit {
   @Output() markerAddedEvent = new EventEmitter<any>();
   @Output() markerRemovedEvent = new EventEmitter<any>();
 
-  // evento para reset da timeseries
-  @Output() resetTimeseries = new EventEmitter();
   @Output() resetFunctionsChart = new EventEmitter();
   // objeto com o mapa do leaflet
   private map!: L.Map;
@@ -229,7 +227,6 @@ export class MapComponent implements AfterViewInit {
 
       global.setGlobal(clicked_element);
       global.setGlobal(network_param);
-      self.resetTimeseries.emit();
       self.resetFunctionsChart.emit();
       map.setView([lat, lng], zoom);
     }).addTo(this.map);
