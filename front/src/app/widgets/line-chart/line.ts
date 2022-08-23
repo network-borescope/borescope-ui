@@ -101,8 +101,6 @@ export class LineChart {
 
   //Modifica as configurações globais dos labels
   setLabelX(label: string) {
-    console.log(label);
-
     this.chart.options.scales.x.title.text = label;
     this.chart.options.scales.x.title.display = true;
   }
@@ -150,7 +148,6 @@ export class LineChart {
 
       datasets.push(newData);
     }
-    console.log(data)
     this.chart.update();
   }
 

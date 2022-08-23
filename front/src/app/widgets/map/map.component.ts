@@ -1,6 +1,7 @@
 // inclusão de bibliotecas do angular
 import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-
+// inclusão do metadado do viaipe
+import * as viaipeMetadata from '../../../assets/viaipe_metadata.json';
 // inclusão do leaflet
 import * as L from 'leaflet';
 
@@ -18,7 +19,6 @@ import 'leaflet-easybutton';
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
-import { createHostListener } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-map',
@@ -53,6 +53,7 @@ export class MapComponent implements AfterViewInit {
   // lista com os clients selecionados no filtro para adição no mapa
   private clientLayers: any[] = [];
 
+  private oldCapital: string = "";
 
   // heatmap layer
   private current_heatmapLayer: any;
@@ -119,34 +120,46 @@ export class MapComponent implements AfterViewInit {
       }
     });
 
+
     // adição dos layers clicáveis
     let capitalsMarkersLayers = new L.FeatureGroup().addTo(this.map);
     const capitals = this.global.getGlobal('state_capitals').value.default;
+
+    // Inicialização layers dos markers dos clientes
+    let clientsMarkersLayers = new L.FeatureGroup();
+    
     for(let i = 0; i < capitals.length; i++) {
       let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers(capitals[i].cod) }).on("mouseup", this.capitalClick.bind(this), false);
       capitalsMarkersLayers.addLayer(capitalMarker);
     }
 
-    // Inicialização layers dos markers dos clientes
-    let clientMarkersLayers = new L.FeatureGroup();
-    this.geojson = L.geoJSON(clientes, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) });
-    clientMarkersLayers.addLayer(this.geojson);
-
     // Inicialização dos layers editaveis
     let editableLayers = new L.FeatureGroup();
     this.map.addLayer(editableLayers);
+
     // adição e remoção dos layers baseado no
     this.map.on('zoomend', () => {
       if(this.map.getZoom() < 9) {
         this.map.addLayer(capitalsMarkersLayers);
-        this.map.removeLayer(clientMarkersLayers);
-        this.map.removeLayer(outlierMarker);
+        this.map.removeLayer(clientsMarkersLayers);
+        //this.map.removeLayer(outlierMarker);
       } else {
+        this.map.removeLayer(clientsMarkersLayers);
         this.map.removeLayer(capitalsMarkersLayers);
-        this.map.addLayer(clientMarkersLayers);
-        this.map.addLayer(outlierMarker);
+        clientsMarkersLayers = new L.FeatureGroup();
+        this.updateClients(clientsMarkersLayers);
+        //this.map.addLayer(outlierMarker);
       }
     });
+
+    //checa se o teve drag para atualizar os layers
+    this.map.on('dragend', () => {
+      if(this.map.getZoom() > 9) {
+        this.map.removeLayer(clientsMarkersLayers);
+        clientsMarkersLayers = new L.FeatureGroup();
+        this.updateClients(clientsMarkersLayers);       
+      }
+    })
 
     // Controles de desnho dos polígonos
     this.drawControl = new L.Control.Draw({
@@ -616,4 +629,35 @@ export class MapComponent implements AfterViewInit {
     };
     this.clientLayers = [];
   };
+
+  /**
+   * Função para atualizar os clientes com movimento do mapa
+   */
+  updateClients(clientsMarkers: any) {
+    //pega clientes que estão nos bounds da tela atual
+    const clientsToShowOnScreen: any = [];
+    Object.keys(viaipeMetadata.pops).forEach((key:any) => {
+      //@ts-ignore
+      viaipeMetadata.pops[key].clientes.map((client: any) => {
+        if(this.map.getBounds().contains((L.latLng(client.lat, client.lon)))) {
+          clientsToShowOnScreen.push(client);
+        }
+      });
+    });
+
+    const clients = clientsToShowOnScreen.map((d: any) => {
+      return {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [d.lon, d.lat]
+        },
+        "properties": d
+      }
+    });
+
+    this.geojson = L.geoJSON(clients, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) });
+    clientsMarkers.addLayer(this.geojson);
+    this.map.addLayer(clientsMarkers);
+  }
 }
