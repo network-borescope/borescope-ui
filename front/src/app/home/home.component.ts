@@ -371,9 +371,22 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onFunctionsChartReset() {
-    if(this.func.isTimeSeriesSelected()) (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value = "popxpop";
-    else (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value = "all"
     this.func.clearSeries();
+    (document.getElementById('functions-chart-options') as HTMLInputElement).value = "cdf";
+    (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value = "all"
+    const functions_param = {
+      key: "functions_param",
+      value: "cdf"
+    };
+    this.global.setGlobal(functions_param);
+    const functions_value = {
+      key: "functions_value",
+      value: 'all'
+    };
+    this.global.setGlobal(functions_value);
+    this.func.functionsChart.setConfig(functions_param.value);
+    this.func.setMultipleSelectConfiguration();
+    this.func.setCombinedMultipleSelectConfiguration();
     this.updateFunctionsChart();
   }
   /**
@@ -580,20 +593,24 @@ export class HomeComponent implements AfterViewInit {
 
   //atualiza quando selecionado agregado
   async updateFunctionsChart() {
+    this.spinner.show();
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
     const selectedParam = this.global.getGlobal('functions_param').value;
     const clicked = this.global.getGlobal("clicked_element").value;
+    console.log(tsT0,  tsT1, selectedParam, clicked)
     const res = await this.api.requestFunctions(0, selectedParam,  tsT0, tsT1, clicked);
     let data;
     (clicked >= 0) ? data = res.result[`${clicked}`]['0'] : data = res.result['0']['0'];
     const adaptedData = this.adaptData(data, "functions");
     const selectedData:any = [[-1,[adaptedData]]];
     this.func.updateFunctionsChartData(selectedData, clicked);
+    this.spinner.hide();
   }
 
   //atualiza quando selecionado um servico individualmente
   async updateFunctionsChartService(event: any) {
+    this.spinner.show();
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
     const selectedParam = this.global.getGlobal('functions_param').value;
@@ -607,7 +624,6 @@ export class HomeComponent implements AfterViewInit {
         event[i] == -1 ? id = 0 : id = event[i];
         (clicked >= 0) ? data = res.result[`${clicked}`][`${id}`] : data = res.result['0'][`${id}`];
         const adaptedData = this.adaptData(data, "functions");
-        console.log(adaptedData)
         selectedData[i] = [event[i],[adaptedData]];
       }  
     } else {
@@ -627,10 +643,12 @@ export class HomeComponent implements AfterViewInit {
       }
     }
     this.func.updateFunctionsChartData(selectedData, clicked);
+    this.spinner.hide();
   }
 
   //atualiza quando esta selecionada a opcao de n pops x n servicos
   async updateFunctionsCombinations(event: any) {
+    this.spinner.show();
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
     const selectedParam = this.global.getGlobal('functions_param').value;
@@ -671,6 +689,7 @@ export class HomeComponent implements AfterViewInit {
       }
     }
     this.func.updateFunctionsCombinationsData(selectedData);
+    this.spinner.hide();
   }
 
   adaptData(data: any, from: string, secondParam: number = 0) {

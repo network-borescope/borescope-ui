@@ -4,7 +4,6 @@ import { point } from 'leaflet';
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
 import { Network } from './network';
-import { Timeseries } from './network';
 
 @Component({
   selector: 'app-network',

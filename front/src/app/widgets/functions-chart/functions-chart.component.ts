@@ -24,7 +24,7 @@ export class FunctionsChartComponent implements OnInit {
 
   private selectedServices: any[] = [];
   // objeto do gráfico
-  private functionsChart: any;
+  public functionsChart: any;
   //capitals select list
   private selectedItems: any = [];
   public selectedItemsRoot: any = [];
@@ -215,12 +215,17 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   onTimeBoundsChange() {
-    if(this.shouldShowServices()) {
+    if(this.shouldShowServices() && !this.isTimeSeriesSelected()) {
+      console.log('alo')
       this.onItemSelected.emit(this.selectedItems)
     } else if(!this.shouldShowServices() && this.hasData) {
       this.onCombinedChange.emit(this.combinedData);
     } else {
-      this.functionsValueChanged.emit();
+      if(this.isCapitalSelected()) {
+        (this.isTimeSeriesSelected()) ? this.onItemSelected.emit(this.selectedItems) : this.functionsValueChanged.emit();
+      } else  {
+        (this.shouldShowServices()) ? this.onCombinedChange.emit(this.combinedData) : this.functionsValueChanged.emit();
+      }
     }
   }
   
