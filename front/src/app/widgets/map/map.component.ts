@@ -53,7 +53,6 @@ export class MapComponent implements AfterViewInit {
   // lista com os clients selecionados no filtro para adição no mapa
   private clientLayers: any[] = [];
 
-  private oldCapital: string = "";
 
   // heatmap layer
   private current_heatmapLayer: any;
@@ -68,6 +67,13 @@ export class MapComponent implements AfterViewInit {
       '0.0': '#feedde', '.2': '#fdd0a2', '.4': '#fdae6b', '.6': '#fd8d3c', '.8': '#e6550d', '1.0': '#a63603'
     }
   };
+
+  // lista com clientes para renderizar na tela
+  private clients: any = [];
+  // Inicialização do layer do outlier
+  private outlierMarker = new L.FeatureGroup();
+  // Inicialização do layer dos clientes
+  private clientsMarkers = new L.FeatureGroup();
 
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService) { }
 
@@ -100,33 +106,9 @@ export class MapComponent implements AfterViewInit {
       zoomOffset: -1
     }).addTo(this.map);
 
-    // Inicialização do layer do outlier
-    let outlierMarker = new L.FeatureGroup();
-
-    // carregamento do dado dos clientes
-    const clientes = this.global.getGlobal('list_clientes').value.items.map((d: any) => {
-      // adciona um marcador extra
-      if(d.id === "OTHERS") {
-        const outColor = this.global.getGlobal('outlier_color').value;
-        outlierMarker.addLayer(L.circle([d.lat,d.lon], 250, { color: outColor, fillColor: outColor, opacity: 1, fillOpacity: 1}));
-      };
-      return {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [d.lon, d.lat]
-        },
-        "properties": d
-      }
-    });
-
-
     // adição dos layers clicáveis
     let capitalsMarkersLayers = new L.FeatureGroup().addTo(this.map);
     const capitals = this.global.getGlobal('state_capitals').value.default;
-
-    // Inicialização layers dos markers dos clientes
-    let clientsMarkersLayers = new L.FeatureGroup();
     
     for(let i = 0; i < capitals.length; i++) {
       let capitalMarker = L.marker({lat: capitals[i].latitude, lng: capitals[i].longitude}, { icon: this.capitalMarkers(capitals[i].cod) }).on("mouseup", this.capitalClick.bind(this), false);
@@ -136,30 +118,6 @@ export class MapComponent implements AfterViewInit {
     // Inicialização dos layers editaveis
     let editableLayers = new L.FeatureGroup();
     this.map.addLayer(editableLayers);
-
-    // adição e remoção dos layers baseado no
-    this.map.on('zoomend', () => {
-      if(this.map.getZoom() < 9) {
-        this.map.addLayer(capitalsMarkersLayers);
-        this.map.removeLayer(clientsMarkersLayers);
-        //this.map.removeLayer(outlierMarker);
-      } else {
-        this.map.removeLayer(clientsMarkersLayers);
-        this.map.removeLayer(capitalsMarkersLayers);
-        clientsMarkersLayers = new L.FeatureGroup();
-        this.updateClients(clientsMarkersLayers);
-        //this.map.addLayer(outlierMarker);
-      }
-    });
-
-    //checa se o teve drag para atualizar os layers
-    this.map.on('dragend', () => {
-      if(this.map.getZoom() > 9) {
-        this.map.removeLayer(clientsMarkersLayers);
-        clientsMarkersLayers = new L.FeatureGroup();
-        this.updateClients(clientsMarkersLayers);       
-      }
-    })
 
     // Controles de desnho dos polígonos
     this.drawControl = new L.Control.Draw({
@@ -222,6 +180,17 @@ export class MapComponent implements AfterViewInit {
 
     // Eventos do mapa: movimentação do mapa
     this.map.on('moveend', () => {
+      // adição e remoção dos layers baseado no zoom
+      if(this.map.getZoom() < 9) {
+        this.map.addLayer(capitalsMarkersLayers);
+        this.map.removeLayer(this.clientsMarkers);
+        this.map.removeLayer(this.outlierMarker);
+      } else {
+        this.map.removeLayer(this.clientsMarkers);
+        this.map.removeLayer(capitalsMarkersLayers);
+        this.clientsMarkers = new L.FeatureGroup();
+        this.updateClients();
+      }
       this.moveEndedEvent.emit();
     });
     
@@ -633,31 +602,56 @@ export class MapComponent implements AfterViewInit {
   /**
    * Função para atualizar os clientes com movimento do mapa
    */
-  updateClients(clientsMarkers: any) {
-    //pega clientes que estão nos bounds da tela atual
-    const clientsToShowOnScreen: any = [];
-    Object.keys(viaipeMetadata.pops).forEach((key:any) => {
-      //@ts-ignore
-      viaipeMetadata.pops[key].clientes.map((client: any) => {
-        if(this.map.getBounds().contains((L.latLng(client.lat, client.lon)))) {
-          clientsToShowOnScreen.push(client);
+  updateClients() {
+    const selectedClientOption = this.global.getGlobal("client_option").value;
+    //carrega dados viaipe se for do viaipe
+    if(selectedClientOption == "viaipe") {
+      this.map.removeLayer(this.outlierMarker);
+      this.clients = viaipeMetadata.pops
+      //pega clientes que estão nos bounds da tela atual
+      const clientsToShowOnScreen: any = [];
+      Object.keys(this.clients).forEach((key:any) => {
+        //@ts-ignore
+        this.clients[key].clientes.map((client: any) => {
+          if(this.map.getBounds().contains((L.latLng(client.lat, client.lon)))) {
+            clientsToShowOnScreen.push(client);
+          }
+        });
+      });
+
+      this.clients = clientsToShowOnScreen.map((d: any) => {
+        return {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [d.lon, d.lat]
+          },
+          "properties": d
         }
       });
-    });
+    } else {
+      // carregamento do dado dos clientes
+      this.clients = this.global.getGlobal('list_clientes').value.items.map((d: any) => {
+        // adciona um marcador extra
+        if(d.id === "OTHERS") {
+          const outColor = this.global.getGlobal('outlier_color').value;
+          this.outlierMarker.addLayer(L.circle([d.lat,d.lon], 250, { color: outColor, fillColor: outColor, opacity: 1, fillOpacity: 1}));
+        };
+        return {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [d.lon, d.lat]
+          },
+          "properties": d
+        }
+      });
 
-    const clients = clientsToShowOnScreen.map((d: any) => {
-      return {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [d.lon, d.lat]
-        },
-        "properties": d
-      }
-    });
+      this.map.addLayer(this.outlierMarker);
+    }
 
-    this.geojson = L.geoJSON(clients, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) });
-    clientsMarkers.addLayer(this.geojson);
-    this.map.addLayer(clientsMarkers);
+    this.geojson = L.geoJSON(this.clients, { pointToLayer: this.clientMarker.bind(this), onEachFeature: this.onEachFeature.bind(this) });
+    this.clientsMarkers.addLayer(this.geojson);
+    this.map.addLayer(this.clientsMarkers);
   }
 }

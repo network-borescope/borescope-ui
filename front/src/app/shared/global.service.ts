@@ -66,7 +66,14 @@ export class GlobalService {
       value: 5
     };
     this.setGlobal(geo_extra_zoom);
-
+    /**
+     * Estabelece carregamento de dados para clientes
+     */
+    const client_option = {
+      key: "client_option",
+      value: "viaipe"
+    };
+    this.setGlobal(client_option);
     /**
      * Guarda o time inicial nas visualizações.
      */
