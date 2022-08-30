@@ -145,6 +145,8 @@ export class ApiService {
    * Solicita os dados que compõe o mapa de calor.
    */
   async requestHeatMap(location: any[], time: any[]) {
+    const selectedClientOption = this.global.getGlobal("client_option").value;
+    
     let query = new QueryRequest();
 
     query['select'] = ['hsum'];
@@ -159,13 +161,19 @@ export class ApiService {
       query['where'].push(time);
     }
 
+    //se vir do viaipe seta from viaipe
+    if(selectedClientOption == "viaipe")  {
+      query['select'] = ['avg_in'];
+      query['from'] = 'viaipe';
+    }
+
     this.utils.showTrace("requestHeatMap", query);
 
     // post header
     const headers = {
       'Content-Type': 'application/json',
     };
-
+    console.log(query)
     // Return a new promise.
     const response = await fetch(this.xhttp_url, {
       method: 'POST',

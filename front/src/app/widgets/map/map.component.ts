@@ -516,7 +516,7 @@ export class MapComponent implements AfterViewInit {
       console.log(json);
       return;
     }
-
+    console.log(json)
     let a = [];
     let max_v = 0;
     let min_v = Number.MAX_VALUE;
