@@ -428,6 +428,7 @@ export class MapComponent implements AfterViewInit {
   onEachFeature(feature: any, layer: any) {
     // criação do popup
     const cliente = feature.properties.caption;
+
     let contentPopup = '';
 
     if(layer.feature.properties.id == "OTHERS") {
