@@ -173,7 +173,6 @@ export class ApiService {
     const headers = {
       'Content-Type': 'application/json',
     };
-    console.log(query)
     // Return a new promise.
     const response = await fetch(this.xhttp_url, {
       method: 'POST',
@@ -187,6 +186,7 @@ export class ApiService {
    * Solicita os dados do mapa para compor o gráfico de barras.
    */
   async requestBarChart(location: any[], time: any[], client: any[] | undefined, params: any) {
+    const selectedClientOption = this.global.getGlobal("client_option").value;
     let query = new QueryRequest();
 
     query['from'] = params.from;
@@ -201,8 +201,16 @@ export class ApiService {
     if (time !== undefined) {
       query['where'].push(time);
     }
-    if (client !== undefined) {
-      query['where'].push(client);
+
+    //se vir do viaipe seta from viaipe
+    if(selectedClientOption == "viaipe")  {
+      query['select'] = ['avg_in'];
+      query['from'] = 'viaipe';
+      query['group-by'] = ['pop'];
+    } else {
+      if (client !== undefined) {
+        query['where'].push(client);
+      }
     }
 
     this.utils.showTrace("requestBarChart", query);
@@ -212,7 +220,6 @@ export class ApiService {
       'Content-Type': 'application/json',
       'dataType': 'json'
     };
-
     // Return a new promise.
     const response = await fetch(this.xhttp_url, {
       method: 'POST',
@@ -227,6 +234,7 @@ export class ApiService {
    * Solicita os dados do mapa para compor o gráfico de linhas.
    */
   async requestLineChart(location: any[], time: any[], client: any[] | undefined, params: any) {
+    const selectedClientOption = this.global.getGlobal("client_option").value;
     let query = new QueryRequest();
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
@@ -248,6 +256,11 @@ export class ApiService {
       query['where'].push(client);
     }
 
+    //se vir do viaipe seta from viaipe
+    if(selectedClientOption == "viaipe")  {
+      query['select'] = ['avg_in'];
+      query['from'] = 'viaipe';
+    }
     this.utils.showTrace("requestLineChart", query);
 
     // post header
@@ -255,7 +268,6 @@ export class ApiService {
       'Content-Type': 'application/json',
       'dataType': 'json'
     };
-
     // Return a new promise.
     const response = await fetch(this.xhttp_url, {
       method: 'POST',

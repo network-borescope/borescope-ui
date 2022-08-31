@@ -69,7 +69,6 @@ export class HomeComponent implements AfterViewInit {
   initCharts() {
     this.setDates();
 
-    this.updateHeatmap();
     // barchart e linechart do mapa
     this.updateLineChart('map', '#AAAAAA');
     this.updateBarChart('map', '#AAAAAA');
@@ -504,11 +503,17 @@ export class HomeComponent implements AfterViewInit {
    * Função que faz o request dos heatmaps.
    */
   async updateHeatmap() {
-    const location = this.map.getLocation();
-    const time = this.getTime();
+    this.map.removeCurrentHeatmapLayer();
 
-    const res = await this.api.requestHeatMap(location, time);
-    this.map.drawHeatMap(res);
+    if(this.map.getZoom() > 12) {
+      console.log(this.map.getZoom())
+      const location = this.map.getLocation();
+      const time = this.getTime();
+      this.spinner.show();
+      const res = await this.api.requestHeatMap(location, time);
+      this.map.drawHeatMap(res);
+      this.spinner.hide();
+    }
   }
 
   async updateBarChart(dataId: string, chartColor: string, feat: any = undefined, name: any = undefined) {
@@ -530,9 +535,9 @@ export class HomeComponent implements AfterViewInit {
       const res = await this.api.requestBarChart(location, time, client, param);
       data[param.id] = res;
     }
+
     const lmap = this.global.getGlobal('label_maps').value;
     this.bar.updateData(data, dataId, chartColor, lmap);
-
     const param = this.global.getGlobal('bar_params_value').value;
     this.bar.drawChart(param, name);
   }

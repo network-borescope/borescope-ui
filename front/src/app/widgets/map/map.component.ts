@@ -55,7 +55,7 @@ export class MapComponent implements AfterViewInit {
 
 
   // heatmap layer
-  private current_heatmapLayer: any;
+  public current_heatmapLayer: any;
   // heatmap configuration
   private heatCfg = {
     "radius": 10.0,
@@ -516,7 +516,7 @@ export class MapComponent implements AfterViewInit {
       console.log(json);
       return;
     }
-    console.log(json)
+
     let a = [];
     let max_v = 0;
     let min_v = Number.MAX_VALUE;
@@ -544,22 +544,14 @@ export class MapComponent implements AfterViewInit {
     heatData.max = max_v;
     heatData.data = a;
 
-    if (this.current_heatmapLayer != undefined) {
-      this.current_heatmapLayer.setData(heatData);
-    } else {
-      this.current_heatmapLayer = new HeatmapOverlay(this.heatCfg);
-      this.current_heatmapLayer.setData(heatData);
-      // desenha o heatmap apenas se o zoom for maior do que 8
-      let currentHeatmapLayer = this.current_heatmapLayer;
-      let map = this.map;
-      this.map.on('zoomend', function() {
-        if(map.getZoom() < 9) {
-          map.removeLayer(currentHeatmapLayer);
-        } else {
-          map.addLayer(currentHeatmapLayer);
-        }
-      });
-    }
+    this.removeCurrentHeatmapLayer();
+    this.current_heatmapLayer = new HeatmapOverlay(this.heatCfg);
+    this.current_heatmapLayer.setData(heatData);
+    this.map.addLayer(this.current_heatmapLayer);
+  }
+
+  removeCurrentHeatmapLayer() {
+    if(this.current_heatmapLayer != undefined) this.map.removeLayer(this.current_heatmapLayer);
   }
 
   /**
