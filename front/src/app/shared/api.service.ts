@@ -235,6 +235,7 @@ export class ApiService {
    */
   async requestLineChart(location: any[], time: any[], client: any[] | undefined, params: any) {
     const selectedClientOption = this.global.getGlobal("client_option").value;
+    const clicked = this.global.getGlobal("clicked_element").value;
     let query = new QueryRequest();
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
@@ -252,6 +253,9 @@ export class ApiService {
     if (time !== undefined) {
       query['where'].push(time);
     }
+    if(clicked > 0) {
+      query['where'].push(["pop", "eq", clicked]);
+    }
     if (client !== undefined) {
       query['where'].push(client);
     }
@@ -268,6 +272,7 @@ export class ApiService {
       'Content-Type': 'application/json',
       'dataType': 'json'
     };
+    console.log(query)
     // Return a new promise.
     const response = await fetch(this.xhttp_url, {
       method: 'POST',

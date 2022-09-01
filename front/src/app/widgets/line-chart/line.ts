@@ -4,6 +4,7 @@ export class LineChart {
 
   private chart: any;
   private canvas: HTMLCanvasElement;
+  private data: any;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -15,6 +16,8 @@ export class LineChart {
     if (this.canvas === undefined) {
       return;
     }
+
+    const self = this;
 
     //Registra os elementos utilizados pelo grafico
     Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale, Legend, Tooltip);
@@ -53,14 +56,11 @@ export class LineChart {
         },
         scales: {
           x: {
-            display: true,
-            time: {
-              parser: 'MM/DD/YYYY HH:mm',
-              tooltipFormat: 'll HH:mm'
-            },
-            title: {
-              display: false,
-              text: 'X'
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function(value, index, ticks) {
+                  return self.data[value].x.slice(0, -7);
+              }
             }
           },
           y: {
@@ -113,19 +113,9 @@ export class LineChart {
     this.chart.config.data.labels = labels;
   }
 
-  addDataset(label: any, data: any, color: string) {
-    let dataset = {
-      label: label,
-      backgroundColor: color,
-      borderColor: color,
-      data: data,
-      fill: false
-    };
-    this.chart.config.data.datasets.push(dataset);
-    this.chart.update();
-  }
 
   updateDataset(dataId: string, color: string, data: any, name: any = undefined) {
+    this.data = data;
     const datasets = this.chart.config.data.datasets;
     let label = "";
     if(name) {
