@@ -75,7 +75,6 @@ export class LineChart {
     });
   }
 
-
   //Modifica as configurações globais para os títulos
   setTitle(title: string) {
     this.chart.options.plugins.title.text = title;

@@ -1,8 +1,11 @@
 import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElement, Legend, Tooltip } from 'chart.js';
+import { scaleDiverging } from 'd3';
 export class BarChart {
 
   private chart: any;
   private canvas: HTMLCanvasElement;
+  private capitals: any;
+  private idOrder: any;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -15,6 +18,11 @@ export class BarChart {
       return;
     }
 
+    const self = this;
+    const setTooltipTitle = (tooltipItems:any) => {
+      const id = parseInt(tooltipItems[0].label) - 1;
+      return self.getId(self.idOrder[id]);
+    };
     // Registra os elementos utilizados pelo grafico
     Chart.register(PointElement, BarController, BarElement, CategoryScale, LinearScale, Legend, Tooltip);
     Chart.defaults.animation = false;
@@ -28,6 +36,11 @@ export class BarChart {
       },
       options: {
         plugins: {
+          tooltip: {
+            callbacks: {
+              title: setTooltipTitle,
+            }
+          },
           legend: {
             display: true,
             position: "top"
@@ -40,9 +53,12 @@ export class BarChart {
         scales: {
           x: {
             stacked: true,
-            title: {
-              display: true,
-              text: 'TTL'
+            ticks: {
+              autoSkip: false,
+              // Include a dollar sign in the ticks
+              callback: function(value, index, ticks) {
+                return self.getId(self.idOrder[value]);
+              }
             }
           },
           y: {
@@ -100,7 +116,8 @@ export class BarChart {
     this.chart.config.data.labels = labels;
   }
 
-  updateDataset(dataId:string, color: string, data: any, name: any = undefined) {
+  updateDataset(dataId:string, color: string, data: any, name: any = undefined, idOrder: any = undefined) {
+    if(idOrder !== undefined) this.idOrder = idOrder;
     const datasets = this.chart.config.data.datasets;
     let label = "";
     if(name) {
@@ -142,5 +159,13 @@ export class BarChart {
     this.chart.data.labels = [];
     this.chart.data.datasets = [];
     this.chart.update();
+  }
+
+  setCapitals(capitals: any) {
+    this.capitals = capitals;
+  }
+
+  getId(id: number) {
+    return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
   }
 }

@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { timeHours } from 'd3';
 
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
@@ -31,6 +32,8 @@ export class BarChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.barChart = new BarChart(this.barDiv.nativeElement);
+    const capitals = this.global.getGlobal('state_capitals').value.default;
+    this.barChart.setCapitals(capitals);
   }
 
   updateData(responseData: any, dataId: string, chartColor: string, lmap: any) {
@@ -61,12 +64,16 @@ export class BarChartComponent implements OnInit {
 
   drawChart(from: string, name: any = undefined) {
     // set x labal
-    if (from.includes('ttls')) {
-      this.barChart.setLabelX('TTLs');
-    }
-    else {
-      this.barChart.setLabelX('TCP Connection Services');
-    }
+    if(!this.isViaipe()) {
+      if (from.includes('ttls')) {
+        this.barChart.setLabelY('TTLs');
+      }
+      else {
+        this.barChart.setLabelY('TCP Connection Services');
+      }
+    } else {
+      this.barChart.setLabelY("Avg in");
+    }   
 
     // atualiza os labels
     this.barChart.setLabels(this.labels[from], name);
@@ -76,7 +83,24 @@ export class BarChartComponent implements OnInit {
       for (const color of Object.keys(this.nrmData[from][dataId])) {
         // gets the data
         const data = this.nrmData[from][dataId];
-        this.barChart.updateDataset(dataId, color, data[color], name);
+        if(this.isViaipe()) {
+          const sorted = [...data[color]].sort((a: any, b: any) => a.y - b.y)
+          let newData = [];
+          let idOrder = [];
+          for(let i = 0; i < sorted.length; i++) {
+            newData.push({ x: 27 - i, y: sorted[i].y} )
+            idOrder.push(sorted[i].x)
+          }
+          console.log(data)
+          console.log(sorted)
+          console.log(newData)
+          idOrder.reverse();
+          console.log(idOrder)
+
+          this.barChart.updateDataset(dataId, color, newData, name, idOrder);
+        } else {
+          this.barChart.updateDataset(dataId, color, data[color], name);
+        }
       }
     }
   }
@@ -153,10 +177,10 @@ export class BarChartComponent implements OnInit {
           norm[cor].push( nrmPnt );
         };
       }
-
       // substitui o dado normalizado anterior
       this.nrmData[from][dataId] = norm;
     }
+
   }
 
   fillMissingPoints(from: string) {
@@ -209,5 +233,9 @@ export class BarChartComponent implements OnInit {
 
     this.global.setGlobal(bar_params_value)
     this.barParamChanged.emit();
+  }
+
+  isViaipe() {
+    return this.global.getGlobal("client_option").value == "viaipe";
   }
 }

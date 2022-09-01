@@ -81,7 +81,7 @@ export class LineChartComponent implements OnInit {
         // set y label.
         this.lineChart.setLabelY("Requisitions" + " [" + this.unity[from].prefix + "package" + "]");
       }
-    }  else {
+    } else {
       this.lineChart.setLabelY("Avg in");
     }
 
