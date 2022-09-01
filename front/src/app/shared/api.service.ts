@@ -253,18 +253,20 @@ export class ApiService {
     if (time !== undefined) {
       query['where'].push(time);
     }
-    if(clicked > 0) {
-      query['where'].push(["pop", "eq", clicked]);
-    }
-    if (client !== undefined) {
-      query['where'].push(client);
-    }
-
     //se vir do viaipe seta from viaipe
     if(selectedClientOption == "viaipe")  {
       query['select'] = ['avg_in'];
       query['from'] = 'viaipe';
+      if(clicked > 0) {
+        query['where'].push(["pop", "eq", clicked]);
+      }
     }
+
+    if (client !== undefined) {
+      query['where'].push(client);
+    }
+
+
     this.utils.showTrace("requestLineChart", query);
 
     // post header
@@ -272,7 +274,6 @@ export class ApiService {
       'Content-Type': 'application/json',
       'dataType': 'json'
     };
-    console.log(query)
     // Return a new promise.
     const response = await fetch(this.xhttp_url, {
       method: 'POST',

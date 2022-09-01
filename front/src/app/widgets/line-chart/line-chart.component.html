@@ -1,6 +1,9 @@
 <div class="fill">
-  <canvas class="fill" style="padding-bottom: 10px; border-bottom: 1px solid #eee;" #lineChart></canvas>
-  <div style="margin-top: 7px; padding-bottom: 7px; display: flex;">
+  <canvas class="fill" 
+  [style.border-bottom] = "!this.isViaipe() ? '1px solid #eee;' : 'none'" 
+  [style.padding-bottom] =  "!this.isViaipe() ? '10px;' : '0px'" 
+  #lineChart></canvas>
+  <div *ngIf="!this.isViaipe()" style="margin-top: 7px; padding-bottom: 7px; display: flex;">
     <select name="select" class="param-selector" (change)="this.onParamChange($event)">
       <option *ngFor="let param of this.ids; let idx = index" [value]="param.id">{{param.caption}}</option>
     </select>   

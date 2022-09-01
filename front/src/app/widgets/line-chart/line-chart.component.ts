@@ -71,15 +71,20 @@ export class LineChartComponent implements OnInit {
   }
 
   drawChart(from: string, selectedParam: string, name: any = undefined) {
-    // TODO: passar os labels de y em um objeto.
-    if (from.includes('dns')) {
-      // set y label.
-      this.lineChart.setLabelY("Requisitions [%]");
+    if(!this.isViaipe()) {
+      // TODO: passar os labels de y em um objeto.
+      if (from.includes('dns')) {
+        // set y label.
+        this.lineChart.setLabelY("Requisitions [%]");
+      }
+      else {
+        // set y label.
+        this.lineChart.setLabelY("Requisitions" + " [" + this.unity[from].prefix + "package" + "]");
+      }
+    }  else {
+      this.lineChart.setLabelY("Avg in");
     }
-    else {
-      // set y label.
-      this.lineChart.setLabelY("Requisitions" + " [" + this.unity[from].prefix + "package" + "]");
-    }
+
 
     // atualiza os labels
     this.lineChart.setLabels(this.labels[from], name);
@@ -258,5 +263,9 @@ export class LineChartComponent implements OnInit {
     };
     this.global.setGlobal(line_selected_params_value);
     this.lineValueChanged.emit();
+  }
+
+  isViaipe() {
+    return this.global.getGlobal("client_option").value == "viaipe";
   }
 }
