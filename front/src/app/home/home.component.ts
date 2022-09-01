@@ -15,6 +15,7 @@ import { FunctionsChartComponent } from 'src/app/widgets/functions-chart/functio
 import { NgxSpinnerService } from "ngx-spinner";
 
 import { UtilService } from '../shared/util.service';
+import { thresholdFreedmanDiaconis } from 'd3';
 
 @Component({
   selector: 'app-home',
@@ -557,17 +558,23 @@ export class HomeComponent implements AfterViewInit {
 
     const data: any = {};
     const line_params = this.global.getGlobal('line_params').value;
-
-    for (const param of line_params) {
-      const res = await this.api.requestLineChart(location, time, client, param);
-      data[param.id] = res;
-    }
-
-    this.line.updateData(data, dataId, chartColor);
-
     const param = this.global.getGlobal('line_params_value').value;
     const selectedParam = this.global.getGlobal('line_selected_params_value').value;
-    this.line.drawChart(param, selectedParam, name);
+
+    if(this.line.isViaipe()) {
+      const res = await this.api.requestLineChart(location, time, client);
+      data['avg_in'] = res;
+      this.line.updateData(data, dataId, chartColor);
+      this.line.drawChart('avg_in', selectedParam, name);
+    } else {
+      for (const param of line_params) {
+        const res = await this.api.requestLineChart(location, time, client, param);
+        data[param.id] = res;
+        this.line.updateData(data, dataId, chartColor);
+        this.line.drawChart(param, selectedParam, name);
+      }
+    }
+
   }
 
   async updateHeatmatrix() {

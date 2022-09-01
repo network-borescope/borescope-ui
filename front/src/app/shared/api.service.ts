@@ -233,15 +233,13 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico de linhas.
    */
-  async requestLineChart(location: any[], time: any[], client: any[] | undefined, params: any) {
+  async requestLineChart(location: any[], time: any[], client: any[] | undefined, params: any = undefined) {
     const selectedClientOption = this.global.getGlobal("client_option").value;
     const clicked = this.global.getGlobal("clicked_element").value;
     let query = new QueryRequest();
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
 
-    query['from'] = params.from;
-    query['select'] = params.select;
     query["group-by"] = {"field":"time","min-k":tsT0,"max-k":tsT1,"n-points":1024, "v":"AMPNS"};
     query['id'] = this.getQueryId();
 
@@ -257,16 +255,19 @@ export class ApiService {
     if(selectedClientOption == "viaipe")  {
       query['select'] = ['avg_in'];
       query['from'] = 'viaipe';
-      if(clicked > 0) {
+      if(clicked > 0 && client !== undefined) {
         query['where'].push(["pop", "eq", clicked]);
       }
+    } else {
+      query['from'] = params.from;
+      query['select'] = params.select;
     }
 
     if (client !== undefined) {
       query['where'].push(client);
     }
 
-
+    console.log(query)
     this.utils.showTrace("requestLineChart", query);
 
     // post header

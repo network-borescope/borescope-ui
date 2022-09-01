@@ -38,6 +38,7 @@ export class LineChartComponent implements OnInit {
   }
 
   updateData(responseData: any, dataId: any, chartColor: any) {
+    console.log(responseData)
     // manages data for each from
     for (let paramId of Object.keys(responseData)) {
       // clear existing element
@@ -57,8 +58,13 @@ export class LineChartComponent implements OnInit {
         this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointAverageValue, z: pointMaxValue, k: pointMinValue});
       }
       // seta o intervalo de tempo
-      this.t0 = responseData['packet_rate']['result'][0].k[0];
-      this.t1 = responseData['packet_rate']['result'].slice(-1)[0].k[0];
+      if(this.isViaipe()) {
+        this.t0 = responseData['avg_in']['result'][0].k[0];
+        this.t1 = responseData['avg_in']['result'].slice(-1)[0].k[0]; 
+      } else {
+        this.t0 = responseData['packet_rate']['result'][0].k[0];
+        this.t1 = responseData['packet_rate']['result'].slice(-1)[0].k[0];
+      }
       // computes the unity
       this.computeUnity(paramId);
 
@@ -88,7 +94,6 @@ export class LineChartComponent implements OnInit {
 
     // atualiza os labels
     this.lineChart.setLabels(this.labels[from], name);
-
     // atualiza os gráficos
     for (const dataId of Object.keys(this.nrmData[from])) {
       for (const color of Object.keys(this.nrmData[from][dataId])) {

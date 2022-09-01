@@ -1,5 +1,4 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { timeHours } from 'd3';
 
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
@@ -91,12 +90,7 @@ export class BarChartComponent implements OnInit {
             newData.push({ x: 27 - i, y: sorted[i].y} )
             idOrder.push(sorted[i].x)
           }
-          console.log(data)
-          console.log(sorted)
-          console.log(newData)
           idOrder.reverse();
-          console.log(idOrder)
-
           this.barChart.updateDataset(dataId, color, newData, name, idOrder);
         } else {
           this.barChart.updateDataset(dataId, color, data[color], name);
