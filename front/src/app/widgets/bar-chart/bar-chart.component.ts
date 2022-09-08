@@ -49,12 +49,14 @@ export class BarChartComponent implements OnInit {
 
         this.rawData[from][dataId][chartColor].push({ x: pointId, y: pointVl });
       }
-      // atualiza os labels baseado no dado novo
-      this.updateLabels(from, lmap);
-      // normaliza os dados de dataId
-      this.normalizeData(from);
-      // completa os pontos que faltam
-      this.fillMissingPoints(from);    
+
+
+        // atualiza os labels baseado no dado novo
+        this.updateLabels(from, lmap);
+        // normaliza os dados de dataId
+        this.normalizeData(from);
+        // completa os pontos que faltam
+        this.fillMissingPoints(from);    
     }
   }
 
@@ -143,7 +145,7 @@ export class BarChartComponent implements OnInit {
   normalizeData(from: string) {
     // limpa os dados normalizados
     this.nrmData[from] = {};
-    if(from == 'viaipe') {
+    if(this.isViaipe()) {
       this.nrmData[from] = this.rawData[from];
     } else {
       // repete para cada dataId
@@ -202,9 +204,7 @@ export class BarChartComponent implements OnInit {
   updateLabels(from: string, lmap: any) {
     // limpa os labels do gráfico
     this.labels[from] = [];
-    console.log(this.rawData)
-    console.log(lmap)
-
+    let counter = 1;
     // percorre os tipos de elementos
     for (const dataId of Object.keys(this.rawData[from])) {
       console.log(dataId)
@@ -212,14 +212,21 @@ export class BarChartComponent implements OnInit {
       // percorre os elementos
       for (const color of Object.keys(this.rawData[from][dataId])) {
         this.rawData[from][dataId][color].forEach((d: any) => {
-          const x = Object.keys(lmap[from]).length > 0 ? lmap[from][d['x']] : d['x'];
-          if (!this.labels[from].includes(x)) {
-            this.labels[from].push(x);
+          if(this.isViaipe()) {
+            if (!this.labels[from].includes(counter)) {
+              this.labels[from].push(counter);
+            }
+          } else {
+            const x = Object.keys(lmap[from]).length > 0 ? lmap[from][d['x']] : d['x'];
+            if (!this.labels[from].includes(x)) {
+              this.labels[from].push(x);
+            }
           }
+          counter += 1
         });
       }
     }
-
+    console.log(this.labels[from])
     // ordena os labels
     this.labels[from].sort((a: number, b: number) => a - b);
   }

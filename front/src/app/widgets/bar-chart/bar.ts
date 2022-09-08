@@ -20,8 +20,7 @@ export class BarChart {
 
     const self = this;
     const setTooltipTitle = (tooltipItems:any) => {
-      console.log(tooltipItems)
-      const id = parseInt(tooltipItems[0].label) - 1;
+      const id = parseInt(tooltipItems[0].parsed.x);
       return self.getId(self.idOrder[id]);
     };
     // Registra os elementos utilizados pelo grafico
@@ -58,7 +57,6 @@ export class BarChart {
               autoSkip: false,
               // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
-                console.log(value, index, ticks)
                 return self.getId(self.idOrder[value]);
               }
             }
