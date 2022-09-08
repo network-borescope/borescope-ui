@@ -49,19 +49,17 @@ export class BarChartComponent implements OnInit {
 
         this.rawData[from][dataId][chartColor].push({ x: pointId, y: pointVl });
       }
-
       // atualiza os labels baseado no dado novo
       this.updateLabels(from, lmap);
-
       // normaliza os dados de dataId
       this.normalizeData(from);
-
       // completa os pontos que faltam
-      this.fillMissingPoints(from);
+      this.fillMissingPoints(from);    
     }
   }
 
   drawChart(from: string, name: any = undefined) {
+    this.barChart.setLabels(this.labels[from], name);
     // set x labal
     if(!this.isViaipe()) {
       if (from.includes('ttls')) {
@@ -70,33 +68,32 @@ export class BarChartComponent implements OnInit {
       else {
         this.barChart.setLabelY('TCP Connection Services');
       }
-    } else {
-      this.barChart.setLabelY("Avg in");
-    }   
-
-    // atualiza os labels
-    this.barChart.setLabels(this.labels[from], name);
-
-    // atualiza os dados
-    for (const dataId of Object.keys(this.nrmData[from])) {
-      for (const color of Object.keys(this.nrmData[from][dataId])) {
-        // gets the data
-        const data = this.nrmData[from][dataId];
-        if(this.isViaipe()) {
-          const sorted = [...data[color]].sort((a: any, b: any) => a.y - b.y)
-          let newData = [];
-          let idOrder = [];
-          for(let i = 0; i < sorted.length; i++) {
-            newData.push({ x: 27 - i, y: sorted[i].y} )
-            idOrder.push(sorted[i].x)
-          }
-          idOrder.reverse();
-          this.barChart.updateDataset(dataId, color, newData, name, idOrder);
-        } else {
-          this.barChart.updateDataset(dataId, color, data[color], name);
+       // atualiza os dados
+      for (const dataId of Object.keys(this.nrmData[from])) {
+        for (const color of Object.keys(this.nrmData[from][dataId])) {
+          // gets the data
+          const data = this.nrmData[from][dataId];
+          this.barChart.updateDataset(dataId, color, data[color], name, undefined, 'popdf');
         }
       }
-    }
+    } else {
+        this.barChart.setLabelY("Avg in");
+        for (const dataId of Object.keys(this.nrmData[from])) {
+          for (const color of Object.keys(this.nrmData[from][dataId])) {
+            const data = this.nrmData[from][dataId];
+            const sorted = [...data[color]].sort((a: any, b: any) => a.y - b.y)
+            let newData = [];
+            let idOrder = [];
+            for(let i = 0; i < sorted.length; i++) {
+              newData.push({ x: (sorted.length) - i, y: sorted[i].y} )
+              idOrder.push(sorted[i].x)
+            }
+            newData.reverse();
+            idOrder.reverse();
+            this.barChart.updateDataset(dataId, color, newData, name, idOrder, 'viaipe');
+          }
+        }
+    }   
   }
 
   deleteData(from: string, dataId: string, color: string) {
@@ -146,34 +143,38 @@ export class BarChartComponent implements OnInit {
   normalizeData(from: string) {
     // limpa os dados normalizados
     this.nrmData[from] = {};
+    if(from == 'viaipe') {
+      this.nrmData[from] = this.rawData[from];
+    } else {
+      // repete para cada dataId
+      for (const dataId of Object.keys(this.rawData[from])) {
+        // pega os datasets de dataId
+        const data = this.rawData[from][dataId];
 
-    // repete para cada dataId
-    for (const dataId of Object.keys(this.rawData[from])) {
-      // pega os datasets de dataId
-      const data = this.rawData[from][dataId];
+        // calcula a soma dos da categoria
+        let total = 0;
+        for (let cor of Object.keys(data)) {
+          const partial = data[cor].reduce((a: any, b: any) => {
+            return a + b.y;
+          }, 0);
 
-      // calcula a soma dos da categoria
-      let total = 0;
-      for (let cor of Object.keys(data)) {
-        const partial = data[cor].reduce((a: any, b: any) => {
-          return a + b.y;
-        }, 0);
+          total += partial;
+        }
 
-        total += partial;
+        // normaliza os valores
+        const norm: any = {};
+        for (let cor of Object.keys(data)) {
+          norm[cor] = [];
+          for (let pId = 0; pId < data[cor].length; pId++) {
+            const nrmPnt = {x: data[cor][pId].x, y: data[cor][pId].y / total};
+            norm[cor].push( nrmPnt );
+          };
+        }
+        // substitui o dado normalizado anterior
+        this.nrmData[from][dataId] = norm;
       }
-
-      // normaliza os valores
-      const norm: any = {};
-      for (let cor of Object.keys(data)) {
-        norm[cor] = [];
-        for (let pId = 0; pId < data[cor].length; pId++) {
-          const nrmPnt = {x: data[cor][pId].x, y: data[cor][pId].y / total};
-          norm[cor].push( nrmPnt );
-        };
-      }
-      // substitui o dado normalizado anterior
-      this.nrmData[from][dataId] = norm;
     }
+
 
   }
 
@@ -201,9 +202,13 @@ export class BarChartComponent implements OnInit {
   updateLabels(from: string, lmap: any) {
     // limpa os labels do gráfico
     this.labels[from] = [];
+    console.log(this.rawData)
+    console.log(lmap)
 
     // percorre os tipos de elementos
     for (const dataId of Object.keys(this.rawData[from])) {
+      console.log(dataId)
+
       // percorre os elementos
       for (const color of Object.keys(this.rawData[from][dataId])) {
         this.rawData[from][dataId][color].forEach((d: any) => {

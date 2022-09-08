@@ -15,7 +15,6 @@ import { FunctionsChartComponent } from 'src/app/widgets/functions-chart/functio
 import { NgxSpinnerService } from "ngx-spinner";
 
 import { UtilService } from '../shared/util.service';
-import { thresholdFreedmanDiaconis } from 'd3';
 
 @Component({
   selector: 'app-home',
@@ -507,7 +506,6 @@ export class HomeComponent implements AfterViewInit {
     this.map.removeCurrentHeatmapLayer();
 
     if(this.map.getZoom() > 12) {
-      console.log(this.map.getZoom())
       const location = this.map.getLocation();
       const time = this.getTime();
       this.spinner.show();
@@ -532,14 +530,28 @@ export class HomeComponent implements AfterViewInit {
 
     const data: any = {};
     const bar_params = this.global.getGlobal('bar_params').value;
-    for (const param of bar_params) {
-      const res = await this.api.requestBarChart(location, time, client, param);
-      data[param.id] = res;
+    const selectedClientOption = this.global.getGlobal("client_option").value;
+    const zoom = this.map.getZoom();
+    let lmap;
+    let param;
+    if(selectedClientOption == 'popdf') {
+      for (const param of bar_params) {
+        const res = await this.api.requestBarChart(location, time, client, param, selectedClientOption);
+        console.log(res)
+        data[param.id] = res;
+        lmap = this.global.getGlobal('label_maps').value;
+      }
+      param = this.global.getGlobal('bar_params_value').value;
+    } else {
+      const res = await this.api.requestBarChart(location, time, client, {}, selectedClientOption);
+      console.log(res)
+      param = 'viaipe'
+      data['viaipe'] = res;
+      lmap = {'viaipe': {}}      
     }
 
-    const lmap = this.global.getGlobal('label_maps').value;
+    
     this.bar.updateData(data, dataId, chartColor, lmap);
-    const param = this.global.getGlobal('bar_params_value').value;
     this.bar.drawChart(param, name);
   }
 
@@ -564,12 +576,14 @@ export class HomeComponent implements AfterViewInit {
     if(this.line.isViaipe()) {
       const res = await this.api.requestLineChart(location, time, client);
       data['avg_in'] = res;
+      console.log(res)
       this.line.updateData(data, dataId, chartColor);
       this.line.drawChart('avg_in', selectedParam, name);
     } else {
       for (const param of line_params) {
         const res = await this.api.requestLineChart(location, time, client, param);
         data[param.id] = res;
+        console.log(res)
         this.line.updateData(data, dataId, chartColor);
         this.line.drawChart(param, selectedParam, name);
       }

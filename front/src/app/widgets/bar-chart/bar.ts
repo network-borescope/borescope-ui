@@ -1,5 +1,5 @@
 import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElement, Legend, Tooltip } from 'chart.js';
-import { scaleDiverging } from 'd3';
+
 export class BarChart {
 
   private chart: any;
@@ -20,6 +20,7 @@ export class BarChart {
 
     const self = this;
     const setTooltipTitle = (tooltipItems:any) => {
+      console.log(tooltipItems)
       const id = parseInt(tooltipItems[0].label) - 1;
       return self.getId(self.idOrder[id]);
     };
@@ -57,6 +58,7 @@ export class BarChart {
               autoSkip: false,
               // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
+                console.log(value, index, ticks)
                 return self.getId(self.idOrder[value]);
               }
             }
@@ -116,7 +118,9 @@ export class BarChart {
     this.chart.config.data.labels = labels;
   }
 
-  updateDataset(dataId:string, color: string, data: any, name: any = undefined, idOrder: any = undefined) {
+  updateDataset(dataId:string, color: string, data: any, name: any = undefined, idOrder: any = undefined, from: string) {
+    console.log(idOrder)
+    console.log(data)
     if(idOrder !== undefined) this.idOrder = idOrder;
     const datasets = this.chart.config.data.datasets;
     let label = "";
@@ -138,7 +142,6 @@ export class BarChart {
         fill: false,
         stack: dataId
       };
-
       datasets.push(newData);
     }
 

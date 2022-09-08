@@ -185,14 +185,8 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico de barras.
    */
-  async requestBarChart(location: any[], time: any[], client: any[] | undefined, params: any) {
-    const selectedClientOption = this.global.getGlobal("client_option").value;
+  async requestBarChart(location: any[], time: any[], client: any[] | undefined, params: any, option: string) {
     let query = new QueryRequest();
-
-    query['from'] = params.from;
-    query['select'] = params.select;
-    query['group-by'] = params.groupBy;
-    query['id'] = this.getQueryId();
 
     query['where'] = [];
     if (location !== undefined) {
@@ -202,14 +196,20 @@ export class ApiService {
       query['where'].push(time);
     }
 
-    //se vir do viaipe seta from viaipe
-    if(selectedClientOption == "viaipe")  {
+    query['id'] = this.getQueryId();
+
+    if(option == 'popdf') {
+      query['from'] = params.from;
+      query['select'] = params.select;
+      query['group-by'] = params.groupBy;
+    } else {
       query['select'] = ['avg_in'];
       query['from'] = 'viaipe';
-      query['group-by'] = ['pop'];
-    } else {
       if (client !== undefined) {
+        query['group-by'] = ['pop','client'];
         query['where'].push(client);
+      } else {
+        query['group-by'] = ['pop'];
       }
     }
 
@@ -243,7 +243,6 @@ export class ApiService {
     query["group-by"] = {"field":"time","min-k":tsT0,"max-k":tsT1,"n-points":1024, "v":"AMPNS"};
     query['id'] = this.getQueryId();
 
-    query.where = [];
     query['where'] = [];
     if (location !== undefined) {
       query['where'].push(location);
