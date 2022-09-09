@@ -47,6 +47,7 @@ export class LineChartComponent implements OnInit {
       this.rawData[paramId][dataId][chartColor] = [];
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[paramId].result.length; i++) {
+        if(!this.isViaipe()) {
         //pega o tempo
         const pointTime = responseData[paramId].result[i].k[0];
         //pega valor das médias
@@ -56,21 +57,27 @@ export class LineChartComponent implements OnInit {
         //pega valor min
         const pointMinValue = responseData[paramId].result[i].v[3];        
         this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointAverageValue, z: pointMaxValue, k: pointMinValue});
+        } else {
+          //pega o tempo
+          const pointTime = responseData[paramId].result[i].k[0];
+          //pega valor
+          const pointValue = responseData[paramId].result[i].v[0];
+          this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue});
+        }
       }
       // seta o intervalo de tempo
       if(this.isViaipe()) {
-        this.t0 = responseData['avg_in']['result'][0].k[0];
-        this.t1 = responseData['avg_in']['result'].slice(-1)[0].k[0]; 
+        this.t0 = responseData['viaipe']['result'][0].k[0];
+        this.t1 = responseData['viaipe']['result'].slice(-1)[0].k[0]; 
       } else {
         this.t0 = responseData['packet_rate']['result'][0].k[0];
         this.t1 = responseData['packet_rate']['result'].slice(-1)[0].k[0];
-      }
-      // computes the unity
-      this.computeUnity(paramId);
+        // computes the unity
+        this.computeUnity(paramId);
 
+      }
       // atualiza os labels baseado no dado novo
       this.updateLabels(paramId);
-
       // normaliza os dados de dataId
       this.normalizeData(paramId);
     }
@@ -102,13 +109,18 @@ export class LineChartComponent implements OnInit {
         const chartData = [];
         for(let i = 0; i < data[color].length; i++) {
           const label = this.labels[from][i];
-          if(selectedParam == 'average') {
-            chartData.push({ y: data[color][i].x, x: label});
-          } else if(selectedParam == 'max') {
+          if(this.isViaipe()) {
             chartData.push({ y: data[color][i].y, x: label});
           } else {
-            chartData.push({ y: data[color][i].z, x: label});
-          }     
+            if(selectedParam == 'average') {
+              chartData.push({ y: data[color][i].y, x: label});
+            } else if(selectedParam == 'max') {
+              chartData.push({ y: data[color][i].z, x: label});
+            } else {
+              chartData.push({ y: data[color][i].k, x: label});
+            } 
+          }
+    
         }
         this.lineChart.updateDataset(dataId, color, chartData, name);
       }
@@ -179,18 +191,21 @@ export class LineChartComponent implements OnInit {
 
     // limpa os dados normalizados
     this.nrmData[from] = {};
-
-    const dataIds = Object.keys(data);
-    for (let dataId of dataIds) {
-      this.nrmData[from][dataId] = {};
-      const colors = Object.keys(data[dataId]);
-      for (let color of colors) {
-        this.nrmData[from][dataId][color] = [];
-        for (let pId = 0; pId < data[dataId][color].length; pId++) {
-          this.nrmData[from][dataId][color].push({ x: data[dataId][color][pId].y / this.unity[from].div,
-                                                   y: data[dataId][color][pId].z / this.unity[from].div,
-                                                   z: data[dataId][color][pId].k / this.unity[from].div});
-        };
+    if(this.isViaipe()) {
+      this.nrmData[from] = this.rawData[from];
+    } else { 
+      const dataIds = Object.keys(data);
+      for (let dataId of dataIds) {
+        this.nrmData[from][dataId] = {};
+        const colors = Object.keys(data[dataId]);
+        for (let color of colors) {
+          this.nrmData[from][dataId][color] = [];
+          for (let pId = 0; pId < data[dataId][color].length; pId++) {
+            this.nrmData[from][dataId][color].push({ x: data[dataId][color][pId].y / this.unity[from].div,
+                                                     y: data[dataId][color][pId].z / this.unity[from].div,
+                                                     z: data[dataId][color][pId].k / this.unity[from].div});
+          };
+        }
       }
     }
   }

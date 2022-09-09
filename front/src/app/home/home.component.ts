@@ -570,25 +570,24 @@ export class HomeComponent implements AfterViewInit {
 
     const data: any = {};
     const line_params = this.global.getGlobal('line_params').value;
-    const param = this.global.getGlobal('line_params_value').value;
     const selectedParam = this.global.getGlobal('line_selected_params_value').value;
-
-    if(this.line.isViaipe()) {
-      const res = await this.api.requestLineChart(location, time, client);
-      data['avg_in'] = res;
-      console.log(res)
-      this.line.updateData(data, dataId, chartColor);
-      this.line.drawChart('avg_in', selectedParam, name);
-    } else {
+    const selectedClientOption = this.global.getGlobal("client_option").value;
+    
+    let param;
+    if(selectedClientOption == 'popdf') {
       for (const param of line_params) {
-        const res = await this.api.requestLineChart(location, time, client, param);
+        const res = await this.api.requestLineChart(location, time, client, param, selectedClientOption);
         data[param.id] = res;
-        console.log(res)
-        this.line.updateData(data, dataId, chartColor);
-        this.line.drawChart(param, selectedParam, name);
-      }
+      }    
+      param = this.global.getGlobal('line_params_value').value;
+    } else {
+      const res = await this.api.requestLineChart(location, time, client, {}, selectedClientOption);
+      param = 'viaipe'
+      data['viaipe'] = res;
     }
 
+    this.line.updateData(data, dataId, chartColor);
+    this.line.drawChart(param, selectedParam, name);
   }
 
   async updateHeatmatrix() {
