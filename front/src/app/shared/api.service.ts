@@ -185,9 +185,9 @@ export class ApiService {
   /**
    * Solicita os dados do mapa para compor o gráfico de barras.
    */
-  async requestBarChart(location: any[], time: any[], client: any[] | undefined, params: any, option: string) {
+  async requestBarChart(location: any[], time: any[], client: any[] | undefined, params: any, option: string, zoom: any = undefined) {
     let query = new QueryRequest();
-
+    console.log(zoom)
     query['where'] = [];
     if (location !== undefined) {
       query['where'].push(location);
@@ -205,9 +205,8 @@ export class ApiService {
     } else {
       query['select'] = ['avg_in'];
       query['from'] = 'viaipe';
-      if (client !== undefined) {
-        query['group-by'] = ['pop','client'];
-        query['where'].push(client);
+      if (zoom > 12) {
+        query['group-by'] = ['pop','cliente'];
       } else {
         query['group-by'] = ['pop'];
       }
@@ -255,13 +254,13 @@ export class ApiService {
       query["group-by"] = {"field":"time","min-k":tsT0,"max-k":tsT1,"n-points":1024, "v":"AMPNS"};
       query['from'] = params.from;
       query['select'] = params.select;
-      query['group-by'] = params.groupBy;
     } else {
       query["group-by"] = 'time'
       query['select'] = ['avg_in'];
       query['from'] = 'viaipe';
       if(clicked > 0 && client !== undefined) {
         query['where'].push(["pop", "eq", clicked]);
+        query['where'].push(client);
       }
     }
 

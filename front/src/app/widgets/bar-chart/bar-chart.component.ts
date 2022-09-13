@@ -2,7 +2,8 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
-
+// inclusão do metadado do viaipe
+import * as viaipeMetadata from '../../../assets/viaipe_metadata.json';
 import { BarChart } from './bar';
 
 @Component({
@@ -22,7 +23,12 @@ export class BarChartComponent implements OnInit {
   private labels: any = {};
   private rawData: any = {};
   private nrmData: any = {};
-
+  private viaipeClientsLabel: any = [];
+  private lowerIndex: number = 0;
+  private higherIndex: number = 9;
+  public zoom: any;
+  private tabsCounter: number = 0;
+  private data: any;
   public ids: any = [];
 
   constructor(public global: GlobalService, public util: UtilService) {
@@ -35,7 +41,9 @@ export class BarChartComponent implements OnInit {
     this.barChart.setCapitals(capitals);
   }
 
-  updateData(responseData: any, dataId: string, chartColor: string, lmap: any) {
+  updateData(responseData: any, dataId: string, chartColor: string, lmap: any, zoom: any = undefined) {
+    this.viaipeClientsLabel = {};
+    this.barChart.clear();
     // manages data for each from
     for(let from of Object.keys(responseData)) {
       // clear existing element
@@ -44,24 +52,32 @@ export class BarChartComponent implements OnInit {
 
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[from].result.length; i++) {
-        const pointId = +responseData[from].result[i].k[0];
+        let pointId;
+        if(zoom > 12) {
+          pointId = +responseData[from].result[i].k[1];
+          this.viaipeClientsLabel[pointId] = this.getViaipeClientLabel(responseData[from].result[i].k);
+        } else {
+          pointId = +responseData[from].result[i].k[0];
+        }
         const pointVl = +responseData[from].result[i].v[0];
 
         this.rawData[from][dataId][chartColor].push({ x: pointId, y: pointVl });
       }
-
-
-        // atualiza os labels baseado no dado novo
-        this.updateLabels(from, lmap);
-        // normaliza os dados de dataId
-        this.normalizeData(from);
-        // completa os pontos que faltam
-        this.fillMissingPoints(from);    
+      this.barChart.viaipeLabels = this.viaipeClientsLabel;
+      // atualiza os labels baseado no dado novo
+      this.updateLabels(from, lmap, zoom);
+      // normaliza os dados de dataId
+      this.normalizeData(from);
+      // completa os pontos que faltam
+      if(!this.isViaipe()) this.fillMissingPoints(from);    
     }
   }
 
-  drawChart(from: string, name: any = undefined) {
+  drawChart(from: string, name: any = undefined, zoom: any = undefined) {
     this.barChart.setLabels(this.labels[from], name);
+    this.zoom = zoom;
+    this.barChart.zoom = zoom;
+    this.barChart.from = from;
     // set x labal
     if(!this.isViaipe()) {
       if (from.includes('ttls')) {
@@ -75,7 +91,7 @@ export class BarChartComponent implements OnInit {
         for (const color of Object.keys(this.nrmData[from][dataId])) {
           // gets the data
           const data = this.nrmData[from][dataId];
-          this.barChart.updateDataset(dataId, color, data[color], name, undefined, 'popdf');
+          this.barChart.updateDataset(dataId, color, data[color], name, undefined);
         }
       }
     } else {
@@ -87,12 +103,12 @@ export class BarChartComponent implements OnInit {
             let newData = [];
             let idOrder = [];
             for(let i = 0; i < sorted.length; i++) {
-              newData.push({ x: (sorted.length) - i, y: sorted[i].y} )
-              idOrder.push(sorted[i].x)
+              newData.push({ x: (sorted.length) - i, y: sorted[i].y} );
+              idOrder.push(sorted[i].x);
             }
             newData.reverse();
             idOrder.reverse();
-            this.barChart.updateDataset(dataId, color, newData, name, idOrder, 'viaipe');
+            this.barChart.updateDataset(dataId, color, newData, name, idOrder);
           }
         }
     }   
@@ -122,20 +138,20 @@ export class BarChartComponent implements OnInit {
     delete this.nrmData[from][dataId][color]
   }
 
-  clearChart(from: string, dataId: string, color: string, lmap: any) {
+  clearChart(from: string, dataId: string, color: string, lmap: any, zoom: number) {
     // removes from chart
     this.barChart.removeDataset(dataId, color);
 
     this.deleteData(from, dataId, color);
 
     // atualiza os labels baseado no dado novo
-    this.updateLabels(from, lmap);
+    this.updateLabels(from, lmap, zoom);
 
     // normaliza os dados de dataId
     this.normalizeData(from);
 
     // completa os pontos que faltam
-    this.fillMissingPoints(from);
+    if(!this.isViaipe()) this.fillMissingPoints(from);   
   }
 
   clearLabel(from: string) {
@@ -145,7 +161,7 @@ export class BarChartComponent implements OnInit {
   normalizeData(from: string) {
     // limpa os dados normalizados
     this.nrmData[from] = {};
-    if(this.isViaipe()) {
+    if(this.isViaipe() || (this.isViaipe() && from == "client")) {
       this.nrmData[from] = this.rawData[from];
     } else {
       // repete para cada dataId
@@ -201,14 +217,13 @@ export class BarChartComponent implements OnInit {
     }
   }
 
-  updateLabels(from: string, lmap: any) {
+  updateLabels(from: string, lmap: any, zoom: number) {
     // limpa os labels do gráfico
     this.labels[from] = [];
+    console.log(from,zoom);
     let counter = 1;
     // percorre os tipos de elementos
     for (const dataId of Object.keys(this.rawData[from])) {
-      console.log(dataId)
-
       // percorre os elementos
       for (const color of Object.keys(this.rawData[from][dataId])) {
         this.rawData[from][dataId][color].forEach((d: any) => {
@@ -226,9 +241,9 @@ export class BarChartComponent implements OnInit {
         });
       }
     }
-    console.log(this.labels[from])
     // ordena os labels
     this.labels[from].sort((a: number, b: number) => a - b);
+    if(zoom > 12 && from == 'viaipe') this.labels[from] =  this.labels[from].slice(this.lowerIndex, this.higherIndex)
   }
 
   onParamChange(event: any) {
@@ -243,5 +258,29 @@ export class BarChartComponent implements OnInit {
 
   isViaipe() {
     return this.global.getGlobal("client_option").value == "viaipe";
+  }
+
+  getViaipeClientLabel(ids: any) {
+    const key = this.barChart.getId(ids[0]).toLowerCase();
+    //@ts-ignore
+    return viaipeMetadata['pops'][key]['clientes'][ids[1]]["caption"];
+  }
+
+  updateTabCounter(value: number) {
+    this.tabsCounter += value;
+
+    if(this.tabsCounter == 0) {
+      this.data = this.barChart.data.slice(0, 9);
+    } else {
+      this.data = this.barChart.data.slice(this.tabsCounter*9, (this.tabsCounter + 1)*9);
+    }
+  }
+
+  hasPrevious() {
+    return ((this.tabsCounter + 1) * 9 > 9)
+  }
+
+  hasNext() {
+    return ((this.tabsCounter + 1) * 9 < this.barChart.data.length)
   }
 }

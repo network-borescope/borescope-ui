@@ -6,7 +6,12 @@ export class BarChart {
   private canvas: HTMLCanvasElement;
   private capitals: any;
   private idOrder: any;
-
+  public zoom: any = undefined;
+  public viaipeLabels: any = [];
+  public from: any = undefined;
+  public data: any;
+  public lowerIndex: number = 0;
+  public higherIndex: number = 9;
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.init();
@@ -21,7 +26,11 @@ export class BarChart {
     const self = this;
     const setTooltipTitle = (tooltipItems:any) => {
       const id = parseInt(tooltipItems[0].parsed.x);
-      return self.getId(self.idOrder[id]);
+      if(self.zoom > 12 && self.from == 'viaipe') {
+        return self.viaipeLabels[self.idOrder[id]];
+      } else {
+        return self.getId(self.idOrder[id]);
+      }
     };
     // Registra os elementos utilizados pelo grafico
     Chart.register(PointElement, BarController, BarElement, CategoryScale, LinearScale, Legend, Tooltip);
@@ -57,7 +66,11 @@ export class BarChart {
               autoSkip: false,
               // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
-                return self.getId(self.idOrder[value]);
+                if(self.zoom > 12 && self.from == 'viaipe') {
+                  return self.viaipeLabels[self.idOrder[value]];
+                } else {
+                  return self.getId(self.idOrder[value]);
+                }
               }
             }
           },
@@ -116,10 +129,10 @@ export class BarChart {
     this.chart.config.data.labels = labels;
   }
 
-  updateDataset(dataId:string, color: string, data: any, name: any = undefined, idOrder: any = undefined, from: string) {
-    console.log(idOrder)
-    console.log(data)
+  updateDataset(dataId:string, color: string, data: any, name: any = undefined, idOrder: any = undefined) {
     if(idOrder !== undefined) this.idOrder = idOrder;
+    console.log(data)
+    this.data = data;
     const datasets = this.chart.config.data.datasets;
     let label = "";
     if(name) {
@@ -129,17 +142,23 @@ export class BarChart {
     };
     const id = datasets.findIndex((d: any) => d.backgroundColor == color)
     if (id >= 0) {
-      datasets[id].data = data;
+      if(this.zoom > 12 && this.from == 'viaipe') {
+        datasets[id].data = data.slice(this.lowerIndex, this.higherIndex);
+      } else {
+        datasets[id].data = data;
+      }
+      console.log(datasets[id].data)
     }
     else {
       const newData = {
         label: label,
         backgroundColor: color,
         borderColor: color,
-        data: data,
+        data: (this.zoom > 12 && this.from == 'viaipe') ? data.slice(this.lowerIndex, this.higherIndex) : data,
         fill: false,
         stack: dataId
       };
+      console.log(newData)
       datasets.push(newData);
     }
 

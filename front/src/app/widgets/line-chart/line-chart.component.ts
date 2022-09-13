@@ -38,7 +38,6 @@ export class LineChartComponent implements OnInit {
   }
 
   updateData(responseData: any, dataId: any, chartColor: any) {
-    console.log(responseData)
     // manages data for each from
     for (let paramId of Object.keys(responseData)) {
       // clear existing element

@@ -5,6 +5,14 @@
   #barChart></canvas>
     <select *ngIf="!this.isViaipe()" name="select" class="param-selector" (change)="this.onParamChange($event)">
       <option *ngFor="let param of this.ids; let idx = index" [value]="param.id">{{param.id}}</option>
-    </select>   
+    </select>
+    <div class="controls">
+      <button *ngIf="this.isViaipe() && this.zoom > 12" [disabled]="!this.hasPrevious()" type="button" class="btn btn-custom" (click)="updateTabCounter(-1)">
+        <i [style.color]="this.hasPrevious() ? 'rgb(36, 61, 143)' : 'rgb(149, 165, 166)'" class="fas fa-arrow-left fa-lg"></i>
+      </button>
+      <button *ngIf="this.isViaipe() && this.zoom > 12" [disabled]="!this.hasNext()" type="button" class="btn btn-custom" (click)="updateTabCounter(1)">
+        <i [style.color]="this.hasNext() ? 'rgb(36, 61, 143)' : 'rgb(149, 165, 166)'"  class="fas fa-arrow-right fa-lg"></i>
+      </button> 
+    </div>
 </div>
 

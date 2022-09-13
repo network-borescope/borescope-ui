@@ -6,6 +6,47 @@
     margin-top: 4px;
 }
 
+.controls {
+    display: flex;
+    gap: 400px;
+}
+
+.btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.btn{
+    padding: 9px 16px !important;
+    width: 49px;
+    height: 29px;
+	box-shadow: none !important
+}
+
+.btn-custom{
+    background-color: #eee !important;
+    outline-color: #eee !important;
+    border-color: #eee !important;
+}
+
+.btn-custom:hover {
+    background-color: #fff;
+    outline-color: #fff !important;
+    border-color: #fff !important;
+}
+  
+  
+.btn-custom{
+    background-color: #eee !important;
+    outline-color: #eee !important;
+    border-color: #eee !important;
+}
+
+.btn:active {
+    transform: translateY(2px);
+    filter: saturate(150%);
+}
+
 @media screen and (min-width: 1024px) {
     .param-selector {
         font-size: 11px;
