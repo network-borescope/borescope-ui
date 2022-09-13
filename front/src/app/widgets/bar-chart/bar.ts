@@ -25,10 +25,12 @@ export class BarChart {
 
     const self = this;
     const setTooltipTitle = (tooltipItems:any) => {
-      const id = parseInt(tooltipItems[0].parsed.x);
       if(self.zoom > 12 && self.from == 'viaipe') {
+        //@ts-ignore
+        const id = parseInt(tooltipItems[0].parsed.x) + self.lowerIndex;
         return self.viaipeLabels[self.idOrder[id]];
       } else {
+        const id = parseInt(tooltipItems[0].parsed.x);
         return self.getId(self.idOrder[id]);
       }
     };
@@ -67,7 +69,9 @@ export class BarChart {
               // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
                 if(self.zoom > 12 && self.from == 'viaipe') {
-                  return self.viaipeLabels[self.idOrder[value]];
+                  //@ts-ignore
+                  const id = value + self.lowerIndex;
+                  return self.viaipeLabels[self.idOrder[id]];
                 } else {
                   return self.getId(self.idOrder[value]);
                 }
@@ -131,7 +135,6 @@ export class BarChart {
 
   updateDataset(dataId:string, color: string, data: any, name: any = undefined, idOrder: any = undefined) {
     if(idOrder !== undefined) this.idOrder = idOrder;
-    console.log(data)
     this.data = data;
     const datasets = this.chart.config.data.datasets;
     let label = "";
@@ -158,10 +161,16 @@ export class BarChart {
         fill: false,
         stack: dataId
       };
-      console.log(newData)
       datasets.push(newData);
     }
 
+    this.chart.update();
+  }
+
+  changeData(data: any) {
+    const datasets = this.chart.config.data.datasets;
+    const id = datasets.findIndex((d: any) => d.backgroundColor == "#AAAAAA");
+    datasets[id].data = data;
     this.chart.update();
   }
 
