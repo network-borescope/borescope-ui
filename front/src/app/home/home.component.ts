@@ -286,11 +286,15 @@ export class HomeComponent implements AfterViewInit {
   onMarkerAdded(event: any) {
     const cod = event.cod;
     const color = event.color;
-    const name = event.nome.replace(/_/g, ' ');;
+    const name = event.nome.replace(/_/g, ' ');
+    const selectedClientOption = this.global.getGlobal("client_option").value;
     // barchart e linechart do marker
     this.updateLineChart('client', color, cod, name);
-    this.updateBarChart('client', color, cod, name);
-
+    if(selectedClientOption == 'viaipe') {
+      this.bar.updateColor(color, cod, true);
+    } else {
+      this.updateBarChart('client', color, cod, name);
+    }
     // adiciona ao estado global
     this.addChartElementToGlobal('client', color, cod);
   }
@@ -300,6 +304,9 @@ export class HomeComponent implements AfterViewInit {
    */
   onMarkerRemoved(event: any) {
     const color = event.color;
+    const cod = event.cod;
+    const name = event.nome.replace(/_/g, ' ');
+    const selectedClientOption = this.global.getGlobal("client_option").value;
 
     const line_params = this.global.getGlobal('line_params').value;
     for (const param of line_params) {
@@ -308,9 +315,13 @@ export class HomeComponent implements AfterViewInit {
 
     const bar_params = this.global.getGlobal('bar_params').value;
     const lmap = this.global.getGlobal('label_maps').value;
-
-    for (const param of bar_params) {
-      this.bar.clearChart(param.id, 'client', color, lmap, this.map.getZoom());
+    
+    if(selectedClientOption !== 'viaipe') {
+      for (const param of bar_params) {
+        this.bar.clearChart(param.id, 'client', color, lmap, this.map.getZoom());
+      }
+    } else {
+      this.bar.updateColor(color, cod, false);
     }
 
     // remove do estado global

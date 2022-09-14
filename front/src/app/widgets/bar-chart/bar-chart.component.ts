@@ -49,6 +49,7 @@ export class BarChartComponent implements OnInit {
     this.lowerIndex = 0;
     this.higherIndex = 9;
     this.tabsCounter = 0;
+    console.log(responseData)
     // manages data for each from
     for(let from of Object.keys(responseData)) {
       // clear existing element
@@ -69,6 +70,7 @@ export class BarChartComponent implements OnInit {
         this.rawData[from][dataId][chartColor].push({ x: pointId, y: pointVl });
       }
       this.barChart.viaipeLabels = this.viaipeClientsLabel;
+      console.log(this.viaipeClientsLabel)
       // atualiza os labels baseado no dado novo
       this.updateLabels(from, lmap, zoom);
       // normaliza os dados de dataId
@@ -113,6 +115,7 @@ export class BarChartComponent implements OnInit {
             }
             newData.reverse();
             idOrder.reverse();
+            console.log(idOrder)
             this.barChart.updateDataset(dataId, color, newData, name, idOrder);
           }
         }
@@ -268,7 +271,15 @@ export class BarChartComponent implements OnInit {
   getViaipeClientLabel(ids: any) {
     const key = this.barChart.getId(ids[0]).toLowerCase();
     //@ts-ignore
-    return viaipeMetadata['pops'][key]['clientes'][ids[1]]["caption"];
+    return viaipeMetadata['pops'][key]['clientes'][ids[1] - 1]["caption"];
+  }
+
+  updateColor(color: string, cod: number, isAdded: boolean) {
+    if(isAdded) {
+      this.barChart.changeBarColor(color, cod)
+    } else {
+      this.barChart.changeBarColor('#AAAAAA', cod)
+    }
   }
 
   updateTabCounter(value: number) {
@@ -287,7 +298,7 @@ export class BarChartComponent implements OnInit {
       this.higherIndex = (this.tabsCounter + 1)*9;
       this.data = this.barChart.data.slice(this.tabsCounter*9, (this.tabsCounter + 1)*9);
     }
-
+    this.barChart.changeBarColor('#AAAAAA', -1)
     this.barChart.changeData(this.data);
   }
 

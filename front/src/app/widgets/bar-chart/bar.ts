@@ -6,12 +6,14 @@ export class BarChart {
   private canvas: HTMLCanvasElement;
   private capitals: any;
   private idOrder: any;
+  private colorList: any;
   public zoom: any = undefined;
   public viaipeLabels: any = [];
   public from: any = undefined;
   public data: any;
   public lowerIndex: number = 0;
   public higherIndex: number = 9;
+
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.init();
@@ -28,6 +30,8 @@ export class BarChart {
       if(self.zoom > 12 && self.from == 'viaipe') {
         //@ts-ignore
         const id = parseInt(tooltipItems[0].parsed.x) + self.lowerIndex;
+        console.log(id)
+        console.log(self.viaipeLabels)
         return self.viaipeLabels[self.idOrder[id]];
       } else {
         const id = parseInt(tooltipItems[0].parsed.x);
@@ -135,6 +139,7 @@ export class BarChart {
 
   updateDataset(dataId:string, color: string, data: any, name: any = undefined, idOrder: any = undefined) {
     if(idOrder !== undefined) this.idOrder = idOrder;
+    this.colorList = Array(this.idOrder.length).fill("#AAAAAA")
     this.data = data;
     const datasets = this.chart.config.data.datasets;
     let label = "";
@@ -155,8 +160,8 @@ export class BarChart {
     else {
       const newData = {
         label: label,
-        backgroundColor: color,
-        borderColor: color,
+        backgroundColor: (this.zoom > 12 && this.from == 'viaipe') ? this.colorList.slice(this.lowerIndex, this.higherIndex) : color,
+        borderColor: (this.zoom > 12 && this.from == 'viaipe') ? this.colorList.slice(this.lowerIndex, this.higherIndex) : color,
         data: (this.zoom > 12 && this.from == 'viaipe') ? data.slice(this.lowerIndex, this.higherIndex) : data,
         fill: false,
         stack: dataId
@@ -169,8 +174,19 @@ export class BarChart {
 
   changeData(data: any) {
     const datasets = this.chart.config.data.datasets;
-    const id = datasets.findIndex((d: any) => d.backgroundColor == "#AAAAAA");
-    datasets[id].data = data;
+    datasets[0].data = data;
+    this.chart.update();
+  }
+
+  changeBarColor(color: string, cod: number = -1) {
+    const datasets = this.chart.config.data.datasets;
+    if(cod > -1) {
+      const id = this.idOrder.indexOf(cod);
+      this.colorList[id] = color;
+    }
+    const newColors = this.colorList.slice(this.lowerIndex, this.higherIndex);
+    datasets[0].backgroundColor = newColors;
+    datasets[0].borderColor = newColors;
     this.chart.update();
   }
 
