@@ -52,4 +52,8 @@
         font-size: 11px;
         margin-top: 7px;
     }
+
+    .controls {
+        gap: 483px;
+    }
 }

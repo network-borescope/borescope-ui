@@ -45,9 +45,9 @@ export class BarChartComponent implements OnInit {
     this.viaipeClientsLabel = {};
     this.barChart.clear();
     this.barChart.lowerIndex = 0;
-    this.barChart.higherIndex = 9;
+    this.barChart.higherIndex = 10;
     this.lowerIndex = 0;
-    this.higherIndex = 9;
+    this.higherIndex = 10;
     this.tabsCounter = 0;
     console.log(responseData)
     // manages data for each from
@@ -287,26 +287,26 @@ export class BarChartComponent implements OnInit {
 
     if(this.tabsCounter == 0) {
       this.barChart.lowerIndex = 0;
-      this.barChart.higherIndex = 9;
+      this.barChart.higherIndex = 10;
       this.lowerIndex = 0;
-      this.higherIndex = 9;
-      this.data = this.barChart.data.slice(0, 9);
+      this.higherIndex = 10;
+      this.data = this.barChart.data.slice(0, 10);
     } else {
-      this.barChart.lowerIndex = this.tabsCounter*9;
-      this.barChart.higherIndex = (this.tabsCounter + 1)*9;
-      this.lowerIndex = this.tabsCounter*9;
-      this.higherIndex = (this.tabsCounter + 1)*9;
-      this.data = this.barChart.data.slice(this.tabsCounter*9, (this.tabsCounter + 1)*9);
+      this.barChart.lowerIndex = this.tabsCounter*10;
+      this.barChart.higherIndex = (this.tabsCounter + 1)*10;
+      this.lowerIndex = this.tabsCounter*10;
+      this.higherIndex = (this.tabsCounter + 1)*10;
+      this.data = this.barChart.data.slice(this.tabsCounter*10, (this.tabsCounter + 1)*10);
     }
     this.barChart.changeBarColor('#AAAAAA', -1)
     this.barChart.changeData(this.data);
   }
 
   hasPrevious() {
-    return ((this.tabsCounter + 1) * 9 > 9)
+    return ((this.tabsCounter + 1) * 10 > 10)
   }
 
   hasNext() {
-    return ((this.tabsCounter + 1) * 9 < this.barChart.data.length)
+    return ((this.tabsCounter + 1) * 10 < this.barChart.data.length)
   }
 }
