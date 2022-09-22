@@ -264,7 +264,6 @@ export class ApiService {
       }
     }
 
-    console.log(query)
     this.utils.showTrace("requestLineChart", query);
 
     // post header

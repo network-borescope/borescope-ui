@@ -445,6 +445,14 @@ export class MapComponent implements AfterViewInit {
     }
 
     layer.bindPopup(contentPopup);
+    
+    const found = this.listClient.findIndex(d => {
+      return d.cod === feature.properties.cod;
+    });
+
+    if (found >= 0) {
+      layer.setIcon(this.clientIcon(this.listClient[found].color));
+    }
 
     // Evento de click no marker
     layer.on('click', () => {
@@ -613,6 +621,7 @@ export class MapComponent implements AfterViewInit {
       });
 
       this.clients = clientsToShowOnScreen.map((d: any) => {
+        console.log(d)
         return {
           "type": "Feature",
           "geometry": {
