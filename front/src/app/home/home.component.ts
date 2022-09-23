@@ -580,6 +580,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     const data: any = {};
+    let res;
     const line_params = this.global.getGlobal('line_params').value;
     const selectedParam = this.global.getGlobal('line_selected_params_value').value;
     const selectedClientOption = this.global.getGlobal("client_option").value;
@@ -587,18 +588,20 @@ export class HomeComponent implements AfterViewInit {
     let param;
     if(selectedClientOption == 'popdf') {
       for (const param of line_params) {
-        const res = await this.api.requestLineChart(location, time, client, param, selectedClientOption);
+        res = await this.api.requestLineChart(location, time, client, param, selectedClientOption);
         data[param.id] = res;
       }    
       param = this.global.getGlobal('line_params_value').value;
     } else {
-      const res = await this.api.requestLineChart(location, time, client, {}, selectedClientOption);
+      res = await this.api.requestLineChart(location, time, client, {}, selectedClientOption);
+      console.log(res)
       param = 'viaipe'
       data['viaipe'] = res;
     }
-
-    this.line.updateData(data, dataId, chartColor);
-    this.line.drawChart(param, selectedParam, name);
+    if(Object.keys(res.result).length) {
+      this.line.updateData(data, dataId, chartColor);
+      this.line.drawChart(param, selectedParam, name);
+    }
   }
 
   async updateHeatmatrix() {

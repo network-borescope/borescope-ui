@@ -1,4 +1,5 @@
 import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElement, Legend, Tooltip } from 'chart.js';
+import { thresholdFreedmanDiaconis } from 'd3';
 
 export class BarChart {
 
@@ -6,13 +7,14 @@ export class BarChart {
   private canvas: HTMLCanvasElement;
   private capitals: any;
   private idOrder: any;
-  private colorList: any;
+  public colorList: any = [];
   public zoom: any = undefined;
   public viaipeLabels: any = [];
   public from: any = undefined;
   public data: any;
   public lowerIndex: number = 0;
   public higherIndex: number = 9;
+  public selectedColumns: any = [];
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -139,7 +141,9 @@ export class BarChart {
 
   updateDataset(dataId:string, color: string, data: any, name: any = undefined, idOrder: any = undefined) {
     if(idOrder !== undefined) this.idOrder = idOrder;
-    this.colorList = Array(this.idOrder.length).fill("#AAAAAA")
+    
+    if(this.colorList.length == 0) this.colorList = Array(this.idOrder.length).fill("#AAAAAA");
+
     this.data = data;
     const datasets = this.chart.config.data.datasets;
     let label = "";
@@ -179,11 +183,13 @@ export class BarChart {
   }
 
   changeBarColor(color: string, cod: number = -1) {
+    
     const datasets = this.chart.config.data.datasets;
     if(cod > -1) {
       const id = this.idOrder.indexOf(cod);
       this.colorList[id] = color;
     }
+
     const newColors = this.colorList.slice(this.lowerIndex, this.higherIndex);
     datasets[0].backgroundColor = newColors;
     datasets[0].borderColor = newColors;
@@ -203,6 +209,8 @@ export class BarChart {
   clear() {
     this.chart.data.labels = [];
     this.chart.data.datasets = [];
+    this.colorList = [];
+    this.idOrder = [];
     this.chart.update();
   }
 

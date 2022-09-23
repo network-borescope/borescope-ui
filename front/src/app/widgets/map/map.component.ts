@@ -621,7 +621,6 @@ export class MapComponent implements AfterViewInit {
       });
 
       this.clients = clientsToShowOnScreen.map((d: any) => {
-        console.log(d)
         return {
           "type": "Feature",
           "geometry": {
