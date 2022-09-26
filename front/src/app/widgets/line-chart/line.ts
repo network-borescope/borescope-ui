@@ -34,6 +34,11 @@ export class LineChart {
           legend: {
             display: true,
             position: "top",
+            labels: {
+              font: {
+                size: 15
+              } 
+            }
           },
           title: {
             display: false,
@@ -57,6 +62,9 @@ export class LineChart {
         scales: {
           x: {
             ticks: {
+              font: {
+                size: 15
+              },
               // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
                   return self.data[value].x.slice(0, -7);
@@ -65,9 +73,17 @@ export class LineChart {
           },
           y: {
             display: true,
+            ticks: {
+              font: {
+                size: 15
+              }
+            },
             title: {
               display: false,
-              text: 'Y'
+              text: 'Y',
+              font: {
+                size: 15
+              }
             }
           }
         }

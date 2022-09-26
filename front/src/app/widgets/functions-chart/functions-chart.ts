@@ -42,14 +42,22 @@ export class Functionschart {
             legend: {
               title: {
                 display: true,
-                text: ''
+                text: '',
+                font: {
+                  size: 15
+                }
               },
               display: true,
               position: "top",
+              labels: {
+                font: {
+                  size: 15
+                } 
+              }
             },
             title: {
               display: true,
-              text: 'CDF'
+              text: 'CDF',
             },
             tooltip: {
               mode: 'index',
@@ -72,9 +80,15 @@ export class Functionschart {
               display: true,
               title: {
                 display: true,
-                text: 'Tempo (ms)'
+                text: 'Tempo (ms)',
+                font: {
+                  size: 15
+                }
               },
               ticks: {
+                font: {
+                  size: 15
+                },
                 callback: function(value, index, ticks) {
                     if(self.isTimeSeries) {
                       //@ts-ignore
@@ -84,10 +98,18 @@ export class Functionschart {
               }
             },
             y: {
+              ticks: {
+                font: {
+                  size: 15
+                }
+              },
               display: true,
               title: {
                 display: true,
-                text: 'F(X)'
+                text: 'F(X)',
+                font: {
+                  size: 15
+                }
               }
             }
           }

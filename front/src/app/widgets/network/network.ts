@@ -108,15 +108,17 @@ export class Network {
     .attr('class', 'chart chart-title')
     .attr("transform", "translate(" + (this._width/1.6) + " ," + (this._margin.top  - 15) + ")")
     .style("text-anchor", "middle")
-    .style('fill', '#8c8c8c');
+    .style('fill', '#8c8c8c')
+    .style('font-size', '15px');
 
     // axis label groups
     this._svgCanvas
     .append('text')
     .attr('class', 'axis axis--x--label')
-    .attr("transform", "translate(" + (this._width/1.6) + " ," + (this._height + this._margin.bottom + 30) + ")")
+    .attr("transform", "translate(" + (this._width/1.6) + " ," + (this._height + this._margin.bottom + 37) + ")")
     .style("text-anchor", "middle")
-    .style('fill', '#8c8c8c');
+    .style('fill', '#8c8c8c')
+    .style('font-size', '15px');
 
     this._svgCanvas
     .append('text')
@@ -126,7 +128,8 @@ export class Network {
     .attr("x", 0 - (this._height / 1.5))
     .attr("dy", "1em")
     .style("text-anchor", "middle")
-    .style('fill', '#8c8c8c');
+    .style('fill', '#8c8c8c')
+    .style('font-size', '15px');
     
     // creates the group
     this._svgGroup = this._svgCanvas
@@ -194,6 +197,7 @@ export class Network {
     this._xAxis.scale(this._outScale).tickSizeOuter(0);
     this._svgGroup.select('.axis--x').call(this._xAxis)
         .selectAll('text')
+        .style('font-size', '15px')
         .style('text-anchor', 'end')
         .style('pointer-events', 'auto')
         .style('', 'default')
@@ -205,6 +209,7 @@ export class Network {
     if(this._services == null) {
     this._svgGroup.select('.axis--y').call(this._yAxis)
         .selectAll('text')
+        .style('font-size', '15px')
         .style('pointer-events', 'auto')
     } else {
       this._svgGroup.select('.axis--y').call(this._yAxis)

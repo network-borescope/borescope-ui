@@ -60,7 +60,12 @@ export class BarChart {
           },
           legend: {
             display: true,
-            position: "top"
+            position: "top",
+            labels: {
+              font: {
+                size: 15
+              }
+            }
           },
           title: {
             display: false
@@ -71,6 +76,9 @@ export class BarChart {
           x: {
             stacked: true,
             ticks: {
+              font: {
+                size: 15
+              },
               autoSkip: false,
               // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
@@ -88,7 +96,15 @@ export class BarChart {
             stacked: true,
             title: {
               display: true,
-              text: 'Relative Frequency'
+              text: 'Relative Frequency',
+              font: {
+                size: 15
+              }
+            },
+            ticks: {
+              font: {
+                size: 15
+              }
             }
           }
         }
@@ -209,8 +225,6 @@ export class BarChart {
   clear() {
     this.chart.data.labels = [];
     this.chart.data.datasets = [];
-    this.colorList = [];
-    this.idOrder = [];
     this.chart.update();
   }
 
