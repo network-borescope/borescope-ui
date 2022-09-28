@@ -6,10 +6,27 @@
     <select *ngIf="!this.isViaipe()" name="select" class="param-selector" (change)="this.onParamChange($event)">
       <option *ngFor="let param of this.ids; let idx = index" [value]="param.id">{{param.id}}</option>
     </select>
+
     <div class="controls">
       <button *ngIf="this.isViaipe() && this.zoom > 12" [disabled]="!this.hasPrevious()" type="button" class="btn btn-custom" (click)="updateTabCounter(-1)">
         <i [style.color]="this.hasPrevious() ? 'rgb(36, 61, 143)' : 'rgb(149, 165, 166)'" class="fas fa-arrow-left fa-lg"></i>
       </button>
+      <select *ngIf="this.isViaipe()" name="select" class="param-selector" style="margin-top: 1px !important;" 
+      [style.margin-left]="(this.zoom > 12) ? '-367px' : '0px'" 
+      (change)="this.onParamChange($event)">
+        <option value="avg_in" selected>Average in</option>
+        <option value="avg_out">Average out</option>
+        <option value="max_in">Max in</option>
+        <option value="max_out">Max out</option>
+  
+        <option value="loss">Loss</option>
+        <option value="avg_loss">Average loss</option>
+        <option value="max_loss">Max loss</option>
+  
+        <option value="val">Val</option>
+        <option value="avg_val">Average val</option>
+        <option value="max_val">Max val</option>
+      </select>
       <button *ngIf="this.isViaipe() && this.zoom > 12" [disabled]="!this.hasNext()" type="button" class="btn btn-custom" (click)="updateTabCounter(1)">
         <i [style.color]="this.hasNext() ? 'rgb(36, 61, 143)' : 'rgb(149, 165, 166)'"  class="fas fa-arrow-right fa-lg"></i>
       </button> 

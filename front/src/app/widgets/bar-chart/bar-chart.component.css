@@ -1,5 +1,5 @@
 .param-selector {
-    width: 79px;
+    width: 93px;
     font-size: 9px;
     margin-left: 17px;
     height: 27px;
@@ -8,7 +8,8 @@
 
 .controls {
     display: flex;
-    gap: 400px;
+    justify-content: space-between;
+    width: 493px
 }
 
 .btn:focus {
@@ -54,6 +55,6 @@
     }
 
     .controls {
-        gap: 483px;
+        width: 578px;
     }
 }

@@ -380,7 +380,22 @@ export class HomeComponent implements AfterViewInit {
   onBarSelectedChanged() {
     const selectedClientOption = this.global.getGlobal("client_option").value;
     const param = this.global.getGlobal('bar_params_value').value;
-    this.bar.drawChart(param, undefined, this.map.getZoom());
+    if(selectedClientOption == 'viaipe') {
+      this.bar.barChart.clear();
+      for (let paramId of Object.keys(this.bar.rawData['viaipe'])) {
+        if(paramId == 'map') this.updateBarChart(paramId, '#AAAAAA');
+        else {
+          for(let i = 0; i < this.chartsElements.cods.length; i++) {
+            const color = this.chartsElements.colors[i];
+            const cod = this.chartsElements.cods[i];
+            const name = this.chartsElements.names[i];
+            this.updateBarChart(paramId, color, cod, name);
+          }
+        }
+      }      
+    } else {
+      this.bar.drawChart(param, undefined, this.map.getZoom());
+    }
   };
 
   /**
@@ -391,15 +406,17 @@ export class HomeComponent implements AfterViewInit {
     const selectedParam = this.global.getGlobal('line_selected_params_value').value;
     const selectedClientOption = this.global.getGlobal("client_option").value;
     if(selectedClientOption == 'viaipe') {
-      this.line.lineChart.clear();
       for (let paramId of Object.keys(this.line.rawData['viaipe'])) {
-        if(paramId == 'map') this.updateLineChart(paramId, '#AAAAAA');
-        else {
+        if(paramId == 'map') { 
+          this.line.clearChart('viaipe', paramId, '#AAAAAA');
+          this.updateLineChart(paramId, '#AAAAAA');
+        } else {
           for(let i = 0; i < this.chartsElements.cods.length; i++) {
             const color = this.chartsElements.colors[i];
             const cod = this.chartsElements.cods[i];
             const name = this.chartsElements.names[i];
-            this.updateLineChart(paramId, color, cod, name);
+            this.line.clearChart('viaipe', paramId, color);
+            this.updateLineChart(paramId, color, cod, name, 'data change');
           }
         }
       }
@@ -572,27 +589,29 @@ export class HomeComponent implements AfterViewInit {
     const data: any = {};
     const bar_params = this.global.getGlobal('bar_params').value;
     const selectedClientOption = this.global.getGlobal("client_option").value;
+    const selectedValue = this.global.getGlobal('bar_params_value').value;
     let zoom;
     let lmap;
     let param;
+    let res;
     if(selectedClientOption == 'popdf') {
       for (const param of bar_params) {
-        const res = await this.api.requestBarChart(location, time, client, param, selectedClientOption);
+        res = await this.api.requestBarChart(location, time, client, param, selectedClientOption);
         data[param.id] = res;
         lmap = this.global.getGlobal('label_maps').value;
       }
       param = this.global.getGlobal('bar_params_value').value;
     } else {
       zoom = this.map.getZoom();      
-      const res = await this.api.requestBarChart(location, time, client, {}, selectedClientOption, zoom);
+      res = await this.api.requestBarChart(location, time, client, selectedValue, selectedClientOption, zoom);
       param = selectedClientOption;
       data['viaipe'] = res;
       lmap = {'viaipe': {}};
     }
-
-    
-    this.bar.updateData(data, dataId, chartColor, lmap, zoom);
-    this.bar.drawChart(param, name, zoom);
+    if(Object.keys(res.result).length) {
+      this.bar.updateData(data, dataId, chartColor, lmap, zoom);
+      this.bar.drawChart(param, name, zoom);
+    }
   }
 
   async updateLineChart(dataId: string, chartColor: string, feat: any = undefined, name: any = undefined, from: any = undefined) {

@@ -147,7 +147,7 @@ export class GlobalService {
      */
     const bar_params_value = {
       key: "bar_params_value",
-      value: bar_params.value[0].id
+      value: 'avg_in'
     };
     this.setGlobal(bar_params_value);
 

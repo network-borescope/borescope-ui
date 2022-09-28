@@ -95,6 +95,7 @@ export class LineChartComponent implements OnInit {
   }
 
   drawChart(from: string, selectedParam: string, name: any = undefined) {
+    console.log(name)
     if(!this.isViaipe()) {
       // TODO: passar os labels de y em um objeto.
       if (from.includes('dns')) {
