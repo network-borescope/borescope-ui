@@ -256,7 +256,7 @@ export class ApiService {
       query['select'] = params.select;
     } else {
       query["group-by"] = {"field":"time","min-k":tsT0,"max-k":tsT1,"n-points":1024};
-      query['select'] = ['avg_in'];
+      query['select'] = [params];
       query['from'] = 'viaipe';
       if(clicked > 0 && client !== undefined) {
         query['where'].push(["pop", "eq", clicked]);

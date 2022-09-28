@@ -16,10 +16,10 @@ export class LineChartComponent implements OnInit {
   @Output() lineParamChanged = new EventEmitter<number>();
   @Output() lineValueChanged = new EventEmitter<number>();
 
-  private lineChart: any;
+  public lineChart: any;
 
   private labels: any = {};
-  private rawData: any = {};
+  public rawData: any = {};
   private nrmData: any = {};
 
   private unity: any = {};
@@ -94,12 +94,11 @@ export class LineChartComponent implements OnInit {
         this.lineChart.setLabelY("Requisitions" + " [" + this.unity[from].prefix + "package" + "]");
       }
     } else {
-      this.lineChart.setLabelY("Avg in");
+      this.lineChart.setLabelY(this.global.getGlobal('line_selected_params_value').value);
     }
-
-
     // atualiza os labels
     this.lineChart.setLabels(this.labels[from], name);
+    console.log(this.nrmData[from])
     // atualiza os gráficos
     for (const dataId of Object.keys(this.nrmData[from])) {
       for (const color of Object.keys(this.nrmData[from][dataId])) {

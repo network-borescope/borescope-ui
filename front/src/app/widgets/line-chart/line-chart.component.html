@@ -13,5 +13,20 @@
       <option value="min">Min</option>
     </select>
   </div>
-</div>
+  <div *ngIf="this.isViaipe()" style="margin-top: 7px; padding-bottom: 7px; display: flex;">
+    <select name="select" class="value-selector" (change)="this.onValueChange($event)">
+      <option value="avg_in" selected>Average in</option>
+      <option value="avg_out">Average out</option>
+      <option value="max_in">Max in</option>
+      <option value="max_out">Max out</option>
 
+      <option value="loss">Loss</option>
+      <option value="avg_loss">Average loss</option>
+      <option value="max_loss">Max loss</option>
+
+      <option value="val">Val</option>
+      <option value="avg_val">Average val</option>
+      <option value="max_val">Mx val</option>
+    </select>
+  </div>
+</div>

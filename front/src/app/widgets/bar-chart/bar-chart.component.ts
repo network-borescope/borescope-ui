@@ -49,7 +49,6 @@ export class BarChartComponent implements OnInit {
     this.lowerIndex = 0;
     this.higherIndex = 10;
     this.tabsCounter = 0;
-    console.log(responseData)
     // manages data for each from
     for(let from of Object.keys(responseData)) {
       // clear existing element
@@ -70,7 +69,6 @@ export class BarChartComponent implements OnInit {
         this.rawData[from][dataId][chartColor].push({ x: pointId, y: pointVl });
       }
       this.barChart.viaipeLabels = this.viaipeClientsLabel;
-      console.log(this.viaipeClientsLabel)
       // atualiza os labels baseado no dado novo
       this.updateLabels(from, lmap, zoom);
       // normaliza os dados de dataId
@@ -115,7 +113,6 @@ export class BarChartComponent implements OnInit {
             }
             newData.reverse();
             idOrder.reverse();
-            console.log(idOrder)
             this.barChart.updateDataset(dataId, color, newData, name, idOrder);
           }
         }
@@ -228,7 +225,6 @@ export class BarChartComponent implements OnInit {
   updateLabels(from: string, lmap: any, zoom: number) {
     // limpa os labels do gráfico
     this.labels[from] = [];
-    console.log(from,zoom);
     let counter = 1;
     // percorre os tipos de elementos
     for (const dataId of Object.keys(this.rawData[from])) {

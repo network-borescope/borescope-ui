@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, ViewChild, ɵɵtrustConstantResourceUrl } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
@@ -45,6 +45,7 @@ export class HomeComponent implements AfterViewInit {
   public t0: string = 'none';
   public t1: string = 'none';
   private timeBoundsRefreshFnc: any = undefined;
+  private chartsElements: any = {cods: [], colors: [], names: []};
 
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService, private spinner: NgxSpinnerService) {
     this.timeBoundsRefreshFnc = setInterval(async () => {
@@ -55,6 +56,15 @@ export class HomeComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initCharts();
+  }
+
+  ngOnInit(): void {
+    const line_selected_params_value = this.global.getGlobal('line_selected_params_value');
+    const selectedClientOption = this.global.getGlobal("client_option").value;
+    if(selectedClientOption == 'viaipe') {
+      line_selected_params_value.value = 'avg_in';
+      this.global.setGlobal(line_selected_params_value)
+    }
   }
 
   ngDestroy() {
@@ -288,6 +298,9 @@ export class HomeComponent implements AfterViewInit {
     const color = event.color;
     const name = event.nome.replace(/_/g, ' ');
     const selectedClientOption = this.global.getGlobal("client_option").value;
+    this.chartsElements.cods.push(cod);
+    this.chartsElements.colors.push(color);
+    this.chartsElements.names.push(name);
     // barchart e linechart do marker
     this.updateLineChart('client', color, cod, name);
     if(selectedClientOption == 'viaipe') {
@@ -376,7 +389,23 @@ export class HomeComponent implements AfterViewInit {
    onLineSelectedChanged(){
     const param = this.global.getGlobal('line_params_value').value;
     const selectedParam = this.global.getGlobal('line_selected_params_value').value;
-    this.line.drawChart(param, selectedParam);
+    const selectedClientOption = this.global.getGlobal("client_option").value;
+    if(selectedClientOption == 'viaipe') {
+      this.line.lineChart.clear();
+      for (let paramId of Object.keys(this.line.rawData['viaipe'])) {
+        if(paramId == 'map') this.updateLineChart(paramId, '#AAAAAA');
+        else {
+          for(let i = 0; i < this.chartsElements.cods.length; i++) {
+            const color = this.chartsElements.colors[i];
+            const cod = this.chartsElements.cods[i];
+            const name = this.chartsElements.names[i];
+            this.updateLineChart(paramId, color, cod, name);
+          }
+        }
+      }
+    } else {
+      this.line.drawChart(param, selectedParam);
+    }
   }
 
   onFunctionsChartReset() {
@@ -584,7 +613,6 @@ export class HomeComponent implements AfterViewInit {
     const line_params = this.global.getGlobal('line_params').value;
     const selectedParam = this.global.getGlobal('line_selected_params_value').value;
     const selectedClientOption = this.global.getGlobal("client_option").value;
-    
     let param;
     if(selectedClientOption == 'popdf') {
       for (const param of line_params) {
@@ -593,11 +621,11 @@ export class HomeComponent implements AfterViewInit {
       }    
       param = this.global.getGlobal('line_params_value').value;
     } else {
-      res = await this.api.requestLineChart(location, time, client, {}, selectedClientOption);
-      console.log(res)
+      res = await this.api.requestLineChart(location, time, client, selectedParam, selectedClientOption);
       param = 'viaipe'
       data['viaipe'] = res;
     }
+    console.log('allloou')
     if(Object.keys(res.result).length) {
       this.line.updateData(data, dataId, chartColor);
       this.line.drawChart(param, selectedParam, name);
