@@ -32,8 +32,6 @@ export class BarChart {
       if(self.zoom > 12 && self.from == 'viaipe') {
         //@ts-ignore
         const id = parseInt(tooltipItems[0].parsed.x) + self.lowerIndex;
-        console.log(id)
-        console.log(self.viaipeLabels)
         return self.viaipeLabels[self.idOrder[id]];
       } else {
         const id = parseInt(tooltipItems[0].parsed.x);

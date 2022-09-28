@@ -595,7 +595,7 @@ export class HomeComponent implements AfterViewInit {
     this.bar.drawChart(param, name, zoom);
   }
 
-  async updateLineChart(dataId: string, chartColor: string, feat: any = undefined, name: any = undefined) {
+  async updateLineChart(dataId: string, chartColor: string, feat: any = undefined, name: any = undefined, from: any = undefined) {
     const time = this.getTime(dataId);
     const location = (dataId === 'geometry') ?
       this.map.getPoly(feat) : this.map.getLocation();
@@ -625,7 +625,7 @@ export class HomeComponent implements AfterViewInit {
       param = 'viaipe'
       data['viaipe'] = res;
     }
-    console.log('allloou')
+
     if(Object.keys(res.result).length) {
       this.line.updateData(data, dataId, chartColor);
       this.line.drawChart(param, selectedParam, name);
