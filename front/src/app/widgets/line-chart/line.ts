@@ -67,7 +67,7 @@ export class LineChart {
               },
               // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
-                  return self.data[value].x.slice(0, -7);
+                  if(self.data[value] !== undefined && self.data[value].x !== undefined) return self.data[value].x.slice(0, -7);
               }
             }
           },
@@ -143,6 +143,8 @@ export class LineChart {
       datasets[id].data = data;
     }
     else {
+      console.log(name)
+      console.log(label)
       const newData = {
         label: label,
         backgroundColor: color,

@@ -18,10 +18,10 @@ export class BarChartComponent implements OnInit {
 
   @Output() barParamChanged = new EventEmitter<number>();
 
-  private barChart: any;
+  public barChart: any;
 
   private labels: any = {};
-  private rawData: any = {};
+  public rawData: any = {};
   private nrmData: any = {};
   private viaipeClientsLabel: any = [];
   private lowerIndex: number = 0;
@@ -30,6 +30,18 @@ export class BarChartComponent implements OnInit {
   private tabsCounter: number = 0;
   private data: any;
   public ids: any = [];
+  private optionsList = {
+    avg_in: 'Average in',
+    avg_out: 'Average out',
+    max_in: 'Max in',
+    max_out: 'Max out',
+    loss: 'Loss',
+    avg_loss: 'Average loss',
+    max_loss: 'Max loss',
+    val: 'Val',
+    avg_val: 'Average val',
+    max_val: 'Max val'
+  };
 
   constructor(public global: GlobalService, public util: UtilService) {
     this.ids = this.global.getGlobal('bar_params').value;
@@ -100,7 +112,9 @@ export class BarChartComponent implements OnInit {
         }
       }
     } else {
-        this.barChart.setLabelY("Avg in");
+        const selectedValue = this.global.getGlobal('bar_params_value').value;
+        //@ts-ignore
+        this.barChart.setLabelY(this.optionsList[selectedValue]);
         for (const dataId of Object.keys(this.nrmData[from])) {
           for (const color of Object.keys(this.nrmData[from][dataId])) {
             const data = this.nrmData[from][dataId];

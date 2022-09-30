@@ -187,7 +187,6 @@ export class ApiService {
    */
   async requestBarChart(location: any[], time: any[], client: any[] | undefined, params: any, option: string, zoom: any = undefined) {
     let query = new QueryRequest();
-    console.log(zoom)
     query['where'] = [];
     if (location !== undefined) {
       query['where'].push(location);
@@ -197,13 +196,12 @@ export class ApiService {
     }
 
     query['id'] = this.getQueryId();
-
     if(option == 'popdf') {
       query['from'] = params.from;
       query['select'] = params.select;
       query['group-by'] = params.groupBy;
     } else {
-      query['select'] = ['avg_in'];
+      query['select'] = [params];
       query['from'] = 'viaipe';
       if (zoom > 12) {
         query['group-by'] = ['pop','cliente'];

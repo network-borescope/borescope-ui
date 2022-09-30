@@ -28,6 +28,18 @@ export class LineChartComponent implements OnInit {
   private t1:number = 0;
 
   public ids: any = [];
+  private optionsList = {
+    avg_in: 'Average in',
+    avg_out: 'Average out',
+    max_in: 'Max in',
+    max_out: 'Max out',
+    loss: 'Loss',
+    avg_loss: 'Average loss',
+    max_loss: 'Max loss',
+    val: 'Val',
+    avg_val: 'Average val',
+    max_val: 'Max val'
+  };
 
   constructor(public global: GlobalService, public util: UtilService) {
     this.ids = this.global.getGlobal('line_params').value;
@@ -83,6 +95,7 @@ export class LineChartComponent implements OnInit {
   }
 
   drawChart(from: string, selectedParam: string, name: any = undefined) {
+    console.log(name)
     if(!this.isViaipe()) {
       // TODO: passar os labels de y em um objeto.
       if (from.includes('dns')) {
@@ -94,11 +107,12 @@ export class LineChartComponent implements OnInit {
         this.lineChart.setLabelY("Requisitions" + " [" + this.unity[from].prefix + "package" + "]");
       }
     } else {
-      this.lineChart.setLabelY(this.global.getGlobal('line_selected_params_value').value);
+      const selectedValue = this.global.getGlobal('line_selected_params_value').value;
+      //@ts-ignore
+      this.lineChart.setLabelY(this.optionsList[selectedValue]);
     }
     // atualiza os labels
     this.lineChart.setLabels(this.labels[from], name);
-    console.log(this.nrmData[from])
     // atualiza os gráficos
     for (const dataId of Object.keys(this.nrmData[from])) {
       for (const color of Object.keys(this.nrmData[from][dataId])) {
