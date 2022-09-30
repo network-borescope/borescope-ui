@@ -345,7 +345,6 @@ export class HomeComponent implements AfterViewInit {
    * Atualiza os gráficos após a criação de um filtro
    */
   onFiltersDefined(clientData: any) {
-    console.log(clientData)
     this.map.drawFilterMarkers(clientData);
     const selectedClientOption = this.global.getGlobal("client_option").value;
     if(selectedClientOption == 'viaipe') {
