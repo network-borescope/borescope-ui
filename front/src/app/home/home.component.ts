@@ -850,6 +850,8 @@ export class HomeComponent implements AfterViewInit {
       const capitals = this.global.getGlobal('state_capitals').value.default;
       const capital = capitals.filter((c: any) => c.cod === clicked)[0].id;
       this.filters.setClients(capital);
+    } else {
+      this.filters.removeClients();
     }
   }
 

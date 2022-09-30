@@ -42,6 +42,10 @@ export class FiltersComponent implements OnInit {
     this.clients = {caption: `Clientes do POP ${client.toUpperCase()}`, items: viaipeMetadata['pops'][client]['clientes'] };
   }
 
+  removeClients() {
+    this.clients = [];
+  }
+
   getClients() {
     let list = [];
     list.push("cliente");
