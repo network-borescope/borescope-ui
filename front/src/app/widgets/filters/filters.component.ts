@@ -3,6 +3,8 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 import { ApiService } from 'src/app/shared/api.service';
 import { GlobalService } from 'src/app/shared/global.service';
 import { UtilService } from 'src/app/shared/util.service';
+// inclusão do metadado do viaipe
+import * as viaipeMetadata from '../../../assets/viaipe_metadata.json';
 
 @Component({
   selector: 'app-filters',
@@ -25,6 +27,7 @@ export class FiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this.clients = this.global.getGlobal('list_clientes').value;
+    console.log(this.clients)
   }
 
   toggleFiltersVisibility() {
@@ -32,6 +35,11 @@ export class FiltersComponent implements OnInit {
 
     obj.value['filters'] = !obj.value['filters'];
     this.global.setGlobal(obj);
+  }
+
+  setClients(client: string) {
+    //@ts-ignore
+    this.clients = {caption: `Clientes do POP ${client.toUpperCase()}`, items: viaipeMetadata['pops'][client]['clientes'] };
   }
 
   getClients() {
@@ -160,5 +168,11 @@ export class FiltersComponent implements OnInit {
     const tsT1 = this.global.getGlobal("t1_filter");
 
     return bnds.value[0] !== tsT0.value || bnds.value[1] !== tsT1.value;
+  }
+
+  clickedCheck() {
+    const clicked = this.global.getGlobal("clicked_element").value;
+    if(clicked > -1) return true;
+    else return false;
   }
 }

@@ -40,6 +40,8 @@ export class MapComponent implements AfterViewInit {
   @Output() markerRemovedEvent = new EventEmitter<any>();
 
   @Output() resetFunctionsChart = new EventEmitter();
+
+  @Output() setClients = new EventEmitter<any>();
   // objeto com o mapa do leaflet
   private map!: L.Map;
   // objeto com os clientes
@@ -420,6 +422,8 @@ export class MapComponent implements AfterViewInit {
     this.global.setGlobal(clicked_element);
     event.sourceTarget._map.setView([event.latlng.lat, event.latlng.lng], 12);
     this.resetFunctionsChart.emit();
+    console.log(viaipeMetadata)
+    this.setClients.emit('add');
   }
 
   /**

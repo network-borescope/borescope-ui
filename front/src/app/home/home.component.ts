@@ -345,9 +345,17 @@ export class HomeComponent implements AfterViewInit {
    * Atualiza os gráficos após a criação de um filtro
    */
   onFiltersDefined(clientData: any) {
+    console.log(clientData)
     this.map.drawFilterMarkers(clientData);
+    const selectedClientOption = this.global.getGlobal("client_option").value;
+    if(selectedClientOption == 'viaipe') {
+      for(let i = 0; i < clientData.length; i++) {
+        this.bar.updateColor(this.global.getGlobal('filter_color').value, clientData[i].cod, true);
+      }
+    } else {
+      this.updateBarChart('filter', this.global.getGlobal('filter_color').value);
+    }
     this.updateLineChart('filter', this.global.getGlobal('filter_color').value);
-    this.updateBarChart('filter', this.global.getGlobal('filter_color').value);
     // adiciona ao estado global
     this.addChartElementToGlobal('filter', this.global.getGlobal('filter_color').value, clientData);
   }
@@ -816,6 +824,15 @@ export class HomeComponent implements AfterViewInit {
 
   onHighlightRemoved() {
     this.net.removeHighlightHeatmatrix();
+  }
+
+  onClientsSet(event: any) {
+    if(event == 'add') {
+      const clicked = this.global.getGlobal("clicked_element").value;
+      const capitals = this.global.getGlobal('state_capitals').value.default;
+      const capital = capitals.filter((c: any) => c.cod === clicked)[0].id;
+      this.filters.setClients(capital);
+    }
   }
 
   isHeatmatrixSelected() {

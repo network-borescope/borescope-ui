@@ -53,4 +53,10 @@ export class ChartsBarComponent implements OnInit {
     const obj = this.global.getGlobal('widgets_config');
     return obj.value[configId];
   }
+
+  clickedCheck() {
+    const clicked = this.global.getGlobal("clicked_element").value;
+    if(clicked > -1) return true;
+    else return false;
+  }
 }
