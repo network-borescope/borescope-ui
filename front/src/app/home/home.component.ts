@@ -15,6 +15,7 @@ import { FunctionsChartComponent } from 'src/app/widgets/functions-chart/functio
 import { NgxSpinnerService } from "ngx-spinner";
 
 import { UtilService } from '../shared/util.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-home',
@@ -412,23 +413,20 @@ export class HomeComponent implements AfterViewInit {
     const param = this.global.getGlobal('line_params_value').value;
     const selectedParam = this.global.getGlobal('line_selected_params_value').value;
     const selectedClientOption = this.global.getGlobal("client_option").value;
+    
     if(selectedClientOption == 'viaipe') {
       for (let paramId of Object.keys(this.line.rawData['viaipe'])) {
         if(paramId == 'map') { 
-          this.line.clearChart('viaipe', paramId, '#AAAAAA');
           this.updateLineChart(paramId, '#AAAAAA');
         } else {
           for(let i = 0; i < this.chartsElements.cods.length; i++) {
             const color = this.chartsElements.colors[i];
             const cod = this.chartsElements.cods[i];
             const name = this.chartsElements.names[i];
-            this.line.clearChart('viaipe', paramId, color);
             this.updateLineChart(paramId, color, cod, name, 'data change');
           }
         }
       }
-    } else {
-      this.line.drawChart(param, selectedParam);
     }
   }
 

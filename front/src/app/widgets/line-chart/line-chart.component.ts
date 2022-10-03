@@ -56,6 +56,8 @@ export class LineChartComponent implements OnInit {
       this.deleteData(paramId, dataId, chartColor);
       //creating list to average, max, min
       this.rawData[paramId][dataId][chartColor] = [];
+      this.nrmData[paramId][dataId][chartColor] = [];
+
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[paramId].result.length; i++) {
         if(!this.isViaipe()) {
@@ -95,7 +97,6 @@ export class LineChartComponent implements OnInit {
   }
 
   drawChart(from: string, selectedParam: string, name: any = undefined) {
-    console.log(name)
     if(!this.isViaipe()) {
       // TODO: passar os labels de y em um objeto.
       if (from.includes('dns')) {
