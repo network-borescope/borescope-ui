@@ -160,20 +160,17 @@ export class BarChart {
     
     this.colorList = Array(this.idOrder.length).fill("#AAAAAA");
 
-    console.log(this.idOrder)
-    console.log(this.colorList)
-    console.log(this.coloredCods);
-    console.log(this.usedColors);
-    for(let i = 0; i < this.coloredCods.length; i++) {
-      if(this.idOrder.includes(this.coloredCods[i])) {
-        const id = this.idOrder.indexOf(this.coloredCods[i]);
-        const colorId = this.coloredCods.indexOf(this.idOrder[id]);
-        const color = this.usedColors[colorId]
-        this.colorList[id] = color;
+    if(this.zoom > 12) {
+      for(let i = 0; i < this.coloredCods.length; i++) {
+        if(this.idOrder.includes(this.coloredCods[i])) {
+          const id = this.idOrder.indexOf(this.coloredCods[i]);
+          const colorId = this.coloredCods.indexOf(this.idOrder[id]);
+          const color = this.usedColors[colorId]
+          this.colorList[id] = color;
+        }
       }
     }
 
-    console.log(this.colorList)
 
     this.data = data;
     const datasets = this.chart.config.data.datasets;
