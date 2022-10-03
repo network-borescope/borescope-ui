@@ -46,7 +46,7 @@ export class HomeComponent implements AfterViewInit {
   public t0: string = 'none';
   public t1: string = 'none';
   private timeBoundsRefreshFnc: any = undefined;
-  private chartsElements: any = {cods: [], colors: [], names: []};
+  private chartsElements: any = {cods: [], colors: [], names: [], from: []};
 
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService, private spinner: NgxSpinnerService) {
     this.timeBoundsRefreshFnc = setInterval(async () => {
@@ -109,21 +109,47 @@ export class HomeComponent implements AfterViewInit {
   redrawAllCharts() {
     this.updateHeatmap();
 
-    const line_params = this.global.getGlobal('line_params').value;
-    for (const param of line_params) {
-      this.line.clearLabel(param);
+    const selectedClientOption = this.global.getGlobal("client_option").value;
+    if(selectedClientOption !== 'viaipe') {
+      const line_params = this.global.getGlobal('line_params').value;
+      for (const param of line_params) {
+        this.line.clearLabel(param);
+      }
+  
+      const bar_params = this.global.getGlobal('bar_params').value;
+      for (const param of bar_params) {
+        this.bar.clearLabel(param);
+      }
+  
+      const elements = this.global.getGlobal('active_chart_elements').value;
+      for (const elem of elements) {
+        this.updateLineChart(elem.dataId, elem.chartColor, elem.feature);
+        this.updateBarChart(elem.dataId, elem.chartColor, elem.feature);
+      }
+    } else {
+      //muda dado para o barchart 
+      this.updateBarChart('map', '#AAAAAA');
+
+      // percorre os tipos de elementos
+      for (const dataId of Object.keys(this.line.rawData['viaipe'])) {
+        // percorre os elementos
+        for (const color of Object.keys(this.line.rawData['viaipe'][dataId])) {
+          console.log(dataId)
+        }
+      }
+      //muda dado para o linechart
+      this.updateLineChart('map', '#AAAAAA');
+      if(this.line.rawData['viaipe']['filter'] !== undefined) {
+        if(this.line.rawData['viaipe']['filter']['#FF7F0E'].length > 0) {
+          this.updateLineChart('filter', this.global.getGlobal('filter_color').value);
+        }
+      }
+
+      for(let i = 0; i < this.chartsElements.length; i++) {
+        this.updateLineChart('client', this.chartsElements[i].color, this.chartsElements[i].cod, this.chartsElements[i].name);
+      }
     }
 
-    const bar_params = this.global.getGlobal('bar_params').value;
-    for (const param of bar_params) {
-      this.bar.clearLabel(param);
-    }
-
-    const elements = this.global.getGlobal('active_chart_elements').value;
-    for (const elem of elements) {
-      this.updateLineChart(elem.dataId, elem.chartColor, elem.feature);
-      this.updateBarChart(elem.dataId, elem.chartColor, elem.feature);
-    }
 
     this.setDates();
 
@@ -302,6 +328,7 @@ export class HomeComponent implements AfterViewInit {
     this.chartsElements.cods.push(cod);
     this.chartsElements.colors.push(color);
     this.chartsElements.names.push(name);
+    this.chartsElements.from.push('client');
     // barchart e linechart do marker
     this.updateLineChart('client', color, cod, name);
     if(selectedClientOption == 'viaipe') {
@@ -325,6 +352,7 @@ export class HomeComponent implements AfterViewInit {
     this.chartsElements.colors = this.chartsElements.colors.filter((e:any) => e !== color);
     this.chartsElements.cods = this.chartsElements.cods.filter((e:any) => e !== cod);
     this.chartsElements.names = this.chartsElements.names.filter((e:any) => e !== name);
+    this.chartsElements.splice(this.chartsElements.indexOf('client'), 1);
 
     const line_params = this.global.getGlobal('line_params').value;
     const bar_params = this.global.getGlobal('bar_params').value;
@@ -352,6 +380,7 @@ export class HomeComponent implements AfterViewInit {
    */
   onFiltersDefined(clientData: any) {
     this.map.drawFilterMarkers(clientData);
+
     const selectedClientOption = this.global.getGlobal("client_option").value;
     if(selectedClientOption == 'viaipe') {
       for(let i = 0; i < clientData.length; i++) {
