@@ -322,19 +322,24 @@ export class HomeComponent implements AfterViewInit {
     const name = event.nome.replace(/_/g, ' ');
     const selectedClientOption = this.global.getGlobal("client_option").value;
 
-    const line_params = this.global.getGlobal('line_params').value;
-    for (const param of line_params) {
-      this.line.clearChart(param.id, 'client', color);
-    }
+    this.chartsElements.colors = this.chartsElements.colors.filter((e:any) => e !== color);
+    this.chartsElements.cods = this.chartsElements.cods.filter((e:any) => e !== cod);
+    this.chartsElements.names = this.chartsElements.names.filter((e:any) => e !== name);
 
+    const line_params = this.global.getGlobal('line_params').value;
     const bar_params = this.global.getGlobal('bar_params').value;
     const lmap = this.global.getGlobal('label_maps').value;
     
     if(selectedClientOption !== 'viaipe') {
+      for (const param of line_params) {
+        this.line.clearChart(param.id, 'client', color);
+      }
+
       for (const param of bar_params) {
         this.bar.clearChart(param.id, 'client', color, lmap, this.map.getZoom());
       }
     } else {
+      this.line.clearChart('viaipe', 'client', color);
       this.bar.updateColor(color, cod, false);
     }
 

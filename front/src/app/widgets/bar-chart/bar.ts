@@ -160,6 +160,10 @@ export class BarChart {
     
     this.colorList = Array(this.idOrder.length).fill("#AAAAAA");
 
+    console.log(this.idOrder)
+    console.log(this.colorList)
+    console.log(this.coloredCods);
+    console.log(this.usedColors);
     for(let i = 0; i < this.coloredCods.length; i++) {
       if(this.idOrder.includes(this.coloredCods[i])) {
         const id = this.idOrder.indexOf(this.coloredCods[i]);
@@ -168,6 +172,8 @@ export class BarChart {
         this.colorList[id] = color;
       }
     }
+
+    console.log(this.colorList)
 
     this.data = data;
     const datasets = this.chart.config.data.datasets;
