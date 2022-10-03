@@ -216,7 +216,6 @@ export class BarChart {
   }
 
   changeBarColor(color: string, cod: number = -1) {
-    
     const datasets = this.chart.config.data.datasets;
     if(cod > -1) {
       const id = this.idOrder.indexOf(cod);
@@ -225,6 +224,19 @@ export class BarChart {
       this.usedColors.push(color);
     }
 
+    const newColors = this.colorList.slice(this.lowerIndex, this.higherIndex);
+    datasets[0].backgroundColor = newColors;
+    datasets[0].borderColor = newColors;
+    this.chart.update();
+  }
+
+  changeFilters() {
+    for(let i = 0; i < this.coloredCods.length; i++) {
+      const id = this.idOrder.indexOf(this.coloredCods[i])
+      this.colorList[id] = this.usedColors[i];
+    }
+
+    const datasets = this.chart.config.data.datasets;
     const newColors = this.colorList.slice(this.lowerIndex, this.higherIndex);
     datasets[0].backgroundColor = newColors;
     datasets[0].borderColor = newColors;

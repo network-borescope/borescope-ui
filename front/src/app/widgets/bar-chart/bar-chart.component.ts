@@ -289,9 +289,25 @@ export class BarChartComponent implements OnInit {
       this.barChart.changeBarColor(color, cod)
     } else {
       this.barChart.usedColors = this.barChart.usedColors.filter((e:any) => e !== color);
-      this.barChart.coloredCods = this.barChart.coloredCods.filter((e:any) => e !== color);
+      this.barChart.coloredCods = this.barChart.coloredCods.filter((e:any) => e !== cod);
       this.barChart.changeBarColor('#AAAAAA', cod);
     }
+  }
+
+  removeFilters() {
+    const indices = [];
+    for(let i = 0; i < this.barChart.usedColors.length; i++) {
+      if(this.global.getGlobal('filter_color').value == this.barChart.usedColors[i]) {
+        indices.push(i);
+      }
+    }
+
+    for(let i = 0; i < indices.length; i++) {
+      this.barChart.coloredCods = this.barChart.coloredCods.splice(indices[i], 1)
+    }
+
+    this.barChart.usedColors = this.barChart.usedColors.filter((e:any) => e !== this.global.getGlobal('filter_color').value);
+    this.barChart.changeFilters();
   }
 
   updateTabCounter(value: number) {

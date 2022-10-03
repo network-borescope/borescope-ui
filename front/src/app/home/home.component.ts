@@ -370,17 +370,23 @@ export class HomeComponent implements AfterViewInit {
    */
   onFiltersRemoved() {
     this.map.eraseFilterMarkers();
+    const selectedClientOption = this.global.getGlobal("client_option").value;
 
-    const line_params = this.global.getGlobal('line_params').value;
-    for (const param of line_params) {
-      this.line.clearChart(param.id, 'filter', this.global.getGlobal('filter_color').value);
-    }
-
-    const bar_params = this.global.getGlobal('bar_params').value;
-    const lmap = this.global.getGlobal('label_maps').value;
-
-    for (const param of bar_params) {
-      this.bar.clearChart(param.id, 'filter', this.global.getGlobal('filter_color').value, lmap, this.map.getZoom());
+    if(selectedClientOption == 'viaipe') {
+      this.line.clearChart('viaipe', 'filter', this.global.getGlobal('filter_color').value);
+      this.bar.removeFilters();
+    } else {
+      const line_params = this.global.getGlobal('line_params').value;
+      for (const param of line_params) {
+        this.line.clearChart(param.id, 'filter', this.global.getGlobal('filter_color').value);
+      }
+  
+      const bar_params = this.global.getGlobal('bar_params').value;
+      const lmap = this.global.getGlobal('label_maps').value;
+  
+      for (const param of bar_params) {
+        this.bar.clearChart(param.id, 'filter', this.global.getGlobal('filter_color').value, lmap, this.map.getZoom());
+      }
     }
 
     // remove do estado global

@@ -145,7 +145,6 @@ export class FiltersComponent implements OnInit {
     this.dateRange['end'] = end.toISOString().slice(0,-8).replace('T', ' # ');
 
     this.clientsSelection = [];
-    this.clientsInput.nativeElement.value = '';
 
     this.saveDate();
     this.toggleFiltersVisibility();
