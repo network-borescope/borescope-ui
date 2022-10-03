@@ -288,7 +288,10 @@ export class BarChartComponent implements OnInit {
     if(isAdded) {
       this.barChart.changeBarColor(color, cod)
     } else {
-      this.barChart.changeBarColor('#AAAAAA', cod)
+      this.barChart.usedColors = this.barChart.usedColors.filter((e:any) => e !== color);
+      this.barChart.coloredCods = this.barChart.coloredCods.filter((e:any) => e !== color);
+      this.barChart.changeBarColor('#AAAAAA', cod);
+      
     }
   }
 

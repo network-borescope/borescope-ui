@@ -8,6 +8,8 @@ export class BarChart {
   private capitals: any;
   private idOrder: any;
   public colorList: any = [];
+  public coloredCods: any = [];
+  public usedColors: any = [];
   public zoom: any = undefined;
   public viaipeLabels: any = [];
   public from: any = undefined;
@@ -156,7 +158,16 @@ export class BarChart {
   updateDataset(dataId:string, color: string, data: any, name: any = undefined, idOrder: any = undefined) {
     if(idOrder !== undefined) this.idOrder = idOrder;
     
-    if(this.colorList.length == 0) this.colorList = Array(this.idOrder.length).fill("#AAAAAA");
+    this.colorList = Array(this.idOrder.length).fill("#AAAAAA");
+
+    for(let i = 0; i < this.coloredCods.length; i++) {
+      if(this.idOrder.includes(this.coloredCods[i])) {
+        const id = this.idOrder.indexOf(this.coloredCods[i]);
+        const colorId = this.coloredCods.indexOf(this.idOrder[id]);
+        const color = this.usedColors[colorId]
+        this.colorList[id] = color;
+      }
+    }
 
     this.data = data;
     const datasets = this.chart.config.data.datasets;
@@ -173,7 +184,6 @@ export class BarChart {
       } else {
         datasets[id].data = data;
       }
-      console.log(datasets[id].data)
     }
     else {
       const newData = {
@@ -187,6 +197,9 @@ export class BarChart {
       datasets.push(newData);
     }
 
+    const newColors = this.colorList.slice(this.lowerIndex, this.higherIndex);
+    datasets[0].backgroundColor = newColors;
+    datasets[0].borderColor = newColors;
     this.chart.update();
   }
 
@@ -202,6 +215,8 @@ export class BarChart {
     if(cod > -1) {
       const id = this.idOrder.indexOf(cod);
       this.colorList[id] = color;
+      this.coloredCods.push(this.idOrder[id]);
+      this.usedColors.push(color);
     }
 
     const newColors = this.colorList.slice(this.lowerIndex, this.higherIndex);
