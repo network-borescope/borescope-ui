@@ -138,13 +138,15 @@ export class HomeComponent implements AfterViewInit {
         }
       }
       //muda dado para o linechart
+      //muda mapa
       this.updateLineChart('map', '#AAAAAA');
+      //muda filtros
       if(this.line.rawData['viaipe']['filter'] !== undefined) {
         if(this.line.rawData['viaipe']['filter']['#FF7F0E'].length > 0) {
           this.updateLineChart('filter', this.global.getGlobal('filter_color').value);
         }
       }
-
+      //muda clientes
       for(let i = 0; i < this.chartsElements.length; i++) {
         this.updateLineChart('client', this.chartsElements[i].color, this.chartsElements[i].cod, this.chartsElements[i].name);
       }
@@ -328,7 +330,6 @@ export class HomeComponent implements AfterViewInit {
     this.chartsElements.cods.push(cod);
     this.chartsElements.colors.push(color);
     this.chartsElements.names.push(name);
-    this.chartsElements.from.push('client');
     // barchart e linechart do marker
     this.updateLineChart('client', color, cod, name);
     if(selectedClientOption == 'viaipe') {
@@ -352,7 +353,6 @@ export class HomeComponent implements AfterViewInit {
     this.chartsElements.colors = this.chartsElements.colors.filter((e:any) => e !== color);
     this.chartsElements.cods = this.chartsElements.cods.filter((e:any) => e !== cod);
     this.chartsElements.names = this.chartsElements.names.filter((e:any) => e !== name);
-    this.chartsElements.splice(this.chartsElements.indexOf('client'), 1);
 
     const line_params = this.global.getGlobal('line_params').value;
     const bar_params = this.global.getGlobal('bar_params').value;
