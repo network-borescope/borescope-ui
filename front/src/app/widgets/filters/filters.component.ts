@@ -135,7 +135,8 @@ export class FiltersComponent implements OnInit {
     this.filtersDefined.emit(clientsData);
   }
 
-  removeFilters() {
+  removeFilters(clientsInput: any) {
+    clientsInput.value= '';
     let t0 = this.global.getGlobal("t0_filter");
     let start = new Date(t0.value * 1000);
     this.dateRange['start'] = start.toISOString().slice(0,-8).replace('T', ' # ');
