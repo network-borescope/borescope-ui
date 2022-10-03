@@ -307,7 +307,7 @@ export class BarChartComponent implements OnInit {
     }
 
     this.barChart.usedColors = this.barChart.usedColors.filter((e:any) => e !== this.global.getGlobal('filter_color').value);
-    this.barChart.changeFilters();
+    this.barChart.removeFilterColor();
   }
 
   updateTabCounter(value: number) {
