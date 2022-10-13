@@ -104,6 +104,7 @@ export class BarChartComponent implements OnInit {
 
     delete this.nrmData[from][dataId][color]
   }
+  
 
   clearChart(from: string, dataId: string, color: string, lmap: any) {
     // removes from chart
