@@ -3,27 +3,15 @@
   [style.border-bottom] = "!this.isViaipe() ? '1px solid #eee;' : 'none'" 
   [style.padding-bottom] =  "!this.isViaipe() ? '10px;' : '0px'" 
   #lineChart></canvas>
-  <div *ngIf="!this.isViaipe()" style="margin-top: 7px; padding-bottom: 7px; display: flex;">
-    <select name="select" class="param-selector" (change)="this.onParamChange($event)">
-      <option *ngFor="let param of this.ids; let idx = index" [value]="param.id">{{param.caption}}</option>
-    </select>   
-    <select name="select" class="value-selector" (change)="this.onValueChange($event)">
-      <option value="average" selected>Average</option>
-      <option value="max">Max</option>
-      <option value="min">Min</option>
-    </select>
-  </div>
-  <div *ngIf="this.isViaipe()" style="margin-top: 7px; padding-bottom: 7px; display: flex;">
+  <div style="margin-top: 7px; padding-bottom: 7px; display: flex;">
     <select name="select" class="value-selector" (change)="this.onValueChange($event)">
       <option value="avg_in" selected>Average in</option>
       <option value="avg_out">Average out</option>
       <option value="max_in">Max in</option>
       <option value="max_out">Max out</option>
-<!--  
       <option value="loss">Loss</option>
       <option value="avg_loss">Average loss</option>
       <option value="max_loss">Max loss</option>
--->
       <option value="val">Val</option>
       <option value="avg_val">Average val</option>
       <option value="max_val">Max val</option>

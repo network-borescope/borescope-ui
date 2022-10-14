@@ -143,8 +143,6 @@ export class LineChart {
       datasets[id].data = data;
     }
     else {
-      console.log(name)
-      console.log(label)
       const newData = {
         label: label,
         backgroundColor: color,

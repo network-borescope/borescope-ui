@@ -13,14 +13,12 @@ export class LineChartComponent implements OnInit {
   // referência para o div do grafico
   @ViewChild("lineChart", { static: true }) private lineDiv!: ElementRef;
 
-  @Output() lineParamChanged = new EventEmitter<number>();
   @Output() lineValueChanged = new EventEmitter<number>();
 
   public lineChart: any;
 
   private labels: any = {};
   public rawData: any = {};
-  private nrmData: any = {};
 
   private unity: any = {};
 
@@ -56,84 +54,39 @@ export class LineChartComponent implements OnInit {
       this.deleteData(paramId, dataId, chartColor);
       //creating list to average, max, min
       this.rawData[paramId][dataId][chartColor] = [];
-      this.nrmData[paramId][dataId][chartColor] = [];
 
       // adiciona os valores não normalizados
       for (let i = 0; i < responseData[paramId].result.length; i++) {
-        if(!this.isViaipe()) {
         //pega o tempo
         const pointTime = responseData[paramId].result[i].k[0];
-        //pega valor das médias
-        const pointAverageValue = responseData[paramId].result[i].v[0];
-        //pega valor max
-        const pointMaxValue = responseData[paramId].result[i].v[2];
-        //pega valor min
-        const pointMinValue = responseData[paramId].result[i].v[3];        
-        this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointAverageValue, z: pointMaxValue, k: pointMinValue});
-        } else {
-          //pega o tempo
-          const pointTime = responseData[paramId].result[i].k[0];
-          //pega valor
-          const pointValue = responseData[paramId].result[i].v[0];
-          this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue});
-        }
+        //pega valor
+        const pointValue = responseData[paramId].result[i].v[0];
+        this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue});
       }
       // seta o intervalo de tempo
-      if(this.isViaipe()) {
-        this.t0 = responseData['viaipe']['result'][0].k[0];
-        this.t1 = responseData['viaipe']['result'].slice(-1)[0].k[0]; 
-      } else {
-        this.t0 = responseData['packet_rate']['result'][0].k[0];
-        this.t1 = responseData['packet_rate']['result'].slice(-1)[0].k[0];
-        // computes the unity
-        this.computeUnity(paramId);
-
-      }
+      this.t0 = responseData['viaipe']['result'][0].k[0];
+      this.t1 = responseData['viaipe']['result'].slice(-1)[0].k[0];
+      console.log(responseData['viaipe']['result']) 
       // atualiza os labels baseado no dado novo
       this.updateLabels(paramId);
-      // normaliza os dados de dataId
-      this.normalizeData(paramId);
     }
   }
 
   drawChart(from: string, selectedParam: string, name: any = undefined) {
-    if(!this.isViaipe()) {
-      // TODO: passar os labels de y em um objeto.
-      if (from.includes('dns')) {
-        // set y label.
-        this.lineChart.setLabelY("Requisitions [%]");
-      }
-      else {
-        // set y label.
-        this.lineChart.setLabelY("Requisitions" + " [" + this.unity[from].prefix + "package" + "]");
-      }
-    } else {
-      const selectedValue = this.global.getGlobal('line_selected_params_value').value;
-      //@ts-ignore
-      this.lineChart.setLabelY(this.optionsList[selectedValue]);
-    }
+    const selectedValue = this.global.getGlobal('line_selected_params_value').value;
+    //@ts-ignore
+    this.lineChart.setLabelY(this.optionsList[selectedValue]);
     // atualiza os labels
     this.lineChart.setLabels(this.labels[from], name);
     // atualiza os gráficos
-    for (const dataId of Object.keys(this.nrmData[from])) {
-      for (const color of Object.keys(this.nrmData[from][dataId])) {
+    for (const dataId of Object.keys(this.rawData[from])) {
+      for (const color of Object.keys(this.rawData[from][dataId])) {
         // gets the data
-        const data = this.nrmData[from][dataId];
+        const data = this.rawData[from][dataId];
         const chartData = [];
         for(let i = 0; i < data[color].length; i++) {
           const label = this.labels[from][i];
-          if(this.isViaipe()) {
-            chartData.push({ y: data[color][i].y, x: label});
-          } else {
-            if(selectedParam == 'average') {
-              chartData.push({ y: data[color][i].y, x: label});
-            } else if(selectedParam == 'max') {
-              chartData.push({ y: data[color][i].z, x: label});
-            } else {
-              chartData.push({ y: data[color][i].k, x: label});
-            } 
-          }
-    
+          chartData.push({ y: data[color][i].y, x: label});
         }
         this.lineChart.updateDataset(dataId, color, chartData, name);
       }
@@ -151,16 +104,6 @@ export class LineChartComponent implements OnInit {
     }
 
     delete this.rawData[from][dataId][color];
-    // new group
-    if (!this.nrmData[from]) {
-      this.nrmData[from] = {};
-    }
-    // new dataId
-    if (!this.nrmData[from][dataId]) {
-      this.nrmData[from][dataId] = {};
-    }
-
-    delete this.nrmData[from][dataId][color];
   }
 
   clearChart(from: string, dataId: string, color: string) {
@@ -171,9 +114,6 @@ export class LineChartComponent implements OnInit {
 
     // atualiza os labels baseado no dado novo
     this.updateLabels(from);
-
-    // normaliza os dados de dataId
-    this.normalizeData(from);
   }
 
   clearLabel(from: string) {
@@ -196,31 +136,6 @@ export class LineChartComponent implements OnInit {
 
     // computes the best unity
     this.unity[from] = this.util.compute_best_unity(0, max);
-  }
-
-  normalizeData(from: string) {
-    // pega o dataset
-    const data = this.rawData[from];
-
-    // limpa os dados normalizados
-    this.nrmData[from] = {};
-    if(this.isViaipe()) {
-      this.nrmData[from] = this.rawData[from];
-    } else { 
-      const dataIds = Object.keys(data);
-      for (let dataId of dataIds) {
-        this.nrmData[from][dataId] = {};
-        const colors = Object.keys(data[dataId]);
-        for (let color of colors) {
-          this.nrmData[from][dataId][color] = [];
-          for (let pId = 0; pId < data[dataId][color].length; pId++) {
-            this.nrmData[from][dataId][color].push({ x: data[dataId][color][pId].y / this.unity[from].div,
-                                                     y: data[dataId][color][pId].z / this.unity[from].div,
-                                                     z: data[dataId][color][pId].k / this.unity[from].div});
-          };
-        }
-      }
-    }
   }
 
   updateLabels(from: string) {
@@ -279,16 +194,6 @@ export class LineChartComponent implements OnInit {
     }
   }
 
-  onParamChange(event: any) {
-    const line_params_value = {
-      key: "line_params_value",
-      value: event.target.value
-    };
-    
-    this.global.setGlobal(line_params_value);
-    this.lineParamChanged.emit();
-  }
-
   onValueChange(event: any) {
     const line_selected_params_value = {
       key: "line_selected_params_value",
@@ -296,9 +201,5 @@ export class LineChartComponent implements OnInit {
     };
     this.global.setGlobal(line_selected_params_value);
     this.lineValueChanged.emit();
-  }
-
-  isViaipe() {
-    return this.global.getGlobal("client_option").value == "viaipe";
   }
 }
