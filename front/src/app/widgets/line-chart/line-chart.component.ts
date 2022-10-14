@@ -66,7 +66,6 @@ export class LineChartComponent implements OnInit {
       // seta o intervalo de tempo
       this.t0 = responseData['viaipe']['result'][0].k[0];
       this.t1 = responseData['viaipe']['result'].slice(-1)[0].k[0];
-      console.log(responseData['viaipe']['result']) 
       // atualiza os labels baseado no dado novo
       this.updateLabels(paramId);
     }

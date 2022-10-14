@@ -182,7 +182,7 @@ export class BarChart {
     };
     const id = datasets.findIndex((d: any) => d.backgroundColor == color)
     if (id >= 0) {
-      if(this.zoom > 12 && this.from == 'viaipe') {
+      if(this.zoom > 12) {
         datasets[id].data = data.slice(this.lowerIndex, this.higherIndex);
       } else {
         datasets[id].data = data;
@@ -191,9 +191,9 @@ export class BarChart {
     else {
       const newData = {
         label: label,
-        backgroundColor: (this.zoom > 12 && this.from == 'viaipe') ? this.colorList.slice(this.lowerIndex, this.higherIndex) : color,
-        borderColor: (this.zoom > 12 && this.from == 'viaipe') ? this.colorList.slice(this.lowerIndex, this.higherIndex) : color,
-        data: (this.zoom > 12 && this.from == 'viaipe') ? data.slice(this.lowerIndex, this.higherIndex) : data,
+        backgroundColor: (this.zoom > 12) ? this.colorList.slice(this.lowerIndex, this.higherIndex) : color,
+        borderColor: (this.zoom > 12) ? this.colorList.slice(this.lowerIndex, this.higherIndex) : color,
+        data: (this.zoom > 12) ? data.slice(this.lowerIndex, this.higherIndex) : data,
         fill: false,
         stack: dataId
       };
