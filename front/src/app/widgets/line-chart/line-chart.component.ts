@@ -48,6 +48,7 @@ export class LineChartComponent implements OnInit {
   }
 
   updateData(responseData: any, dataId: any, chartColor: any) {
+    console.log(this.rawData)
     // manages data for each from
     for (let paramId of Object.keys(responseData)) {
       // clear existing element
@@ -168,7 +169,6 @@ export class LineChartComponent implements OnInit {
 
         // result array
         this.labels[from] = [];
-
         let current = tsT0;
         while (current <= tsT1) {
           let label = '';

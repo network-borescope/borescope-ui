@@ -46,7 +46,7 @@ export class HomeComponent implements AfterViewInit {
   public t0: string = 'none';
   public t1: string = 'none';
   private timeBoundsRefreshFnc: any = undefined;
-  private chartsElements: any = {cods: [], colors: [], names: [], from: []};
+  private chartsElements: any = {paramId: [], cods: [], colors: [], names: [], from: []};
 
   constructor(public global: GlobalService, public api: ApiService, public util: UtilService, private spinner: NgxSpinnerService) {
     this.timeBoundsRefreshFnc = setInterval(async () => {
@@ -108,22 +108,11 @@ export class HomeComponent implements AfterViewInit {
 
     //muda dado para o barchart 
     this.updateBarChart('map', '#AAAAAA');
-
-    // percorre os tipos de elementos
-    for (const dataId of Object.keys(this.line.rawData['viaipe'])) {
-      // percorre os elementos
-      for (const color of Object.keys(this.line.rawData['viaipe'][dataId])) {
-        console.log(dataId)
-      }
-    }
-    //muda dado para o linechart
-    //muda mapa
-    this.updateLineChart('map', '#AAAAAA');
+    this.onLineSelectedChanged();
+    this.onBarSelectedChanged();
     //muda filtros
-    if(this.line.rawData['viaipe']['filter'] !== undefined) {
-      if(this.line.rawData['viaipe']['filter']['#FF7F0E'].length > 0) {
-        this.updateLineChart('filter', this.global.getGlobal('filter_color').value);
-      }
+    if(this.chartsElements.paramId.includes('filter')) {
+      this.updateLineChart('filter', this.global.getGlobal('filter_color').value);
     }
     //muda clientes
     for(let i = 0; i < this.chartsElements.length; i++) {
@@ -251,8 +240,8 @@ export class HomeComponent implements AfterViewInit {
     this.updateHeatmap();
 
     // redesenha o elemento map dos gráficos
-    this.updateLineChart('map', '#AAAAAA');
-    this.updateBarChart('map', '#AAAAAA');
+    this.onLineSelectedChanged();
+    this.onBarSelectedChanged();
 
     // TODO: atualizar a heat matrix com base no zoom
     this.updateHeatmatrix();
@@ -305,6 +294,7 @@ export class HomeComponent implements AfterViewInit {
     this.chartsElements.cods.push(cod);
     this.chartsElements.colors.push(color);
     this.chartsElements.names.push(name);
+    this.chartsElements.paramId.push('client')
     // barchart e linechart do marker
     this.updateLineChart('client', color, cod, name);
     this.bar.updateColor(color, cod, true);
@@ -323,7 +313,10 @@ export class HomeComponent implements AfterViewInit {
     this.chartsElements.colors = this.chartsElements.colors.filter((e:any) => e !== color);
     this.chartsElements.cods = this.chartsElements.cods.filter((e:any) => e !== cod);
     this.chartsElements.names = this.chartsElements.names.filter((e:any) => e !== name);
-  
+    for(let i = 0; i < this.chartsElements.colors; i++) {
+      if(color == this.chartsElements.color[i]) this.chartsElements.paramId.splice(i, 1);
+    }
+
     this.line.clearChart('viaipe', 'client', color);
     this.bar.updateColor(color, cod, false);
 
@@ -380,17 +373,15 @@ export class HomeComponent implements AfterViewInit {
    * Atualiza o from de saída do linechart
    */
    onLineSelectedChanged(){
-    for (let paramId of Object.keys(this.line.rawData['viaipe'])) {
-      if(paramId == 'map') { 
-        this.updateLineChart(paramId, '#AAAAAA');
-      } else {
-        for(let i = 0; i < this.chartsElements.cods.length; i++) {
-          const color = this.chartsElements.colors[i];
-          const cod = this.chartsElements.cods[i];
-          const name = this.chartsElements.names[i];
-          this.updateLineChart(paramId, color, cod, name, 'data change');
-        }
-      }
+    this.line.rawData = {};
+    this.line.lineChart.clear();
+    this.updateLineChart('map', '#AAAAAA');
+    for(let i = 0; i < this.chartsElements.cods.length; i++) {
+      const color = this.chartsElements.colors[i];
+      const cod = this.chartsElements.cods[i];
+      const name = this.chartsElements.names[i];
+      const paramId = this.chartsElements.paramId[i];
+      this.updateLineChart(paramId, color, cod, name, 'data change');
     }
   }
 
