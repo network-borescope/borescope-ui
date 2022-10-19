@@ -162,4 +162,11 @@ export class NetworkComponent implements OnInit {
   removeHighlightHeatmatrix() {
     this.netChart.removeRectangleHighlight();
   }
+  
+  flagColor() {
+    const flag = this.global.getGlobal("flag_timeseries").value;
+    let color: string;
+    (flag > 0) ? color = '#4AB70F' : color = '#FF0000';
+    return color;
+  }
 }

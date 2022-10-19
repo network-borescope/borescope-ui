@@ -47,5 +47,6 @@
                 <option value="h_min">Min</option>
             </select>        
         </div>
+        <div *ngIf="this.isCapitalSelected()" class="flag"><span class="fas fa-flag fa-lg" [style.color]="this.flagColor()"></span></div>
     </div>
 </div>

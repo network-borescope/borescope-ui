@@ -30,6 +30,13 @@
     margin-left: 17px;
 }
 
+.flag {
+    position: absolute;
+    width: 15px;
+    top: 7px;
+    left: 7px;
+}
+
 @media screen and (min-width: 1024px) {
 
     .network-chart {

@@ -368,6 +368,15 @@ export class GlobalService {
       value: true
     };
     this.setGlobal(trace_mode);
+
+    /**
+     * Flag de completar as timeseries
+     */
+    const flag_timeseries = {
+      key: "flag_timeseries",
+      value: 1
+    }
+    this.setGlobal(flag_timeseries);
   }
 
   /**

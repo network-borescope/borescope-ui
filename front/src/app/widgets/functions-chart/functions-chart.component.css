@@ -58,6 +58,12 @@
     outline: 0 !important;
   }
   
+.flag {
+    position: absolute;
+    width: 15px;
+    top: 7px;
+    left: 7px;
+}
 
 .param-selector, .value-selector {
  font-size: 9px;

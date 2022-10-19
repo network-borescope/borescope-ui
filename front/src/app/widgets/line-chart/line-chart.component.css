@@ -38,6 +38,13 @@
     margin-top: 2px;
 }
 
+.flag {
+    position: absolute;
+    width: 15px;
+    top: 7px;
+    left: 7px;
+}
+
 @media screen and (min-width: 1024px) {
     .line-time-icon {
         font-size: 1.33em;

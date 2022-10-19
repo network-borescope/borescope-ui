@@ -132,5 +132,6 @@
                 [style.color]="'#F51720'"></span>
             </button>
         </div>
+        <div *ngIf="this.isTimeSeriesSelected() && this.hasData" class="flag"><span class="fas fa-flag fa-lg" [style.color]="this.flagColor()"></span></div>
     </div>
 </div>
