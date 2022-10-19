@@ -158,11 +158,15 @@ export class NetworkComponent implements OnInit {
   highlightHeatmatrix(indices: number[]) {
     this.netChart.highlightRectangle(indices);
   }
+
+  highlightCompletedValues() {
+    this.netChart.highlightCompletedRectangles();
+  }
   
   removeHighlightHeatmatrix() {
     this.netChart.removeRectangleHighlight();
   }
-  
+
   flagColor() {
     const flag = this.global.getGlobal("flag_timeseries").value;
     let color: string;

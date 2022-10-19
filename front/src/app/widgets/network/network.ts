@@ -281,6 +281,16 @@ export class Network {
     this._lastIndices = indices;      
   }
 
+  highlightCompletedRectangles() {
+    for(let i = 0; i < this._data.length; i++) {
+      if((this._data[i][0] * this._data[i][1]) % 5 == 0) {
+        this._svgGroup.select('[id="' + (this._data[i][0] * this._data[i][1]) + '"]')
+        .attr("stroke", '#1F77B4')
+        .attr('stroke-width', '3')
+      }
+    }
+  }
+
   removeRectangleHighlight() {
     if(this._lastIndices.length > 0) {
       for(let i = 0; i < this._lastIndices.length; i++) {
@@ -289,6 +299,7 @@ export class Network {
       }
     }
     this._lastIndices = [];  
+    this.highlightCompletedRectangles(); 
   }
 
   updateLabelsAndTitle() {

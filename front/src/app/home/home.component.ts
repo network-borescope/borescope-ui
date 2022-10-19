@@ -609,6 +609,8 @@ export class HomeComponent implements AfterViewInit {
       
       this.net.drawChart(data, capitals, clicked, selectedParam != 77, dataType, services);
     }
+
+    this.net.highlightCompletedValues();
   }
 
   //atualiza quando selecionado agregado
