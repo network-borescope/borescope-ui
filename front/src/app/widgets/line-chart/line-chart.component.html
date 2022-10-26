@@ -17,5 +17,5 @@
       <option value="max_val">Max val</option>
     </select>
   </div>
-  <div class="flag"><span class="fas fa-flag fa-lg" [style.color]="this.flagColor()"></span></div>
+  <div class="flag"><span [class]="this.flag() ? 'fas fa-arrow-circle-up fa-lg' : 'fas fa-arrow-circle-down fa-lg'" [style.color]="this.flagColor()"></span></div>
 </div>

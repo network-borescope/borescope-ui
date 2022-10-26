@@ -282,12 +282,11 @@ export class Network {
   }
 
   highlightCompletedRectangles() {
-    for(let i = 0; i < this._data.length; i++) {
-      if((this._data[i][0] * this._data[i][1]) % 5 == 0) {
-        this._svgGroup.select('[id="' + (this._data[i][0] * this._data[i][1]) + '"]')
-        .attr("stroke", '#1F77B4')
-        .attr('stroke-width', '3')
-      }
+    const randomIndices = [22, 34, 47, 55, 72, 145, 200, 380, 383, 425, 462, 507, 612, 664, 701]
+    for(let i = 0; i < randomIndices.length; i++) {
+      this._svgGroup.select('[id="' + (randomIndices[i]) + '"]')
+      .attr("stroke", '#1F77B4')
+      .attr('stroke-width', '3')
     }
   }
 

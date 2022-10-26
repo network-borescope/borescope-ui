@@ -152,6 +152,7 @@ export class Functionschart {
   
     updateCombinations(data: any, selectedParam: string) {
       const datasets = this.chart.config.data.datasets;
+      console.log(data)
 
       for(let i = 0; i < data.length; i++) {
         const color = this.getRandomColor();

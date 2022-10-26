@@ -714,6 +714,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   adaptData(data: any, from: string, secondParam: number = 0) {
+    console.log(data)
     const adaptedValues: any[] = [];
     if(from == "functions") {
       for(let i = 0; i < data.length; i++) {
@@ -731,6 +732,7 @@ export class HomeComponent implements AfterViewInit {
       }
     }
     const totalData = [adaptedValues];
+    console.log(totalData)
     return totalData;
   }
 

@@ -173,4 +173,8 @@ export class NetworkComponent implements OnInit {
     (flag > 0) ? color = '#4AB70F' : color = '#FF0000';
     return color;
   }
+
+  flag() {
+    return this.global.getGlobal("flag_timeseries").value > 0;
+  }
 }
