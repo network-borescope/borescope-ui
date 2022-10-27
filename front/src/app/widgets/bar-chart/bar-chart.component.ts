@@ -42,6 +42,8 @@ export class BarChartComponent implements OnInit {
     max_val: 'Max val'
   };
 
+  private numberOfGeometries: number = 0;
+
   constructor(public global: GlobalService, public util: UtilService) {
     this.ids = this.global.getGlobal('bar_params').value;
   }
@@ -88,7 +90,7 @@ export class BarChartComponent implements OnInit {
   }
 
   drawChart(from: string, name: any = undefined, zoom: any = undefined) {
-    this.barChart.setLabels(this.labels[from], name);
+    this.barChart.setLabels(this.labels[from]);
     this.zoom = zoom;
     this.barChart.zoom = zoom;
     this.barChart.from = from;
@@ -112,6 +114,12 @@ export class BarChartComponent implements OnInit {
       }
     }
   }
+
+  addGeometryValue(value: number, color: string) {
+    this.numberOfGeometries += 1;
+    this.labels['viaipe'].unshift((this.labels['viaipe'][this.labels['viaipe'].length - 1] + this.numberOfGeometries));
+    this.barChart.addGeometry(value, color, this.labels);
+  } 
 
   deleteData(from: string, dataId: string, color: string) {
     // new group

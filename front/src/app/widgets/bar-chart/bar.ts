@@ -1,5 +1,4 @@
 import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElement, Legend, Tooltip } from 'chart.js';
-import { thresholdFreedmanDiaconis } from 'd3';
 
 export class BarChart {
 
@@ -17,7 +16,9 @@ export class BarChart {
   public lowerIndex: number = 0;
   public higherIndex: number = 9;
   public selectedColumns: any = [];
-
+  public nextX: number = 0;
+  public labelList: any = [];
+  public geometries: any = [];
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.init();
@@ -157,9 +158,7 @@ export class BarChart {
 
   updateDataset(dataId:string, color: string, data: any, name: any = undefined, idOrder: any = undefined) {
     if(idOrder !== undefined) this.idOrder = idOrder;
-    
     this.colorList = Array(this.idOrder.length).fill("#AAAAAA");
-
     if(this.zoom > 12) {
       for(let i = 0; i < this.coloredCods.length; i++) {
         if(this.idOrder.includes(this.coloredCods[i])) {
@@ -190,19 +189,63 @@ export class BarChart {
     }
     else {
       const newData = {
-        label: label,
-        backgroundColor: (this.zoom > 12) ? this.colorList.slice(this.lowerIndex, this.higherIndex) : color,
-        borderColor: (this.zoom > 12) ? this.colorList.slice(this.lowerIndex, this.higherIndex) : color,
+        label: 'map',
+        backgroundColor: (this.zoom > 12) ? this.colorList.slice(this.lowerIndex, this.higherIndex) : this.colorList,
+        borderColor: (this.zoom > 12) ? this.colorList.slice(this.lowerIndex, this.higherIndex) : this.colorList,
         data: (this.zoom > 12) ? data.slice(this.lowerIndex, this.higherIndex) : data,
         fill: false,
         stack: dataId
       };
       datasets.push(newData);
     }
+    this.nextX = data[data.length - 1].x + 1;
+    this.chart.update();
+  }
 
-    const newColors = this.colorList.slice(this.lowerIndex, this.higherIndex);
-    datasets[0].backgroundColor = newColors;
-    datasets[0].borderColor = newColors;
+  addGeometry(value: number, color: string, labels: any) {
+    this.clear();
+
+    const datasets = this.chart.config.data.datasets;
+    this.idOrder.unshift(this.nextX);
+    //build old data;
+    const oldData = {
+      label: 'map',
+      backgroundColor: this.colorList,
+      borderColor: this.colorList,
+      data: this.data,
+      fill: false,
+      stack: 'map'
+    };
+
+    //build new geometry data;
+    const newData = {
+      label: 'geometry',
+      backgroundColor: color,
+      borderColor:  color,
+      data: [{x: this.nextX, y: value}],
+      fill: false,
+      stack: 'map'
+    };
+
+    this.geometries.unshift(newData);
+
+
+    this.nextX += 1;
+
+    //add old geometries
+    for(let i = 0; i < this.geometries.length; i ++) {
+      datasets.push(this.geometries[i]);
+    }
+    
+    //redraw labels
+    this.setLabels(labels['viaipe']);
+    //add old data to chart config
+    datasets.push(oldData);
+
+
+    console.log(datasets)
+    console.log(this.chart.config.data)
+    console.log(this.chart.config)
     this.chart.update();
   }
 
@@ -277,6 +320,12 @@ export class BarChart {
   }
 
   getId(id: number) {
-    return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+    let bool = false;
+    for(let i = 0; i < this.capitals.length; i++) {
+      if(this.capitals[i].cod === id) bool = true;
+    };
+
+    if(bool) return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+    else return 'geometry'
   }
 }

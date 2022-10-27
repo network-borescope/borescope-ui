@@ -552,12 +552,22 @@ export class HomeComponent implements AfterViewInit {
     const zoom = this.map.getZoom();      
     const param = 'viaipe';
     const res = await this.api.requestBarChart(location, time, client, selectedValue, param, zoom);
-    data['viaipe'] = res;
-    const lmap = {'viaipe': {}};
-
-    if(Object.keys(res.result).length) {
-      this.bar.updateData(data, dataId, chartColor, lmap, zoom);
-      this.bar.drawChart(param, name, zoom);
+    if(dataId !== 'geometry') {
+      data['viaipe'] = res;
+      const lmap = {'viaipe': {}};
+  
+      if(Object.keys(res.result).length) {
+        this.bar.updateData(data, dataId, chartColor, lmap, zoom);
+        this.bar.drawChart(param, name, zoom);
+      }
+    } else {
+      if(res.result.length > 0) {
+        let value = 0;
+        for(let i = 0; i < res.result.length; i++) {
+          value += res.result[i].v[0]
+        };
+        this.bar.addGeometryValue(value, chartColor);
+      }
     }
   }
 
@@ -714,7 +724,6 @@ export class HomeComponent implements AfterViewInit {
   }
 
   adaptData(data: any, from: string, secondParam: number = 0) {
-    console.log(data)
     const adaptedValues: any[] = [];
     if(from == "functions") {
       for(let i = 0; i < data.length; i++) {
