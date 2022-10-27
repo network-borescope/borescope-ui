@@ -90,7 +90,7 @@ export class BarChartComponent implements OnInit {
   }
 
   drawChart(from: string, name: any = undefined, zoom: any = undefined) {
-    this.barChart.setLabels(this.labels[from]);
+    this.barChart.labelList = this.labels[from];
     this.zoom = zoom;
     this.barChart.zoom = zoom;
     this.barChart.from = from;

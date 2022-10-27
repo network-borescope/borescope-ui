@@ -19,6 +19,7 @@ export class BarChart {
   public nextX: number = 0;
   public labelList: any = [];
   public geometries: any = [];
+
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.init();
@@ -197,16 +198,23 @@ export class BarChart {
         stack: dataId
       };
       datasets.push(newData);
+
+      for(let i = 0; i < this.geometries.length; i ++) {
+        datasets.unshift(this.geometries[i]);
+        this.idOrder.unshift('geometry');
+        this.labelList.unshift('geometry');      }
     }
+    this.setLabels(this.labelList);
     this.nextX = data[data.length - 1].x + 1;
     this.chart.update();
   }
 
   addGeometry(value: number, color: string, labels: any) {
     this.clear();
+    this.labelList = labels['viaipe'];
 
     const datasets = this.chart.config.data.datasets;
-    this.idOrder.unshift(this.nextX);
+    this.idOrder.unshift('geometry');
     //build old data;
     const oldData = {
       label: 'map',
@@ -229,7 +237,6 @@ export class BarChart {
 
     this.geometries.unshift(newData);
 
-
     this.nextX += 1;
 
     //add old geometries
@@ -238,14 +245,12 @@ export class BarChart {
     }
     
     //redraw labels
-    this.setLabels(labels['viaipe']);
+    this.setLabels(this.labelList);
     //add old data to chart config
     datasets.push(oldData);
 
 
     console.log(datasets)
-    console.log(this.chart.config.data)
-    console.log(this.chart.config)
     this.chart.update();
   }
 
@@ -319,13 +324,8 @@ export class BarChart {
     this.capitals = capitals;
   }
 
-  getId(id: number) {
-    let bool = false;
-    for(let i = 0; i < this.capitals.length; i++) {
-      if(this.capitals[i].cod === id) bool = true;
-    };
-
-    if(bool) return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
-    else return 'geometry'
+  getId(id: any) {
+    if(id == 'geometry') return 'geometry';
+    else return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
   }
 }
