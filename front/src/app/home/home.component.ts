@@ -273,13 +273,8 @@ export class HomeComponent implements AfterViewInit {
       this.line.clearChart(param.id, 'geometry', color);
     }
 
-    const bar_params = this.global.getGlobal('bar_params').value;
-    const lmap = this.global.getGlobal('label_maps').value;
-
-    for (const param of bar_params) {
-      this.bar.clearChart(param.id, 'geometry', color, lmap, this.map.getZoom());
-    }
-
+    //remove geometrias das listas
+    this.bar.removeGeometriesFromBar(color);
     // remove do estado global
     this.removeChartElementFromGlobal('geometry', color);
   }
@@ -794,6 +789,12 @@ export class HomeComponent implements AfterViewInit {
       this.filters.setClients(capital);
     } else {
       this.filters.removeClients();
+      this.line.rawData = {};
+      this.line.lineChart.clear();
+      this.updateLineChart('map', '#AAAAAA');
+      this.bar.barChart.clear();
+      this.updateBarChart('map', '#AAAAAA');
+      this.chartsElements = {paramId: [], cods: [], colors: [], names: [], from: []};
     }
   }
 

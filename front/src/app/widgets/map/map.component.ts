@@ -211,6 +211,8 @@ export class MapComponent implements AfterViewInit {
 
       global.setGlobal(clicked_element);
       global.setGlobal(network_param);
+
+      self.listClient = [];
       self.resetFunctionsChart.emit();
       self.setClients.emit('delete')
       map.setView([lat, lng], zoom);

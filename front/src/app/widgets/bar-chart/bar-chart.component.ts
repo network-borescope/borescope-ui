@@ -20,7 +20,7 @@ export class BarChartComponent implements OnInit {
 
   public barChart: any;
 
-  private labels: any = {};
+  public labels: any = {};
   public rawData: any = {};
   private viaipeClientsLabel: any = [];
   private lowerIndex: number = 0;
@@ -262,5 +262,22 @@ export class BarChartComponent implements OnInit {
 
   hasNext() {
     return ((this.tabsCounter + 1) * 10 < this.barChart.data.length)
+  }
+
+  removeGeometriesFromBar(color: string) {
+    console.log(this.labels['viaipe'])
+    this.barChart.idOrder = this.barChart.idOrder.slice(1);
+    this.barChart.labelList = this.barChart.labelList.slice(1);
+    this.labels['viaipe'] = this.labels['viaipe'].slice(1);
+    console.log(this.labels['viaipe'])
+    for(let i = 0; i < this.barChart.geometries.length; i ++) {
+      if (this.barChart.geometries[i].backgroundColor == color) {
+        this.barChart.geometries.splice(i, 1);
+      };
+    }
+    this.barChart.chart.config.data.datasets.splice(0, 1);
+    console.log(this.labels['viaipe'])
+    this.barChart.setLabels(this.labels['viaipe']);
+    this.barChart.chart.update();
   }
 }

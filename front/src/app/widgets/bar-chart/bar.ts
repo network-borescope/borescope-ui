@@ -202,8 +202,10 @@ export class BarChart {
       for(let i = 0; i < this.geometries.length; i ++) {
         datasets.unshift(this.geometries[i]);
         this.idOrder.unshift('geometry');
-        this.labelList.unshift('geometry');      }
+        this.labelList.unshift('geometry');      
+      }
     }
+    console.log(this.labelList)
     this.setLabels(this.labelList);
     this.nextX = data[data.length - 1].x + 1;
     this.chart.update();
@@ -218,9 +220,9 @@ export class BarChart {
     //build old data;
     const oldData = {
       label: 'map',
-      backgroundColor: this.colorList,
-      borderColor: this.colorList,
-      data: this.data,
+      backgroundColor: (this.zoom > 12) ? this.colorList.slice(this.lowerIndex, this.higherIndex) : this.colorList,
+      borderColor: (this.zoom > 12) ? this.colorList.slice(this.lowerIndex, this.higherIndex) : this.colorList,
+      data: (this.zoom > 12) ? this.data.slice(this.lowerIndex, this.higherIndex) : this.data,
       fill: false,
       stack: 'map'
     };
@@ -243,7 +245,7 @@ export class BarChart {
     for(let i = 0; i < this.geometries.length; i ++) {
       datasets.push(this.geometries[i]);
     }
-    
+    console.log(this.labelList)
     //redraw labels
     this.setLabels(this.labelList);
     //add old data to chart config
@@ -295,7 +297,6 @@ export class BarChart {
       this.colorList = Array(this.idOrder.length).fill("#AAAAAA");
       this.coloredCods = [];
     }
-
 
     const datasets = this.chart.config.data.datasets;
     const newColors = this.colorList.slice(this.lowerIndex, this.higherIndex);
