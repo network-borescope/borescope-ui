@@ -24,6 +24,7 @@ export class LineChartComponent implements OnInit {
 
   private t0: number = 0;
   private t1:number = 0;
+  public lineGeometries: any = {polys: [], colors: []}
 
   public ids: any = [];
   private optionsList = {

@@ -256,6 +256,8 @@ export class HomeComponent implements AfterViewInit {
 
     // barchart e linechart da seleção geométrica
     this.updateLineChart('geometry', color, poly);
+    this.line.lineGeometries.colors.push(color);
+    this.line.lineGeometries.polys.push(poly);
     this.updateBarChart('geometry', color, poly);
 
     // adiciona ao estado global
@@ -273,6 +275,12 @@ export class HomeComponent implements AfterViewInit {
       this.line.clearChart(param.id, 'geometry', color);
     }
 
+    for(let i = 0; i < this.line.lineGeometries.colors.length; i++) {
+      if(this.line.lineGeometries.colors[i] == color) {
+        this.line.lineGeometries.colors.splice(i, 1);
+        this.line.lineGeometries.polys.splice(i, 1);
+      }
+    }
     //remove geometrias das listas
     this.bar.removeGeometriesFromBar(color);
     // remove do estado global
@@ -377,6 +385,12 @@ export class HomeComponent implements AfterViewInit {
       const name = this.chartsElements.names[i];
       const paramId = this.chartsElements.paramId[i];
       this.updateLineChart(paramId, color, cod, name, 'data change');
+    }
+    console.log(this.line.lineGeometries)
+    for(let i = 0; i < this.line.lineGeometries.polys.length; i++) {
+      const color = this.line.lineGeometries.colors[i];
+      const poly = this.line.lineGeometries.polys[i];
+      this.updateLineChart('geometry', color, poly);
     }
   }
 
