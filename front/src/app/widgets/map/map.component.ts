@@ -42,6 +42,7 @@ export class MapComponent implements AfterViewInit {
   @Output() resetFunctionsChart = new EventEmitter();
 
   @Output() setClients = new EventEmitter<any>();
+  @Output() resetCharts = new EventEmitter();
   // objeto com o mapa do leaflet
   private map!: L.Map;
   // objeto com os clientes
@@ -98,7 +99,7 @@ export class MapComponent implements AfterViewInit {
 
     // configuração do layer do mapa
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-      maxZoom: 18,
+      maxZoom: 13,
       attribution:
         'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -184,9 +185,12 @@ export class MapComponent implements AfterViewInit {
     this.map.on('moveend', () => {
       // adição e remoção dos layers baseado no zoom
       if(this.map.getZoom() < 9) {
+        this.map.setMaxZoom(8);
         this.map.addLayer(capitalsMarkersLayers);
         this.map.removeLayer(this.clientsMarkers);
         this.map.removeLayer(this.outlierMarker);
+        this.listClient = [];
+        this.resetCharts.emit();
       } else {
         this.map.removeLayer(this.clientsMarkers);
         this.map.removeLayer(capitalsMarkersLayers);
@@ -410,6 +414,7 @@ export class MapComponent implements AfterViewInit {
    */
 
   capitalClick(event: any) {
+    this.map.setMaxZoom(13);
     // pega o id da capital referente ao marker clicado
     const clickedIcon = event.target.options.icon.options.html;
     const html = new DOMParser().parseFromString(clickedIcon, "text/html");

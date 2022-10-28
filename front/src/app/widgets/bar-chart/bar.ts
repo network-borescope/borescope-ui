@@ -171,7 +171,7 @@ export class BarChart {
       }
     }
 
-
+    console.log(this.colorList)
     this.data = data;
     const datasets = this.chart.config.data.datasets;
     let label = "";

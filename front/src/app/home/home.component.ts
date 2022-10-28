@@ -367,7 +367,7 @@ export class HomeComponent implements AfterViewInit {
   /**
    * Atualiza o from de saída do linechart
    */
-   onLineSelectedChanged(){
+   onLineSelectedChanged() {
     this.line.rawData = {};
     this.line.lineChart.clear();
     this.updateLineChart('map', '#AAAAAA');
@@ -519,6 +519,7 @@ export class HomeComponent implements AfterViewInit {
     this.map.removeCurrentHeatmapLayer();
 
     if(this.map.getZoom() > 12) {
+      console.log(this.map.getZoom())
       const location = this.map.getLocation();
       const time = this.getTime();
       this.spinner.show();
@@ -788,14 +789,31 @@ export class HomeComponent implements AfterViewInit {
       const capital = capitals.filter((c: any) => c.cod === clicked)[0].id;
       this.filters.setClients(capital);
     } else {
-      this.filters.removeClients();
-      this.line.rawData = {};
-      this.line.lineChart.clear();
-      this.updateLineChart('map', '#AAAAAA');
-      this.bar.barChart.clear();
-      this.updateBarChart('map', '#AAAAAA');
-      this.chartsElements = {paramId: [], cods: [], colors: [], names: [], from: []};
+      this.resetChartElements();
     }
+  }
+
+  resetChartElements() {
+    //reseta cores usadas
+    const usedColors = this.global.getGlobal("used_draw_colors");
+    const drawColorIndex = this.global.getGlobal("draw_color_index");
+    usedColors.value = [];
+    drawColorIndex.value = 0;
+    this.global.setGlobal(usedColors);
+    this.global.setGlobal(drawColorIndex);
+    //remove clientes dos filtros
+    this.filters.removeClients();
+    //reseta dados linechart
+    this.line.rawData = {};
+    this.line.lineChart.clear();
+    this.updateLineChart('map', '#AAAAAA');
+    //reseta dados barchart
+    this.bar.barChart.clear();
+    this.updateBarChart('map', '#AAAAAA');
+    this.bar.barChart.coloredCods = [];
+    this.bar.barChart.usedColors = [];
+    this.bar.barChart.colorList = [];
+    this.chartsElements = {paramId: [], cods: [], colors: [], names: [], from: []};
   }
 
   isHeatmatrixSelected() {
