@@ -154,10 +154,8 @@ export class LineChart {
           borderColor: (ctx: any) => {
             console.log(data[ctx.p0DataIndex].z);
             if(data[ctx.p0DataIndex].z > 0) {
-              console.log('#FF0000')
-              return '#FF0000'
+              return '#FF0000';
             } else {
-              console.log(color)
               return color;
             }
           }
