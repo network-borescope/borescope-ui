@@ -171,7 +171,6 @@ export class BarChart {
       }
     }
 
-    console.log(this.colorList)
     this.data = data;
     const datasets = this.chart.config.data.datasets;
     let label = "";
@@ -205,7 +204,6 @@ export class BarChart {
         this.labelList.unshift('geometry');      
       }
     }
-    console.log(this.labelList)
     this.setLabels(this.labelList);
     this.nextX = data[data.length - 1].x + 1;
     this.chart.update();
@@ -245,14 +243,12 @@ export class BarChart {
     for(let i = 0; i < this.geometries.length; i ++) {
       datasets.push(this.geometries[i]);
     }
-    console.log(this.labelList)
     //redraw labels
     this.setLabels(this.labelList);
     //add old data to chart config
     datasets.push(oldData);
 
 
-    console.log(datasets)
     this.chart.update();
   }
 

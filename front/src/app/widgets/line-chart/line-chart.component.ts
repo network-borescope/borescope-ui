@@ -62,7 +62,9 @@ export class LineChartComponent implements OnInit {
         const pointTime = responseData[paramId].result[i].k[0];
         //pega valor
         const pointValue = responseData[paramId].result[i].v[0];
-        this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue});
+        let flag = 0;
+        if(i > responseData[paramId].result.length / 2) flag = 1
+        this.rawData[paramId][dataId][chartColor].push({ x: this.util.secondsToDate(pointTime), y: pointValue, z: flag});
       }
       // seta o intervalo de tempo
       this.t0 = responseData['viaipe']['result'][0].k[0];
@@ -86,7 +88,7 @@ export class LineChartComponent implements OnInit {
         const chartData = [];
         for(let i = 0; i < data[color].length; i++) {
           const label = this.labels[from][i];
-          chartData.push({ y: data[color][i].y, x: label});
+          chartData.push({ y: data[color][i].y, x: label, z: data[color][i].z});
         }
         this.lineChart.updateDataset(dataId, color, chartData, name);
       }

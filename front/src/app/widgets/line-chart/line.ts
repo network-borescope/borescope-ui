@@ -131,6 +131,7 @@ export class LineChart {
 
   updateDataset(dataId: string, color: string, data: any, name: any = undefined) {
     this.data = data;
+    console.log(this.data)
     const datasets = this.chart.config.data.datasets;
     let label = "";
     if(name) {
@@ -148,7 +149,19 @@ export class LineChart {
         backgroundColor: color,
         borderColor: color,
         data: data,
-        fill: false
+        fill: false,
+        segment: {
+          borderColor: (ctx: any) => {
+            console.log(data[ctx.p0DataIndex].z);
+            if(data[ctx.p0DataIndex].z > 0) {
+              console.log('#FF0000')
+              return '#FF0000'
+            } else {
+              console.log(color)
+              return color;
+            }
+          }
+        }
       };
 
       datasets.push(newData);
