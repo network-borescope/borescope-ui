@@ -599,6 +599,7 @@ export class HomeComponent implements AfterViewInit {
     
     const param = 'viaipe'
     const res = await this.api.requestLineChart(location, time, client, selectedParam, param);
+    console.log(res)
     data['viaipe'] = res;
 
     if(Object.keys(res.result).length) {

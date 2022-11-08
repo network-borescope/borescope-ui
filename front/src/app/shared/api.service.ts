@@ -253,7 +253,7 @@ export class ApiService {
       query['from'] = params.from;
       query['select'] = params.select;
     } else {
-      query["group-by"] = {"field":"time","min-k":tsT0,"max-k":tsT1,"n-points":1024};
+      query["group-by"] = {"field":"time","v":"AC","min-k":tsT0,"max-k":tsT1,"n-points":1024};
       query['select'] = [params];
       query['from'] = 'viaipe';
       if(clicked > 0 && client !== undefined) {
@@ -261,6 +261,9 @@ export class ApiService {
         query['where'].push(client);
       }
     }
+
+    //adiciona prediction
+    query['prediction'] = 'lstm';
 
     this.utils.showTrace("requestLineChart", query);
 
@@ -270,7 +273,7 @@ export class ApiService {
       'dataType': 'json'
     };
     // Return a new promise.
-    const response = await fetch(this.xhttp_url, {
+    const response = await fetch(this.xhttp_url + '2', {
       method: 'POST',
       headers,
       body: JSON.stringify(query),

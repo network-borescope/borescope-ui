@@ -47,6 +47,22 @@ export class LineChart {
           tooltip: {
             mode: 'index',
             intersect: false,
+            callbacks: {
+              labelColor: function(context) {
+                const index = context.dataIndex;
+                const data = context.dataset.data;
+                //@ts-ignore
+                const borderColor: string = context.dataset.borderColor;
+                //@ts-ignore
+                const flag = data[index].z;
+                let color = {borderColor: borderColor, backgroundColor: ""};
+                if(flag !== 0) color.backgroundColor = "#FF0000";
+                else {
+                  color.backgroundColor = borderColor;
+                }
+                return color;
+              }
+            }
           },
         },
         elements: {
@@ -131,7 +147,6 @@ export class LineChart {
 
   updateDataset(dataId: string, color: string, data: any, name: any = undefined) {
     this.data = data;
-    console.log(this.data)
     const datasets = this.chart.config.data.datasets;
     let label = "";
     if(name) {
@@ -152,7 +167,6 @@ export class LineChart {
         fill: false,
         segment: {
           borderColor: (ctx: any) => {
-            console.log(data[ctx.p0DataIndex].z);
             if(data[ctx.p0DataIndex].z > 0) {
               return '#FF0000';
             } else {

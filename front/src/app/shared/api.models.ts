@@ -43,6 +43,7 @@ export class QueryRequest {
   'from': string;
   'group-by': any;
   'group-by-output': string;
+  'prediction': string;
 
   constructor() {
     let location = ["location", "zrect", 14, -22.75212144238171, -43.90960693359376, -23.073414748499108, -42.944183349609375];
@@ -54,6 +55,7 @@ export class QueryRequest {
     this['where'] = [ time, location, client ];
     this['id'] = 1;
     this['from'] = "ttls";
+    this['prediction'] = "";
   }
 }
 
