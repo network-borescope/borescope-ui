@@ -282,9 +282,16 @@ export class Network {
   }
 
   highlightCompletedRectangles() {
-    const randomIndices = [22, 34, 47, 55, 72, 145, 200, 380, 383, 425, 462, 507, 612, 664, 701]
-    for(let i = 0; i < randomIndices.length; i++) {
-      this._svgGroup.select('[id="' + (randomIndices[i]) + '"]')
+    const indices: number[] = [];
+
+    for(let i = 0; i < this._data.length; i++) {
+      if(this._data[i][3] > 0) { 
+        indices.push(i);
+      }
+    }
+
+    for(let i = 0; i < indices.length; i++) {
+      this._svgGroup.select('[id="' + (indices[i]) + '"]')
       .attr("stroke", '#1F77B4')
       .attr('stroke-width', '3')
     }

@@ -298,6 +298,8 @@ export class ApiService {
     if(metric === 'rnp_services') {
       // @ts-ignore
       query['from'] = metric;
+      //adiciona campo para o flag
+      query['model'] = "hybrid_cf"
     } else {
       query['metric'] = metric;
     }
@@ -312,6 +314,8 @@ export class ApiService {
       'Content-Type': 'application/json',
       'dataType': 'json'
     };
+
+
 
     // Return a new promise.
     const response = await fetch(this.xhttp_url + '2', {

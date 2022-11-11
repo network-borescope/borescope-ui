@@ -44,6 +44,7 @@ export class NetworkComponent implements OnInit {
   }
 
   drawChart(data: any, capitals: any, clicked: number = -1, invert: boolean = false, dataType: string, services: any = null) {
+    console.log(data)
     const capitalId = clicked;
     this.netChart.setData(data, capitals, clicked >= 0, invert, capitalId, services);
     this.netChart.render();

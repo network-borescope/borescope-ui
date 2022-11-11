@@ -68,6 +68,7 @@ export class MatrixRequest {
   'field': string;
   'start': number;
   'end': number;
+  'model': string;
 
   constructor() {
     this['what'] = "matrix";
@@ -75,6 +76,7 @@ export class MatrixRequest {
     this['field']= "h_avg";
     this['start'] = 1;
     this['end'] = 1634149785;
+    this['model'] = "";
   }
 }
 
