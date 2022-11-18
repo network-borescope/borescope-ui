@@ -160,7 +160,16 @@ export class Functionschart {
           data: data[i][1][0][0],
           backgroundColor: colorList[i % 10],
           borderColor: colorList[i % 10],
-          fill: false
+          fill: false,
+          segment: {
+            borderColor: (ctx: any) => {
+              if(data[i][1][0][0][ctx.p0DataIndex].z > 0) {
+                return '#FF0000';
+              } else {
+                return colorList[i % 10];
+              }
+            }
+          }
         };
         datasets.push(newData);
       }
