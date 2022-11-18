@@ -82,7 +82,7 @@ export class FunctionsChartComponent implements OnInit {
   updateFunctionsCombinationsData(data: any) {
     const selectedParam = this.global.getGlobal('functions_param').value;
     this.functionsChart.clear();
-    this.functionsChart.updateCombinations(data, selectedParam);
+    this.functionsChart.updateCombinations(data, selectedParam, this.drawColors);
     this.functionsChart.setTitle(selectedParam, -1);
     this.functionsChart.render();
   }

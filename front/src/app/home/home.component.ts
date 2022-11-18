@@ -743,7 +743,7 @@ export class HomeComponent implements AfterViewInit {
     const adaptedValues: any[] = [];
     if(from == "functions") {
       for(let i = 0; i < data.length; i++) {
-        adaptedValues.push({x: data[i][0], y: data[i][1]})
+        adaptedValues.push({x: data[i][0], y: data[i][1], z: 0})
       }
     } else {
       for(let i = 0; i < data.length; i++) {
@@ -751,11 +751,10 @@ export class HomeComponent implements AfterViewInit {
         let date = new Date(data[i].k[0] * 1000);
         //@ts-ignore
         label = date.toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' }).split(', ')[0];
-        adaptedValues.push({x: label, y: data[i].v[0]});
+        adaptedValues.push({x: label, y: data[i].v[0], z: data[i].v[1]});
       }
     }
     const totalData = [adaptedValues];
-    console.log(totalData)
     return totalData;
   }
 

@@ -62,6 +62,23 @@ export class Functionschart {
             tooltip: {
               mode: 'index',
               intersect: false,
+              callbacks: {
+                labelColor: function(context) {
+                  const index = context.dataIndex;
+                  const data = context.dataset.data;
+                  console.log(data)
+                  //@ts-ignore
+                  const borderColor: string = context.dataset.borderColor;
+                  //@ts-ignore
+                  const flag = data[index].z;
+                  let color = {borderColor: borderColor, backgroundColor: ""};
+                  if(flag !== 0) color.backgroundColor = "#FF0000";
+                  else {
+                    color.backgroundColor = borderColor;
+                  }
+                  return color;
+                }
+              }
             },
           },
           elements: {
@@ -141,8 +158,8 @@ export class Functionschart {
         const newData = {
           label: (data[i][0] >= 0) ? this.getId(data[i][0], popOrService) : param.toUpperCase(),
           data: data[i][1][0][0],
-          backgroundColor: colorList[i],
-          borderColor: colorList[i],
+          backgroundColor: colorList[i % 10],
+          borderColor: colorList[i % 10],
           fill: false
         };
         datasets.push(newData);
@@ -150,18 +167,26 @@ export class Functionschart {
       this.chart.update();
     }
   
-    updateCombinations(data: any, selectedParam: string) {
+    updateCombinations(data: any, selectedParam: string, colorList: any) {
       const datasets = this.chart.config.data.datasets;
       console.log(data)
 
       for(let i = 0; i < data.length; i++) {
-        const color = this.getRandomColor();
         const newData = {
           label: `${data[i][0].idPop} - ${data[i][0].idService}`,
           data: data[i][1][0][0],
-          backgroundColor: color,
-          borderColor: color,
-          fill: false
+          backgroundColor: colorList[i % 10],
+          borderColor: colorList[i % 10],
+          fill: false,
+          segment: {
+            borderColor: (ctx: any) => {
+              if(data[i][1][0][0][ctx.p0DataIndex].z > 0) {
+                return '#FF0000';
+              } else {
+                return colorList[i % 10];
+              }
+            }
+          }
         };
         datasets.push(newData);
         
