@@ -652,6 +652,7 @@ export class HomeComponent implements AfterViewInit {
 
   //atualiza quando selecionado um servico individualmente
   async updateFunctionsChartService(event: any) {
+    console.log(event)
     this.spinner.show();
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
@@ -672,14 +673,14 @@ export class HomeComponent implements AfterViewInit {
       for(let i = 0; i < event.length; i++) {
         if(this.func.isPopSelected()) {
           const selectedValue = (document.getElementById('functions-chart-select-timeseries-popxpop-value-options') as HTMLInputElement).value;
-          const res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, clicked);
-          const data = JSON.parse(res).result;
-          const adaptedData = this.adaptData(data, "timeseries", event[i]);
+          const res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, clicked, event[i]);
+          const data = res.result;
+          const adaptedData = this.adaptData(data, "timeseries");
           selectedData[i] = [event[i],[adaptedData]];
         } else {
-          const res = await this.api.requestTimeseries(10, "havg", tsT0, tsT1, clicked, "rnp_services");
-          const data = JSON.parse(res).result;
-          const adaptedData = this.adaptData(data, "timeseries", event[i]);
+          const res = await this.api.requestTimeseries(10, "havg", tsT0, tsT1, clicked, event[i], "rnp_services");
+          const data = res.result;
+          const adaptedData = this.adaptData(data, "timeseries");
           selectedData[i] = [event[i],[adaptedData]];
         }
       }
@@ -690,6 +691,8 @@ export class HomeComponent implements AfterViewInit {
 
   //atualiza quando esta selecionada a opcao de n pops x n servicos
   async updateFunctionsCombinations(event: any) {
+    //without zoom
+    console.log(event)
     this.spinner.show();
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
@@ -698,16 +701,16 @@ export class HomeComponent implements AfterViewInit {
     const selectedData:any = [];
     for(let i  = 0; i < event.length; i++) {
       let pop = event[i].codPop;
-      let service = event[i].codService;
+      let secondaryId = event[i].codService;
       let data;
       let res;
       if(selectedParam !== "timeseries") {
-        res = await this.api.requestFunctions(service, selectedParam,  tsT0, tsT1, pop);
-        if(pop >= 0 && service >= 0) {
-          data = res.result[`${pop}`][`${service}`];
-        } else if(pop == -1 && service >= 0) {
-          data = res.result['0'][`${service}`];
-        } else if(pop >= 0 && service == -1) {
+        res = await this.api.requestFunctions(secondaryId, selectedParam,  tsT0, tsT1, pop);
+        if(pop >= 0 && secondaryId >= 0) {
+          data = res.result[`${pop}`][`${secondaryId}`];
+        } else if(pop == -1 && secondaryId >= 0) {
+          data = res.result['0'][`${secondaryId}`];
+        } else if(pop >= 0 && secondaryId == -1) {
           data = res.result[`${pop}`]['0'];
         } else {
           data = res.result['0']['0'];
@@ -719,14 +722,15 @@ export class HomeComponent implements AfterViewInit {
         let selectedValue;
         if(this.func.isPopSelected()) {
           selectedValue = (document.getElementById('functions-chart-select-timeseries-popxpop-value-options') as HTMLInputElement).value;
-          res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, pop)
-          data = JSON.parse(res).result
+          res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, pop, secondaryId)
+          console.log(res)
         } else {
           selectedValue = 10;
-          res = await this.api.requestTimeseries(selectedValue, "havg", tsT0, tsT1, pop, "rnp_services")
-          data = JSON.parse(res).result
+          res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, pop, secondaryId, "rnp_services")
         }
-        const adaptedData = this.adaptData(data, "timeseries", service);
+        data = res.result;
+        const adaptedData = this.adaptData(data, "timeseries", secondaryId);
+       
         selectedData[i] = [event[i],[adaptedData]];
       }
     }
@@ -735,6 +739,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   adaptData(data: any, from: string, secondParam: number = 0) {
+    console.log(data)
     const adaptedValues: any[] = [];
     if(from == "functions") {
       for(let i = 0; i < data.length; i++) {
@@ -743,12 +748,10 @@ export class HomeComponent implements AfterViewInit {
     } else {
       for(let i = 0; i < data.length; i++) {
         let label = '';
-        let date = new Date(data[i][1] * 1000);
+        let date = new Date(data[i].k[0] * 1000);
         //@ts-ignore
         label = date.toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' }).split(', ')[0];
-        if(secondParam == data[i][0]) {
-          adaptedValues.push({x: label, y: data[i][2]});
-        }
+        adaptedValues.push({x: label, y: data[i].v[0]});
       }
     }
     const totalData = [adaptedValues];
