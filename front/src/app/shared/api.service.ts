@@ -334,13 +334,15 @@ export class ApiService {
   async requestTimeseries(metric: any, field: string, t0: number, t1: number, idpop: number, secondaryId: number, from: string = "") {
     let query = new TimeseriesRequest();
 
-    query['select'] = field;
-    query['where'] = [["time","between",t0,t1], ["src","eq",idpop],["dst","eq",secondaryId],["metric","eq",parseInt(metric)]];
     query['group-by'] = {"field":"time","n-points":8,"min-k":t0,"max-k":t1,"v":"AC"};
+    query['select'] = field;
 
     if(from == 'rnp_services') {
       // @ts-ignore
-      query['from'] = 'rnp_services'
+      query['from'] = 'rnp_services';
+      query['where'] = [["time","between",t0,t1], ["pop","eq",idpop],["serv","eq",secondaryId]];
+    } else {
+      query['where'] = [["time","between",t0,t1], ["src","eq",idpop],["dst","eq",secondaryId],["metric","eq",parseInt(metric)]];
     }
     this.utils.showTrace("requestTimeseries", query);
 

@@ -163,7 +163,7 @@ export class Functionschart {
           fill: false,
           segment: {
             borderColor: (ctx: any) => {
-              if(data[i][1][0][0][ctx.p0DataIndex].z > 0) {
+              if(data[i][1][0][0][ctx.p0DataIndex + 1].z > 0) {
                 return '#FF0000';
               } else {
                 return colorList[i % 10];
@@ -189,7 +189,7 @@ export class Functionschart {
           fill: false,
           segment: {
             borderColor: (ctx: any) => {
-              if(data[i][1][0][0][ctx.p0DataIndex].z > 0) {
+              if(data[i][1][0][0][ctx.p0DataIndex + 1].z > 0) {
                 return '#FF0000';
               } else {
                 return colorList[i % 10];

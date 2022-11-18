@@ -15,7 +15,6 @@ import { FunctionsChartComponent } from 'src/app/widgets/functions-chart/functio
 import { NgxSpinnerService } from "ngx-spinner";
 
 import { UtilService } from '../shared/util.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-home',
@@ -726,14 +725,15 @@ export class HomeComponent implements AfterViewInit {
           console.log(res)
         } else {
           selectedValue = 10;
-          res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, pop, secondaryId, "rnp_services")
+          res = await this.api.requestTimeseries(selectedValue, "havg", tsT0, tsT1, pop, secondaryId, "rnp_services")
         }
         data = res.result;
         const adaptedData = this.adaptData(data, "timeseries", secondaryId);
-       
         selectedData[i] = [event[i],[adaptedData]];
       }
     }
+    console.log(selectedData)
+
     this.func.updateFunctionsCombinationsData(selectedData);
     this.spinner.hide();
   }

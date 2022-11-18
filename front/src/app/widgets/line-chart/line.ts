@@ -167,7 +167,7 @@ export class LineChart {
         fill: false,
         segment: {
           borderColor: (ctx: any) => {
-            if(data[ctx.p0DataIndex].z > 0) {
+            if(data[ctx.p0DataIndex + 1].z > 0) {
               return '#FF0000';
             } else {
               return color;
