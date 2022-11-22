@@ -292,7 +292,9 @@ export class ApiService {
       // @ts-ignore
       query['idpop'] = clicked;
       // @ts-ignore
-      // query['ncols'] = 25;
+      query['ncols'] = 7;
+      // @ts-ignore
+      query['colsize'] = parseInt((t1 - t0) / 7);
     }
 
     if(metric === 'rnp_services') {
@@ -342,7 +344,7 @@ export class ApiService {
       query['from'] = 'rnp_services';
       query['where'] = [["time","between",t0,t1], ["pop","eq",idpop],["serv","eq",secondaryId]];
     } else {
-      query['where'] = [["time","between",t0,t1], ["src","eq",idpop],["dst","eq",secondaryId],["metric","eq",parseInt(metric)]];
+      query['where'] = [["time","between",t0,t1], ["pop","eq",idpop],["id_pop","eq",secondaryId],["metric","eq",parseInt(metric)]];
     }
     this.utils.showTrace("requestTimeseries", query);
 
