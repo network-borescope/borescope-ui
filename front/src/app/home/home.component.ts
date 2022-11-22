@@ -9,7 +9,6 @@ import { LineChartComponent } from 'src/app/widgets/line-chart/line-chart.compon
 import { NetworkComponent } from 'src/app/widgets/network/network.component';
 import { AlertsComponent } from '../widgets/alerts/alerts.component';
 import { FiltersComponent } from 'src/app/widgets/filters/filters.component';
-import { ScatterglComponent } from 'src/app/widgets/scattergl/scattergl.component';
 import { FunctionsChartComponent } from 'src/app/widgets/functions-chart/functions-chart.component';
 
 import { NgxSpinnerService } from "ngx-spinner";
@@ -35,8 +34,6 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild("appAlerts", { static: true }) private alerts!: AlertsComponent;
   // referência para componente do mapa
   @ViewChild("appFilters", { static: true }) private filters!: FiltersComponent;
-  // referência para componente do scattergl
-  @ViewChild("appScatterglChart", { static: true }) private scattergl!: ScatterglComponent;
   // referência para o componente das functions
   @ViewChild("appFunctionsChart", { static: true }) private func!: FunctionsChartComponent;
 
@@ -121,7 +118,6 @@ export class HomeComponent implements AfterViewInit {
 
     this.net.onTimeBoundsChange();
     this.func.onTimeBoundsChange();
-    this.scattergl.onTimeBoundsChange();
   }
 
   /**
@@ -756,35 +752,6 @@ export class HomeComponent implements AfterViewInit {
     }
     const totalData = [adaptedValues];
     return totalData;
-  }
-
-  async updateScattergl(event: any) {
-    this.spinner.show();
-    let selectedParam = event.value;
-    const added = event.added;
-    const statesIds = [];
-    const finalData = [];
-    const selectedValue = ['h_avg','h_min', 'h_max']
-    //usando a mesma query da heatmatrix
-    let tsT0 = this.global.getGlobal("t0_vis").value;
-    let tsT1 = this.global.getGlobal("t1_vis").value;
-    const clicked = this.global.getGlobal("clicked_element").value;
-    if(event.added) {
-      for(let i = 0; i < selectedValue.length; i++) {
-        const res = await this.api.requestHeatmatrix(selectedParam, selectedValue[i], tsT0, tsT1, clicked);
-        const data = JSON.parse(res).result;
-        let dataList = []
-        for(let k = 0; k < data.length; k++) {
-          dataList.push(data[k][2])
-        }
-        finalData.push(dataList);
-      }
-    } else {
-      //dummy request para o spinner funcionar
-      const res = await this.api.getConfig();
-    }
-    this.scattergl.updateScatterglData(selectedParam, added, finalData);
-    this.spinner.hide();
   }
 
   onAreaSelected(indices: number[]) {
