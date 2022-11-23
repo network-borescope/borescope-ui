@@ -1,9 +1,10 @@
 <div class="fill">
-  <canvas class="fill"
+  <canvas class="fill" style="max-width: 75%; max-height: 90%;"
   [style.border-bottom] = "'none'" 
   [style.padding-bottom] =  "'0px'" 
   #lineChart></canvas>
-  <div style="margin-top: 2px; padding-bottom: 7px; display: flex;">
+  <div id='legend-container' style="position: relative; left: 73%; bottom: 89%;"></div>
+  <div style="position: relative; bottom: 26px;">
     <select name="select" class="value-selector" (change)="this.onValueChange($event)">
       <option value="avg_in" selected>Average in</option>
       <option value="avg_out">Average out</option>
@@ -17,5 +18,4 @@
       <option value="max_val">Max val</option>
     </select>
   </div>
-  <div class="flag"><span [class]="this.flag() ? 'fas fa-arrow-circle-up fa-lg' : 'fas fa-arrow-circle-down fa-lg'" [style.color]="this.flagColor()"></span></div>
 </div>

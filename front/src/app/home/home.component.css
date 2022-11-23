@@ -114,8 +114,8 @@
   position: absolute;
   top: 480px;
   right: 10px;
-  width: 516px; 
-  height: 294px;
+  width: 651px; 
+  height: 334px;
   z-index: -10;
 }
 
@@ -161,9 +161,9 @@
   }
   
   .line-chart-window {
-    width: 600px;
+    width: 760px;
     top: 530px;
-    height: 342px;
+    height: 382px;
   }
   
   .scattergl-window {

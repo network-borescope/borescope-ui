@@ -204,15 +204,4 @@ export class LineChartComponent implements OnInit {
     this.global.setGlobal(line_selected_params_value);
     this.lineValueChanged.emit();
   }
-
-  flagColor() {
-    const flag = this.global.getGlobal("flag_timeseries").value;
-    let color: string;
-    (flag > 0) ? color = '#4AB70F' : color = '#FF0000';
-    return color;
-  }
-
-  flag() {
-    return this.global.getGlobal("flag_timeseries").value > 0;
-  }
 }

@@ -28,7 +28,7 @@
     ></app-bar-chart>
   </div>
 
-  <div ngDraggable class="widget line-chart-window"
+  <div ngDraggable class="widget line-chart-window" id="line-chart"
   [style.z-index] = "this.isChartVisible('line') ? this.chartZindex('line') : '-10' "
   (started)="this.moving = 'line'; this.last = 'none'" (stopped)="this.moving = 'none'; this.last = 'line'">
     <app-line-chart #appLineChart
