@@ -49,9 +49,6 @@ export class Network {
   // title
   protected _title: any = null;
 
-  // last rectangle stroke added
-  protected _lastIndices: number[] = [];
-
   constructor(chartDiv: HTMLElement) {
     this._chartDiv = chartDiv;
 
@@ -100,7 +97,7 @@ export class Network {
     this._svgCanvas = d3.select(this._chartDiv)
         .append('svg')
         .attr('width', this._chartDiv.clientWidth)
-        .attr('height', this._chartDiv.clientHeight + 26);
+        .attr('height', this._chartDiv.clientHeight + 86);
 
     // axis title
     this._svgCanvas
@@ -115,7 +112,7 @@ export class Network {
     this._svgCanvas
     .append('text')
     .attr('class', 'axis axis--x--label')
-    .attr("transform", "translate(" + (this._width/1.6) + " ," + (this._height + this._margin.bottom + 37) + ")")
+    .attr("transform", "translate(" + (this._width/1.6) + " ," + (this._height + this._margin.bottom + 63) + ")")
     .style("text-anchor", "middle")
     .style('fill', '#8c8c8c')
     .style('font-size', '15px');
@@ -264,22 +261,6 @@ export class Network {
     }
   }
 
-  highlightRectangle(indices: number[]) {
-    if(this._lastIndices.length > 0) {
-      for(let i = 0; i < this._lastIndices.length; i++) {
-        this._svgGroup.select('[id="' + this._lastIndices[i] + '"]')
-        .attr("stroke", "none");
-      }
-    }
-
-    for(let i = 0; i < indices.length; i++) {
-    this._svgGroup.select('[id="' + indices[i] + '"]')
-                  .attr("stroke", "#333")
-                  .attr('stroke-width', '2')
-    }
-
-    this._lastIndices = indices;      
-  }
 
   highlightCompletedRectangles() {
     const indices: number[] = [];
@@ -298,14 +279,10 @@ export class Network {
   }
 
   removeRectangleHighlight() {
-    if(this._lastIndices.length > 0) {
-      for(let i = 0; i < this._lastIndices.length; i++) {
-        this._svgGroup.select('[id="' + this._lastIndices[i] + '"]')
-        .attr("stroke", "none");
-      }
+    for(let i = 0; i < this._data.length; i++) {
+      this._svgGroup.select('[id="' + i + '"]')
+      .attr("stroke", "none");
     }
-    this._lastIndices = [];  
-    this.highlightCompletedRectangles(); 
   }
 
   updateLabelsAndTitle() {
@@ -365,7 +342,7 @@ export class Network {
     this._svgCanvas
     .append('g')
     .attr('id', 'legend')
-    .attr("transform", "translate(" + (this._width*0.05) + " ," + (this._height + this._margin.bottom + 42) + ")")
+    .attr("transform", "translate(" + (this._width*0.05) + " ," + (this._height + this._margin.bottom + 73) + ")")
     .append("rect")
     .attr('transform', "translate(" + this._margin.left + " ," +  0 + ")")
     .attr("width", this._width - this._margin.right - this._margin.left)
@@ -379,7 +356,7 @@ export class Network {
     this._svgCanvas
     .append('g')
     .attr("class", "legend-scale")
-    .attr("transform", "translate(" + (this._width*0.05) + " ," + (this._height + this._margin.bottom + 42) + ")")
+    .attr("transform", "translate(" + (this._width*0.05) + " ," + (this._height + this._margin.bottom + 73) + ")")
     .call(d3.axisBottom(legendScale)
     .ticks(this._width / 100)
     .tickSize(12))

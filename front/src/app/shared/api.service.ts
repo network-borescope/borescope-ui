@@ -303,6 +303,7 @@ export class ApiService {
       //adiciona campo para o flag
       query['model'] = "hybrid_cf"
     } else {
+      query['model'] = "hybrid_cf_pops";
       query['metric'] = metric;
     }
 

@@ -606,7 +606,7 @@ export class HomeComponent implements AfterViewInit {
   async updateHeatmatrix() {
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
-
+    console.log('alo')
     const selectedParam = parseInt(this.global.getGlobal('heatmatrix_param').value);
     const selectedValue = this.global.getGlobal('heatmatrix_value').value;
     const capitals = this.global.getGlobal('state_capitals').value.default;
@@ -626,6 +626,7 @@ export class HomeComponent implements AfterViewInit {
       this.net.drawChart(data, capitals, clicked, selectedParam != 77, dataType, services);
     }
 
+    this.net.removeHighlightHeatmatrix();
     this.net.highlightCompletedValues();
   }
 
@@ -687,7 +688,6 @@ export class HomeComponent implements AfterViewInit {
   //atualiza quando esta selecionada a opcao de n pops x n servicos
   async updateFunctionsCombinations(event: any) {
     //without zoom
-    console.log(event)
     this.spinner.show();
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
@@ -735,7 +735,6 @@ export class HomeComponent implements AfterViewInit {
   }
 
   adaptData(data: any, from: string, secondParam: number = 0) {
-    console.log(data)
     const adaptedValues: any[] = [];
     if(from == "functions") {
       for(let i = 0; i < data.length; i++) {
@@ -752,18 +751,6 @@ export class HomeComponent implements AfterViewInit {
     }
     const totalData = [adaptedValues];
     return totalData;
-  }
-
-  onAreaSelected(indices: number[]) {
-    if(indices.length > 0) {
-        this.net.highlightHeatmatrix(indices);
-    } else {
-      this.net.removeHighlightHeatmatrix();
-    }
-  }
-
-  onHighlightRemoved() {
-    this.net.removeHighlightHeatmatrix();
   }
 
   onClientsSet(event: any) {

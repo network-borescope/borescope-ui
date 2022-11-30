@@ -66,7 +66,6 @@ export class Functionschart {
                 labelColor: function(context) {
                   const index = context.dataIndex;
                   const data = context.dataset.data;
-                  console.log(data)
                   //@ts-ignore
                   const borderColor: string = context.dataset.borderColor;
                   //@ts-ignore
@@ -178,7 +177,6 @@ export class Functionschart {
   
     updateCombinations(data: any, selectedParam: string, colorList: any) {
       const datasets = this.chart.config.data.datasets;
-      console.log(data)
 
       for(let i = 0; i < data.length; i++) {
         const newData = {
