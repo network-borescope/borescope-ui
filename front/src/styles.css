@@ -227,3 +227,6 @@ html, body {
     padding: 4px 8px !important;
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

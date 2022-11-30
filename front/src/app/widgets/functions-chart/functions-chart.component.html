@@ -1,5 +1,5 @@
 <div>
-    <div class="fill functions-chart">
+    <div class="fill functions-chart" [style.display]="this.lineChartsVisibility">
         <canvas style="padding-bottom: 10px; width: 100%; height: 100% !important;" #functionsChart></canvas>
     </div>
     <div style="display: flex; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
@@ -9,6 +9,7 @@
                 <option value="pdf">PDF</option>
                 <option value="ccdf">CCDF</option>
                 <option value="timeseries">Time series</option>
+                <option value="table">Confusion Matrix</option>
             </select>
         </div>
         <div class="code-select" [style.margin-right]="this.isCapitalSelected() ? '-30px' : '0px'">

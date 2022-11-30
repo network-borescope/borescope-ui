@@ -59,8 +59,9 @@ export class FunctionsChartComponent implements OnInit {
   public hasData = false;
   private combinedData: any = [];
   public combinedSelections: any = [];
-
-
+  public tableVisibility = "none";
+  public lineChartsVisibility = "block";
+  
   ngOnInit(): void {
     this.functionsChart = new Functionschart(this.functionsDiv.nativeElement);
     this.setMultipleSelectConfiguration();
@@ -94,6 +95,8 @@ export class FunctionsChartComponent implements OnInit {
       key: "functions_param",
       value: event.target.value
     };
+    this.lineChartsVisibility = "block";
+    (selectedParam == "table") ? this.tableVisibility = "block" : this.tableVisibility = "none";
     (selectedParam == "timeseries") ? this.clearSeries() : this.functionsChart.clear();
     this.global.setGlobal(functions_param);
     this.isTimeSeriesSelected() ? this.selectionLimit = 30 : this.selectionLimit = 10;
@@ -105,6 +108,9 @@ export class FunctionsChartComponent implements OnInit {
       this.clearSeries()
       this.setMultipleSelectConfiguration();
       this.setCombinedMultipleSelectConfiguration();
+    } else if(selectedParam == "table") {
+      this.clearSeries();
+      this.lineChartsVisibility = "none";
     } else {
       this.functionsValueChanged.emit();
     }

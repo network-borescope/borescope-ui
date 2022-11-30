@@ -121,5 +121,27 @@ export class TimeseriesRequest {
     this['end'] = 1652227080;
     this['model'] = "cdf";
   }
+
+}
+
+/**
+ * Table Request Class
+ */
+export class TableRequest {
+  'what': string;
+  'band': string;
+  'start': number;
+  'end': number;
+  'model': string;
+  'pop': number;
+  'id_pop': number;
+
+  constructor() {
+    this['what'] = "measures";
+    this['band'] = "bbr";
+    this['start'] = 1647388800;
+    this['end'] = 1652227080;
+    this['model'] = "_";    
+  }
 }
 

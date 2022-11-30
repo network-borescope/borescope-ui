@@ -23,6 +23,7 @@ import { NetworkComponent } from './widgets/network/network.component';
 import { TimeBarComponent } from './bars/time-bar/time-bar.component';
 import { FunctionsChartComponent } from './widgets/functions-chart/functions-chart.component';
 
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { FunctionsChartComponent } from './widgets/functions-chart/functions-cha
     BrowserAnimationsModule,
     NgxSpinnerModule,
     NgMultiSelectDropDownModule.forRoot(),
+    MatTableModule
   ],
   providers: [
     AppInitService,

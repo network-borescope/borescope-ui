@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 import { GlobalService } from './global.service';
 import { UtilService } from './util.service';
 
-import { BoundsRequest, QueryRequest, SchemaRequest, MatrixRequest, FunctionsRequest, TimeseriesRequest } from 'src/app/shared/api.models';
+import { BoundsRequest, QueryRequest, SchemaRequest, MatrixRequest, FunctionsRequest, TimeseriesRequest, TableRequest } from 'src/app/shared/api.models';
 
 @Injectable({
   providedIn: 'root'
@@ -384,6 +384,38 @@ export class ApiService {
     query['start'] = t0;
     query['end'] = t1;
     this.utils.showTrace("requestFunctions", query);
+
+    // post header
+    const headers = {
+      'Content-Type': 'application/json',
+      'dataType': 'json'
+    };
+
+    // Return a new promise.
+    const response = await fetch(this.xhttp_url + '2', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(query),
+    });
+
+    return await response.json();
+  }
+
+  async requestTable(band: string, model: string, t0: number, t1: number, pop: number = -1, idPop: number = -1) {
+    let query = new TableRequest();
+
+    query['what'] = "measures";
+    query['band'] = band;
+    query['model'] = model;
+    query['start'] = t0;
+    query['end'] = t1;
+
+    if(pop > -1) {
+      query['pop'] = pop;
+      if(idPop > -1) query['id_pop']
+    }
+
+    this.utils.showTrace("requestTable", query);
 
     // post header
     const headers = {
