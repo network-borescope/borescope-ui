@@ -61,7 +61,7 @@ export class FunctionsChartComponent implements OnInit {
   public combinedSelections: any = [];
   public tableVisibility = "none";
   public lineChartsVisibility = "block";
-  
+
   ngOnInit(): void {
     this.functionsChart = new Functionschart(this.functionsDiv.nativeElement);
     this.setMultipleSelectConfiguration();
@@ -96,7 +96,7 @@ export class FunctionsChartComponent implements OnInit {
       value: event.target.value
     };
     this.lineChartsVisibility = "block";
-    (selectedParam == "table") ? this.tableVisibility = "block" : this.tableVisibility = "none";
+    (event.target.value == "table") ? this.tableVisibility = "block" : this.tableVisibility = "none";
     (selectedParam == "timeseries") ? this.clearSeries() : this.functionsChart.clear();
     this.global.setGlobal(functions_param);
     this.isTimeSeriesSelected() ? this.selectionLimit = 30 : this.selectionLimit = 10;
@@ -108,7 +108,7 @@ export class FunctionsChartComponent implements OnInit {
       this.clearSeries()
       this.setMultipleSelectConfiguration();
       this.setCombinedMultipleSelectConfiguration();
-    } else if(selectedParam == "table") {
+    } else if(event.target.value == "table") {
       this.clearSeries();
       this.lineChartsVisibility = "none";
     } else {
@@ -319,6 +319,10 @@ export class FunctionsChartComponent implements OnInit {
     return (this.global.getGlobal('functions_param').value == 'timeseries');
   }
 
+  isTableSelected() {
+    return (this.global.getGlobal('functions_param').value == 'table');
+  }
+  
   isPopSelected() {
     const dataType = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
     return dataType == 'popxpop';

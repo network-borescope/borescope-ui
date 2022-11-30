@@ -17,7 +17,7 @@
                 <option value="popxpop">Pop x Pop</option>
                 <option value="popxservice">Pop x Serviços</option>
             </select>
-            <select *ngIf="!this.isCapitalSelected() && !this.isTimeSeriesSelected()" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onValueChange($event)">
+            <select *ngIf="!this.isCapitalSelected() && !this.isTimeSeriesSelected() && !this.isTableSelected()" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onValueChange($event)">
                 <option value="all" selected>Todos os pops x todos os serviços</option>
                 <option value="allpops">Todos os pops x serviço</option>
                 <option value="nxn">N pops x N serviços</option>
@@ -25,6 +25,11 @@
             <select *ngIf="this.isCapitalSelected()  && !this.isTimeSeriesSelected()" id='functions-chart-select-value-options' name="select" class="value-selector" style="width:133px;" (change)="this.onValueChange($event)">
                 <option value="allservices" selected>Pop x todos os serviços</option>
                 <option value="single">Pop x serviço</option>
+            </select>
+            <select *ngIf="this.isTableSelected()" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onValueChange($event)">
+                <option value="all" selected>Todos os pops x todos os pops</option>
+                <option value="1xn">Todos os pops x Pop</option>
+                <option value="nxn">Pop x Pop</option>
             </select>  
         </div>
         <div *ngIf="this.isTimeSeriesSelected() && this.isPopSelected()" id="code-select-box" class="code-select" [style.margin-left]="!this.hasData ? '-64px' : '-42px'">
@@ -60,6 +65,12 @@
                     <option value="132">Packet-trace (min)</option>
                     <option value="133">Packet-trace (max)</option>
                 </optgroup>
+            </select>
+        </div>
+        <div *ngIf="this.isTableSelected()" id="code-select-box" class="code-select" style="margin-left: 4px; width: 78px;">
+            <select name="code" class="value-selector" id='functions-chart-select-timeseries-popxpop-value-options'>
+                <option value="bbr">BBR</option>
+                <option value="cubic">CUBIC</option>
             </select>
         </div>
         <div *ngIf="(this.shouldShowServices() && !this.isTimeSeriesSelected()) || (!this.isPopSelected() && this.isCapitalSelected() && this.isTimeSeriesSelected())" [style.margin-left]="(!this.isPopSelected() && this.isCapitalSelected()) ? '-50px' : '17px'" id="chart-select-box" class="chart-select">

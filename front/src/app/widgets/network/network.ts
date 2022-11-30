@@ -270,7 +270,6 @@ export class Network {
         indices.push(i);
       }
     }
-
     for(let i = 0; i < indices.length; i++) {
       this._svgGroup.select('[id="' + (indices[i]) + '"]')
       .attr("stroke", '#1F77B4')
