@@ -65,7 +65,7 @@ export class LineChart {
           li.style.display = 'flex';
           li.style.flexDirection = 'row';
           li.style.marginLeft = '10px';
-          li.style.marginBottom = '10px';
+          li.style.marginBottom = '6px';
 
           li.onclick = () => {
             const {type} = chart.config;
@@ -242,7 +242,7 @@ export class LineChart {
     const datasets = this.chart.config.data.datasets;
     let label = "";
     if(name) {
-      label = dataId + " (" + name + ")" 
+      label = name
     } else {
       label = dataId
     };
