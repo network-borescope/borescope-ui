@@ -401,7 +401,7 @@ export class ApiService {
     return await response.json();
   }
 
-  async requestTable(band: string, model: string, t0: number, t1: number, pop: number = -1, idPop: number = -1) {
+  async requestTable(band: string, model: string, t0: number, t1: number, pop: number, idPop: number) {
     let query = new TableRequest();
 
     query['what'] = "measures";

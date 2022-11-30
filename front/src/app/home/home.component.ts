@@ -753,6 +753,14 @@ export class HomeComponent implements AfterViewInit {
     return totalData;
   }
 
+  async updateTable(band: string, model: string, pop: number = -1, idPop: number = -1) {
+    const tsT0 = this.global.getGlobal("t0_vis").value;
+    const tsT1 = this.global.getGlobal("t1_vis").value;
+    const bandValue = band;
+    const modelValue = model;
+    const res = await this.api.requestTable(bandValue, modelValue, tsT0, tsT1, pop, idPop);
+  }
+
   onClientsSet(event: any) {
     if(event == 'add') {
       const clicked = this.global.getGlobal("clicked_element").value;
