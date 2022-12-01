@@ -1,7 +1,23 @@
 <div>
-    <div class="fill functions-chart" [style.display]="this.lineChartsVisibility">
-        <canvas style="padding-bottom: 10px; width: 100%; height: 100% !important;" #functionsChart></canvas>
+    <div class="fill functions-chart">
+        <canvas style="padding-bottom: 10px; width: 100%; height: 100% !important;" [style.display]="this.lineChartsVisibility" #functionsChart></canvas>
+        <table mat-table [dataSource]="tableElements" class="mat-elevation-z8" [style.display]="this.tableVisibility">
+            <ng-container matColumnDef="metric">
+                <th mat-header-cell *matHeaderCellDef> Metrics </th>
+                <td mat-cell *matCellDef="let element"> {{element.metric}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef> Values </th>
+              <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
     </div>
+
+      
     <div style="display: flex; padding-bottom: 7px; width: 100%; border-top: 1px solid #eee; left: 10px; font-size: 11px !important;">
         <div class="model-select">
             <select name="select" class="param-selector" (change)="this.onParamChange($event)" id='functions-chart-options'>
@@ -26,10 +42,10 @@
                 <option value="allservices" selected>Pop x todos os serviços</option>
                 <option value="single">Pop x serviço</option>
             </select>
-            <select *ngIf="this.isTableSelected()" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onValueChange($event)">
+            <select *ngIf="this.isTableSelected()" id='functions-chart-select-value-options' name="select" class="value-selector" (change)="this.onTableOptionChange($event)">
                 <option value="all" selected>Todos os pops x todos os pops</option>
                 <option value="1xn">Todos os pops x Pop</option>
-                <option value="nxn">Pop x Pop</option>
+                <option value="npopxnpop">Pop x Pop</option>
             </select>  
         </div>
         <div *ngIf="this.isTimeSeriesSelected() && this.isPopSelected()" id="code-select-box" class="code-select" [style.margin-left]="!this.hasData ? '-64px' : '-42px'">
@@ -68,9 +84,16 @@
             </select>
         </div>
         <div *ngIf="this.isTableSelected()" id="code-select-box" class="code-select" style="margin-left: 4px; width: 78px;">
-            <select name="code" class="value-selector" id='functions-chart-select-timeseries-popxpop-value-options'>
+            <select name="code" class="value-selector" id='functions-chart-select-timeseries-popxpop-value-options' (change)="this.onTableParamChange($event)">
                 <option value="bbr">BBR</option>
                 <option value="cubic">CUBIC</option>
+            </select>
+        </div>
+        <div *ngIf="this.isTableSelected()" id="code-select-box" class="code-select" style="margin-left: 4px; width: 78px;">
+            <select name="code" class="value-selector" id='functions-chart-select-timeseries-popxpop-value-options' (change)="this.onTableModelChange($event)">
+                <option value="knn">KNN</option>
+                <option value="svm">SVM</option>
+                <option value="tree">Decision Tree</option>
             </select>
         </div>
         <div *ngIf="(this.shouldShowServices() && !this.isTimeSeriesSelected()) || (!this.isPopSelected() && this.isCapitalSelected() && this.isTimeSeriesSelected())" [style.margin-left]="(!this.isPopSelected() && this.isCapitalSelected()) ? '-50px' : '17px'" id="chart-select-box" class="chart-select">
@@ -84,7 +107,7 @@
             (onDeSelect)="this.onItemSelect($event, false)">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="(this.isCapitalSelected() && this.isTimeSeriesSelected() && this.isPopSelected())" id="chart-select-box" class="chart-select">
+        <div *ngIf="(this.isCapitalSelected() && this.isTimeSeriesSelected() && this.isPopSelected()) || (this.isTableSelected() && ((tableOption === '1xn') || (tableOption === 'npopxnpop')))" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectPopsPlaceholder"
@@ -95,7 +118,7 @@
             (onDeSelect)="this.onItemSelect($event, false)">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="this.shouldShowMultiSelectors() && !this.isCapitalSelected()" [style.margin-left]="this.isPopSelected() ? '17px' : '64px'"  id="chart-select-box" class="chart-select">
+        <div *ngIf="(this.shouldShowMultiSelectors() && !this.isCapitalSelected())" [style.margin-left]="this.isPopSelected() ? '17px' : '64px'"  id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectPopsPlaceholder"
@@ -106,7 +129,7 @@
             (onDeSelect)="this.onCombinedSelect($event, 'pop', false)">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="this.isPopSelected() && !this.isCapitalSelected()" id="chart-select-box" class="chart-select">
+        <div *ngIf="(this.isPopSelected() && !this.isCapitalSelected())  ||  (this.isTableSelected() && (tableOption === 'npopxnpop'))" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectPopsPlaceholder"

@@ -58,7 +58,7 @@ export class HomeComponent implements AfterViewInit {
   ngOnInit(): void {
     const line_selected_params_value = this.global.getGlobal('line_selected_params_value');
     line_selected_params_value.value = 'avg_in';
-    this.global.setGlobal(line_selected_params_value)
+    this.global.setGlobal(line_selected_params_value);
   }
 
   ngDestroy() {
@@ -753,12 +753,17 @@ export class HomeComponent implements AfterViewInit {
     return totalData;
   }
 
-  async updateTable(band: string, model: string, pop: number = -1, idPop: number = -1) {
+  async updateTable(event: any) {
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
-    const bandValue = band;
-    const modelValue = model;
-    const res = await this.api.requestTable(bandValue, modelValue, tsT0, tsT1, pop, idPop);
+    const option = this.global.getGlobal("table_option").value;
+    const param = this.global.getGlobal("table_param").value;
+    const model = this.global.getGlobal("table_model").value;
+    const res = await this.api.requestTable(param, model, tsT0, tsT1, -1, -1);
+    console.log(res)
+    for(let i = 0; i < this.func.tableElements.length; i++) {
+      this.func.tableElements[i].values = res[i];
+    }
   }
 
   onClientsSet(event: any) {

@@ -19,7 +19,8 @@ export class FunctionsChartComponent implements OnInit {
   @Output() functionsValueChanged = new EventEmitter<any>();
   @Output() onItemSelected = new EventEmitter<any>();
   @Output() onCombinedChange = new EventEmitter<any>();
-
+  @Output() onTableUpdate = new EventEmitter();
+ 
   constructor(public global: GlobalService, public util: UtilService) { }
 
   private selectedServices: any[] = [];
@@ -61,8 +62,26 @@ export class FunctionsChartComponent implements OnInit {
   public combinedSelections: any = [];
   public tableVisibility = "none";
   public lineChartsVisibility = "block";
+  public tableOption = "all";
+  public tableParam = "bbr"
+  public tableElements: any = [];
+  public displayedColumns: string[] = ['metric', 'value'];
+  public tableMetrics = ['Acurácia',
+                         'Precision micro',
+                         'Precision macro',
+                         'Precision weighted',
+                         'Recall micro',
+                         'Recall macro',
+                         'Recall weighted',
+                         'F1 score micro',
+                         'F1 score macro',
+                         'F1 score weighted']
 
   ngOnInit(): void {
+    for(let i = 0; i < this.tableMetrics.length; i++) {
+      this.tableElements.push({metric: this.tableMetrics[i], value: 0})
+    }
+    console.log(this.tableElements)
     this.functionsChart = new Functionschart(this.functionsDiv.nativeElement);
     this.setMultipleSelectConfiguration();
     this.functionsChart.setCapitals(this.global.getGlobal('state_capitals').value.default);
@@ -95,8 +114,7 @@ export class FunctionsChartComponent implements OnInit {
       key: "functions_param",
       value: event.target.value
     };
-    this.lineChartsVisibility = "block";
-    (event.target.value == "table") ? this.tableVisibility = "block" : this.tableVisibility = "none";
+    this.resetTableConfig();
     (selectedParam == "timeseries") ? this.clearSeries() : this.functionsChart.clear();
     this.global.setGlobal(functions_param);
     this.isTimeSeriesSelected() ? this.selectionLimit = 30 : this.selectionLimit = 10;
@@ -110,7 +128,9 @@ export class FunctionsChartComponent implements OnInit {
       this.setCombinedMultipleSelectConfiguration();
     } else if(event.target.value == "table") {
       this.clearSeries();
+      this.tableVisibility = "block"
       this.lineChartsVisibility = "none";
+      this.onTableUpdate.emit();
     } else {
       this.functionsValueChanged.emit();
     }
@@ -390,5 +410,47 @@ export class FunctionsChartComponent implements OnInit {
 
   flag() {
     return this.global.getGlobal("flag_timeseries").value > 0;
+  }
+
+  onTableOptionChange(event: any) {
+    const option = this.global.getGlobal("table_option");
+    option.value = event.target.value;
+    this.tableOption = event.target.value;
+    this.global.setGlobal(option);
+  }
+
+  onTableParamChange(event: any) {
+    const param = this.global.getGlobal("table_param");
+    param.value = event.target.value;
+    this.tableParam = event.target.value;
+    this.global.setGlobal(param);
+  }
+
+  onTableModelChange(event: any) {
+    const model = this.global.getGlobal("table_model");
+    model.value = event.target.value;
+    this.global.setGlobal(model);
+  }
+
+  resetTableConfig() {
+    this.lineChartsVisibility = "block";
+    this.tableVisibility = "none";
+    const table_option = {
+      key: "table_option",
+      value: 'all'
+    };
+    this.global.setGlobal(table_option);
+
+    const table_model = {
+      key: "table_model",
+      value: 'knn'
+    };
+    this.global.setGlobal(table_model);
+
+    const table_param = {
+      key: "table_param",
+      value: "bbr"
+    };
+    this.global.setGlobal(table_param);
   }
 }

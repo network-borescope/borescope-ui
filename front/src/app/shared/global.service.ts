@@ -377,7 +377,32 @@ export class GlobalService {
       value: 1
     }
     this.setGlobal(flag_timeseries);
+
+
+    /**
+     * valores necessarios para table
+     */
+
+    const table_option = {
+      key: "table_option",
+      value: 'all'
+    };
+    this.setGlobal(table_option);
+
+    const table_model = {
+      key: "table_model",
+      value: 'knn'
+    };
+    this.setGlobal(table_model);
+
+    const table_param = {
+      key: "table_param",
+      value: "all"
+    };
+    this.setGlobal(table_param);
   }
+
+
 
   /**
    * Recupera a variavél global gravada na sessão.

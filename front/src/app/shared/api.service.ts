@@ -414,7 +414,7 @@ export class ApiService {
       query['pop'] = pop;
       if(idPop > -1) query['id_pop']
     }
-
+    console.log(query)
     this.utils.showTrace("requestTable", query);
 
     // post header
