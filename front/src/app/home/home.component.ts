@@ -648,7 +648,6 @@ export class HomeComponent implements AfterViewInit {
 
   //atualiza quando selecionado um servico individualmente
   async updateFunctionsChartService(event: any) {
-    console.log(event)
     this.spinner.show();
     let tsT0 = this.global.getGlobal("t0_vis").value;
     let tsT1 = this.global.getGlobal("t1_vis").value;
@@ -754,16 +753,20 @@ export class HomeComponent implements AfterViewInit {
   }
 
   async updateTable(event: any) {
+    this.spinner.show();
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
     const option = this.global.getGlobal("table_option").value;
     const param = this.global.getGlobal("table_param").value;
     const model = this.global.getGlobal("table_model").value;
-    const res = await this.api.requestTable(param, model, tsT0, tsT1, -1, -1);
-    console.log(res)
-    for(let i = 0; i < this.func.tableElements.length; i++) {
-      this.func.tableElements[i].values = res[i];
+    if(option == "all") {
+      const res = await this.api.requestTable(param, model, tsT0, tsT1, -1, -1);
+      const data = JSON.parse(res).result;
+      for(let i = 0; i < this.func.tableElements.length; i++) {
+        this.func.tableElements[i].value = parseFloat(data[i]).toFixed(3);
+      }
     }
+    this.spinner.hide();
   }
 
   onClientsSet(event: any) {

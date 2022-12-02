@@ -69,6 +69,20 @@
  font-size: 9px;
 }
 
+.mat-table {
+    width: 100%;
+    min-height: 200px;
+    max-height: 400px;
+}
+
+tr.mat-header-row {
+    height: 36px;
+}
+
+tr.mat-row, tr.mat-footer-row {
+    height: 36px;
+}
+
 @media screen and (min-width: 1024px) {
 
     .chart-select {

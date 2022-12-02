@@ -397,9 +397,10 @@ export class GlobalService {
 
     const table_param = {
       key: "table_param",
-      value: "all"
+      value: "cubic"
     };
     this.setGlobal(table_param);
+    console.log(table_param)
   }
 
 

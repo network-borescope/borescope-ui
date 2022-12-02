@@ -138,7 +138,7 @@ export class TableRequest {
 
   constructor() {
     this['what'] = "measures";
-    this['band'] = "bbr";
+    this['band'] = "cubic";
     this['start'] = 1647388800;
     this['end'] = 1652227080;
     this['model'] = "_";    

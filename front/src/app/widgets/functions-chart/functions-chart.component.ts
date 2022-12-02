@@ -63,7 +63,7 @@ export class FunctionsChartComponent implements OnInit {
   public tableVisibility = "none";
   public lineChartsVisibility = "block";
   public tableOption = "all";
-  public tableParam = "bbr"
+  public tableParam = "cubic"
   public tableElements: any = [];
   public displayedColumns: string[] = ['metric', 'value'];
   public tableMetrics = ['Acurácia',
@@ -79,7 +79,7 @@ export class FunctionsChartComponent implements OnInit {
 
   ngOnInit(): void {
     for(let i = 0; i < this.tableMetrics.length; i++) {
-      this.tableElements.push({metric: this.tableMetrics[i], value: 0})
+      this.tableElements.push({metric: this.tableMetrics[i], value: null})
     }
     console.log(this.tableElements)
     this.functionsChart = new Functionschart(this.functionsDiv.nativeElement);
@@ -128,7 +128,7 @@ export class FunctionsChartComponent implements OnInit {
       this.setCombinedMultipleSelectConfiguration();
     } else if(event.target.value == "table") {
       this.clearSeries();
-      this.tableVisibility = "block"
+      this.tableVisibility = "table"
       this.lineChartsVisibility = "none";
       this.onTableUpdate.emit();
     } else {
@@ -413,6 +413,9 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   onTableOptionChange(event: any) {
+    for(let i = 0; i < this.tableElements.length; i++) {
+      this.tableElements[i].value = null;
+    };
     const option = this.global.getGlobal("table_option");
     option.value = event.target.value;
     this.tableOption = event.target.value;
@@ -433,6 +436,9 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   resetTableConfig() {
+    for(let i = 0; i < this.tableElements.length; i++) {
+      this.tableElements[i].value = null;
+    }
     this.lineChartsVisibility = "block";
     this.tableVisibility = "none";
     const table_option = {
@@ -449,7 +455,7 @@ export class FunctionsChartComponent implements OnInit {
 
     const table_param = {
       key: "table_param",
-      value: "bbr"
+      value: "cubic"
     };
     this.global.setGlobal(table_param);
   }
