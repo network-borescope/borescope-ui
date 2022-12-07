@@ -93,7 +93,7 @@
             <select name="code" class="value-selector" id='functions-chart-select-timeseries-popxpop-value-options' (change)="this.onTableModelChange($event)">
                 <option value="knn">KNN</option>
                 <option value="svm">SVM</option>
-                <option value="tree">Decision Tree</option>
+                <option value="decisionTree">Decision Tree</option>
             </select>
         </div>
         <div *ngIf="(this.shouldShowServices() && !this.isTimeSeriesSelected()) || (!this.isPopSelected() && this.isCapitalSelected() && this.isTimeSeriesSelected())" [style.margin-left]="(!this.isPopSelected() && this.isCapitalSelected()) ? '-50px' : '17px'" id="chart-select-box" class="chart-select">

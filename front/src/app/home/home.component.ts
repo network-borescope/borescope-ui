@@ -784,6 +784,7 @@ export class HomeComponent implements AfterViewInit {
         this.func.tableElements[i].value = parseFloat(data[i]).toFixed(3);
       }
     }
+    console.log(data)
     this.spinner.hide();
   }
 
