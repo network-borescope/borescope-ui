@@ -83,7 +83,7 @@
                 </optgroup>
             </select>
         </div>    
-        <div *ngIf="this.isTableSelected()" id="code-select-box" class="code-select" style="margin-left: -25px; width: 70px;">
+        <div *ngIf="this.isTableSelected()" id="code-select-box" class="code-select" style="margin-left: -15px; width: 70px;">
             <select name="code" class="value-selector" id='functions-chart-select-timeseries-popxpop-value-options' (change)="this.onTableParamChange($event)">
                 <option value="cubic">CUBIC</option>
                 <option value="bbr">BBR</option>
@@ -107,7 +107,7 @@
             (onDeSelect)="this.onItemSelect($event, false)">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="(this.isCapitalSelected() && this.isTimeSeriesSelected() && this.isPopSelected())" id="chart-select-box" class="chart-select">
+        <div *ngIf="(this.isCapitalSelected() && this.isTimeSeriesSelected() && this.isPopSelected()) || (this.isTableSelected() && this.isOneToN())" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectPopsPlaceholder"
@@ -118,7 +118,7 @@
             (onDeSelect)="this.onItemSelect($event, false)">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="(this.shouldShowMultiSelectors() && !this.isCapitalSelected())" [style.margin-left]="this.isPopSelected() ? '17px' : '64px'"  id="chart-select-box" class="chart-select">
+        <div *ngIf="(this.shouldShowMultiSelectors() && !this.isCapitalSelected()) || (this.isTableSelected() && this.isNToN())" [style.margin-left]="this.isPopSelected() ? '17px' : '64px'"  id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectPopsPlaceholder"
@@ -129,7 +129,7 @@
             (onDeSelect)="this.onCombinedSelect($event, 'pop', false)">
             </ng-multiselect-dropdown>
         </div>
-        <div *ngIf="(this.isPopSelected() && !this.isCapitalSelected())" id="chart-select-box" class="chart-select">
+        <div *ngIf="(this.isPopSelected() && !this.isCapitalSelected())  || (this.isTableSelected() && this.isNToN())" id="chart-select-box" class="chart-select">
             <ng-multiselect-dropdown class="custom-font-size custom-radius custom-dropdown custom-dropdown-place custom-dropdown-rotation "
             [disabled]="false"
             [placeholder]="this.multiSelectPopsPlaceholder"

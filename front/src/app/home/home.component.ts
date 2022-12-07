@@ -754,14 +754,32 @@ export class HomeComponent implements AfterViewInit {
 
   async updateTable(event: any) {
     this.spinner.show();
+    console.log(event)
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
     const option = this.global.getGlobal("table_option").value;
     const param = this.global.getGlobal("table_param").value;
     const model = this.global.getGlobal("table_model").value;
+    let data;
     if(option == "all") {
       const res = await this.api.requestTable(param, model, tsT0, tsT1, -1, -1);
-      const data = JSON.parse(res).result;
+      data = JSON.parse(res).result;
+    } else if(option == "1xn") {
+      if(event.length !== 0) {
+        const res = await this.api.requestTable(param, model, tsT0, tsT1, event[0], -1);
+        data = JSON.parse(res).result;
+      } 
+    } else {
+      if(event.length !== 0) {
+        const res = await this.api.requestTable(param, model, tsT0, tsT1, event[0], event[1]);
+        data = JSON.parse(res).result;
+      } 
+    }
+    if (typeof data === 'string' || data instanceof String) {
+      for(let i = 0; i < this.func.tableElements.length; i++) {
+        this.func.tableElements[i].value = null;
+      }  
+    } else {
       for(let i = 0; i < this.func.tableElements.length; i++) {
         this.func.tableElements[i].value = parseFloat(data[i]).toFixed(3);
       }

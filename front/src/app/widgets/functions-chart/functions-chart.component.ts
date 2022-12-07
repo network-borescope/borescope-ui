@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { thresholdFreedmanDiaconis } from 'd3';
 
@@ -76,6 +77,8 @@ export class FunctionsChartComponent implements OnInit {
                          'F1 score micro',
                          'F1 score macro',
                          'F1 score weighted']
+  private tableFirstPop = -1;
+  private tableSecondPop = -1;
 
   ngOnInit(): void {
     for(let i = 0; i < this.tableMetrics.length; i++) {
@@ -114,6 +117,7 @@ export class FunctionsChartComponent implements OnInit {
       key: "functions_param",
       value: event.target.value
     };
+    this.dropdownSettingsPops.singleSelection = false;
     this.resetTableConfig();
     (selectedParam == "timeseries") ? this.clearSeries() : this.functionsChart.clear();
     this.global.setGlobal(functions_param);
@@ -130,6 +134,7 @@ export class FunctionsChartComponent implements OnInit {
       this.clearSeries();
       this.tableVisibility = "table"
       this.lineChartsVisibility = "none";
+      this.setMultipleSelectConfiguration();
       this.onTableUpdate.emit();
     } else {
       this.functionsValueChanged.emit();
@@ -152,31 +157,51 @@ export class FunctionsChartComponent implements OnInit {
   }
 
   onItemSelect(event: any, added: boolean) {
-    if(this.selectedItems.includes(event.cod)) {
-      const index = this.selectedItems.indexOf(event.cod);
-      this.selectedItems = this.selectedItems.filter((e:any) => e !== event.cod);
-      this.updateUsedColors(false, this.usedColors[index]);
+    if(this.isOneToN() && this.isTableSelected) {
+      this.selectedItems[0] = event.cod;
+      this.onTableUpdate.emit(this.selectedItems);
     } else {
-      this.selectedItems.push(event.cod);
-    };
-    this.onItemSelected.emit(this.selectedItems);
+      if(this.selectedItems.includes(event.cod)) {
+        const index = this.selectedItems.indexOf(event.cod);
+        this.selectedItems = this.selectedItems.filter((e:any) => e !== event.cod);
+        this.updateUsedColors(false, this.usedColors[index]);
+      } else {
+        this.selectedItems.push(event.cod);
+      };
+      this.onItemSelected.emit(this.selectedItems);
+    }
   }
 
   onCombinedSelect(event: any, from: string, added: boolean) {
-    if(from == 'pop') {
-      if (added) {
-        this.combinedSelection.pops.push(event.cod);
+    if(this.isNToN() && this.isTableSelected) {
+      if(from == 'pop') {
+        this.tableFirstPop = event.cod;
       } else {
-        const index = this.combinedSelection.pops.indexOf(event.cod);
-        this.combinedSelection.pops.splice(index, 1);
-      }  
+        this.tableSecondPop = event.cod;
+      }
+      if(this.tableFirstPop > -1 && this.tableSecondPop > -1) {
+        this.onTableUpdate.emit([this.tableFirstPop, this.tableSecondPop]);
+      } else {
+        for(let i = 0; i < this.tableElements.length; i++) {
+          this.tableElements[i].value = null;
+        }
+      }
     } else {
-      if (added) {
-        this.combinedSelection.services.push(event.cod);
+      if(from == 'pop') {
+        if (added) {
+          this.combinedSelection.pops.push(event.cod);
+        } else {
+          const index = this.combinedSelection.pops.indexOf(event.cod);
+          this.combinedSelection.pops.splice(index, 1);
+        }  
       } else {
-        const index = this.combinedSelection.services.indexOf(event.cod);
-        this.combinedSelection.services.splice(index, 1);
-      }  
+        if (added) {
+          this.combinedSelection.services.push(event.cod);
+        } else {
+          const index = this.combinedSelection.services.indexOf(event.cod);
+          this.combinedSelection.services.splice(index, 1);
+        }  
+      }
     }
   }
 
@@ -242,7 +267,6 @@ export class FunctionsChartComponent implements OnInit {
 
   onTimeBoundsChange() {
     if(this.shouldShowServices() && !this.isTimeSeriesSelected()) {
-      console.log('alo')
       this.onItemSelected.emit(this.selectedItems)
     } else if(!this.shouldShowServices() && this.hasData) {
       this.onCombinedChange.emit(this.combinedData);
@@ -288,7 +312,7 @@ export class FunctionsChartComponent implements OnInit {
     //setando as configuracoes do multiselect p pops
     const capitals = this.global.getGlobal("state_capitals").value.default;
     this.multiSelectPopsPlaceholder = 'Estados';
-    if(!this.isTimeSeriesSelected()) this.dropdownListPops.push({estado:'TODOS POPS', cod:-1})
+    if(!this.isTimeSeriesSelected() && !this.isTableSelected()) this.dropdownListPops.push({estado:'TODOS POPS', cod:-1})
     for(let i = 0; i < capitals.length; i++) {
       let id = capitals[i].id.toUpperCase();
       let cod = capitals[i].cod;
@@ -298,7 +322,7 @@ export class FunctionsChartComponent implements OnInit {
       this.dropdownListPops.push(obj);
     };
     this.dropdownSettingsPops = {
-      singleSelection: false,
+      singleSelection: this.isTableSelected(),
       limitSelection: this.selectionLimit,
       idField: 'cod',
       textField: 'estado',
@@ -420,6 +444,17 @@ export class FunctionsChartComponent implements OnInit {
     option.value = event.target.value;
     this.tableOption = event.target.value;
     this.global.setGlobal(option);
+    this.selectedItems = [];
+    this.selectedItemsRoot = []; 
+    this.tableFirstPop = -1;
+    this.tableSecondPop = -1;
+    this.setMultipleSelectConfiguration();
+    if(this.tableOption == 'all') this.onTableUpdate.emit();
+    else {
+      for(let i = 0; i < this.tableElements.length; i++) {
+        this.tableElements[i].value = null;
+      }
+    };
   }
 
   onTableParamChange(event: any) {
@@ -427,12 +462,34 @@ export class FunctionsChartComponent implements OnInit {
     param.value = event.target.value;
     this.tableParam = event.target.value;
     this.global.setGlobal(param);
+    this.selectedItems = [];
+    this.selectedItemsRoot = []; 
+    this.tableFirstPop = -1;
+    this.tableSecondPop = -1;
+    this.setMultipleSelectConfiguration();
+    if(this.tableOption == 'all') this.onTableUpdate.emit();
+    else {
+      for(let i = 0; i < this.tableElements.length; i++) {
+        this.tableElements[i].value = null;
+      }
+    };
   }
 
   onTableModelChange(event: any) {
     const model = this.global.getGlobal("table_model");
     model.value = event.target.value;
     this.global.setGlobal(model);
+    this.selectedItems = [];
+    this.selectedItemsRoot = []; 
+    this.tableFirstPop = -1;
+    this.tableSecondPop = -1;
+    this.setMultipleSelectConfiguration();
+    if(this.tableOption == 'all') this.onTableUpdate.emit();
+    else {
+      for(let i = 0; i < this.tableElements.length; i++) {
+        this.tableElements[i].value = null;
+      }
+    };
   }
 
   resetTableConfig() {
@@ -458,5 +515,16 @@ export class FunctionsChartComponent implements OnInit {
       value: "cubic"
     };
     this.global.setGlobal(table_param);
+  }
+
+  isOneToN() {
+    const option = this.global.getGlobal("table_option");
+    return option.value == '1xn';
+  }
+
+
+  isNToN() {
+    const option = this.global.getGlobal("table_option");
+    return option.value == 'npopxnpop';
   }
 }

@@ -412,8 +412,9 @@ export class ApiService {
 
     if(pop > -1) {
       query['pop'] = pop;
-      if(idPop > -1) query['id_pop']
+      if(idPop > -1) query['id_pop'] = idPop;
     }
+    
     console.log(query)
     this.utils.showTrace("requestTable", query);
 
