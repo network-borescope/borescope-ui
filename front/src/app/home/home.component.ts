@@ -673,12 +673,12 @@ export class HomeComponent implements AfterViewInit {
           const data = res.timeSeries.result;
           lstmFlag = res.lstm1h;
           const adaptedData = this.adaptData(data, "timeseries");
-          selectedData[i] = [event[i],[adaptedData]];
+          selectedData[i] = [event[i],[adaptedData],lstmFlag];
         } else {
           const res = await this.api.requestTimeseries(10, "havg", tsT0, tsT1, clicked, event[i], "rnp_services");
           const data = res.result;
           const adaptedData = this.adaptData(data, "timeseries");
-          selectedData[i] = [event[i],[adaptedData]];
+          selectedData[i] = [event[i],[adaptedData],lstmFlag];
         }
       }
     }
@@ -713,7 +713,7 @@ export class HomeComponent implements AfterViewInit {
           data = res.result['0']['0'];
         }
         const adaptedData = this.adaptData(data, "functions");
-        selectedData[i] = [event[i],[adaptedData]];
+        selectedData[i] = [event[i],[adaptedData],lstmFlag];
       }
       else {
         let selectedValue;
@@ -728,8 +728,8 @@ export class HomeComponent implements AfterViewInit {
           data = res.result;
         }
         
-        const adaptedData = this.adaptData(data, "timeseries", secondaryId, lstmFlag);
-        selectedData[i] = [event[i],[adaptedData]];
+        const adaptedData = this.adaptData(data, "timeseries", secondaryId);
+        selectedData[i] = [event[i],[adaptedData],lstmFlag];
       }
     }
 
@@ -737,11 +737,11 @@ export class HomeComponent implements AfterViewInit {
     this.spinner.hide();
   }
 
-  adaptData(data: any, from: string, secondParam: number = 0, flag: any = null) {
+  adaptData(data: any, from: string, secondParam: number = 0) {
     const adaptedValues: any[] = [];
     if(from == "functions") {
       for(let i = 0; i < data.length; i++) {
-        adaptedValues.push({x: data[i][0], y: data[i][1], z: 0, flag})
+        adaptedValues.push({x: data[i][0], y: data[i][1], z: 0})
       }
     } else {
       for(let i = 0; i < data.length; i++) {
@@ -749,7 +749,7 @@ export class HomeComponent implements AfterViewInit {
         let date = new Date(data[i].k[0] * 1000);
         //@ts-ignore
         label = date.toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' }).split(', ')[0];
-        adaptedValues.push({x: label, y: data[i].v[0], z: data[i].v[1], flag});
+        adaptedValues.push({x: label, y: data[i].v[0], z: data[i].v[1]});
       }
     }
     const totalData = [adaptedValues];

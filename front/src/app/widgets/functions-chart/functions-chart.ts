@@ -13,7 +13,7 @@ export class Functionschart {
     private labels: any = null;
     private data: any = null;
     public isTimeSeries: boolean = false;
-
+    private popTitle: string = '';
     constructor(canvas: HTMLCanvasElement) {
       this.canvas = canvas;
       this.init();
@@ -30,7 +30,103 @@ export class Functionschart {
       //Registra os elementos utilizados pelo grafico
       Chart.register(PointElement, LineElement, LineController, CategoryScale, LinearScale, Legend, Tooltip);
       Chart.defaults.animation = false;
-  
+      //plugin da legend customizada
+      const getOrCreateLegendList = (chart: any, id: any) => {
+        const legendContainer = document.getElementById(id)!;
+        let listContainer = legendContainer.querySelector('ul');
+      
+        if (!listContainer) {
+          listContainer = document.createElement('ul');
+          listContainer.style.display = 'grid';
+          listContainer.style.flexDirection = 'row';
+          listContainer.style.margin = '0';
+          listContainer.style.padding = '0';
+      
+          legendContainer.appendChild(listContainer);
+        }
+      
+        return listContainer;
+      };
+      
+      const htmlLegendPlugin = {
+        id: 'htmlLegend',
+        afterUpdate(chart: any, args:any, options:any) {
+          if(self.isTimeSeries) {
+
+            const ul = getOrCreateLegendList(chart, options.containerID);
+            // Remove old legend items
+            while (ul.firstChild) {
+              ul.firstChild.remove();
+            }
+            
+            ul.style.padding = '6px 0px 0px 14px';
+            ul.style.marginBottom = '12px';
+            ul.style.display = 'flex';
+            ul.style.flexDirection = 'column';
+            // Reuse the built-in legendItems generator
+            const items = chart.options.plugins.legend.labels.generateLabels(chart);
+
+            
+            items.forEach((item: any) => {
+              const li = document.createElement('li');
+              li.style.alignItems = 'center';
+              li.style.cursor = 'pointer';
+              li.style.display = 'flex';
+              li.style.flexDirection = 'row';
+              li.style.marginLeft = '10px';
+              li.style.marginBottom = '6px';
+
+            li.onclick = () => {
+                const {type} = chart.config;
+                if (type === 'pie' || type === 'doughnut') {
+                  // Pie and doughnut charts only have a single dataset and visibility is per item
+                  chart.toggleDataVisibility(item.index);
+                } else {
+                  chart.setDatasetVisibility(item.datasetIndex, !chart.isDatasetVisible(item.datasetIndex));
+                }
+                chart.update();
+              };
+              const config = chart.config.data.datasets[item.datasetIndex]
+              // Color box
+              const boxSpan = document.createElement('span');
+              boxSpan.style.background = item.fillStyle;
+              boxSpan.style.borderColor = item.strokeStyle;
+              boxSpan.style.borderWidth = item.lineWidth + 'px';
+              boxSpan.style.display = 'inline-block';
+              boxSpan.style.height = '16px';
+              boxSpan.style.marginRight = '6px';
+              boxSpan.style.width = '16px';
+              
+              //Flag 
+              console.log(config.flagIcon)
+              console.log(config.flagColor)
+              const flagSpan = document.createElement('span');
+              flagSpan.style.display = 'inline-block';
+              flagSpan.className = config.flagIcon;
+              flagSpan.style.height = '16px';
+              flagSpan.style.marginRight = '3px';
+              flagSpan.style.width = '16px';
+              flagSpan.style.paddingTop = '2px';
+              flagSpan.style.color = config.flagColor;
+              // Text
+              const textContainer = document.createElement('p');
+              textContainer.style.color = item.fontColor;
+              textContainer.style.margin = '0';
+              textContainer.style.padding = '0';
+              textContainer.style.textDecoration = item.hidden ? 'line-through' : '';
+        
+              const text = document.createTextNode(`${self.popTitle}${item.text}`);
+              textContainer.appendChild(text);
+              
+              li.appendChild(flagSpan)
+              li.appendChild(boxSpan);
+              li.appendChild(textContainer);
+              ul.appendChild(li);
+            });
+          }
+
+        }
+      };
       this.chart = new Chart(this.canvas, {
         type: 'line',
         data: {
@@ -39,21 +135,13 @@ export class Functionschart {
         },
         options: {
           plugins: {
+            //@ts-ignore
+            htmlLegend: {
+              // ID of the container to put the legend in
+              containerID: 'legend-container-timeseries',
+            },
             legend: {
-              title: {
-                display: true,
-                text: '',
-                font: {
-                  size: 15
-                }
-              },
               display: true,
-              position: "top",
-              labels: {
-                font: {
-                  size: 15
-                } 
-              }
             },
             title: {
               display: true,
@@ -129,15 +217,22 @@ export class Functionschart {
               }
             }
           }
-        }
+        },
+        plugins: [htmlLegendPlugin],
       });
     }
   
   
     //Modifica as configurações globais para os títulos
     setTitle(param: string, id: number) {
-      if(id >= 0 ) this.chart.options.plugins.legend.title.text = `${param.toUpperCase()} ${this.getId(id, 'pop')}`; 
-      else this.chart.options.plugins.legend.title.text = `${param.toUpperCase()}`;
+      if(id >= 0 ) { 
+        this.chart.options.plugins.legend.title.text = `${param.toUpperCase()} ${this.getId(id, 'pop')}`; 
+        this.popTitle = this.getId(id, 'pop') + ' - ';
+      }
+      else { 
+        this.chart.options.plugins.legend.title.text = `${param.toUpperCase()}`;
+        this.popTitle = '';
+      }
     }
   
     setCapitals(capitals: any) {
@@ -151,6 +246,7 @@ export class Functionschart {
     updateData(data: any, colorList: any, param: string) {
       const selectedValue = (document.getElementById('functions-chart-select-value-options') as HTMLInputElement).value;
       let popOrService;
+      let flag = data[0][2];
       (selectedValue == "popxpop") ? popOrService = 'pop' : popOrService = 'service'
       const datasets = this.chart.config.data.datasets;
       for(let i = 0; i < data.length; i++) {
@@ -160,6 +256,8 @@ export class Functionschart {
           backgroundColor: colorList[i % 10],
           borderColor: colorList[i % 10],
           fill: false,
+          flagIcon: this.buildFlag(flag, 'icon'),
+          flagColor: this.buildFlag(flag, 'color'),
           segment: {
             borderColor: (ctx: any) => {
               if(data[i][1][0][0][ctx.p0DataIndex + 1].z > 0) {
@@ -177,6 +275,7 @@ export class Functionschart {
   
     updateCombinations(data: any, selectedParam: string, colorList: any) {
       const datasets = this.chart.config.data.datasets;
+      let flag = data[0][2];
 
       for(let i = 0; i < data.length; i++) {
         const newData = {
@@ -185,6 +284,8 @@ export class Functionschart {
           backgroundColor: colorList[i % 10],
           borderColor: colorList[i % 10],
           fill: false,
+          flagIcon: this.buildFlag(flag, 'icon'),
+          flagColor: this.buildFlag(flag, 'color'),
           segment: {
             borderColor: (ctx: any) => {
               if(data[i][1][0][0][ctx.p0DataIndex + 1].z > 0) {
@@ -199,6 +300,18 @@ export class Functionschart {
         
       }
       this.chart.update();
+    }
+
+    buildFlag(flag: any, from: string) {
+      if(from == 'icon') {
+        if(flag == null) return '';
+        if(flag == 0) return 'fas fa-arrow-circle-down fa-lg';
+        else return 'fas fa-arrow-circle-up fa-lg';
+      } else {
+        if(flag == null) return '';
+        if(flag == 0) return '#FF0000';
+        else return '#4AB70F';
+      }
     }
 
     getRandomColor() {
@@ -224,10 +337,12 @@ export class Functionschart {
     setConfig(selectedParam: string) {
       if(selectedParam == "timeseries") {
         this.isTimeSeries = true;
+        this.chart.config.options.plugins.legend.display = false;
         this.chart.config.options.scales.x.title.text = 'Date';
         this.chart.config.options.scales.x.type = 'category';
       } else {
         this.isTimeSeries = false;
+        this.chart.config.options.plugins.legend.display = true;
         this.chart.config.options.scales.x.title.text = 'Tempo (ms)';
         this.chart.config.options.scales.x.type = 'linear';
       }
