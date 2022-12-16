@@ -337,7 +337,7 @@ export class ApiService {
   async requestTimeseries(metric: any, field: string, t0: number, t1: number, idpop: number, secondaryId: number, from: string = "") {
     let query = new TimeseriesRequest();
 
-    query['group-by'] = {"field":"time","n-points":8,"min-k":t0,"max-k":t1,"v":"AC"};
+    query['group-by'] = {"field":"time","min-k":t0,"max-k":t1,"v":"AC"};
     query['select'] = field;
 
       // post header

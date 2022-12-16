@@ -739,6 +739,7 @@ export class HomeComponent implements AfterViewInit {
 
   adaptData(data: any, from: string, secondParam: number = 0) {
     const adaptedValues: any[] = [];
+    console.log()
     if(from == "functions") {
       for(let i = 0; i < data.length; i++) {
         adaptedValues.push({x: data[i][0], y: data[i][1], z: 0})
@@ -746,12 +747,15 @@ export class HomeComponent implements AfterViewInit {
     } else {
       for(let i = 0; i < data.length; i++) {
         let label = '';
-        let date = new Date(data[i].k[0] * 1000);
-        //@ts-ignore
-        label = date.toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' }).split(', ')[0];
-        adaptedValues.push({x: label, y: data[i].v[0], z: data[i].v[1]});
+        if( i % Math.floor(data.length / 7) == 0) {
+          let date = new Date(data[i].k[0] * 1000);
+          //@ts-ignore
+          label = date.toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' }).split(', ')[0];
+          adaptedValues.push({x: label, y: data[i].v[0], z: data[i].v[1]});
+        }
       }
     }
+    adaptedValues
     const totalData = [adaptedValues];
     return totalData;
   }
