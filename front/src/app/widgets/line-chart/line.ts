@@ -87,15 +87,16 @@ export class LineChart {
           boxSpan.style.height = '16px';
           boxSpan.style.marginRight = '6px';
           boxSpan.style.width = '16px';
+           
           //Flag 
-          const flagSpan = document.createElement('span');
-          flagSpan.style.display = 'inline-block';
-          flagSpan.className = config.flagIcon;
-          flagSpan.style.height = '16px';
-          flagSpan.style.marginRight = '3px';
-          flagSpan.style.width = '16px';
-          flagSpan.style.paddingTop = '2px';
-          flagSpan.style.color = config.flagColor;
+          //const flagSpan = document.createElement('span');
+          //flagSpan.style.display = 'inline-block';
+          //flagSpan.className = config.flagIcon;
+          //flagSpan.style.height = '16px';
+          //flagSpan.style.marginRight = '3px';
+          //flagSpan.style.width = '16px';
+          //flagSpan.style.paddingTop = '2px';
+          //flagSpan.style.color = config.flagColor;
           // Text
           const textContainer = document.createElement('p');
           textContainer.style.color = item.fontColor;
@@ -106,7 +107,7 @@ export class LineChart {
           const text = document.createTextNode(item.text);
           textContainer.appendChild(text);
           
-          li.appendChild(flagSpan)
+          //li.appendChild(flagSpan)
           li.appendChild(boxSpan);
           li.appendChild(textContainer);
           ul.appendChild(li);
