@@ -91,12 +91,25 @@ export class TimeseriesRequest {
   //{"what":"timecolumns","metric":10,"field":"h_avg","start":1648771200,"end":1656633300,"idpop":19}
 
   //{"what":"timecolumns","metric":10,"field":"havg","start":1648771200,"end":1656633300,"idpop":8,"from":"rnp_services"}
-
   constructor() {
     this['select'] = "h_avg";
     this['where'] = [];
     this['group-by'] = {};
     this['prediction'] = "lstm";
+  }  
+}
+
+export class LstmQuery {
+  'select': string;
+  'where': any;
+  'group-by': string;
+  'prediction': string;
+  //{"select":"h_avg", "prediction": "lstm-1h", "where":[ ["metric", "eq", 11], ["src","eq", 12 ], ["dst","eq", 19 ], ["time", "between", 1648771200, 1656633300] ], "group-by":"time" }
+  constructor() {
+    this['select'] = "h_avg";
+    this['where'] = [];
+    this['group-by'] = "time";
+    this['prediction'] = "lstm-1h";
   }  
 }
 

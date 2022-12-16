@@ -95,6 +95,7 @@ export class FunctionsChartComponent implements OnInit {
     for(let i = 0; i < data.length; i++) {
        this.updateUsedColors(true,this.drawColors[i]);
     }
+    console.log(data)
     const selectedParam = this.global.getGlobal('functions_param').value;
     this.functionsChart.clear();
     this.functionsChart.updateData(data, this.drawColors, selectedParam);
@@ -104,6 +105,7 @@ export class FunctionsChartComponent implements OnInit {
 
   updateFunctionsCombinationsData(data: any) {
     const selectedParam = this.global.getGlobal('functions_param').value;
+    console.log(data)
     this.functionsChart.clear();
     this.functionsChart.updateCombinations(data, selectedParam, this.drawColors);
     this.functionsChart.setTitle(selectedParam, -1);

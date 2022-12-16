@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 import { GlobalService } from './global.service';
 import { UtilService } from './util.service';
 
-import { BoundsRequest, QueryRequest, SchemaRequest, MatrixRequest, FunctionsRequest, TimeseriesRequest, TableRequest } from 'src/app/shared/api.models';
+import { BoundsRequest, QueryRequest, SchemaRequest, MatrixRequest, FunctionsRequest, TimeseriesRequest, TableRequest, LstmQuery } from 'src/app/shared/api.models';
 
 @Injectable({
   providedIn: 'root'
@@ -340,29 +340,52 @@ export class ApiService {
     query['group-by'] = {"field":"time","n-points":8,"min-k":t0,"max-k":t1,"v":"AC"};
     query['select'] = field;
 
+      // post header
+      const headers = {
+        'Content-Type': 'application/json',
+        'dataType': 'json'
+      };
+
     if(from == 'rnp_services') {
+      
       // @ts-ignore
       query['from'] = 'rnp_services';
       query['where'] = [["time","between",t0,t1], ["pop","eq",idpop],["serv","eq",secondaryId]];
+      this.utils.showTrace("requestTimeseries", query);
+      // Return a new promise.
+      const response = await fetch(this.xhttp_url + '2', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(query),
+      });
+
+      return await response.json();
     } else {
-      query['where'] = [["time","between",t0,t1], ["pop","eq",idpop],["id_pop","eq",secondaryId],["metric","eq",parseInt(metric)]];
+      let lstmQuery = new LstmQuery();
+      query['where'] = [["time","between",t0,t1], ["src","eq",idpop],["dst","eq",secondaryId],["metric","eq",parseInt(metric)]];
+      lstmQuery['where'] = [["time","between",t0,t1], ["src","eq",idpop],["dst","eq",secondaryId],["metric","eq",parseInt(metric)]];
+      this.utils.showTrace("requestTimeseries", query);
+      this.utils.showTrace("requestLstm", lstmQuery);
+      const timeSeriesResponse = await fetch(this.xhttp_url + '2', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(query),
+      });
+
+      const lstmResponse = await fetch(this.xhttp_url + '2', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(lstmQuery),
+      });
+      const timeSeries = await timeSeriesResponse.json();
+      const lstm = await lstmResponse.json();
+      if((typeof lstm === 'string')) {
+        return { timeSeries: timeSeries, lstm1h: JSON.parse(lstm).result[0] };
+      } else {
+        return { timeSeries: timeSeries, lstm1h: null };
+      }
+      
     }
-    this.utils.showTrace("requestTimeseries", query);
-
-    // post header
-    const headers = {
-      'Content-Type': 'application/json',
-      'dataType': 'json'
-    };
-
-    // Return a new promise.
-    const response = await fetch(this.xhttp_url + '2', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(query),
-    });
-
-    return await response.json();
   }
   /**
    * Solicita os dados do mapa para compor a heatmatrix.

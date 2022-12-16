@@ -654,6 +654,7 @@ export class HomeComponent implements AfterViewInit {
     const selectedParam = this.global.getGlobal('functions_param').value;
     const clicked = this.global.getGlobal("clicked_element").value;
     const selectedData:any = [];
+    let lstmFlag = null;
     if(selectedParam !== 'timeseries') {
       for(let i = 0; i < event.length; i++) {
         const res = await this.api.requestFunctions(event[i], selectedParam,  tsT0, tsT1, clicked);
@@ -669,7 +670,8 @@ export class HomeComponent implements AfterViewInit {
         if(this.func.isPopSelected()) {
           const selectedValue = (document.getElementById('functions-chart-select-timeseries-popxpop-value-options') as HTMLInputElement).value;
           const res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, clicked, event[i]);
-          const data = res.result;
+          const data = res.timeSeries.result;
+          lstmFlag = res.lstm1h;
           const adaptedData = this.adaptData(data, "timeseries");
           selectedData[i] = [event[i],[adaptedData]];
         } else {
@@ -691,7 +693,8 @@ export class HomeComponent implements AfterViewInit {
     const tsT0 = this.global.getGlobal("t0_vis").value;
     const tsT1 = this.global.getGlobal("t1_vis").value;
     const selectedParam = this.global.getGlobal('functions_param').value;
-    
+    let lstmFlag = null;
+
     const selectedData:any = [];
     for(let i  = 0; i < event.length; i++) {
       let pop = event[i].codPop;
@@ -717,27 +720,28 @@ export class HomeComponent implements AfterViewInit {
         if(this.func.isPopSelected()) {
           selectedValue = (document.getElementById('functions-chart-select-timeseries-popxpop-value-options') as HTMLInputElement).value;
           res = await this.api.requestTimeseries(selectedValue, "h_avg", tsT0, tsT1, pop, secondaryId)
-          console.log(res)
+          data = res.timeSeries.result;
+          lstmFlag = res.lstm1h;
         } else {
           selectedValue = 10;
           res = await this.api.requestTimeseries(selectedValue, "havg", tsT0, tsT1, pop, secondaryId, "rnp_services")
+          data = res.result;
         }
-        data = res.result;
-        const adaptedData = this.adaptData(data, "timeseries", secondaryId);
+        
+        const adaptedData = this.adaptData(data, "timeseries", secondaryId, lstmFlag);
         selectedData[i] = [event[i],[adaptedData]];
       }
     }
-    console.log(selectedData)
 
     this.func.updateFunctionsCombinationsData(selectedData);
     this.spinner.hide();
   }
 
-  adaptData(data: any, from: string, secondParam: number = 0) {
+  adaptData(data: any, from: string, secondParam: number = 0, flag: any = null) {
     const adaptedValues: any[] = [];
     if(from == "functions") {
       for(let i = 0; i < data.length; i++) {
-        adaptedValues.push({x: data[i][0], y: data[i][1], z: 0})
+        adaptedValues.push({x: data[i][0], y: data[i][1], z: 0, flag})
       }
     } else {
       for(let i = 0; i < data.length; i++) {
@@ -745,7 +749,7 @@ export class HomeComponent implements AfterViewInit {
         let date = new Date(data[i].k[0] * 1000);
         //@ts-ignore
         label = date.toLocaleString('en-GB', { hour12: false, dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' }).split(', ')[0];
-        adaptedValues.push({x: label, y: data[i].v[0], z: data[i].v[1]});
+        adaptedValues.push({x: label, y: data[i].v[0], z: data[i].v[1], flag});
       }
     }
     const totalData = [adaptedValues];
