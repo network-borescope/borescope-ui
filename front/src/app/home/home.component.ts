@@ -264,7 +264,6 @@ export class HomeComponent implements AfterViewInit {
    */
   onPolyRemoved(event: any) {
     const color = event.options.color;
-
     const line_params = this.global.getGlobal('line_params').value;
     for (const param of line_params) {
       this.line.clearChart(param.id, 'geometry', color);
@@ -381,7 +380,6 @@ export class HomeComponent implements AfterViewInit {
       const paramId = this.chartsElements.paramId[i];
       this.updateLineChart(paramId, color, cod, name, 'data change');
     }
-    console.log(this.line.lineGeometries)
     for(let i = 0; i < this.line.lineGeometries.polys.length; i++) {
       const color = this.line.lineGeometries.colors[i];
       const poly = this.line.lineGeometries.polys[i];
@@ -739,7 +737,6 @@ export class HomeComponent implements AfterViewInit {
 
   adaptData(data: any, from: string, secondParam: number = 0) {
     const adaptedValues: any[] = [];
-    console.log()
     if(from == "functions") {
       for(let i = 0; i < data.length; i++) {
         adaptedValues.push({x: data[i][0], y: data[i][1], z: 0})
@@ -792,7 +789,6 @@ export class HomeComponent implements AfterViewInit {
         this.func.tableElements[i].value = parseFloat(data[i]).toFixed(3);
       }
     }
-    console.log(data)
     this.spinner.hide();
   }
 

@@ -1,4 +1,5 @@
 import { CategoryScale, Chart, LinearScale, BarController, BarElement, PointElement, Legend, Tooltip } from 'chart.js';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 export class BarChart {
 
@@ -61,13 +62,7 @@ export class BarChart {
             }
           },
           legend: {
-            display: true,
-            position: "top",
-            labels: {
-              font: {
-                size: 15
-              }
-            }
+            display: false
           },
           title: {
             display: false
@@ -154,6 +149,7 @@ export class BarChart {
 
   // Modifica as configurações dos labels
   setLabels(labels: any) {
+    console.log(labels)
     this.chart.config.data.labels = labels;
   }
 
@@ -172,6 +168,14 @@ export class BarChart {
     }
 
     this.data = data;
+
+    for(let i = 0; i < this.geometries.length; i++) {
+      this.data.unshift({x: this.lowerIndex - (i+1), y: this.geometries[i].value})
+      this.idOrder.unshift('geometry')
+      this.colorList.unshift(this.geometries[i].color)
+      this.labelList.unshift(this.lowerIndex - (i+1))
+    }    
+
     const datasets = this.chart.config.data.datasets;
     let label = "";
     if(name) {
@@ -197,12 +201,6 @@ export class BarChart {
         stack: dataId
       };
       datasets.push(newData);
-
-      for(let i = 0; i < this.geometries.length; i ++) {
-        datasets.unshift(this.geometries[i]);
-        this.idOrder.unshift('geometry');
-        this.labelList.unshift('geometry');      
-      }
     }
     this.setLabels(this.labelList);
     this.nextX = data[data.length - 1].x + 1;
@@ -210,13 +208,15 @@ export class BarChart {
   }
 
   addGeometry(value: number, color: string, labels: any) {
+    this.geometries.push({color: color, value: value});
     this.clear();
     this.labelList = labels['viaipe'];
-
     const datasets = this.chart.config.data.datasets;
     this.idOrder.unshift('geometry');
+    this.colorList.unshift(color);
+    this.data.unshift({x: this.lowerIndex, y: value});
     //build old data;
-    const oldData = {
+    const data = {
       label: 'map',
       backgroundColor: (this.zoom > 12) ? this.colorList.slice(this.lowerIndex, this.higherIndex) : this.colorList,
       borderColor: (this.zoom > 12) ? this.colorList.slice(this.lowerIndex, this.higherIndex) : this.colorList,
@@ -224,31 +224,11 @@ export class BarChart {
       fill: false,
       stack: 'map'
     };
-
-    //build new geometry data;
-    const newData = {
-      label: 'geometry',
-      backgroundColor: color,
-      borderColor:  color,
-      data: [{x: this.nextX, y: value}],
-      fill: false,
-      stack: 'map'
-    };
-
-    this.geometries.unshift(newData);
-
-    this.nextX += 1;
-
-    //add old geometries
-    for(let i = 0; i < this.geometries.length; i ++) {
-      datasets.push(this.geometries[i]);
-    }
     //redraw labels
     this.setLabels(this.labelList);
     //add old data to chart config
-    datasets.push(oldData);
-
-
+    datasets.push(data);
+    console.log(data)
     this.chart.update();
   }
 
@@ -268,8 +248,9 @@ export class BarChart {
         this.usedColors.push(color);
       }
     }
-
+    console.log(this.colorList)
     const newColors = this.colorList.slice(this.lowerIndex, this.higherIndex);
+    console.log(newColors)
     datasets[0].backgroundColor = newColors;
     datasets[0].borderColor = newColors;
     this.chart.update();
@@ -323,6 +304,8 @@ export class BarChart {
 
   getId(id: any) {
     if(id == 'geometry') return 'geometry';
-    else return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+    else {
+      return this.capitals.filter((c: any) => c.cod === id)[0].id.toUpperCase();
+    }
   }
 }

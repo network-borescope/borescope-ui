@@ -118,7 +118,7 @@ export class BarChartComponent implements OnInit {
   addGeometryValue(value: number, color: string) {
     this.numberOfGeometries += 1;
     this.labels['viaipe'].unshift((this.labels['viaipe'][this.labels['viaipe'].length - 1] + this.numberOfGeometries));
-    this.barChart.addGeometry(value, color, this.labels);
+    this.barChart.addGeometry(value, color, this.labels, this.numberOfGeometries);
   } 
 
   deleteData(from: string, dataId: string, color: string) {
@@ -252,6 +252,7 @@ export class BarChartComponent implements OnInit {
       this.higherIndex = (this.tabsCounter + 1)*10;
       this.data = this.barChart.data.slice(this.tabsCounter*10, (this.tabsCounter + 1)*10);
     }
+    console.log(this.data)
     this.barChart.changeBarColor('#AAAAAA', -1)
     this.barChart.changeData(this.data);
   }
@@ -265,19 +266,17 @@ export class BarChartComponent implements OnInit {
   }
 
   removeGeometriesFromBar(color: string) {
-    console.log(this.labels['viaipe'])
     this.barChart.idOrder = this.barChart.idOrder.slice(1);
     this.barChart.labelList = this.barChart.labelList.slice(1);
     this.labels['viaipe'] = this.labels['viaipe'].slice(1);
-    console.log(this.labels['viaipe'])
-    for(let i = 0; i < this.barChart.geometries.length; i ++) {
-      if (this.barChart.geometries[i].backgroundColor == color) {
-        this.barChart.geometries.splice(i, 1);
-      };
-    }
-    this.barChart.chart.config.data.datasets.splice(0, 1);
-    console.log(this.labels['viaipe'])
+    const index = this.barChart.colorList.indexOf(color);
+    this.barChart.colorList.splice(index, 1)
+    this.barChart.data.splice(index, 1)
+    console.log(this.barChart.chart.config.data.datasets[0])
     this.barChart.setLabels(this.labels['viaipe']);
     this.barChart.chart.update();
+    for(let i = 0; i < this.barChart.geometries.length; i++) {
+      if(this.barChart.geometries[i].color == color) this.barChart.geometries.splice(i, 1);
+    }
   }
 }
