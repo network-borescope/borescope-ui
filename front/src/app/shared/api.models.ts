@@ -147,7 +147,7 @@ export class TableRequest {
   'end': number;
   'model': string;
   'pop': number;
-  'id_pop': number;
+  'idpop': number;
 
   constructor() {
     this['what'] = "measures";

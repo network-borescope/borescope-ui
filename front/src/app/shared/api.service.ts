@@ -435,7 +435,7 @@ export class ApiService {
 
     if(pop > -1) {
       query['pop'] = pop;
-      if(idPop > -1) query['id_pop'] = idPop;
+      if(idPop > -1) query['idpop'] = idPop;
     }
     
     console.log(query)
